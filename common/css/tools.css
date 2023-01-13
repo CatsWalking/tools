@@ -3,10 +3,11 @@ body, input, div, span{
   color:#44505b;
 }
 main{
-  width:100%;
+  width:90%;
   margin: 50px auto;
   padding:20px;
   height:100hv;
+  background-color: blue;
 }
 @media screen and (min-width:600px) {
   main{
@@ -33,14 +34,15 @@ main{
   display:none;
 }
 .score_box{
-  width: 100%;
+  width: 90%;
   display:flex;
   margin:0 auto;
 }
 .btnBox {
-  width: 100%;
+  width: 90%;
   text-align: center;
   display: block;
+  margin: 0 auto;
 }
 .btnBox .btn{
   height: 2.8rem;
