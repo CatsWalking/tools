@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="./common/images/favicon.svg" sizes="any">
+<title>計算ツール</title>
+<link rel="stylesheet" href="./common/css/reset.css">
+<link rel="stylesheet" href="./common/css/style.css?testd">
+<link rel="stylesheet" href="./common/css/modal.css?test">
+<link rel="stylesheet" href="./common/css/tools.css?testd">
+<style>
+#calc {
+  max-width: 100%;
+  margin: 0 auto;
+}    
+#calc th{
+  width:26%;
+}
+#calc td:nth-child(2){
+  width:37%;
+}
+#calc td:nth-child(3){
+  width:35%;
+}
+.result{
+    font-size:30px;
+    display: flex;
+}
+.ruby3{
+    font-size:18px;
+    height:30px;
+    padding-top:0;;
+    padding-bottom:20px;
+} 
+
+@media screen and (min-width:550px) {
+  #calc {
+    max-width: 600px;
+  }  
+  #calc th{
+    width:150px;
+  }
+  .tenkey_box {
+    max-width: 600px;
+  }
+}
+</style>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="header__inner">
+        <h1 class="header__title header-title">
+          <a href="index.html" style="color:#1f94cc">
+            <!-- <img src="images/logo-black.png" alt="ロゴ画像"> -->
+            Roku tools
+          </a>
+        </h1>
+
+        <nav class="header__nav nav" id="js-nav" style="vertical-align: top;">
+          <ul class="nav__items nav-items">
+            <li class="nav-items__item"><a href="index.html">計算ツール</a></li>
+            <li class="nav-items__item"><a href="timer.html">タイマー</a></li>
+            <li class="nav-items__item"><a href="reversi.html">オセロ</a></li>
+            <li class="nav-items__item"><a href="memory.html">神経衰弱</a></li>
+            <li class="nav-items__item"><a href="bmi.html">bmi</a></li>
+          </ul>
+        </nav>
+        <button class="header__hamburger hamburger" id="js-hamburger">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </header>
+    <main>
+    <table class="table2" id="calc">
+      <tbody>
+        <tr id="prime">
+            <th>素因数分解</th>
+            <td><input type="number" class="input"></td>
+            <td><div class="result"></div></td>
+        </tr>
+        <tr id="squre">
+            <th>平方数</th>
+            <td><input type="number" class="input" placeholder="11"></td>
+            <td><div class="result"></div></td>
+        </tr>
+        <tr id="squre_root">
+          <th>平方根</th>
+          <td><input type="number" class="input" placeholder="144"></td>
+          <td><div class="result"></div></td>
+        </tr>
+        <tr id="pi">
+            <th>円周の長さ<br>(× 3.14)</th>
+            <td><input type="number" class="input"> </td>
+            <td><div class="result"></div></td>
+        </tr>
+        <tr id="pi2">
+          <th>円の面積<br>(× 3.14)</th>
+          <td><input type="number" class="input"> </td>
+          <td><div class="result"></div></td>
+      </tr>
+        <!-- <tr id="division">
+          <th rowspan="2">割り算</th>
+          <td style="display:flex;"><input type="number" class="input" style="width:50px"> ÷
+              <input type="number" class="input" style="width:60px"> 
+           </td>
+           <td><div class="result"></div></td>
+          </tr>
+           <tr>
+              <td style="display:flex;">(小数点 第<input type="number" class="input" style="width:40px" value="2"> 位)</td>
+        
+         
+      </tr> -->
+      </tbody>
+    </table>
+
+    <!-- kenkey -->
+    <ul class="tenkey_box">
+      <li >1</li>
+      <li >2</li>
+      <li >3</li>
+      <li >4</li>
+      <li >5</li>
+      <li >6</li>
+      <li >7</li>
+      <li >8</li>
+      <li >9</li>
+      <li >0</li>
+    </ul>
+    <div class="btnBox" style="text-align: center!important;">
+      <div class="btn" id="js_clear">クリア</div>
+      <div class="btn -red" id="js_all_clear">全てクリア</div>
+    </div>
+
+</div><!-- main -->
+</div><!-- container -->
+<script src="./common/js/jquery-3.6.3.min.js"></script>
+<script src="./common/js/jquery-ui.js"></script>
+<script src="./common/js/common.js"></script>
+<script src="./common/js/tools.js?tesat"></script>
+<script src="./common/js/calc.js?tesat"></script>
+
+<script>
+    'use strict'
+</script>
+</body>
+</html> 

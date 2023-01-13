@@ -1,0 +1,53 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:100,300');
+body, input, div, span{
+  color:#44505b;
+}
+main{
+  width:100%;
+  margin: 50px auto;
+  padding:20px;
+  height:100hv;
+}
+@media screen and (min-width:600px) {
+  main{
+    width:600px;
+    margin: 50px auto;
+    padding:20px;
+    height:100hv;
+    background-color: red;
+  }
+  #calc {
+    max-width: 560px;
+  }  
+  #calc th{
+    width:150px;
+  }
+  .tenkey_box {
+    max-width: 560px;
+  }
+}
+
+
+/*スクロールバー非表示（Chrome・Safari）*/
+.content::-webkit-scrollbar{
+  display:none;
+}
+.score_box{
+  width: 100%;
+  display:flex;
+  margin:0 auto;
+}
+.btnBox {
+  width: 100%;
+  text-align: center;
+  display: block;
+}
+.btnBox .btn{
+  height: 2.8rem;
+  line-height:2.2rem;
+  width: 4rem;
+}
+.page_title {
+  font-size: 1rem;
+  margin-bottom: 5px;
+}

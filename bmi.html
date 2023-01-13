@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="./common/images/favicon.svg" sizes="any">
+  <title>BMI</title>
+  <link rel="stylesheet" href="./common/css/reset.css">
+  <link rel="stylesheet" href="./common/css/style.css?testd">
+  <link rel="stylesheet" href="./common/css/modal.css?test">
+  <link rel="stylesheet" href="./common/css/tools.css?testd">
+<style>
+
+.input{
+    width: 60%;
+
+}
+.compare{
+    color:#d81f1f;
+}
+.result_table th{
+    width:20%!important;
+}
+.result_table td{
+    height:45px!important;
+    text-align:center;
+}
+th{
+    width:110px!important;
+}
+.tenkey_box li {
+  height: 58px;
+  line-height: 58px;
+}
+@media screen and (min-width:550px) {
+    .input{
+        width: 140px;
+    }
+    .tenkey_box li {
+        height: 65px;
+        line-height: 65px;
+    }
+}
+</style>
+</head>
+<body>
+    <div class="container">
+      <header class="header">
+        <div class="header__inner">
+          <h1 class="header__title header-title">
+            <a href="index.html" style="color:#1f94cc">
+              <!-- <img src="images/logo-black.png" alt="ロゴ画像"> -->
+              Roku tools
+            </a>
+          </h1>
+  
+          <nav class="header__nav nav" id="js-nav" style="vertical-align: top;">
+            <ul class="nav__items nav-items">
+                <li class="nav-items__item"><a href="index.html">計算ツール</a></li>
+                <li class="nav-items__item"><a href="timer.html">タイマー</a></li>
+                <li class="nav-items__item"><a href="reversi.html">オセロ</a></li>
+                <li class="nav-items__item"><a href="memory.html">神経衰弱</a></li>
+                <li class="nav-items__item"><a href="bmi.html">bmi</a></li>
+            </ul>
+          </nav>
+  
+          <button class="header__hamburger hamburger" id="js-hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </header>
+<main>
+<div class='main'>
+    <div class="page_title">BMI</div>
+    <!-- height & weight -->
+    <table class="table2" id="input_area" >
+        <tr>
+            <th width="120">身長</th>
+            <td><input type="number" id="height" placeholder="165" class="input"> cm</td>
+        </tr>
+        <tr>
+            <th>体重</th>
+            <td><input type="number" id="weight" placeholder="60" class="input"> kg</td>
+        </tr>
+    </table>
+    <br>
+    <table class="table1 result_table">
+        <tr><th>BMI</th> <th>肥満度</th></tr>
+        <tr>
+            <td id="bmi" class="txtBlue txtBold txtLL"></td>
+            <td id="fatness" class="txtBlue txtBold txtLL"></td>
+        </tr>
+    </table><br>
+    <table class="table1 result_table">
+         <tr><th>標準体重</th> <th>美容体重</th><th>モデル体重</th></tr>
+        <tr>
+            <td><div id="fitly"></div> <div id="fitly_compare" class="compare"></div></td>
+            <td><div id="beauty"></div> <div id="beauty_compare" class="compare"></div></td>
+            <td><div id="model"></div> <div id="model_compare" class="compare"></div></td>
+        </tr>
+    </table>
+    <!-- kenkey -->
+    <ul class="tenkey_box">
+        <li >1</li>
+        <li >2</li>
+        <li >3</li>
+        <li >4</li>
+        <li >5</li>
+        <li >6</li>
+        <li >7</li>
+        <li >8</li>
+        <li >9</li>
+        <li >0</li>
+    </ul>
+    <div class="btnBox" style="text-align: center!important;">
+        <div class="btn" id="js_clear">クリア</div>
+        <div class="btn -red" id="js_all_clear">全てクリア</div>
+    </div>
+    <br><br>
+
+    <!-- 判定基準 -->
+    <div class="txtBlue txtSmall txtBold">成人 日本肥満学会の判定基準</div>
+    <table class="table2 sample">
+        <tr id="bmi1">
+            <th>18.5未満</th>
+            <td>低体重(痩せ型)</td>
+        </tr>
+        <tr id="bmi2">
+            <th>18.5〜25未満</th>
+            <td>普通体重</td>
+        </tr>
+        <tr id="bmi3">
+            <th>25〜30未満</th>
+            <td>肥満(1度)</td>
+        </tr>
+        <tr id="bmi4">
+            <th>30〜35未満</th>
+            <td>肥満(2度)</td>
+        </tr>
+        <tr id="bmi5">
+            <th>35〜40未満</th>
+            <td>肥満(3度)</td>
+        </tr>
+        <tr id="bmi6">
+            <th>40以上</th>
+            <td>肥満(4度)</td>
+        </tr>
+    </table>
+    <br><br>
+
+    <!-- 計算方法 -->
+    <div class="txtBlue txtSmall txtBold">各項目の計算方法</div>
+    <table class="table2 sample">
+        <tr>
+            <th>BMI</th>
+            <td>体重kg ÷ (身長m × 身長m)</td>
+        </tr>
+        <tr>
+            <th>肥満度</th>
+            <td>(体重kg - 標準体重kg) ÷ 標準体重kg × 100%</td>
+        </tr>
+        <tr>
+            <th>標準体重</th>
+            <td>(身長m × 身長m) × 22</td>
+        </tr>
+        <tr>
+            <th>美容体重</th>
+            <td>(身長m × 身長m) × 20</td>
+        </tr>
+        <tr>
+            <th>モデル体重</th>
+            <td>(身長m × 身長m) × 18</td>
+        </tr>
+    </table>
+    <br><br>
+</div>
+</div><!-- main -->
+</div><!-- container -->
+
+<script src="./common/js/jquery-3.6.3.min.js"></script>
+<script src="./common/js/jquery-ui.js"></script>
+<script src="./common/js/jquery.mCustomScrollbar.min.js"></script>
+<script src="./common/js/common.js?testd"></script>
+<script src="./common/js/modal.js"></script>
+<script>
+'use strict'
+
+let i;
+let active = 'height';
+let active_input = $('#'+active);
+
+// スマホだったらソフトウェアキーボードを表示しない
+if(isSP()){
+    $(".input").attr('readOnly', 'true');
+} else {
+    $(".input").removeAttr('readOnly');
+}
+
+/*-----------------------
+  init
+-----------------------*/
+function init(){
+    active_input = $('#'+active);
+    $('.input').removeClass('active');
+    active_input.addClass('active');
+}
+init();
+$('#'+active).find('.input').focus();
+
+$('main').click(function(){
+    // init();
+})
+// focus
+$('.input').focus(function(){
+    active = $(this).attr('id');
+    init();
+})
+$('.input').click(function(){
+    $(this).select();
+})
+$('#calc').on('click', 'tr', function(){
+    active = $(this).find('.input').attr('id');
+    init();
+})
+
+/*-----------------------
+    テンキー
+-----------------------*/
+let num
+$('.tenkey_box li').click(function(){
+    let n = $(this).html();
+    active_input.val(active_input.val()+n);
+    if(active_input){
+        
+    }
+})
+
+/*-----------------------
+    bmi
+-----------------------*/
+$('#height').focus();
+$('.input').keypress(function(e) {
+    // enter, tab
+    if (e.keyCode == 13 || e.keyCode == 9) {
+        $('#height').focus();
+        $('#height').select();
+        return false;
+    }
+});
+
+/*-----------------------
+  clear
+-----------------------*/
+$('#js_clear').click(function(){
+    active_input.val('');
+})
+$('#js_all_clear').click(function(){
+    $('.input').val('');
+})
+// 判定！
+$(document).on('click', '.tenkey_box li', function () {
+    let height, weight, bmi, fatness, fitly, beauty, model;
+    height = $('#height').val();
+    weight = $('#weight').val();
+    if (height == '' || weight == '' || !height.match(/^[0-9]*$/) || !weight.match(/^[0-9]*$/)) {
+        return;
+    }
+        // 計算
+    bmi = round((weight / (height * height)) * 10000, 1);
+    fitly = round(height * height * 22 / 10000, 1);
+    beauty = round(height * height * 20 / 10000, 1);
+    model = round(height * height * 18 / 10000, 1);
+    $('#bmi').html(bmi + 'kg');
+    $('#fitly').html(fitly + 'kg');
+    $('#beauty').html(beauty + 'kg');
+    $('#model').html(model + 'kg');
+    $('#fitly_compare').html(compare(weight, fitly));
+    $('#beauty_compare').html(compare(weight, beauty));
+    $('#model_compare').html(compare(weight, model));
+
+    // 肥満度
+    fatness = round((weight - fitly) / fitly * 100, 1)
+    $('#fatness').html(fatness + '%');
+
+    $('[id^=bmi] td').removeClass('your_result');
+    let no;
+    if (bmi < 18.5) {
+        no = 1;
+    } else if (bmi < 25) {
+        no = 2;
+    } else if (bmi < 30) {
+        no=3;
+    } else if (bmi < 35) {
+        no=4
+    } else if (bmi < 40) {
+        no=5
+    } else {
+        no=6;
+    }
+    $('#bmi'+no +' td').addClass('your_result');
+});
+function compare(self, target) {
+    let str = '';
+    if ((self - target) > 0) {
+        str = "<span class='danger'>+";
+    } else {
+        str = "<span class='clean'>";
+    }
+    return str + round(self - target, 1) + 'kg</span>';
+}
+
+</script>
+</body>
+</html>
