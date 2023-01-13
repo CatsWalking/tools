@@ -7,7 +7,7 @@ main{
   margin: 50px auto;
   padding:20px;
   height:100hv;
-  background-color: blue;
+  background-color: rgb(216, 216, 244);
 }
 @media screen and (min-width:600px) {
   main{
@@ -15,7 +15,7 @@ main{
     margin: 50px auto;
     padding:20px;
     height:100hv;
-    background-color: red;
+    background-color: rgb(238, 218, 218);
   }
   #calc {
     max-width: 560px;

@@ -18,11 +18,9 @@ function init(){
     active_input.addClass('active');
 }
 init();
-$('#'+active).find('.input').focus();
+active_input.focus();
+// $('#'+active).find('.input').focus();
 
-$('main').click(function(){
-    // init();
-})
 // focus
 $('#calc').on('focus', '.input', function(){
     active = $(this).parent().parent().attr('id');
