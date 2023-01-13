@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="./common/images/favicon.svg" sizes="any">
+<title>タイマー</title>
+<link rel="stylesheet" href="./common/css/reset.css">
+<link rel="stylesheet" href="./common/css/style.css?testd">
+<link rel="stylesheet" href="./common/css/modal.css?test">
+<link rel="stylesheet" href="./common/css/tools.css?ttd">
+<style>
+/*時秒*/
+#clock {
+    width: 300px;
+    text-align: center;
+    height: 80px;
+    line-height: 80px;
+    font-size: 5rem;
+    color: #6b6b6b;
+    opacity: 0.6;
+    margin: 10px auto 5px;
+    font-family: 'Roboto';
+    cursor: pointer;
+}
+.clock_active{
+    color:#f7958e;
+}
+.clock_running{
+    color: #ab1504;
+}
+#assit_box div {
+    background: #7d9fd3;
+    width:80px;
+    height:40px;
+    line-height: 40px;
+    font-size:1rem;
+    background: #dc3927;
+    border:none;
+}
+.time_type {
+    height: 30px!important;
+    line-height: 30px!important;
+    width: 100px!important;
+    margin: 20px auto;
+    padding: 0;
+    background: #f7afaa!important;
+    border:none;
+}
+#js_start{
+    background: #7db1d3;
+    width:170px;
+}
+.running {
+    background: #ab1504 !important;
+}
+</style>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="header__inner">
+        <h1 class="header__title header-title">
+          <a href="index.html" style="color:#1f94cc">
+            <!-- <img src="images/logo-black.png" alt="ロゴ画像"> -->
+            Roku tools
+          </a>
+        </h1>
+
+        <nav class="header__nav nav" id="js-nav" style="vertical-align: top;">
+          <ul class="nav__items nav-items">
+            <li class="nav-items__item"><a href="index.html">計算ツール</a></li>
+            <li class="nav-items__item"><a href="timer.html">タイマー</a></li>
+            <li class="nav-items__item"><a href="reversi.html">オセロ</a></li>
+            <li class="nav-items__item"><a href="memory.html">神経衰弱</a></li>
+            <li class="nav-items__item"><a href="bmi.html">bmi</a></li>
+          </ul>
+        </nav>
+        <button class="header__hamburger hamburger" id="js-hamburger">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </header>
+    <main>
+        <div id="clock">
+            <span id="clock_m" class="clock_active">00</span>:<span id="clock_s">00</span>
+        </div>
+        <ul class="tenkey_box -column3">
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+            <li>5</li>
+            <li>6</li>
+            <li>7</li>
+            <li>8</li>
+            <li>9</li>
+            <li>0</li>
+            <li class="time_type btn -s active">分</li>
+            <li class="time_type btn -s">秒</li>
+        </ul>
+        <div class="footer">
+            <br>
+            <div class="btn_box mb20" id="assit_box">
+                <div class="btn -s" data-type="10s">１０秒</div>
+                <div class="btn -s" data-type="1m">１分</div>
+                <div class="btn -s" data-type="10m">１０分</div>
+            </div>
+            <br>
+            <div class="btn_box mb20">
+                <div id="js_start" class="btn small">スタート/ストップ</div>
+                <div id="js_reset" class="btn small">リセット</div>
+            </div>
+            <br>
+        </div>
+    </div>
+  
+    <img src="./images/explosion.gif" id="js_explosion" style="position:absolute;width:350px;z-index:100;display:none;">
+    <!--sound-->
+    <audio id="sound_explosion" preload="auto">
+        <source src="./sounds/explosion.mp3" type="audio/mp3">
+    </audio>
+
+</div><!-- main -->
+</div><!-- container -->
+<script src="./common/js/jquery-3.6.3.min.js"></script>
+<script src="./common/js/jquery-ui.js"></script>
+<script src="./common/js/common.js"></script>
+<script src="./common/js/modal.js"></script>
+<script src="./common/js/tools.js?tesat"></script>
+
+<script>
+'use strict'
+
+let pairs = 8;
+let cards = [];
+let card;
+let flipCount = 0;
+let firstCard = null;
+let secondCard = null;
+let correctCount = 0;
+
+/*
+* init
+*/
+function init() {
+    let i;
+    for (i = 1; i <= pairs; i++) {
+        cards.push(createCard(i));
+        cards.push(createCard(i));
+    }
+    while (cards.length) {
+        card = cards.splice(Math.floor(Math.random() * cards.length), 1)[0];
+        $('#stage').append(card);
+    }
+}
+
+/*
+* create card
+*/
+function createCard(num) {
+    let container;
+    let card;
+    let inner;
+    inner = '<div class="card_front">' + num + '</div><div class="card_back"></div>';
+    card = document.createElement('div');
+    // card = document.createElement('div');
+    card.innerHTML = inner;
+    card.className = 'card';
+    card.addEventListener('click', function () {
+        flipCard(this);
+        if (startTime !== null) {
+            return;
+        }
+        startTime = Date.now();
+        runTimer();
+    });
+    container = document.createElement('div');
+    container.className = 'card-container';
+    container.appendChild(card);
+    return container;
+}
+
+/*
+* flip
+*/
+function flipCard(card) {
+    if (firstCard !== null && secondCard !== null) {
+        return;
+    }
+    if (card.className.indexOf('open') !== -1) {
+        return;
+    }
+    card.className = 'card open';
+    flipCount++;
+    if (flipCount % 2 === 1) {
+        firstCard = card;
+    } else {
+        secondCard = card;
+        secondCard.addEventListener('transitionend', check);
+    }
+}
+
+/*
+* check
+*/
+function check() {
+    if (firstCard.children[0].textContent !==
+        secondCard.children[0].textContent) {
+        firstCard.className = 'card';
+        secondCard.className = 'card';
+    } else {
+        correctCount++;
+        if (correctCount === pairs) {
+            clearTimeout(timer_id);
+        }
+    }
+    secondCard.removeEventListener('transitionend', check);
+    firstCard = null;
+    secondCard = null;
+}
+
+init();
+
+</script>
+</body>
+</html> 

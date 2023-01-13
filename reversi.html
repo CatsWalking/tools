@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="./common/images/favicon.svg" sizes="any">
+<title>オセロ</title>
+<link rel="stylesheet" href="./common/css/reset.css">
+<link rel="stylesheet" href="./common/css/style.css?testd">
+<link rel="stylesheet" href="./common/css/modal.css?test">
+<link rel="stylesheet" href="./common/css/tools.css?testd">
+<style>
+  .score_box{
+    width: 320px;
+  }
+/*----------------------------
+セル
+*/
+.cell {
+  width: 38px;
+  height: 38px;
+  background-size: 42px;
+  background-color: #80BA8E;
+  cursor: pointer;
+  border: 1px solid black;
+  float: left;
+  text-align: center;
+  color: white;
+  font-size: 1em;
+  font-weight: bold;
+}
+
+#board {
+    width: 320px;
+    margin: 0 auto;
+}
+
+/*----------------------------
+  score
+  */
+
+  #black_cat, #white_cat {
+      padding: 2px;
+  }
+.score_cat{
+  width: 50px;
+  height:50px;
+}
+.myturn { /*打ち手*/
+    border-radius: 50%;
+    border: 2px solid #cd8f92;
+    background:pink!important;
+    margin-bottom: 5px;
+}
+
+.score {
+    width: 40px;
+    color: red;
+    font-size: 1.4rem;
+    margin: 12px 0 0 6px;
+}
+@media screen and (min-width:450px) {
+  .cell {
+    width: 50px;
+    height: 50px;
+    background-size: 54px;
+  }
+  #board {
+    width: 420px;
+  }
+  .score_box{
+    width: 420px;
+  }
+}
+.guide>img, .sound>img {
+  width: 2.4em;
+  cursor: pointer;
+  float:right;
+}
+.sound>img {
+  width: 2.6em;
+}
+.guide:hover, .sound:hover {
+    padding-top: 2px;
+}
+
+img {
+    cursor: auto;
+}
+
+.btnBox {
+    text-align: center;
+    display: block;
+}
+.btnBox .btn{
+  height: 2.8rem;
+  line-height:2.2rem;
+  width: 4rem;
+}
+
+</style>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="header__inner">
+        <h1 class="header__title header-title">
+          <a href="index.html" style="color:#1f94cc">
+            <!-- <img src="images/logo-black.png" alt="ロゴ画像"> -->
+            Roku tools
+          </a>
+        </h1>
+
+        <nav class="header__nav nav" id="js-nav" style="vertical-align: top;">
+          <ul class="nav__items nav-items">
+            <li class="nav-items__item"><a href="index.html">計算ツール</a></li>
+            <li class="nav-items__item"><a href="timer.html">タイマー</a></li>
+            <li class="nav-items__item"><a href="reversi.html">オセロ</a></li>
+            <li class="nav-items__item"><a href="memory.html">神経衰弱</a></li>
+            <li class="nav-items__item"><a href="bmi.html">bmi</a></li>
+          </ul>
+        </nav>
+        <button class="header__hamburger hamburger" id="js-hamburger">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </header>
+    <main>
+      <div class='main'>
+      <!-- スコア -->
+      <div class="score_box">
+        <div id="black_cat"><img src='./common/images/cat_black.png' class='score_cat'></div>
+        <div id='score_black' class='score'>2</div>
+        <div id="white_cat"><img src='./common/images/cat_white.png' class='score_cat'></div>
+        <div id='score_white' class='score'>2</div>
+        <div style="width: 84px;"></div>
+        <div class='guide'><img src='./common/images/icon/icon_caution.svg' id="js_guide"></div>
+        <div class='sound'><img src='./common/images/icon/sound_off.png' id="js_sound"></div>
+      </div>
+    <!-- ボード -->
+    <div id="board"></div>
+    <div class="txtBlue txtSS score_box">クロが先行</div>
+
+  </div><!-- main -->
+     <div class="btnBox" style="text-align: center!important;">
+      <div class="btn" id="js_reset">もういっかい</div>
+    </div>
+</div><!-- main -->
+</div><!-- container -->
+<!-- 音 -->
+  <audio src="./common/sounds/cat1a.mp3" id="sound_black"></audio>
+  <audio src="./common/sounds/cat1b.mp3" id="sound_white"></audio>
+
+<script src="./common/js/jquery-3.6.3.min.js"></script>
+<script src="./common/js/jquery-ui.js"></script>
+<script src="./common/js/common.js"></script>
+<script src="./common/js/modal.js"></script>
+<script src="./common/js/reversi.js"></script>
+
+<script>
+    'use strict'
+
+     // const-----------------
+    let DEFAULT_CELL_CNT = 8;    // デフォルトは８マス
+    let BLACK = 1;
+    let WHITE = 2;
+    let STONE = [];
+    STONE[BLACK] = 'url("./common/images/cat_black.png")';
+    STONE[WHITE] = 'url("./common/images/cat_white.png")';
+    let STONE_STR = [];
+    STONE_STR[BLACK] = 'くろ';
+    STONE_STR[WHITE] = 'しろ';
+    let PLAY_TYPE = 1;    // 1:対人 2: AI
+    let cnt, changeable_field;
+
+
+    // global-----------------
+    let cell_cnt = DEFAULT_CELL_CNT;    // 石盤のマス数
+    let player = BLACK;                 // 打ち手。先手は黒
+    let field = [];                     // マスの状態を保持する
+    let score = [];                     // スコア
+    score[BLACK] = 0;
+    score[WHITE] = 0;
+    let next_hand = [];                 // 次の手があるか
+    next_hand[BLACK] = true;
+    next_hand[WHITE] = true;
+
+    /*--------------------------------------------
+      *
+      * clickEvent
+      */
+    function clickEvent(y, x) {
+        console.log(this.id + '-------------------');
+        // クリックした要素のIDから、マスの座標を取得
+        let tmpa = this.id.split('_');
+        var y = tmpa[1];
+        var x = tmpa[2];
+
+        // 相手
+        let enemy = (player === BLACK) ? WHITE : BLACK;
+
+        initLine();
+
+        //----------------------------
+        // ひっくり返るマスの情報を取得
+        changeable_field = checkChangeable(y, x, player);
+        // ひっくり返せるマスがなかったらreturn
+        if (changeable_field === false) {
+            console.log('no changable_field');
+            return;
+        }
+        // クリックしたマス
+        this.style.backgroundImage = STONE[player];
+        field[y][x] = player;
+
+        //markLine(changeable_field);
+        //----------------------------
+        // 石をひっくり返す
+        // field情報を更新
+        for (let i in changeable_field) {
+            for (let j in changeable_field[i]) {
+                console.log(123, changeable_field[i], changeable_field[i][j]);
+                // 猫がなく
+                if($('#js_sound').attr('src').indexOf('_on')>-1){
+                  if (player === BLACK) {
+                    $("#sound_black").get(0).play();
+                  } else {
+                      $("#sound_white").get(0).play();
+                  }
+                }
+
+                let tmpa = changeable_field[i][j].split('_');
+                let yy = tmpa[1];
+                let xx = tmpa[2];
+                field[yy][xx] = player;
+                $('#p_' + yy + '_' + xx).css('background-image', STONE[player]);
+            }
+        }
+        //----------------------------
+        // スコア
+        calcScore();
+
+        //----------------------------
+        // 次の打ち手
+        player = (player === BLACK) ? WHITE : BLACK;
+        // css
+        $('#black_cat').removeClass('myturn');
+        $('#white_cat').removeClass('myturn');
+        if (player == BLACK) {
+            $('#black_cat').addClass('myturn');
+        } else {
+            $('#white_cat').addClass('myturn');
+        }
+
+//AI();
+
+        setTimeout(function () {
+            //----------------------------
+            // 全部のマスが埋まったら終了
+            if ((score[BLACK] + score[WHITE]) === (cell_cnt * cell_cnt)) {
+                hantei();
+                $('#player').html('')
+                return;
+
+                //-------------------------------------------------------------------
+                // 次のターンで、打つ手があるかチェックする
+            } else {
+                if (checkNextHand() === false) {
+                    next_hand[player] = false;
+                    openDialog(STONE_STR[player] + ' の打つ手がありません。スキップします☆')
+                    // 次のプレイヤーに変更
+                    player = (player === BLACK) ? WHITE : BLACK;
+
+                    // css
+                    $('#black_cat').removeClass('myturn');
+                    $('#white_cat').removeClass('myturn');
+                    if (player == BLACK) {
+                        $('#black_cat').addClass('myturn');
+                    } else {
+                        $('#white_cat').addClass('myturn');
+                    }
+                }
+            }
+        }, 500);
+    }
+
+
+    // document.getElementById('btn_test').addEventListener('click', function(){
+    //     AI();
+    // });
+    function AI() {
+        var max = 0;
+        for (var y = 1; y <= cell_cnt; y++) {
+            for (var x = 1; x <= cell_cnt; x++) {
+                // チェック
+                changeable_field = checkChangeable(y, x, player);
+                if (changeable_field === false) {
+                    return;
+                }
+                console.log('aaaaaaa', y, x);
+                return;
+                let cnt = 0;
+                //var enemy = (player===BLACK) ? WHITE : BLACK;
+                clickEvent(y, x);
+                //player = enemy;
+                player = (player === BLACK) ? WHITE : BLACK;
+                /*
+                    for(var i in changeable_field){
+                        for(var j in changeable_field[i]){
+                            cnt++;
+                        }
+                        console.log(y, x, cnt);
+                    }
+                    */
+            }
+        }
+    }
+
+
+    /*-----------------------------
+      * 石盤のマス数を変更する
+      */
+    let cell_cnt_btns = document.querySelectorAll('.btn_cell');
+    Array.prototype.forEach.call(cell_cnt_btns, function (node) {
+        node.addEventListener('click', function () {
+            if (!confirm('マスのかずをかえてもいいですか？')) return false;
+            // 一旦ボタン初期化
+            Array.prototype.forEach.call(cell_cnt_btns, function (node) {
+                node.classList.remove('btn_active');
+            });
+            cell_cnt = this.getAttribute('data-cnt');
+            // ボタンをアクティブに
+            this.classList.add('btn_active');
+            // init
+            init();
+        });
+    });
+    /*-----------------------------
+      * load
+      */
+    window.addEventListener('load', function () {
+        init();
+    });
+
+    /*-----------------------------
+      * ガイド
+      */
+    $('#js_guide').on('click', function () {
+        initLine();
+
+        for (var y = 1; y <= cell_cnt; y++) {
+            for (var x = 1; x <= cell_cnt; x++) {
+                // チェック
+                changeable_field = checkChangeable(y, x, player);
+                if (changeable_field !== false) {
+                    // 枠線
+                    cnt = markLine(changeable_field);//2.4em display:table-cell
+                    // 選択可能なセル
+                    $('#p_' + y + '_' + x).css('border', '1px solid red');
+                    $('#p_' + y + '_' + x).html(cnt);
+                }
+            }
+        }
+    });
+    /*-----------------------------
+      * 音
+      */
+    $('#js_sound').on('click', function(){
+      let src = '';
+      if($(this).attr('src').indexOf('_on')>-1){
+        $(this).attr('src', './common/images/icon/sound_off.png')
+      } else {
+        $(this).attr('src', './common/images/icon/sound_on.png')
+      }
+      console.log($(this).attr('src'));
+    })
+    
+
+</script>
+</body>
+</html> 
