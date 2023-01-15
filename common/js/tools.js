@@ -42,3 +42,4 @@ $('#js_reset').click(function(){
     location.href=location.href;
   })
 })
+

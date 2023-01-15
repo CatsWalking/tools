@@ -42,10 +42,14 @@
   width: 50px;
   line-height: 50px;
   font-size:2rem;
+  margin: 0 10px;
 }
 .option{
   display:flex;
   line-height: 30px;
+}
+.decimal{
+  width: 40px !important;
 }
 </style>
 </head>
@@ -62,7 +66,7 @@
 
         <nav class="header__nav nav" id="js-nav" style="vertical-align: top;">
           <ul class="nav__items nav-items">
-            <li class="nav-items__item"><a href="index.html">計算ツール</a></li>
+            <li class="nav-items__item"><a href="calc.html">計算ツール</a></li>
             <li class="nav-items__item"><a href="timer.html">タイマー</a></li>
             <li class="nav-items__item"><a href="reversi.html">オセロ</a></li>
             <li class="nav-items__item"><a href="memory.html">神経衰弱</a></li>
@@ -81,31 +85,31 @@
     <table class="table2" id="calc">
       <tbody>
         <tr id="multi">
-          <th rowspan="2">掛け算</th>
-          <td style="display:flex;"><input type="number" class="input number" style="width:50px">
-            <div class="sign">÷</div> 
-              <input type="number number" class="input" style="width:80px"> 
-           </td>
-           <td><div class="result"></div></td>
+          <th>掛け算</th>
+          <td style="display:flex;"><input type="input" class="input number"> 
+            <div class="sign">×</div> 
+              <input type="input" class="input number"> 
+            </td>
+            <td><div class="result"></div></td>
           </tr>
-           <tr>
-              <td >
-                <div class="option">(小数点 第 <input type="number" class="input" style="width:40px" value="2"> 位)</div>
-              </td>
-       </tr>
-      <tr id="division">
-        <th rowspan="2">割り算</th>
-        <td style="display:flex;"><input type="number" class="input number" style="width:50px">
-          <div class="sign">÷</div> 
-          <input type="number number" class="input" style="width:80px"> 
-        </td>
-        <td><div class="result"></div></td>
+          <!-- <tr>
+            <td >
+              <div class="option">(小数点 第 <input type="input" class="input decimal" value="2"> 位)</div>
+            </td>
+        </tr> -->
+        <tr id="division">
+          <th rowspan="2">割り算</th>
+          <td style="display:flex;"><input type="input" class="input number">
+            <div class="sign">÷</div> 
+            <input type="input" class="input number"> 
+          </td>
+          <td><div class="result"></div></td>
         </tr>
-      <tr>
-        <td >
-        <div class="option">(小数点 第 <input type="number" class="input" style="width:40px" value="2"> 位)</div>
-        </td>
-      </tr>
+        <tr>
+          <td >
+          <div class="option">(小数点 第 <input type="input" class="input decimal" value="2"> 位)</div>
+          </td>
+        </tr>
       </tbody>
     </table>
 
@@ -136,39 +140,77 @@
 <!-- <script src="./common/js/calc.js?tesat"></script> -->
 
 <script>
-    'use strict';
-    $(function(){
+'use strict';
+$(function(){
+  let i;
+  let active = 'multi';
+  let target_index = 0;
+  let active_input = $('#'+active).find('.input').eq(target_index);
+  let active_result;
 
-   
-
-let i;
-let active = 'multi';
-let active_input = $('#'+active).find('.input').eq(0);
-let active_result;
-
-/*-----------------------
-  init
------------------------*/
-function init(){
-    active_input = $('#'+active).find('.input');
+  /*-----------------------
+    init
+  -----------------------*/
+  function init(){
+    active_input = $('#'+active).find('.input').eq(target_index);
     active_result = $('#'+active).find('.result');
+    $('#'+active).css('background', '#ccc');
     $('.input').removeClass('active');
     active_input.addClass('active');
-}
-init();
-active_input.focus();
+  }
+  init();
+  active_input.focus();
 
-// focus
-$('#calc').on('focus', '.input', function(){
+/*-----------------------
+  テンキー
+-----------------------*/
+let num
+$('.tenkey_box li').click(function(){
+  let n = $(this).html();
+  active_input.val(active_input.val()+n);
+  calc(active_input);
+})
+function calc(active_input){
+  let input1 = $('#'+active).find('.input').eq(0).val();
+  let input2 = $('#'+active).find('.input').eq(1).val();
+
+  switch(active){
+    case 'multi':   
+      // 掛け算
+      active_result.html(input1*input2);
+      break;
+    case 'division':  
+      // 割り算
+      if(!isFinite(input1/input2)){
+        active_result.html('');
+      } else{
+        active_result.html(input1/input2);
+      }
+    break;
+      
+  }
+
+}
+
+
+  $('#calc').on('click', '.input', function(){
     active = $(this).parent().parent().attr('id');
+    target_index = $(this).index()-1;
+    if(target_index<0){
+      target_index = 0;
+    }
     init();
+  })
+/*-----------------------
+  all clear
+-----------------------*/
+$('#js_clear').click(function(){
+  active_input.val('');
+  active_result.html('');
 })
-$('#calc').on('click', '.input', function(){
-    $(this).select();
-})
-$('#calc').on('click', 'tr', function(){
-    active = $(this).attr('id');
-    init();
+$('#js_all_clear').click(function(){
+  $('.number').val('');
+  $('.result').html('');
 })
 })
 </script>

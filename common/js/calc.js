@@ -21,18 +21,18 @@ init();
 active_input.focus();
 // $('#'+active).find('.input').focus();
 
-// focus
-$('#calc').on('focus', '.input', function(){
-    active = $(this).parent().parent().attr('id');
-    init();
-})
-$('#calc').on('click', '.input', function(){
-    $(this).select();
-})
-$('#calc').on('click', 'tr', function(){
-    active = $(this).attr('id');
-    init();
-})
+// // focus
+// $('#calc').on('focus', '.input', function(){
+//     active = $(this).parent().parent().attr('id');
+//     init();
+// })
+// $('#calc').on('click', '.input', function(){
+//     $(this).select();
+// })
+// $('#calc').on('click', 'tr', function(){
+//     active = $(this).attr('id');
+//     init();
+// })
 
 /*-----------------------
   テンキー
@@ -47,9 +47,9 @@ $('.tenkey_box li').click(function(){
 /*-----------------------
   計算
 -----------------------*/
-function calc(elem){
-    let val = elem.val();
-    let id = elem.parent().parent().attr('id');
+function calc(active_input){
+    let val = active_input.val();
+    let id = active_input.parent().parent().attr('id');
     let res;
     active_result.html('')
     if(val!='' && val!='-' && val!='0'){
@@ -82,17 +82,7 @@ $('#calc .input').keyup(function(){
     calc($(this));
 })
 
-/*-----------------------
-  clear
------------------------*/
-$('#js_clear').click(function(){
-    active_input.val('');
-    active_result.html('');
-})
-$('#js_all_clear').click(function(){
-    $('.input').val('');
-    $('.result').html('');
-})
+
 /*-----------------------
   素因数分解
 -----------------------*/
@@ -132,4 +122,14 @@ function prime(val){
     }
     return '';
 }
-
+/*-----------------------
+  all clear
+-----------------------*/
+$('#js_clear').click(function(){
+    active_input.val('');
+    active_result.html('');
+  })
+  $('#js_all_clear').click(function(){
+    $('.input').val('');
+    $('.result').html('');
+  })
