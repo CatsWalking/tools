@@ -2,6 +2,7 @@
 Roku tools
 */
 'use strict';
+let timerid;
 
 // スマホだったらソフトウェアキーボードを表示しない
 if(isSP()){

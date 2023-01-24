@@ -71,6 +71,12 @@
     box-shadow: none;
     margin-top: 20px;
 }
+@media screen and (min-width: 600px) {
+    .stage {
+    width: 600px;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -103,16 +109,15 @@
     </header>
     <main>
 
+        <!-- timer -->
     <div id="score" syle="width:90% auto;background:red">
         <div id="timer" style="margin-left:20px;">0.00</div>
     </div>
+     <!-- stage -->
     <div id="stage" syle="width: 340px auto;"></div>
 
-
-
-
     <div class="btnBox" style="width:100%;text-align: center!important;">
-      <div class="btn" id="js_reset">もういっかい</div>
+      <div class="btn" id="js_retry">もういっかい</div>
     </div>
 
 </div><!-- main -->
@@ -133,6 +138,7 @@ let flipCount = 0;
 let firstCard = null;
 let secondCard = null;
 let correctCount = 0;
+
 
 /*
 * init
@@ -206,6 +212,7 @@ function check() {
     } else {
         correctCount++;
         if (correctCount === pairs) {
+            console.log('clear');
             clearTimeout(timer_id);
         }
     }

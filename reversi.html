@@ -147,7 +147,7 @@ img {
 
   </div><!-- main -->
      <div class="btnBox" style="text-align: center!important;">
-      <div class="btn" id="js_reset">もういっかい</div>
+      <div class="btn" id="js_retry">もういっかい</div>
     </div>
 </div><!-- main -->
 </div><!-- container -->
@@ -269,6 +269,7 @@ img {
                 //-------------------------------------------------------------------
                 // 次のターンで、打つ手があるかチェックする
             } else {
+                closeDialog();
                 if (checkNextHand() === false) {
                     next_hand[player] = false;
                     openDialog(STONE_STR[player] + ' の打つ手がありません。スキップします☆')
