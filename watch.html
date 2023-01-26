@@ -80,8 +80,8 @@
       <img src="./common/images/animals_s/animal_komimi_tobinezumi.png" id="animal" class="animal animal_purun">
     </div>
     <div class="btnBox mb20">
-      <div id="js_start" class="btn -s -red">スタート/ストップ</div>
-      <div id="js_reset2" class="btn -s">リセット</div>
+      <div id="js_start" class="btn -s -red" style="width:200px!important;">スタート/ストップ</div>
+      <div id="js_reset2" class="btn -s" style="width:60px!important;">リセット</div>
     </div>
 
 
@@ -150,6 +150,8 @@ function init() {
     s = 0;
     ms = 0;
     $('#animal').removeClass('animal_purun');
+    isRunning=false;
+    clearInterval(timer_id);
 }
 init();
 })
