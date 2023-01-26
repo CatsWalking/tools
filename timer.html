@@ -36,20 +36,24 @@
     height:40px;
     line-height: 40px;
     font-size:1rem;
-    background: #dc3927;
+    background: #489ead;
     border:none;
 }
 .time_type {
-    /* height: 30px!important; */
-    line-height: 30px!important;
-    width: 100px!important;
-    margin: 20px auto;
-    padding: 0;
-    background: #f7afaa!important;
+    line-height: 40px!important;
+    width: 90%!important;
+    margin: 0 auto;
+    padding: 10px;
+    background: #cecccc!important;
     border:none;
+    font-size: 1.6rem !important;
+    color:rgb(140, 134, 134);
+}
+.time_type.active {
+    background: #f7afaa!important;
+    color:#fff;
 }
 #js_start{
-    background: #7db1d3;
     width:170px;
 }
 .running {
@@ -62,11 +66,8 @@
     <header class="header">
       <div class="header__inner">
         <h1 class="header__title header-title">
-          <a href="index.html">
-            <img src="./common/images/favicon.svg">
-            Roku tools
-          </a>
-        </h1>
+            <a href="index.html">★ Roku tools </a>
+          </h1>
 
         <nav class="header__nav nav" id="js-nav" style="vertical-align: top;">
             <ul class="nav__items nav-items">
@@ -94,6 +95,7 @@
         <div id="clock">
             <span id="clock_m" class="clock_active">00</span>:<span id="clock_s">00</span>
         </div>
+
         <ul class="tenkey_box -column3">
             <li>1</li>
             <li>2</li>
@@ -105,8 +107,8 @@
             <li>8</li>
             <li>9</li>
             <li>0</li>
-            <li class="time_type btn -s active">分</li>
-            <li class="time_type btn -s">秒</li>
+            <li class="time_type btn active" data-type="min">分</li>
+            <li class="time_type btn" data-type="min">秒</li>
         </ul>
         <div class="footer">
             <br>
@@ -117,17 +119,18 @@
             </div>
             <br>
             <div class="btn_box mb20">
-                <div id="js_start" class="btn small">スタート/ストップ</div>
+                <img class="icon" id="sound_switch" src="./common/images/icon/sound_off.png">
+                <div id="js_start" class="btn small -red">スタート/ストップ</div>
                 <div id="js_reset" class="btn small">リセット</div>
             </div>
             <br>
         </div>
     </div>
   
-    <img src="./images/explosion.gif" id="js_explosion" style="position:absolute;width:350px;z-index:100;display:none;">
+    <img src="./common/images/explosion.gif" id="js_explosion" style="position:absolute;width:350px;z-index:100;display:none;">
     <!--sound-->
     <audio id="sound_explosion" preload="auto">
-        <source src="./sounds/explosion.mp3" type="audio/mp3">
+        <source src="./common/sounds/explosion.mp3" type="audio/mp3">
     </audio>
 
 </div><!-- main -->
@@ -139,98 +142,147 @@
 <script src="./common/js/tools.js?tesat"></script>
 
 <script>
-'use strict'
+$(function(){
+    'use strict';
+    //-------------------------------------------------------------
+    let m = 0, s = 0;
+    let timer_id;
+    const explosion = $('#sound_explosion');
+    // const explosion = document.querySelector('#sound_explosion');
 
-let pairs = 8;
-let cards = [];
-let card;
-let flipCount = 0;
-let firstCard = null;
-let secondCard = null;
-let correctCount = 0;
-
-/*
-* init
-*/
-function init() {
-    let i;
-    for (i = 1; i <= pairs; i++) {
-        cards.push(createCard(i));
-        cards.push(createCard(i));
-    }
-    while (cards.length) {
-        card = cards.splice(Math.floor(Math.random() * cards.length), 1)[0];
-        $('#stage').append(card);
-    }
-}
-
-/*
-* create card
-*/
-function createCard(num) {
-    let container;
-    let card;
-    let inner;
-    inner = '<div class="card_front">' + num + '</div><div class="card_back"></div>';
-    card = document.createElement('div');
-    // card = document.createElement('div');
-    card.innerHTML = inner;
-    card.className = 'card';
-    card.addEventListener('click', function () {
-        flipCard(this);
-        if (startTime !== null) {
-            return;
-        }
-        startTime = Date.now();
-        runTimer();
+    //-------------------------------------------------------------
+    // clock
+    $('#clock span').click(function(){
+        let i = $('#clock span').index(this);
+        $('.time_type').removeClass('active');
+        $('.time_type').eq(i).addClass('active');
+        $(this).parent().find('span').removeClass('clock_active');
+        $(this).addClass('clock_active');
     });
-    container = document.createElement('div');
-    container.className = 'card-container';
-    container.appendChild(card);
-    return container;
-}
-
-/*
-* flip
-*/
-function flipCard(card) {
-    if (firstCard !== null && secondCard !== null) {
-        return;
-    }
-    if (card.className.indexOf('open') !== -1) {
-        return;
-    }
-    card.className = 'card open';
-    flipCount++;
-    if (flipCount % 2 === 1) {
-        firstCard = card;
-    } else {
-        secondCard = card;
-        secondCard.addEventListener('transitionend', check);
-    }
-}
-
-/*
-* check
-*/
-function check() {
-    if (firstCard.children[0].textContent !==
-        secondCard.children[0].textContent) {
-        firstCard.className = 'card';
-        secondCard.className = 'card';
-    } else {
-        correctCount++;
-        if (correctCount === pairs) {
-            clearTimeout(timer_id);
+    $('#clock span').dblclick(function(){
+        $(this).html('00');
+    });
+    // min / sec
+    $('.time_type').click(function () {
+        $('.time_type').removeClass('active');
+        $(this).addClass('active');
+        let i = $('.time_type').index(this);
+        $('#clock span').removeClass('clock_active');
+        $('#clock span').eq(i).addClass('clock_active');
+    });
+    // 10秒、１分、10分
+    $('#assit_box div').click(function () {
+        switch ($(this).data('type')) {
+        case '10s':
+            $('#clock_m').html('00');
+            $('#clock_s').html('10');
+            break;
+        case '1m':
+            $('#clock_m').html('01');
+            $('#clock_s').html('00');
+            break;
+        case '10m':
+            $('#clock_m').html('10');
+            $('#clock_s').html('00');
+            break;
         }
+    })
+
+    //-------------------------------------------------------
+    // tenkey
+    $('.tenkey').click(function () {
+        let elem;
+        let num = 0;
+        if ($('.time_type').eq(0).hasClass('active')) {
+            elem = $('#clock_m');
+        } else {
+            elem = $('#clock_s');
+        }
+
+        if (elem.html() == '00') {
+            num = $(this).html();
+        } else {
+            // 60 以上は無視
+            if (parseInt(elem.html() + $(this).html()) >= 60) {
+                return;
+            }
+            num = elem.html() + $(this).html();
+        }
+        elem.html(zero_padding(num).slice(-2));
+    });
+
+    //-------------------------------------------------------
+    // start / stop
+    $('#js_start').click(function () {
+        $('#clock span').removeClass('clock_active');
+        $('#clock span').addClass('clock_running');
+
+        if (!$(this).hasClass('running')) {
+            if ($('#clock_m').html() != '00' || $('#clock_s').html() != '00') {
+                // start
+                $(this).addClass('running');
+                m = $('#clock_m').html();
+                s = $('#clock_s').html();
+                // timer start
+                timer_id = setInterval(count_down, 1000);
+            }
+        } else {
+            // stop
+            $(this).removeClass('running');
+            clearInterval(timer_id);
+        }
+    });
+
+    //-------------------------------------------------------
+    // Count down
+    function count_down() {
+        if (s == 0 && m != 0) {
+            s = 60;
+            m--;
+        }
+        s--;
+        if (s == 0 && m != 0) {
+            m--;
+            s = 60;
+        }
+        // 終了！
+        if (s <= 0 && m <= 0) {
+            clearInterval(timer_id);
+            // explosion
+            explosion.play();
+            $('#js_explosion').css('display', 'block');
+            $('.tenkey_box3').css('display', 'none');
+        }
+        $('#clock_m').html(zero_padding(m).slice(-2));
+        $('#clock_s').html(zero_padding(s).slice(-2));
+        //console.log(m, s);
     }
-    secondCard.removeEventListener('transitionend', check);
-    firstCard = null;
-    secondCard = null;
-}
 
-init();
+    //-------------------------------------------------------
+    // reset
+    $('#js_reset').click(function () {
+        init();
+    });
 
+    // 爆発を止める
+    $(document).click(function () {
+        if ($('#js_explosion').css('display') == 'block') {
+            init();
+        }
+    });
+
+    // init
+    function init() {
+        m = 0;
+        s = 0;
+        $('#clock div').html('00');
+        $('.tenkey_box3').css('display', '');
+        $('#js_explosion').css('display', 'none');
+        $('#js_start').removeClass('running');
+        explosion.pause();
+        explosion.currentTime = 0;
+    }
+})
 </script>
 </body>
 </html> 

@@ -479,41 +479,41 @@ table.-tableHover tr:hover td {
 }
 
 /* icon */
-.icon__ok {
-  vertical-align: middle;
-  display: inline-block;
-  width: 15px;
-  height: 15px;
-  margin: auto;
-  border: 2px solid #41c389;
-  border-radius: 50%;
-}
-.icon__ng {
+.icon{
   vertical-align: middle;
   display: inline-block;
   position: relative;
-  width: 15px;
-  height: 15px;
-  margin: auto;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
 }
-.icon__ng::before, .icon__ng::after {
-  content: "";
-  display: block;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: #e94d4d;
-  width: 2px;
-  height: 100%;
-  margin: auto;
+.-edit {
+  background: url("./common/images/icon_edit.svg") no-repeat;
 }
-.icon__ng::before {
-  transform: rotate(45deg);
+.icon.-sound_on{
+  background: url("../images/icon/sound_on.png") no-repeat;
 }
-.icon__ng::after {
-  transform: rotate(-45deg);
+.-sound_off{
+  background: url("../images/icon/sound_off.png") no-repeat;
+}
+.icon.-delete {
+  background: url("../images/icon_delete.svg") no-repeat;
+}
+.icon.-view {
+  background: url("../images/icon_view.svg") no-repeat;
+}
+.icon.-print {
+  background: url("../images/icon_print.svg") no-repeat center center;
+}
+.icon__print.-mark {
+  background-color: #bfcfdd;
+  background-size: 13px 13px;
+  background-position: center;
+  width: 25px;
+  height: 25px;
+  opacity: 0.7;
+  border-radius: 100%;
+  box-sizing: border-box;
 }
 .icon__sortable {
   vertical-align: middle;
@@ -542,56 +542,6 @@ table.-tableHover tr:hover td {
 }
 .icon__sortable::after {
   bottom: 9px;
-}
-.icon__edit {
-  vertical-align: middle;
-  display: inline-block;
-  position: relative;
-  background: url("../img/icon_edit.svg") no-repeat;
-  background-size: 22px 22px;
-  width: 22px;
-  height: 22px;
-  cursor: pointer;
-}
-.icon__delete {
-  vertical-align: middle;
-  display: inline-block;
-  position: relative;
-  background: url("../img/icon_delete.svg") no-repeat;
-  background-size: 22px 22px;
-  width: 22px;
-  height: 22px;
-  cursor: pointer;
-}
-.icon__view {
-  vertical-align: middle;
-  display: inline-block;
-  position: relative;
-  background: url("../img/icon_view.svg") no-repeat;
-  background-size: 22px 22px;
-  width: 22px;
-  height: 22px;
-  cursor: pointer;
-}
-.icon__print {
-  vertical-align: middle;
-  display: inline-block;
-  position: relative;
-  background: url("../img/icon_print.svg") no-repeat center center;
-  background-size: 20px 20px;
-  width: 22px;
-  height: 22px;
-  cursor: pointer;
-}
-.icon__print.-mark {
-  background-color: #bfcfdd;
-  background-size: 13px 13px;
-  background-position: center;
-  width: 25px;
-  height: 25px;
-  opacity: 0.7;
-  border-radius: 100%;
-  box-sizing: border-box;
 }
 /* radio */
 .radioareainput[type=radio] {

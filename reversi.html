@@ -55,7 +55,7 @@
 }
 
 .score {
-    width: 40px;
+    width: 60px;
     color: red;
     font-size: 1.4rem;
     margin: 12px 0 0 6px;
@@ -73,22 +73,9 @@
     width: 420px;
   }
 }
-.guide>img, .sound>img {
-  width: 2.4em;
-  cursor: pointer;
-  float:right;
-}
-.sound>img {
-  width: 2.6em;
-}
-.guide:hover, .sound:hover {
-    padding-top: 2px;
-}
-
 img {
     cursor: auto;
 }
-
 .btnBox {
     text-align: center;
     display: block;
@@ -105,10 +92,7 @@ img {
     <header class="header">
       <div class="header__inner">
         <h1 class="header__title header-title">
-          <a href="index.html">
-            <img src="./common/images/favicon.svg">
-            Roku tools
-          </a>
+          <a href="index.html">★ Roku tools </a>
         </h1>
 
         <nav class="header__nav nav" id="js-nav" style="vertical-align: top;">
@@ -142,8 +126,8 @@ img {
         <div id="white_cat"><img src='./common/images/cat_white.png' class='score_cat'></div>
         <div id='score_white' class='score'>2</div>
         <div style="width: 84px;"></div>
-        <div class='guide'><img src='./common/images/icon/icon_caution.svg' id="js_guide"></div>
-        <div class='sound'><img src='./common/images/icon/sound_off.png' id="js_sound"></div>
+        <img src='./common/images/icon/icon_caution.svg' id="js_guide" class="icon">
+        <img src='./common/images/icon/sound_off.png' id="js_sound" class="icon">
       </div>
     <!-- ボード -->
     <div id="board"></div>
@@ -168,7 +152,7 @@ img {
 <script>
     'use strict'
 
-     // const-----------------
+    // const-----------------
     let DEFAULT_CELL_CNT = 8;    // デフォルトは８マス
     let BLACK = 1;
     let WHITE = 2;
@@ -180,7 +164,6 @@ img {
     STONE_STR[WHITE] = 'しろ';
     let PLAY_TYPE = 1;    // 1:対人 2: AI
     let cnt, changeable_field;
-
 
     // global-----------------
     let cell_cnt = DEFAULT_CELL_CNT;    // 石盤のマス数
@@ -198,7 +181,7 @@ img {
       * clickEvent
       */
     function clickEvent(y, x) {
-        console.log(this.id + '-------------------');
+        // console.log(this.id + '-------------------');
         // クリックした要素のIDから、マスの座標を取得
         let tmpa = this.id.split('_');
         var y = tmpa[1];
@@ -214,7 +197,7 @@ img {
         changeable_field = checkChangeable(y, x, player);
         // ひっくり返せるマスがなかったらreturn
         if (changeable_field === false) {
-            console.log('no changable_field');
+            // console.log('no changable_field');
             return;
         }
         // クリックしたマス
@@ -227,7 +210,7 @@ img {
         // field情報を更新
         for (let i in changeable_field) {
             for (let j in changeable_field[i]) {
-                console.log(123, changeable_field[i], changeable_field[i][j]);
+                // console.log(123, changeable_field[i], changeable_field[i][j]);
                 // 猫がなく
                 if($('#js_sound').attr('src').indexOf('_on')>-1){
                   if (player === BLACK) {
@@ -263,16 +246,19 @@ img {
 //AI();
 
         setTimeout(function () {
-            //----------------------------
-            // 全部のマスが埋まったら終了
             if ((score[BLACK] + score[WHITE]) === (cell_cnt * cell_cnt)) {
-                hantei();
-                $('#player').html('')
-                return;
-
+              //----------------------------
+              // 全部のマスが埋まったら終了
+              hantei();
+              $('#player').html('')
+              return;
+            } else if(score[BLACK]==0 || score[WHITE]==0){
+              hantei();
+              $('#player').html('')
+              return;
+            } else {
                 //-------------------------------------------------------------------
                 // 次のターンで、打つ手があるかチェックする
-            } else {
                 closeDialog();
                 if (checkNextHand() === false) {
                     next_hand[player] = false;
@@ -306,7 +292,6 @@ img {
                 if (changeable_field === false) {
                     return;
                 }
-                console.log('aaaaaaa', y, x);
                 return;
                 let cnt = 0;
                 //var enemy = (player===BLACK) ? WHITE : BLACK;
@@ -324,7 +309,6 @@ img {
             }
         }
     }
-
 
     /*-----------------------------
       * 石盤のマス数を変更する

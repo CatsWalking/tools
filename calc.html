@@ -24,6 +24,9 @@
 #calc td:nth-child(3){
   width:35%;
 }
+.input{
+  width:100px!important;
+}
 .result{
     font-size:30px;
     display: flex;
@@ -41,10 +44,7 @@
     <header class="header">
       <div class="header__inner">
         <h1 class="header__title header-title">
-          <a href="index.html">
-            <img src="./common/images/favicon.svg">
-            Roku tools
-          </a>
+          <a href="index.html">★ Roku tools </a>
         </h1>
 
         <nav class="header__nav nav" id="js-nav" style="vertical-align: top;">
@@ -79,22 +79,22 @@
         </tr>
         <tr id="squre">
             <th>平方数</th>
-            <td><input type="input" class="input" placeholder="11" maxlength="6"></td>
+            <td><input type="input" class="input" placeholder="11" maxlength="4"></td>
             <td><div class="result"></div></td>
         </tr>
         <tr id="squre_root">
           <th>平方根</th>
-          <td><input type="input" class="input" placeholder="144" maxlength="6"></td>
+          <td><input type="input" class="input" placeholder="144" maxlength="4"></td>
           <td><div class="result"></div></td>
         </tr>
         <tr id="pi">
-            <th>円周の長さ<br>(× 3.14)</th>
-            <td><input type="input" class="input" maxlength="6"> </td>
+            <th>円周の長さ<br>((□+□)×3.14)</th>
+            <td><input type="input" class="input" maxlength="4"> </td>
             <td><div class="result"></div></td>
         </tr>
         <tr id="pi2">
-          <th>円の面積<br>(× 3.14)</th>
-          <td><input type="input" class="input" maxlength="6"> </td>
+          <th>円の面積<br>(□×□×3.14)</th>
+          <td><input type="input" class="input" maxlength="4"> </td>
           <td><div class="result"></div></td>
       </tr>
       </tbody>
@@ -125,9 +125,5 @@
 <script src="./common/js/common.js"></script>
 <script src="./common/js/tools.js?tesat"></script>
 <script src="./common/js/calc.js?tesat"></script>
-
-<script>
-    'use strict'
-</script>
 </body>
 </html> 

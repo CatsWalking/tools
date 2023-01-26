@@ -79,7 +79,11 @@ function openDialog(msgText, okFunc = null, width = "400", overlay_close = true,
     btn = '<div class="c-modal__footer"><button id="js_dialog_ok" class="btn -green">' + ok_str + "</button>" + "</div>";
   }
 
-  let str = '<div class="c-modal" style="width: ' + width + 'px">' + '<div class="c-modal__close" onclick="closeDialog();"></div>' + '<div class="c-modal__body u-pt20 u-pb20" style="text-align:center">' + msgText + "</div>" + btn + "</div>";
+  let str = '<div class="c-modal" style="width: ' + width + 'px">' 
+    + '<div class="c-modal__close" onclick="closeDialog();"></div>' 
+    + '<div class="c-modal__body u-pt20 u-pb20" style="text-align:center">'+ msgText + "</div>" 
+    + btn 
+    + "</div>";
   // 背景クリックでモーダル閉じるか。
   if (overlay_close == true) {
     str = str + '<div class="c-modal__bg" onclick="closeDialog();"></div>';

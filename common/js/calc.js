@@ -19,20 +19,20 @@ function init(){
 }
 init();
 active_input.focus();
-// $('#'+active).find('.input').focus();
+$('#'+active).find('.input').focus();
 
-// // focus
-// $('#calc').on('focus', '.input', function(){
-//     active = $(this).parent().parent().attr('id');
-//     init();
-// })
-// $('#calc').on('click', '.input', function(){
-//     $(this).select();
-// })
-// $('#calc').on('click', 'tr', function(){
-//     active = $(this).attr('id');
-//     init();
-// })
+// focus
+$('#calc').on('focus', '.input', function(){
+    active = $(this).parent().parent().attr('id');
+    init();
+})
+$('#calc').on('click', '.input', function(){
+    $(this).select();
+})
+$('#calc').on('click', 'tr', function(){
+    active = $(this).attr('id');
+    init();
+})
 
 /*-----------------------
   テンキー
@@ -82,7 +82,6 @@ $('#calc .input').keyup(function(){
     calc($(this));
 })
 
-
 /*-----------------------
   素因数分解
 -----------------------*/
@@ -122,6 +121,7 @@ function prime(val){
     }
     return '';
 }
+
 /*-----------------------
   all clear
 -----------------------*/

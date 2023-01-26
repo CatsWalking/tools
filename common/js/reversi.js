@@ -198,11 +198,11 @@ function markLine(arr) {
  */
 function hantei() {
     if (score[BLACK] > score[WHITE]) {
-        alert('くろのかち！！！');
+        openDialog('くろのかち！！！');
     } else if (score[BLACK] < score[WHITE]) {
-        alert('しろのかち！！！');
+        openDialog('しろのかち！！！');
     } else {
-        alert('ひきわけ！！！');
+        openDialog('ひきわけ！！！');
     }
 }
 
