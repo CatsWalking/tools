@@ -10,7 +10,6 @@ html, body, input, textarea, select, .btn, th, td {
 body {
   font-size: 1.2rem;
   line-height: 1.2;
-  /* min-width: 1280px; */
   background: #f4f5f5;
 }
 body * {
@@ -52,7 +51,7 @@ main {
   left: 0;
   right: 0;
   z-index: 999;
-  background-color: #EBE7D2;
+  background-color: #d2ddeb;
 }
 
 .header__inner {
@@ -403,23 +402,19 @@ table.-tableHover tr:hover td {
   width: 100%;
 }
 /* table2 */
-.table2 {
-  border-bottom: 1px solid #bfcfdd;
- }
 .table2 th {
   color: #5b84a8;
   text-align: left;
   line-height: 1.3;
   vertical-align: middle;
   background: transparent;
-  
   border-bottom: 1px solid #bfcfdd;
   border-right: none;
   width: 150px;
 }
 .table2 td {
   vertical-align: middle;
-  border-top: 1px solid #bfcfdd;
+  border-bottom: 1px solid #bfcfdd;
 }
 
 /* table2 */

@@ -3,23 +3,23 @@ body, input, div, span{
   color:#44505b;
 }
 .container{
-  background-color: #f7f5ec;
+  background-color: #ecf0f7;
 
 }
 main{
   width:90%;
-  margin: 10px auto;
+  margin: 50px auto;
   padding:20px;
   height:100hv;
-  background-color: #fbf9f8;
+  /* background-color: #fbf9f8; */
 }
 @media screen and (min-width: 960px) {
   main{
     width:600px;
-    margin: 10px auto;
+    margin: 50px auto;
     padding:20px;
     height:100hv;
-    background-color: rgb(252, 251, 249);
+    /* background-color: rgb(252, 251, 249); */
   }
 }
 
