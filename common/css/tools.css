@@ -8,7 +8,7 @@ body, input, div, span{
 }
 main{
   width:90%;
-  margin: 50px auto;
+  margin: 10px auto;
   padding:20px;
   height:100hv;
   background-color: #fbf9f8;
@@ -16,7 +16,7 @@ main{
 @media screen and (min-width: 960px) {
   main{
     width:600px;
-    margin: 50px auto;
+    margin: 10px auto;
     padding:20px;
     height:100hv;
     background-color: rgb(252, 251, 249);
