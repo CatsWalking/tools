@@ -12,25 +12,11 @@
 <link rel="stylesheet" href="./common/css/tools.css?testd">
 <style>
 
-  .caution{
-    font-size: 0.8rem; 
-    width: 90%;
-    margin: 0 auto;
-    position: absolute;
-	  bottom: 10px;
-  }
-
-  .caution li {
-    list-style-type: disc;
-    margin-left: 24px;
-    line-height: 200%;
-    color: rgb(150, 136, 121);
-  }
-
+/* メニューさいころ */
 ul.dice {
   display: flex;
   flex-wrap: wrap;
-  margin: 0 auto;
+  margin: 50px auto;
   width: 90%;
 }
 ul.dice li {
@@ -45,12 +31,40 @@ ul.dice li {
   font-size:0.7rem;
   background-color: #fff;
   cursor: pointer;
+  color: rgb(150, 136, 121);
+  position: relative;
 }
 ul.dice img {
   width: 70px;
   height: 60px;
 }
+.dice a{
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+}
 
+/* 注意書き */
+.caution{
+    font-size: 0.8rem; 
+    width: 90%;
+    margin: 0 auto;
+    position: absolute;
+	  bottom: 10px;
+}
+.caution li {
+  list-style-type: disc;
+  margin-left: 24px;
+  line-height: 200%;
+  color: rgb(150, 136, 121);
+}
+@media screen and (min-width: 960px) {
+  .caution{
+    width: 600px;
+  }
+}
 </style>
 </head>
 <body>
@@ -58,10 +72,7 @@ ul.dice img {
     <header class="header">
       <div class="header__inner">
         <h1 class="header__title header-title">
-          <a href="index.html">
-            <img src="./common/images/favicon.svg">
-            Roku tools
-          </a>
+          <a href="index.html">★ Roku tools </a>
         </h1>
 
         <nav class="header__nav nav" id="js-nav" style="vertical-align: top;">
@@ -91,11 +102,18 @@ ul.dice img {
 
 
       <ul class="dice">
-        <li><a href="calc.html"><img src="common/images/menu/calc.png" alt=""></a>計算ツール</li> 
-        <li><a href="calc.html"><img src="common/images/menu/calc.png" alt=""></a></li> 
-        <li><a href="calc.html"><img src="common/images/menu/calc.png" alt=""></a></li> 
-        <li><a href="calc.html"><img src="common/images/menu/calc.png" alt=""></a></li> 
-        <li><a href="calc.html"><img src="common/images/menu/calc.png" alt=""></a></li> 
+        <li><img src="common/images/menu/calc.png" alt=""><a href="calc.html"></a>計算ツール</li> 
+        <li><a href="calc.html"></a>計算ツール</li>
+        <li><a href="timer.html"></a>タイマー</li>
+        <li><a href="reversi.html"></a>オセロ</li>
+        <li><a href="memory.html"></a>神経衰弱</li>
+        <li><a href="flash.html"></a>フラッシュ暗算</li>
+        <li><a href="watch.html"></a>ストップウォッチ</li>
+        <li><a href="prime.html"></a>素数パズル</li>
+        <li><a href="maketen.html"></a>テンパズル</li>
+        <li><a href="bmi.html"></a>bmi</li>
+        <li><a href="maze.html"></a>迷路</li>
+        <li><a href="tools.html"></a>ツール</li>
 
     </ul>
 
@@ -110,7 +128,7 @@ ul.dice img {
           <li>予告なしに閉鎖することがあります🙇‍♀️</li>
         </ul>
       </div>
-      
+    </main>
 
 
 

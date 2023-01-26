@@ -11,7 +11,7 @@ main{
   margin: 50px auto;
   padding:20px;
   height:100hv;
-  /* background-color: #E1DABA; */
+  background-color: #fbf9f8;
 }
 @media screen and (min-width: 960px) {
   main{
