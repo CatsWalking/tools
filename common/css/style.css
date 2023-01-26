@@ -16,11 +16,6 @@ body {
 body * {
   word-break: break-all;
 }
-@media screen and (max-width: 960px) {
-  body {
-    min-width: 375px;
-  }
-}
 a {
   text-decoration: none;
   color: #32414e;
@@ -40,14 +35,9 @@ main {
 }
 
 .footer {
-  /* background-color: #333; */
   background-color: #f6f6f6;
   width: 100%;
   text-align: center;
-  /* bottom:0; */
-  /* height: 100px; */
-  /* margin:0 auto; */
-  /* display: flex; */
 }
 
 .footer div {
@@ -62,7 +52,7 @@ main {
   left: 0;
   right: 0;
   z-index: 999;
-  background-color: #f1f1f1;
+  background-color: #EBE7D2;
 }
 
 .header__inner {
@@ -74,17 +64,14 @@ main {
   position: relative;
 }
 
-
 /* ヘッダーのロゴ部分 */
-.header__title {
-  width: 120px;
-  color: #1f94cc!important;;
+.header__title a{
+  color: #B2A251!important;
 }
 
 .header__title img {
-  display: block;
-  width: 100%;
-  height: 100%;
+  width: 20px;
+  height: 20px;
 }
 
 /* ヘッダーのナビ部分 */
@@ -100,7 +87,13 @@ main {
   transition: ease .4s;
   margin: 0 40px 0 0;
 }
-
+.nav-items {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 0;
+}
 @media screen and (min-width: 960px) {
   .header__nav {
     position: static;
@@ -109,40 +102,20 @@ main {
     height: inherit;
     display: flex;
     justify-content: end;
-    width: 50%;
+    width: 80%;
   }
-}
-
-@media screen and (min-width: 960px) {
   .nav__items {
     width: 100%;
     display: flex;
     align-items: center;
     height: initial;
     justify-content: space-between;
-  }
-}
-
-.nav-items {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  padding: 0;
- 
-
-}
-
-@media screen and (min-width: 960px) {
-  .nav-items {
     position: inherit;
     top: 0;
     left: 0;
     transform: translate(0, 0);
-
   }
 }
-
 /* ナビのリンク */
 .nav-items__item a {
   width: 100%;
@@ -151,7 +124,7 @@ main {
   font-size: 0.9rem;
   font-weight:bold;
   margin-bottom: 20px;
-  color: #1f94cc!important;
+  color: #B2A251!important;
 }
 
 .nav-items__item:last-child a {
@@ -168,15 +141,12 @@ main {
 .header__hamburger {
   width: 48px;
   height: 100%;
-
 }
-
 .hamburger {
   background-color: transparent;
   border-color: transparent;
   z-index: 9999;
 }
-
 @media screen and (min-width: 960px) {
   .hamburger {
     display: none;
@@ -225,6 +195,7 @@ main {
   top: -13px;
   transform: rotate(-45deg);
 }
+
 /*各種*/
 .page_title {
   color: #1f94cc;
@@ -361,22 +332,7 @@ table {
   background: #db9200;
   border-radius: 5px;
 }
-.btn.-pink {
-  background: #fb7aab;
-  border: 1px solid #fb7aab;
-}
-.btn.-pink:hover {
-  background: #f93f85;
-  border-radius: 5px;
-}
-.btn.-purple {
-  background: #a95cdc;
-  border: 1px solid #a95cdc;
-}
-.btn.-purple:hover {
-  background: #852ac2;
-  border-radius: 5px;
-}
+
 .btn.-gray {
   background: #7e8d9b;
   border: 1px solid #7e8d9b;
@@ -837,7 +793,6 @@ table.-tableHover tr:hover td {
   transition: background 0.2s;
   cursor: pointer;
 }
-
 
 /* ページャー */
 .pager {

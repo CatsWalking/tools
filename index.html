@@ -11,48 +11,45 @@
 <link rel="stylesheet" href="./common/css/modal.css?test">
 <link rel="stylesheet" href="./common/css/tools.css?testd">
 <style>
-#calc {
-  max-width: 100%;
-  margin: 0 auto;
-}    
-#calc th{
-  width:26%;
-}
-#calc td:nth-child(2){
-  width:37%;
-}
-#calc td:nth-child(3){
-  width:35%;
-}
-.result{
-    font-size:30px;
-    display: flex;
-}
-.ruby3{
-    font-size:18px;
-    height:30px;
-    padding-top:0;;
-    padding-bottom:20px;
-} 
 
-.number{
-  width: 80px!important;
+  .caution{
+    font-size: 0.8rem; 
+    width: 500px;margin: 0 auto;
+    position: absolute;
+	  bottom: 10px;
+  }
+
+  .caution li {
+    list-style-type: disc;
+    margin-left: 24px;
+    line-height: 200%;
+    color: rgb(150, 136, 121);
+  }
+
+ul.dice {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 auto;
+  width: 90%;
 }
-.sign{
-  width: 20px;
-  line-height: 50px;
-  font-size:2rem;
-  margin: 0 10px;
-}
-.option{
-  display:flex;
-  line-height: 30px;
-}
-.decimal{
-  width: 40px !important;
-  height: 32px !important;
+ul.dice li {
+  width: 80px;
+  height: 80px;
+  margin: 5px;
+  padding-top:5px;
+  border: 1px solid #ebe8d5;
+  border-radius: 3px;
   text-align: center;
+  vertical-align: middle;
+  font-size:0.7rem;
+  background-color: #fff;
+  cursor: pointer;
 }
+ul.dice img {
+  width: 70px;
+  height: 60px;
+}
+
 </style>
 </head>
 <body>
@@ -60,8 +57,8 @@
     <header class="header">
       <div class="header__inner">
         <h1 class="header__title header-title">
-          <a href="index.html" style="color:#1f94cc">
-            <!-- <img src="images/logo-black.png" alt="ロゴ画像"> -->
+          <a href="index.html">
+            <img src="./common/images/favicon.svg">
             Roku tools
           </a>
         </h1>
@@ -72,7 +69,12 @@
             <li class="nav-items__item"><a href="timer.html">タイマー</a></li>
             <li class="nav-items__item"><a href="reversi.html">オセロ</a></li>
             <li class="nav-items__item"><a href="memory.html">神経衰弱</a></li>
+            <li class="nav-items__item"><a href="flash.html">フラッシュ暗算</a></li>
+            <li class="nav-items__item"><a href="watch.html">ストップウォッチ</a></li>
+            <li class="nav-items__item"><a href="prime.html">素数パズル</a></li>
+            <li class="nav-items__item"><a href="maketen.html">テンパズル</a></li>
             <li class="nav-items__item"><a href="bmi.html">bmi</a></li>
+            <li class="nav-items__item"><a href="maze.html">迷路</a></li>
             <li class="nav-items__item"><a href="tools.html">ツール</a></li>
           </ul>
         </nav>
@@ -86,13 +88,28 @@
     <main>
 
 
-      <div>以下をご了承していただける方のみご利用ください<br>
+
+      <ul class="dice">
+        <li><a href="calc.html"><img src="common/images/menu/calc.png" alt=""></a>計算ツール</li> 
+        <li><a href="calc.html"><img src="common/images/menu/calc.png" alt=""></a></li> 
+        <li><a href="calc.html"><img src="common/images/menu/calc.png" alt=""></a></li> 
+        <li><a href="calc.html"><img src="common/images/menu/calc.png" alt=""></a></li> 
+        <li><a href="calc.html"><img src="common/images/menu/calc.png" alt=""></a></li> 
+
+    </ul>
+
+
+
+      <div class="caution">
+        <div style="text-align: center;">😀以下をご了承していただける方のみご利用ください😀</div>
         <hr>
-        素人が個人的に作っているもので完璧ではありません。<br>
-        逆に不具合発見されたらご報告ください。<br>
-        本ツールの使用ならびに閲覧につき、その正確性、有用性、完全性、最新性、および品質を含めいかなる保証をするものではありません。<br>
-        予告なしに閉鎖することがあります。<br>
+        <ul>
+          <li>素人が個人的に作っているものです。逆に不具合発見されたらご報告ください🙇‍♀️</li>
+          <li>本ツールの使用ならびに閲覧につき、その正確性、有用性、完全性、最新性、および品質を含めいかなる保証をするものではありません🙇‍♀️</li>
+          <li>予告なしに閉鎖することがあります🙇‍♀️</li>
+        </ul>
       </div>
+      
 
 
 
@@ -102,88 +119,5 @@
 <script src="./common/js/jquery-ui.js"></script>
 <script src="./common/js/common.js"></script>
 <script src="./common/js/tools.js?tesat"></script>
-<!-- <script src="./common/js/calc.js?tesat"></script> -->
-
-<script>
-'use strict';
-$(function(){
-  let i;
-  let active = 'multi';
-  let target_index = 0;
-  let active_input = $('#'+active).find('.input').eq(target_index);
-  let active_result;
-
-  /*-----------------------
-    init
-  -----------------------*/
-  function init(){
-    active_input = $('#'+active).find('.input').eq(target_index);
-    active_result = $('#'+active).find('.result');
-    $('.input').removeClass('active');
-    active_input.addClass('active');
-  }
-  init();
-  active_input.focus();
-
-/*-----------------------
-  テンキー
------------------------*/
-let num
-$('.tenkey_box li').click(function(){
-  let n = $(this).html();
-  active_input.val(active_input.val()+n);
-  calc(active_input);
-})
-function calc(active_input){
-  let input1 = $('#'+active).find('.input').eq(0).val();
-  let input2 = $('#'+active).find('.input').eq(1).val();
-
-  switch(active){
-    case 'multi':   
-      // 掛け算
-      active_result.html(input1*input2);
-      break;
-    case 'division':  
-      // 割り算
-      if(!isFinite(input1/input2)){
-        active_result.html('');
-      } else{
-        let keta=1;
-        for(i=0; i<$('#division_decimal').val(); i++){
-          keta = keta*10;
-        }
-        console.log($('#division_decimal').val(),keta);
-
-            active_result.html(Math.round(input1/input2*keta)/keta);
-
-        
-      }
-    break;
-      
-  }
-}
-
-
-  $('#calc').on('click', '.input', function(){
-    active = $(this).parent().parent().attr('id');
-    target_index = $(this).index()-1;
-    if(target_index<0){
-      target_index = 0;
-    }
-    init();
-  })
-/*-----------------------
-  all clear
------------------------*/
-$('#js_clear').click(function(){
-  active_input.val('');
-  active_result.html('');
-})
-$('#js_all_clear').click(function(){
-  $('.number').val('');
-  $('.result').html('');
-})
-})
-</script>
 </body>
 </html> 
