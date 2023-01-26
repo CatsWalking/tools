@@ -14,8 +14,13 @@
 #stage {
     display: flex;
     flex-wrap: wrap;
-    margin: 0 auto;
-    width: 90%;
+    margin: 0 auto 50px;
+}
+
+@media screen and (min-width: 960px) {
+    #stage {
+        width: 600px;
+    }
 }
 .card-container {
     width: 62px;
@@ -71,11 +76,8 @@
     box-shadow: none;
     margin-top: 20px;
 }
-@media screen and (min-width: 600px) {
-    .stage {
-    width: 600px;
-  }
-}
+
+
 </style>
 </head>
 <body>
@@ -109,19 +111,17 @@
       </div>
     </header>
     <main>
-
+        <div class="page_title">神経衰弱</div>
         <!-- timer -->
-    <div id="score" syle="width:90% auto;background:red">
-        <div id="timer" style="margin-left:20px;">0.00</div>
-    </div>
-     <!-- stage -->
-    <div id="stage" syle="width: 340px auto;"></div>
+        <div id="timer" class="timer">0.00</div>
+        <!-- stage -->
+        <div id="stage"></div>
 
-    <div class="btnBox" style="width:100%;text-align: center!important;">
-      <div class="btn" id="js_retry">もういっかい</div>
-    </div>
+        <div class="btnBox">
+            <div class="btn" id="js_retry">もういっかい</div>
+        </div>
+    </main>
 
-</div><!-- main -->
 </div><!-- container -->
 <script src="./common/js/jquery-3.6.3.min.js"></script>
 <script src="./common/js/jquery-ui.js"></script>
@@ -139,7 +139,6 @@ let flipCount = 0;
 let firstCard = null;
 let secondCard = null;
 let correctCount = 0;
-
 
 /*
 * init
@@ -213,8 +212,8 @@ function check() {
     } else {
         correctCount++;
         if (correctCount === pairs) {
-            console.log('clear');
-            clearTimeout(timer_id);
+            // clear!!
+            clearTimeout(timerid);
         }
     }
     secondCard.removeEventListener('transitionend', check);

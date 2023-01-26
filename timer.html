@@ -59,6 +59,27 @@
 .running {
     background: #ab1504 !important;
 }
+#js_explosion{
+    position:absolute;
+    top:80px;
+    width:92%;
+    z-index:100;
+    display: none;
+}
+@media screen and (min-width: 960px) {
+    #js_explosion{
+        width:600px;
+    }
+}
+#explosion_bg{
+    position: fixed;
+    top: 0;
+    z-index: 99;
+    background: #000;
+    width: 100%;
+    height: 100%;
+    display: none;
+}
 </style>
 </head>
 <body>
@@ -92,6 +113,7 @@
       </div>
     </header>
     <main>
+        <div class="page_title">タイマー</div>
         <div id="clock">
             <span id="clock_m" class="clock_active">00</span>:<span id="clock_s">00</span>
         </div>
@@ -112,44 +134,41 @@
         </ul>
         <div class="footer">
             <br>
-            <div class="btn_box mb20" id="assit_box">
-                <div class="btn -s" data-type="10s">１０秒</div>
-                <div class="btn -s" data-type="1m">１分</div>
-                <div class="btn -s" data-type="10m">１０分</div>
+            <div class="mb20" id="assit_box">
+                <div class="btn -s" data-type="10s" style="background:#95aed4">１０秒</div>
+                <div class="btn -s" data-type="1m" style="background:#6689bf">１分</div>
+                <div class="btn -s" data-type="10m" style="background:#3b6bb3">１０分</div>
             </div>
             <br>
-            <div class="btn_box mb20">
-                <img class="icon" id="sound_switch" src="./common/images/icon/sound_off.png">
+            <div class="mb20">
+                <img class="icon js_sound" src="./common/images/icon/sound_on.png">
                 <div id="js_start" class="btn small -red">スタート/ストップ</div>
-                <div id="js_reset" class="btn small">リセット</div>
+                <div id="js_reset2" class="btn small">リセット</div>
             </div>
             <br>
         </div>
-    </div>
-  
-    <img src="./common/images/explosion.gif" id="js_explosion" style="position:absolute;width:350px;z-index:100;display:none;">
-    <!--sound-->
-    <audio id="sound_explosion" preload="auto">
-        <source src="./common/sounds/explosion.mp3" type="audio/mp3">
-    </audio>
 
-</div><!-- main -->
+        <!--explosion, sound-->
+        <img src="./common/images/explosion.gif" id="js_explosion">
+        <div id="explosion_bg"></div>
+        <audio id="sound_explosion" preload="auto">
+            <source src="./common/sounds/explosion.mp3" type="audio/mp3">
+        </audio>
+    </main>
+
 </div><!-- container -->
 <script src="./common/js/jquery-3.6.3.min.js"></script>
 <script src="./common/js/jquery-ui.js"></script>
 <script src="./common/js/common.js"></script>
 <script src="./common/js/modal.js"></script>
 <script src="./common/js/tools.js?tesat"></script>
-
 <script>
 $(function(){
     'use strict';
     //-------------------------------------------------------------
     let m = 0, s = 0;
     let timer_id;
-    const explosion = $('#sound_explosion');
-    // const explosion = document.querySelector('#sound_explosion');
-
+    const explosion = document.querySelector('#sound_explosion');
     //-------------------------------------------------------------
     // clock
     $('#clock span').click(function(){
@@ -190,7 +209,7 @@ $(function(){
 
     //-------------------------------------------------------
     // tenkey
-    $('.tenkey').click(function () {
+    $('.tenkey_box li').not('.time_type').click(function () {
         let elem;
         let num = 0;
         if ($('.time_type').eq(0).hasClass('active')) {
@@ -249,18 +268,19 @@ $(function(){
         if (s <= 0 && m <= 0) {
             clearInterval(timer_id);
             // explosion
-            explosion.play();
+            if($('.js_sound').attr('src').indexOf('_on')>-1){
+                explosion.play();
+            }
             $('#js_explosion').css('display', 'block');
-            $('.tenkey_box3').css('display', 'none');
+            $('#explosion_bg').css('display', 'block');
         }
         $('#clock_m').html(zero_padding(m).slice(-2));
         $('#clock_s').html(zero_padding(s).slice(-2));
-        //console.log(m, s);
     }
 
     //-------------------------------------------------------
     // reset
-    $('#js_reset').click(function () {
+    $('#js_reset2').click(function () {
         init();
     });
 
@@ -275,12 +295,13 @@ $(function(){
     function init() {
         m = 0;
         s = 0;
-        $('#clock div').html('00');
-        $('.tenkey_box3').css('display', '');
+        $('#clock span').html('00');
         $('#js_explosion').css('display', 'none');
+        $('#explosion_bg').css('display', 'none');
         $('#js_start').removeClass('running');
         explosion.pause();
         explosion.currentTime = 0;
+        console.log(333);
     }
 })
 </script>

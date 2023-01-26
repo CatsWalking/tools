@@ -11,12 +11,16 @@
 <link rel="stylesheet" href="./common/css/modal.css?test">
 <link rel="stylesheet" href="./common/css/tools.css?testd">
 <style>
-  .score_box{
-    width: 320px;
-  }
-/*----------------------------
-セル
-*/
+/* スコア */
+.score_box,#board,.btnBox{
+  text-align: center;
+  width: 322px; 
+}
+/* ボード */
+#board {
+  margin: 10px auto 350px!important;
+}
+/* セル */
 .cell {
   width: 38px;
   height: 38px;
@@ -30,19 +34,26 @@
   font-size: 1em;
   font-weight: bold;
 }
-
-#board {
-    width: 320px;
-    margin: 0 auto;
-}
-
-/*----------------------------
-  score
-  */
-
-  #black_cat, #white_cat {
-      padding: 2px;
+/* PC */
+@media screen and (min-width: 960px) {
+  .score_box,#board,.btnBox{
+    width: 420px;
   }
+  #board {
+  margin: 10px auto 450px!important;
+}
+  .cell {
+    width: 50px;
+    height: 50px;
+    background-size: 54px;
+  }
+}
+/*----------------------------
+score
+*/
+#black_cat, #white_cat {
+      padding: 2px;
+}
 .score_cat{
   width: 50px;
   height:50px;
@@ -53,37 +64,15 @@
     background:pink!important;
     margin-bottom: 5px;
 }
-
 .score {
-    width: 60px;
+    width: 90px;
     color: red;
     font-size: 1.4rem;
     margin: 12px 0 0 6px;
 }
-@media screen and (min-width:450px) {
-  .cell {
-    width: 50px;
-    height: 50px;
-    background-size: 54px;
-  }
-  #board {
-    width: 420px;
-  }
-  .score_box{
-    width: 420px;
-  }
-}
+
 img {
     cursor: auto;
-}
-.btnBox {
-    text-align: center;
-    display: block;
-}
-.btnBox .btn{
-  height: 2.8rem;
-  line-height:2.2rem;
-  width: 4rem;
 }
 </style>
 </head>
@@ -118,7 +107,7 @@ img {
       </div>
     </header>
     <main>
-      <div class='main'>
+      <div class="page_title">オセロ</div>
       <!-- スコア -->
       <div class="score_box">
         <div id="black_cat"><img src='./common/images/cat_black.png' class='score_cat'></div>
@@ -127,17 +116,16 @@ img {
         <div id='score_white' class='score'>2</div>
         <div style="width: 84px;"></div>
         <img src='./common/images/icon/icon_caution.svg' id="js_guide" class="icon">
-        <img src='./common/images/icon/sound_off.png' id="js_sound" class="icon">
+        <img src='./common/images/icon/sound_off.png' class="icon js_sound">
       </div>
-    <!-- ボード -->
-    <div id="board"></div>
-    <div class="txtBlue txtSS score_box">クロが先行</div>
+      <!-- ボード -->
+      <div id="board"></div>
+      <!-- button -->
+      <div class="btnBox" >
+        <div class="btn" id="js_retry">もういっかい</div>
+      </div>
 
-  </div><!-- main -->
-     <div class="btnBox" style="text-align: center!important;">
-      <div class="btn" id="js_retry">もういっかい</div>
-    </div>
-</div><!-- main -->
+  </main>
 </div><!-- container -->
 <!-- 音 -->
   <audio src="./common/sounds/cat1a.mp3" id="sound_black"></audio>
@@ -148,6 +136,7 @@ img {
 <script src="./common/js/common.js"></script>
 <script src="./common/js/modal.js"></script>
 <script src="./common/js/reversi.js"></script>
+<script src="./common/js/tools.js"></script>
 
 <script>
     'use strict'
@@ -181,7 +170,6 @@ img {
       * clickEvent
       */
     function clickEvent(y, x) {
-        // console.log(this.id + '-------------------');
         // クリックした要素のIDから、マスの座標を取得
         let tmpa = this.id.split('_');
         var y = tmpa[1];
@@ -197,7 +185,6 @@ img {
         changeable_field = checkChangeable(y, x, player);
         // ひっくり返せるマスがなかったらreturn
         if (changeable_field === false) {
-            // console.log('no changable_field');
             return;
         }
         // クリックしたマス
@@ -210,9 +197,8 @@ img {
         // field情報を更新
         for (let i in changeable_field) {
             for (let j in changeable_field[i]) {
-                // console.log(123, changeable_field[i], changeable_field[i][j]);
                 // 猫がなく
-                if($('#js_sound').attr('src').indexOf('_on')>-1){
+                if($('.js_sound').attr('src').indexOf('_on')>-1){
                   if (player === BLACK) {
                     $("#sound_black").get(0).play();
                   } else {
@@ -355,18 +341,7 @@ img {
             }
         }
     });
-    /*-----------------------------
-      * 音
-      */
-    $('#js_sound').on('click', function(){
-      let src = '';
-      if($(this).attr('src').indexOf('_on')>-1){
-        $(this).attr('src', './common/images/icon/sound_off.png')
-      } else {
-        $(this).attr('src', './common/images/icon/sound_on.png')
-      }
-      console.log($(this).attr('src'));
-    })
+
     
 
 </script>

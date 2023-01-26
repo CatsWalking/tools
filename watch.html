@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="./common/images/favicon.svg" sizes="any">
+<title>ストップウォッチ</title>
+<link rel="stylesheet" href="./common/css/reset.css">
+<link rel="stylesheet" href="./common/css/style.css?testd">
+<link rel="stylesheet" href="./common/css/modal.css?test">
+<link rel="stylesheet" href="./common/css/tools.css?testd">
+<style>
+    #clock {
+            width: 300px;
+            text-align: center;
+            height: 100px;
+            line-height: 100px;
+            font-size: 4.6rem;
+            border-radius: 10px;
+            background: #b49b93;
+            opacity: 0.6;
+            margin: 40px auto;
+            color: #3c4344;
+            font-family: 'Roboto';
+        }
+        #clock_ms {
+            color: #3c4344;
+            font-size: 2.8rem;
+        }
+        .animal {
+            width: 60px;
+            padding-top: 15px;
+            margin: 0 auto;
+        }
+        .animal_purun{
+          animation: purun 1s infinite;
+        }
+</style>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="header__inner">
+        <h1 class="header__title header-title">
+            <a href="index.html">★ Roku tools </a>
+          </h1>
+
+        <nav class="header__nav nav" id="js-nav" style="vertical-align: top;">
+            <ul class="nav__items nav-items">
+                <li class="nav-items__item"><a href="calc.html">計算ツール</a></li>
+                <li class="nav-items__item"><a href="timer.html">タイマー</a></li>
+                <li class="nav-items__item"><a href="reversi.html">オセロ</a></li>
+                <li class="nav-items__item"><a href="memory.html">神経衰弱</a></li>
+                <li class="nav-items__item"><a href="flash.html">フラッシュ暗算</a></li>
+                <li class="nav-items__item"><a href="watch.html">ストップウォッチ</a></li>
+                <li class="nav-items__item"><a href="prime.html">素数パズル</a></li>
+                <li class="nav-items__item"><a href="maketen.html">テンパズル</a></li>
+                <li class="nav-items__item"><a href="bmi.html">bmi</a></li>
+                <li class="nav-items__item"><a href="maze.html">迷路</a></li>
+                <li class="nav-items__item"><a href="tools.html">ツール</a></li>
+              </ul>
+        </nav>
+        <button class="header__hamburger hamburger" id="js-hamburger">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </header>
+    <main>
+        <div class="page_title">ストップウォッチ</div>
+        <div id="clock">
+          <div id="clock_inner">
+              <span id="clock_m">00</span>:<span id="clock_s">00</span>.<span id="clock_ms">00</span>
+          </div>
+      </div><br>
+
+      <div class="btnBox mb20">
+      <img src="./common/images/animals_s/animal_komimi_tobinezumi.png" id="animal" class="animal animal_purun">
+    </div>
+    <div class="btnBox mb20">
+      <div id="js_start" class="btn -s -red">スタート/ストップ</div>
+      <div id="js_reset2" class="btn -s">リセット</div>
+    </div>
+
+
+</main>
+</div><!-- container -->
+<script src="./common/js/jquery-3.6.3.min.js"></script>
+<script src="./common/js/jquery-ui.js"></script>
+<script src="./common/js/common.js"></script>
+<script src="./common/js/modal.js"></script>
+<script src="./common/js/tools.js?tesat"></script>
+<script>
+$(function(){
+'use strict';
+
+//-------------------------------------------------------------
+let m = 0, s = 0, ms = 0;
+let timer_id;
+let isRunning=false;
+//-------------------------------------------------------------
+
+//-------------------------------------------------------
+// start
+$('#js_start').click(function(){
+    if(!isRunning) {
+        // start
+        isRunning = true;
+        // timer
+        timer_id = setInterval(countup, 10);
+        $('#animal').addClass('animal_purun');
+    } else {
+        // stop
+        clearInterval(timer_id);
+        $('#clock_inner').css('display', '');
+        isRunning = false;
+        $('#animal').removeClass('animal_purun');
+    }
+});
+
+//-------------------------------------------------------
+// reset
+$('#js_reset2').click(function(){
+    init();
+});
+
+//-------------------------------------------------------
+// Countup
+function countup() {
+    ms++;
+    if (ms > 99) {
+        s++;
+        ms = 0;
+    }
+    if (s > 59) {
+        m++;
+        s = 0;
+    }
+    $('#clock_m').html(zero_padding(m, 2));
+    $('#clock_s').html(zero_padding(s, 2));
+    $('#clock_ms').html(zero_padding(ms, 2));
+}
+
+// init
+function init() {
+    $('#clock_inner span').html('00');
+    m = 0;
+    s = 0;
+    ms = 0;
+    $('#animal').removeClass('animal_purun');
+}
+init();
+})
+</script>
+</body>
+</html> 

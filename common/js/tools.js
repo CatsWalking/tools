@@ -2,7 +2,6 @@
 Roku tools
 */
 'use strict';
-let timerid;
 
 // スマホだったらソフトウェアキーボードを表示しない
 if(isSP()){
@@ -10,7 +9,6 @@ if(isSP()){
 } else {
     $(".input").removeAttr('readOnly');
 }
-
 
 /*-----------------------
   エンターキー
@@ -27,20 +25,29 @@ if(isSP()){
  * タイマー
  */
 let startTime = null;   // timer
-let timer_id;
+let timerid;
 let isPlay = false;
-let t ;
 function runTimer(){
-    t = ((Date.now() - startTime) / 1000).toFixed(2);
-    document.getElementById('timer').textContent=t;
+    let t = ((Date.now() - startTime) / 1000).toFixed(2);
+   $('#timer').html(t);
     timerid = setTimeout(runTimer, 12);
 }
-
-
-
+/*-----------------------------
+* リセットボタン
+*/
 $('#js_reset').click(function(){
   openConfirm('リセットしますか？', function(){
     location.href=location.href;
   })
 })
 
+/*-----------------------------
+* 音アイコン
+*/
+$('.js_sound').on('click', function(){
+  if($(this).attr('src').indexOf('_on')>-1){
+    $(this).attr('src', './common/images/icon/sound_off.png')
+  } else {
+    $(this).attr('src', './common/images/icon/sound_on.png')
+  }
+})

@@ -4,28 +4,27 @@
     left: 50%;
     z-index: 220;
     background: #fff;
-    width: 500px;
+    
+    width: 80%;
     padding: 20px 0;
     -webkit-transform: translateX(-50%) translateY(-50%);
     transform: translateX(-50%) translateY(-50%);
+    background-color: rgb(185, 186, 200);
 }
-  
-@media screen and (max-width: 768px) {
-    .c-modal {
-        width: 80%;
-        background-color: red;
-    }
+.c-modal.-fullHeight {
+  height: auto;
+}
+@media screen and (min-width: 960px) {
+  .c-modal {
+    width: 500px;
+    background-color: rgb(248, 234, 245);
+  }
+  .c-modal.-fullHeight {
+    height: 70%;
+  }
 }
 
-.c-modal.-fullHeight {
-    height: 70%;
-}
-@media screen and (max-width: 768px) {
-    .c-modal.-fullHeight {
-        height: auto;
-    }
-}
-  
+/* close btn */
 .c-modal__close {
     display: block;
     position: absolute;
@@ -36,7 +35,6 @@
     cursor: pointer;
      background:gray;
 }
-  
 .c-modal__close::before, .c-modal__close::after {
     content: "";
     display: block;
@@ -50,7 +48,6 @@
     width: 3px;
     height: 15px;
 }
-  
 .c-modal__close::before {
     -webkit-transform: rotate(45deg);
     transform: rotate(45deg);
@@ -71,17 +68,18 @@
 }
   
 .c-modal__body.scroll-area {
-    height: 420px;
+   
+    height: 300px!important;
     overflow: scroll;
     -ms-overflow-style: none;
     scrollbar-width: none;
 }
-
-@media screen and (max-width: 768px) {
-    .c-modal__body.scroll-area {
-        height: 300px!important;
-    }
+@media screen and (min-width: 960px) {
+  .c-modal__body.scroll-area {
+    height: 420px;
+  }
 }
+
 
 .c-modal__body.scroll-area::-webkit-scrollbar{
     display: none;
@@ -129,16 +127,16 @@
 }
 .c-modal__footer .c-btn {
   font-size: 1.3rem;
-  width: 150px;
+  
+  width: calc(50% - 11px);
   padding: 6px;
   margin: 0 2px;
 }
-@media screen and (max-width: 768px) {
+@media screen and (min-width: 960px) {
   .c-modal__footer .c-btn {
-    width: calc(50% - 11px);
+    width: 150px;
   }
 }
-
 
 
 
