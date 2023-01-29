@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="./common/images/favicon.svg" sizes="any">
+<title>テンパズル</title>
+<link rel="stylesheet" href="./common/css/reset.css">
+<link rel="stylesheet" href="./common/css/style.css?testd">
+<link rel="stylesheet" href="./common/css/modal.css?test">
+<link rel="stylesheet" href="./common/css/tools.css?testd">
+<style>
+ #draggable-area {
+      height: 300px;
+      width: 100%;
+      /*background: #fffef0;*/
+  }
+
+  .tool_box {
+      width: 80%;
+      height: 60px;
+      line-height: 40px;
+      margin: 0 auto;
+  }
+
+  .num, .sign {
+      width: 50px;
+      height: 50px !important;
+      line-height: 50px;
+      text-align: center;
+      font-size: 2.4rem;
+      font-weight: bold;
+      border: 1px solid #333;
+      border-radius: 3px;
+      cursor: pointer;
+      background: #fff;
+      z-index: 10;
+      margin-right: 5px;
+      font-family: 'Roboto';
+  }
+
+  .num, .sign {
+      height: 40px;
+  }
+
+  /* 式 */
+  #formura {
+      width: 300px;
+      margin: 20px auto 20px;
+      height: 100px;
+      padding: 20px;
+      border-radius: 3px;
+      display: flex;
+      background: #ffdfe4;
+
+      /*position: relative;*/
+      /*box-sizing: border-box;*/
+      /*position: relative;*/
+      /*left: xpx;*/
+      /*right: ypx;*/
+  }
+
+  /* 移動中 */
+  .hover {
+      background: #b3c8b7;
+  }
+
+  /*.hover2 {*/
+  /*    background: #55c886;*/
+  /*}*/
+
+
+  /* formura に落とされたら */
+  .dropped {
+      border: none;
+      background: none;
+  }
+
+  .ui-selected {
+      background: rgba(48, 141, 255, 0.3);
+  }
+
+  .active {
+      border: 3px solid #ffb0b3;
+  }
+
+  .active_sign {
+      background: #fcc1c6;
+      border: 1px solid #ffd8d3;
+  }
+
+  .level {
+      width: 80px;
+      height: 35px;
+      line-height: 35px;
+      font-size: .9rem;
+      padding: 0!important;
+  }
+
+  .q_list {
+      display: grid;
+      grid-template-columns: 80px 80px 80px 80px 80px;
+      /*border: 1px solid #d5d7d3;*/
+      /*border-radius: 3px;*/
+      padding: 0 0 5px 15px;
+      margin: 6px auto;
+      width: 31rem;
+      background: #f8f6f6;
+  }
+
+  .q_list div {
+      font-size: 1.6rem !important;
+      font-family: 'Roboto';
+      text-align: center;
+      cursor: pointer;
+  }
+  .q_list div:hover {
+      background: #efe9e9;
+  }
+
+  .completed {
+      background: #eedbdb;
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="header__inner">
+        <h1 class="header__title header-title">
+            <a href="index.html">★ Roku tools </a>
+          </h1>
+
+        <nav class="header__nav nav" id="js-nav" style="vertical-align: top;">
+            <ul class="nav__items nav-items">
+                <li class="nav-items__item"><a href="calc.html">計算ツール</a></li>
+                <li class="nav-items__item"><a href="timer.html">タイマー</a></li>
+                <li class="nav-items__item"><a href="reversi.html">オセロ</a></li>
+                <li class="nav-items__item"><a href="memory.html">神経衰弱</a></li>
+                <li class="nav-items__item"><a href="flash.html">フラッシュ暗算</a></li>
+                <li class="nav-items__item"><a href="watch.html">ストップウォッチ</a></li>
+                <li class="nav-items__item"><a href="prime.html">素数パズル</a></li>
+                <li class="nav-items__item"><a href="maketen.html">テンパズル</a></li>
+                <li class="nav-items__item"><a href="bmi.html">bmi</a></li>
+                <li class="nav-items__item"><a href="maze.html">迷路</a></li>
+                <li class="nav-items__item"><a href="tools.html">ツール</a></li>
+              </ul>
+        </nav>
+        <button class="header__hamburger hamburger" id="js-hamburger">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </header>
+    <main>
+        <div class="page_title">テンパズル</div>
+        <div class="flex_box mb_10" style="width: 300px; height:40px; margin:10px auto 20px;">
+          <div class="btn small level active_level" data-level="0">りのん</div>
+          <div class="btn small level" data-level="1">しず</div>
+          <div class="btn small level" data-level="2">りん</div>
+      </div>
+      <div id="draggable-area" style="width: 300px; height:40px; margin:10px auto 20px;">
+          <div id="numbers" class="flex_box tool_box"></div>
+          <div id="formura" class="sortable"></div>
+          <div class="flex_box tool_box">
+              <div class="sign active_sign">＋</div>
+              <div class="sign">−</div>
+              <div class="sign">×</div>
+              <div class="sign">÷</div>
+          </div>
+   
+    <div class="btnBox mb20">
+      <div id="js_retry" class="btn minimum">リトライ</div>
+      <div id="js_skip" class="btn minimum">スキップ</div>
+    </div>
+
+
+</main>
+</div><!-- container -->
+<script src="./common/js/jquery-3.6.3.min.js"></script>
+<script src="./common/js/jquery-ui.js"></script>
+<script src="./common/js/common.js"></script>
+<script src="./common/js/modal.js"></script>
+<script src="./common/js/tools.js?tesat"></script>
+<script>
+'use strict';
+$(function () {
+      'use strict';
+      let level = 0;
+      let nums0 = ['0339', '0789', '0889', '0899', '0999', '1145', '1146', '1147', '1149', '1155', '1156', '1157', '1167', '1168', '1189', '1199', '1222', '1224', '1225', '1226', '1266', '1267', '1338', '1339', '1344', '1345', '1346', '1347', '1348']
+      let nums1 = ['1357', '1358', '1359', '1366', '1367', '1368', '1369', '1477', '1478', '1479', '1488', '1569', '1577', '1578', '1579', '1588', '1778', '1779', '1789', '1799', '1888', '2234', '2235', '2269', '2277', '2278', '2338', '2339', '2344', '2347', '2348', '2349', '2355', '2356', '2369', '2377', '2378', '2379', '2388', '2389', '2399', '2444', '2445', '2446', '2447', '2448', '2449', '2455', '2468', '2469', '2477', '2478', '2479', '2488', '2489', '2559', '2566', '2567', '2568', '2569', '2577', '2578', '2579', '2588', '2589', '2599', '2666', '2667', '2668', '3447', '3448', '3449', '3667', '3668', '3677', '3678', '3679', '3688', '3689', '3699', '3777', '3778', '3788', '3789', '3799', '3888', '3889', '3899', '4445', '4446', '4447', '4448', '4449', '4559', '4566', '4567', '4568', '4569', '4577', '4678', '4679', '4688', '4689', '5778', '5779', '5789', '5888', '6669', '6678', '6679', '6688', '6689', '6699', '6779', '6788', '6789', '6799', '6889', '7778', '7779', '7889', '7899', '8888', '8889', '8999', '9999'];
+      let nums2 = ['2289', '4669', '6699', '9999', '4466', '6788', '3572', '3339', '4669', '8938', '1158', '1199', '1337', '3478', '6699', '4669', '2266'];
+      let nums = nums0;
+      let sign = '＋';
+      let i, now_q = 0;
+
+      //スクロール禁止
+      // document.addEventListener('touchmove', handleTouchMove, {passive: false});
+
+      /*---------------------------------------
+        * retry
+        */
+      $('#js_retry').click(function () {
+          setQuestion();
+      });
+      // skip
+      $('#js_skip').click(function () {
+          now_q++;
+          if (now_q == nums.length - 1) {
+              now_q = 0;
+          }
+          setQuestion();
+      });
+
+      // set question
+      setQuestion();
+
+      /*---------------------------------------
+      * level セット
+      */
+      $('.level').click(function () {
+          console.log('.level');
+          switch ($(this).data('level')) {
+              case 1:
+                  nums = nums1;
+                  break;
+              case 2:
+                  nums = nums2;
+                  break;
+              default:
+                  nums = nums0;
+                  break;
+          }
+          now_q = 0;
+          setQuestion();
+      });
+
+      /*---------------------------------------
+        * 設問セット
+        */
+      function setQuestion() {
+          $('#numbers').html('');
+          $('#formura').html('');
+
+          for (i = 0; i < 4; i++) {
+              // #numbersに追加
+              //cl( now_q, nums[now_q].substring(i, i + 1));
+              $("<div class='num'>" + nums[now_q].substring(i, i + 1) + "</div>")
+                  .draggable({
+                      snap: ".snaptarget",    // ターゲットにスナップする
+                      start: function () {
+                          $('.num').css('z-index', 10);
+                          $(this).css('z-index', 100000);
+                      }
+                  })
+                  .droppable({
+                      accept: ".num",
+                      hoverClass: 'hover',
+                      drop: function (event, ui) {
+                          addNewNum($(this), ui);
+                      }
+                  })
+                  .appendTo('#numbers');
+          }
+      }
+
+      /*---------------------------------------
+        * set sign
+        */
+      $('.sign').click(function () {
+          $(this).parent().find('.sign').removeClass('active_sign');
+          $(this).addClass('active_sign');
+          sign = $(this).html();
+      });
+
+      /*---------------------------------------
+        * draggable
+        */
+      //ドラッグオブジェクト設定
+      $('.num').draggable({
+          snap: ".snaptarget",    // ターゲットにスナップする
+          opacity: 0.7,
+          revert: 'invalid',
+          revertDuration: 100,
+          // tolerance: "fit",              // Draggable要素が完全に入った場合にDrop
+          //この下２行の記述で、ドラッグしているものが前面に表示される
+          stack: '.num',
+          zIndex: 10,
+          connectToSortable: '.sortable',
+          start: function () {
+              $('.num').css('z-index', 10);
+              $(this).css('z-index', 100000);
+              $(this).droppable();
+          }
+      });
+
+      /*---------------------------------------
+        * droppable
+        */
+      $('#formura').droppable({
+          accept: ".num",
+          hoverClass: 'hover'
+      });
+      $('#numbers').droppable({
+          accept: ".num",
+          drop: function (event, ui) {
+              ui.draggable.attr('style', 'position: relative;');
+          }
+      });
+      $('.num').droppable({
+          accept: ".num",
+          drop: function (event, ui) {
+              //----------------------------------------
+              // 計算結果で要素を作る
+              addNewNum($(this), ui);
+          }
+      });
+
+      //----------------------------------------
+      // 計算結果で要素を作る
+      //----------------------------------------
+      function addNewNum(obj, ui) {
+          let result = calc(obj.html(), ui.draggable.html());
+          // #formuraに追加
+          $("<div class='num'>" + result + "</div>")
+              .draggable({
+                  snap: ".snaptarget",    // ターゲットにスナップする
+                  start: function () {
+                      $('.num').css('z-index', 10);
+                      $(this).css('z-index', 100000);
+                  }
+              })
+              .droppable({
+                  accept: ".num",
+                  hoverClass: 'hover',
+                  drop: function (event, ui) {
+                      addNewNum($(this), ui);
+                  }
+              })
+              .appendTo('#formura');
+
+          //----------------------------
+          // 元のはremove
+          obj.remove();
+          ui.draggable.remove();
+
+          // 正解!!!
+          if ($('#numbers').html() == '' && result == 10) {
+              openDialog('<div style="font-size:3rem;width:100%;text-align:center;">correct!!</div>');
+              // 次の設問
+              now_q++;
+              setQuestion();
+          }
+      }
+
+      // 計算
+      function calc(a, b) {
+          a = parseInt(a);
+          b = parseInt(b);
+          switch (sign) {
+              case '＋':
+                  return (a + b);
+              case '−':
+                  return (a - b);
+              case '×':
+                  return (a * b);
+              case '÷':
+                  return (a / b);
+          }
+      }
+  });
+  </script>
+</body>
+</html> 

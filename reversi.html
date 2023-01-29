@@ -11,12 +11,16 @@
 <link rel="stylesheet" href="./common/css/modal.css?test">
 <link rel="stylesheet" href="./common/css/tools.css?testd">
 <style>
-  .score_box{
-    width: 320px;
-  }
-/*----------------------------
-セル
-*/
+/* スコア */
+.score_box,#board,.btnBox{
+  text-align: center;
+  width: 322px; 
+}
+/* ボード */
+#board {
+  margin: 10px auto 350px!important;
+}
+/* セル */
 .cell {
   width: 38px;
   height: 38px;
@@ -30,19 +34,26 @@
   font-size: 1em;
   font-weight: bold;
 }
-
-#board {
-    width: 320px;
-    margin: 0 auto;
-}
-
-/*----------------------------
-  score
-  */
-
-  #black_cat, #white_cat {
-      padding: 2px;
+/* PC */
+@media screen and (min-width: 960px) {
+  .score_box,#board,.btnBox{
+    width: 420px;
   }
+  #board {
+  margin: 10px auto 450px!important;
+}
+  .cell {
+    width: 50px;
+    height: 50px;
+    background-size: 54px;
+  }
+}
+/*----------------------------
+score
+*/
+#black_cat, #white_cat {
+      padding: 2px;
+}
 .score_cat{
   width: 50px;
   height:50px;
@@ -53,52 +64,16 @@
     background:pink!important;
     margin-bottom: 5px;
 }
-
 .score {
-    width: 40px;
+    width: 90px;
     color: red;
     font-size: 1.4rem;
     margin: 12px 0 0 6px;
-}
-@media screen and (min-width:450px) {
-  .cell {
-    width: 50px;
-    height: 50px;
-    background-size: 54px;
-  }
-  #board {
-    width: 420px;
-  }
-  .score_box{
-    width: 420px;
-  }
-}
-.guide>img, .sound>img {
-  width: 2.4em;
-  cursor: pointer;
-  float:right;
-}
-.sound>img {
-  width: 2.6em;
-}
-.guide:hover, .sound:hover {
-    padding-top: 2px;
 }
 
 img {
     cursor: auto;
 }
-
-.btnBox {
-    text-align: center;
-    display: block;
-}
-.btnBox .btn{
-  height: 2.8rem;
-  line-height:2.2rem;
-  width: 4rem;
-}
-
 </style>
 </head>
 <body>
@@ -106,10 +81,7 @@ img {
     <header class="header">
       <div class="header__inner">
         <h1 class="header__title header-title">
-          <a href="index.html" style="color:#1f94cc">
-            <!-- <img src="images/logo-black.png" alt="ロゴ画像"> -->
-            Roku tools
-          </a>
+          <a href="index.html">★ Roku tools </a>
         </h1>
 
         <nav class="header__nav nav" id="js-nav" style="vertical-align: top;">
@@ -118,7 +90,12 @@ img {
             <li class="nav-items__item"><a href="timer.html">タイマー</a></li>
             <li class="nav-items__item"><a href="reversi.html">オセロ</a></li>
             <li class="nav-items__item"><a href="memory.html">神経衰弱</a></li>
+            <li class="nav-items__item"><a href="flash.html">フラッシュ暗算</a></li>
+            <li class="nav-items__item"><a href="watch.html">ストップウォッチ</a></li>
+            <li class="nav-items__item"><a href="prime.html">素数パズル</a></li>
+            <li class="nav-items__item"><a href="maketen.html">テンパズル</a></li>
             <li class="nav-items__item"><a href="bmi.html">bmi</a></li>
+            <li class="nav-items__item"><a href="maze.html">迷路</a></li>
             <li class="nav-items__item"><a href="tools.html">ツール</a></li>
           </ul>
         </nav>
@@ -130,7 +107,7 @@ img {
       </div>
     </header>
     <main>
-      <div class='main'>
+      <div class="page_title">オセロ</div>
       <!-- スコア -->
       <div class="score_box">
         <div id="black_cat"><img src='./common/images/cat_black.png' class='score_cat'></div>
@@ -138,18 +115,17 @@ img {
         <div id="white_cat"><img src='./common/images/cat_white.png' class='score_cat'></div>
         <div id='score_white' class='score'>2</div>
         <div style="width: 84px;"></div>
-        <div class='guide'><img src='./common/images/icon/icon_caution.svg' id="js_guide"></div>
-        <div class='sound'><img src='./common/images/icon/sound_off.png' id="js_sound"></div>
+        <img src='./common/images/icon/icon_caution.svg' id="js_guide" class="icon">
+        <img src='./common/images/icon/sound_off.png' class="icon js_sound">
       </div>
-    <!-- ボード -->
-    <div id="board"></div>
-    <div class="txtBlue txtSS score_box">クロが先行</div>
+      <!-- ボード -->
+      <div id="board"></div>
+      <!-- button -->
+      <div class="btnBox" >
+        <div class="btn" id="js_retry">もういっかい</div>
+      </div>
 
-  </div><!-- main -->
-     <div class="btnBox" style="text-align: center!important;">
-      <div class="btn" id="js_reset">もういっかい</div>
-    </div>
-</div><!-- main -->
+  </main>
 </div><!-- container -->
 <!-- 音 -->
   <audio src="./common/sounds/cat1a.mp3" id="sound_black"></audio>
@@ -160,11 +136,12 @@ img {
 <script src="./common/js/common.js"></script>
 <script src="./common/js/modal.js"></script>
 <script src="./common/js/reversi.js"></script>
+<script src="./common/js/tools.js"></script>
 
 <script>
     'use strict'
 
-     // const-----------------
+    // const-----------------
     let DEFAULT_CELL_CNT = 8;    // デフォルトは８マス
     let BLACK = 1;
     let WHITE = 2;
@@ -176,7 +153,6 @@ img {
     STONE_STR[WHITE] = 'しろ';
     let PLAY_TYPE = 1;    // 1:対人 2: AI
     let cnt, changeable_field;
-
 
     // global-----------------
     let cell_cnt = DEFAULT_CELL_CNT;    // 石盤のマス数
@@ -194,7 +170,6 @@ img {
       * clickEvent
       */
     function clickEvent(y, x) {
-        console.log(this.id + '-------------------');
         // クリックした要素のIDから、マスの座標を取得
         let tmpa = this.id.split('_');
         var y = tmpa[1];
@@ -210,7 +185,6 @@ img {
         changeable_field = checkChangeable(y, x, player);
         // ひっくり返せるマスがなかったらreturn
         if (changeable_field === false) {
-            console.log('no changable_field');
             return;
         }
         // クリックしたマス
@@ -223,9 +197,8 @@ img {
         // field情報を更新
         for (let i in changeable_field) {
             for (let j in changeable_field[i]) {
-                console.log(123, changeable_field[i], changeable_field[i][j]);
                 // 猫がなく
-                if($('#js_sound').attr('src').indexOf('_on')>-1){
+                if($('.js_sound').attr('src').indexOf('_on')>-1){
                   if (player === BLACK) {
                     $("#sound_black").get(0).play();
                   } else {
@@ -259,16 +232,20 @@ img {
 //AI();
 
         setTimeout(function () {
-            //----------------------------
-            // 全部のマスが埋まったら終了
             if ((score[BLACK] + score[WHITE]) === (cell_cnt * cell_cnt)) {
-                hantei();
-                $('#player').html('')
-                return;
-
+              //----------------------------
+              // 全部のマスが埋まったら終了
+              hantei();
+              $('#player').html('')
+              return;
+            } else if(score[BLACK]==0 || score[WHITE]==0){
+              hantei();
+              $('#player').html('')
+              return;
+            } else {
                 //-------------------------------------------------------------------
                 // 次のターンで、打つ手があるかチェックする
-            } else {
+                closeDialog();
                 if (checkNextHand() === false) {
                     next_hand[player] = false;
                     openDialog(STONE_STR[player] + ' の打つ手がありません。スキップします☆')
@@ -301,7 +278,6 @@ img {
                 if (changeable_field === false) {
                     return;
                 }
-                console.log('aaaaaaa', y, x);
                 return;
                 let cnt = 0;
                 //var enemy = (player===BLACK) ? WHITE : BLACK;
@@ -319,7 +295,6 @@ img {
             }
         }
     }
-
 
     /*-----------------------------
       * 石盤のマス数を変更する
@@ -366,18 +341,7 @@ img {
             }
         }
     });
-    /*-----------------------------
-      * 音
-      */
-    $('#js_sound').on('click', function(){
-      let src = '';
-      if($(this).attr('src').indexOf('_on')>-1){
-        $(this).attr('src', './common/images/icon/sound_off.png')
-      } else {
-        $(this).attr('src', './common/images/icon/sound_on.png')
-      }
-      console.log($(this).attr('src'));
-    })
+
     
 
 </script>

@@ -10,16 +10,10 @@ html, body, input, textarea, select, .btn, th, td {
 body {
   font-size: 1.2rem;
   line-height: 1.2;
-  /* min-width: 1280px; */
   background: #f4f5f5;
 }
 body * {
   word-break: break-all;
-}
-@media screen and (max-width: 960px) {
-  body {
-    min-width: 375px;
-  }
 }
 a {
   text-decoration: none;
@@ -40,14 +34,9 @@ main {
 }
 
 .footer {
-  /* background-color: #333; */
   background-color: #f6f6f6;
   width: 100%;
   text-align: center;
-  /* bottom:0; */
-  /* height: 100px; */
-  /* margin:0 auto; */
-  /* display: flex; */
 }
 
 .footer div {
@@ -62,7 +51,7 @@ main {
   left: 0;
   right: 0;
   z-index: 999;
-  background-color: #f1f1f1;
+  background-color: #d2ddeb;
 }
 
 .header__inner {
@@ -74,17 +63,14 @@ main {
   position: relative;
 }
 
-
 /* ヘッダーのロゴ部分 */
-.header__title {
-  width: 120px;
-  color: #1f94cc!important;;
+.header__title a{
+  color: #B2A251!important;
 }
 
 .header__title img {
-  display: block;
-  width: 100%;
-  height: 100%;
+  width: 20px;
+  height: 20px;
 }
 
 /* ヘッダーのナビ部分 */
@@ -100,7 +86,13 @@ main {
   transition: ease .4s;
   margin: 0 40px 0 0;
 }
-
+.nav-items {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 0;
+}
 @media screen and (min-width: 960px) {
   .header__nav {
     position: static;
@@ -109,40 +101,20 @@ main {
     height: inherit;
     display: flex;
     justify-content: end;
-    width: 50%;
+    width: 80%;
   }
-}
-
-@media screen and (min-width: 960px) {
   .nav__items {
     width: 100%;
     display: flex;
     align-items: center;
     height: initial;
     justify-content: space-between;
-  }
-}
-
-.nav-items {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  padding: 0;
- 
-
-}
-
-@media screen and (min-width: 960px) {
-  .nav-items {
     position: inherit;
     top: 0;
     left: 0;
     transform: translate(0, 0);
-
   }
 }
-
 /* ナビのリンク */
 .nav-items__item a {
   width: 100%;
@@ -151,7 +123,7 @@ main {
   font-size: 0.9rem;
   font-weight:bold;
   margin-bottom: 20px;
-  color: #1f94cc!important;
+  color: #B2A251!important;
 }
 
 .nav-items__item:last-child a {
@@ -168,15 +140,12 @@ main {
 .header__hamburger {
   width: 48px;
   height: 100%;
-
 }
-
 .hamburger {
   background-color: transparent;
   border-color: transparent;
   z-index: 9999;
 }
-
 @media screen and (min-width: 960px) {
   .hamburger {
     display: none;
@@ -225,6 +194,7 @@ main {
   top: -13px;
   transform: rotate(-45deg);
 }
+
 /*各種*/
 .page_title {
   color: #1f94cc;
@@ -361,22 +331,7 @@ table {
   background: #db9200;
   border-radius: 5px;
 }
-.btn.-pink {
-  background: #fb7aab;
-  border: 1px solid #fb7aab;
-}
-.btn.-pink:hover {
-  background: #f93f85;
-  border-radius: 5px;
-}
-.btn.-purple {
-  background: #a95cdc;
-  border: 1px solid #a95cdc;
-}
-.btn.-purple:hover {
-  background: #852ac2;
-  border-radius: 5px;
-}
+
 .btn.-gray {
   background: #7e8d9b;
   border: 1px solid #7e8d9b;
@@ -447,23 +402,19 @@ table.-tableHover tr:hover td {
   width: 100%;
 }
 /* table2 */
-.table2 {
-  border-bottom: 1px solid #bfcfdd;
- }
 .table2 th {
   color: #5b84a8;
   text-align: left;
   line-height: 1.3;
   vertical-align: middle;
   background: transparent;
-  
   border-bottom: 1px solid #bfcfdd;
   border-right: none;
   width: 150px;
 }
 .table2 td {
   vertical-align: middle;
-  border-top: 1px solid #bfcfdd;
+  border-bottom: 1px solid #bfcfdd;
 }
 
 /* table2 */
@@ -528,41 +479,41 @@ table.-tableHover tr:hover td {
 }
 
 /* icon */
-.icon__ok {
-  vertical-align: middle;
-  display: inline-block;
-  width: 15px;
-  height: 15px;
-  margin: auto;
-  border: 2px solid #41c389;
-  border-radius: 50%;
-}
-.icon__ng {
+.icon{
   vertical-align: middle;
   display: inline-block;
   position: relative;
-  width: 15px;
-  height: 15px;
-  margin: auto;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
 }
-.icon__ng::before, .icon__ng::after {
-  content: "";
-  display: block;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: #e94d4d;
-  width: 2px;
-  height: 100%;
-  margin: auto;
+.-edit {
+  background: url("./common/images/icon_edit.svg") no-repeat;
 }
-.icon__ng::before {
-  transform: rotate(45deg);
+.icon.-sound_on{
+  background: url("../images/icon/sound_on.png") no-repeat;
 }
-.icon__ng::after {
-  transform: rotate(-45deg);
+.-sound_off{
+  background: url("../images/icon/sound_off.png") no-repeat;
+}
+.icon.-delete {
+  background: url("../images/icon_delete.svg") no-repeat;
+}
+.icon.-view {
+  background: url("../images/icon_view.svg") no-repeat;
+}
+.icon.-print {
+  background: url("../images/icon_print.svg") no-repeat center center;
+}
+.icon__print.-mark {
+  background-color: #bfcfdd;
+  background-size: 13px 13px;
+  background-position: center;
+  width: 25px;
+  height: 25px;
+  opacity: 0.7;
+  border-radius: 100%;
+  box-sizing: border-box;
 }
 .icon__sortable {
   vertical-align: middle;
@@ -591,56 +542,6 @@ table.-tableHover tr:hover td {
 }
 .icon__sortable::after {
   bottom: 9px;
-}
-.icon__edit {
-  vertical-align: middle;
-  display: inline-block;
-  position: relative;
-  background: url("../img/icon_edit.svg") no-repeat;
-  background-size: 22px 22px;
-  width: 22px;
-  height: 22px;
-  cursor: pointer;
-}
-.icon__delete {
-  vertical-align: middle;
-  display: inline-block;
-  position: relative;
-  background: url("../img/icon_delete.svg") no-repeat;
-  background-size: 22px 22px;
-  width: 22px;
-  height: 22px;
-  cursor: pointer;
-}
-.icon__view {
-  vertical-align: middle;
-  display: inline-block;
-  position: relative;
-  background: url("../img/icon_view.svg") no-repeat;
-  background-size: 22px 22px;
-  width: 22px;
-  height: 22px;
-  cursor: pointer;
-}
-.icon__print {
-  vertical-align: middle;
-  display: inline-block;
-  position: relative;
-  background: url("../img/icon_print.svg") no-repeat center center;
-  background-size: 20px 20px;
-  width: 22px;
-  height: 22px;
-  cursor: pointer;
-}
-.icon__print.-mark {
-  background-color: #bfcfdd;
-  background-size: 13px 13px;
-  background-position: center;
-  width: 25px;
-  height: 25px;
-  opacity: 0.7;
-  border-radius: 100%;
-  box-sizing: border-box;
 }
 /* radio */
 .radioareainput[type=radio] {
@@ -837,7 +738,6 @@ table.-tableHover tr:hover td {
   transition: background 0.2s;
   cursor: pointer;
 }
-
 
 /* ページャー */
 .pager {

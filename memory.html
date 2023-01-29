@@ -14,8 +14,13 @@
 #stage {
     display: flex;
     flex-wrap: wrap;
-    margin: 0 auto;
-    width: 90%;
+    margin: 0 auto 50px;
+}
+
+@media screen and (min-width: 960px) {
+    #stage {
+        width: 600px;
+    }
 }
 .card-container {
     width: 62px;
@@ -71,6 +76,8 @@
     box-shadow: none;
     margin-top: 20px;
 }
+
+
 </style>
 </head>
 <body>
@@ -78,21 +85,23 @@
     <header class="header">
       <div class="header__inner">
         <h1 class="header__title header-title">
-          <a href="index.html" style="color:#1f94cc">
-            <!-- <img src="images/logo-black.png" alt="ロゴ画像"> -->
-            Roku tools
-          </a>
-        </h1>
+            <a href="index.html">★ Roku tools </a>
+          </h1>
 
         <nav class="header__nav nav" id="js-nav" style="vertical-align: top;">
-          <ul class="nav__items nav-items">
-            <li class="nav-items__item"><a href="calc.html">計算ツール</a></li>
-            <li class="nav-items__item"><a href="timer.html">タイマー</a></li>
-            <li class="nav-items__item"><a href="reversi.html">オセロ</a></li>
-            <li class="nav-items__item"><a href="memory.html">神経衰弱</a></li>
-            <li class="nav-items__item"><a href="bmi.html">bmi</a></li>
-            <li class="nav-items__item"><a href="tools.html">ツール</a></li>
-          </ul>
+            <ul class="nav__items nav-items">
+                <li class="nav-items__item"><a href="calc.html">計算ツール</a></li>
+                <li class="nav-items__item"><a href="timer.html">タイマー</a></li>
+                <li class="nav-items__item"><a href="reversi.html">オセロ</a></li>
+                <li class="nav-items__item"><a href="memory.html">神経衰弱</a></li>
+                <li class="nav-items__item"><a href="flash.html">フラッシュ暗算</a></li>
+                <li class="nav-items__item"><a href="watch.html">ストップウォッチ</a></li>
+                <li class="nav-items__item"><a href="prime.html">素数パズル</a></li>
+                <li class="nav-items__item"><a href="maketen.html">テンパズル</a></li>
+                <li class="nav-items__item"><a href="bmi.html">bmi</a></li>
+                <li class="nav-items__item"><a href="maze.html">迷路</a></li>
+                <li class="nav-items__item"><a href="tools.html">ツール</a></li>
+              </ul>
         </nav>
         <button class="header__hamburger hamburger" id="js-hamburger">
           <span></span>
@@ -102,20 +111,17 @@
       </div>
     </header>
     <main>
+        <div class="page_title">神経衰弱</div>
+        <!-- timer -->
+        <div id="timer" class="timer">0.00</div>
+        <!-- stage -->
+        <div id="stage"></div>
 
-    <div id="score" syle="width:90% auto;background:red">
-        <div id="timer" style="margin-left:20px;">0.00</div>
-    </div>
-    <div id="stage" syle="width: 340px auto;"></div>
+        <div class="btnBox">
+            <div class="btn" id="js_retry">もういっかい</div>
+        </div>
+    </main>
 
-
-
-
-    <div class="btnBox" style="width:100%;text-align: center!important;">
-      <div class="btn" id="js_reset">もういっかい</div>
-    </div>
-
-</div><!-- main -->
 </div><!-- container -->
 <script src="./common/js/jquery-3.6.3.min.js"></script>
 <script src="./common/js/jquery-ui.js"></script>
@@ -206,7 +212,8 @@ function check() {
     } else {
         correctCount++;
         if (correctCount === pairs) {
-            clearTimeout(timer_id);
+            // clear!!
+            clearTimeout(timerid);
         }
     }
     secondCard.removeEventListener('transitionend', check);

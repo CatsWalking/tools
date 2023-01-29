@@ -2,24 +2,29 @@
 body, input, div, span{
   color:#44505b;
 }
+.container{
+  background-color: #ecf0f7;
+
+}
 main{
   width:90%;
   margin: 50px auto;
   padding:20px;
   height:100hv;
-  background-color: rgb(216, 216, 244);
 }
-.input{
-  width: 130px!important;
-}
-@media screen and (min-width:600px) {
+@media screen and (min-width: 960px) {
   main{
     width:600px;
     margin: 50px auto;
     padding:20px;
     height:100hv;
-    background-color: rgb(238, 218, 218);
   }
+}
+
+.input{
+  width: 130px!important;
+}
+@media screen and (min-width: 960px) {
   #calc {
     max-width: 560px;
   }  
@@ -31,7 +36,6 @@ main{
   }
 }
 
-
 /*スクロールバー非表示（Chrome・Safari）*/
 .content::-webkit-scrollbar{
   display:none;
@@ -42,17 +46,41 @@ main{
   margin:0 auto;
 }
 .btnBox {
-  width: 90%;
+  width: 100%;
   text-align: center;
   display: block;
-  margin: 0 auto;
+  margin: 10px auto;
 }
 .btnBox .btn{
   height: 2.8rem;
   line-height:2.2rem;
   width: 4rem;
+  text-align: center;
+  
 }
 .page_title {
   font-size: 1rem;
   margin-bottom: 5px;
+}
+/*タイマー*/
+.timer {
+  height: 80px;
+  line-height: 80px;
+  font-size: 3rem;
+  color: #585151;
+  opacity: 0.6;
+  font-family: 'Roboto';
+}
+
+/* ぷるんぷるん */
+.purun {
+  animation: purun 0.8s linear 0s 1;
+}
+@keyframes purun {
+  0%   { transform: scale(1.0, 1.0) translate(0%, 0%); }
+  15%  { transform: scale(0.9, 0.9) translate(0%, 5%); }
+  30%  { transform: scale(1.3, 0.8) translate(0%, 10%); }
+  50%  { transform: scale(0.8, 1.3) translate(0%, -10%); }
+  70%  { transform: scale(1.1, 0.9) translate(0%, 5%); }
+  100% { transform: scale(1.0, 1.0) translate(0%, 0%); }
 }

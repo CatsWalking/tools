@@ -398,4 +398,10 @@ function observeForm() {
 function zero_padding(t, len) {
   return ('0' + t).slice(-len);
 }
-
+// reload
+$('#js_retry').click(function(){
+  openConfirm('次のゲームをしますか？', function(){
+    location.href = location.href;
+  })
+  
+})

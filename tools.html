@@ -39,7 +39,7 @@
   width: 80px!important;
 }
 .sign{
-  width: 50px;
+  width: 20px;
   line-height: 50px;
   font-size:2rem;
   margin: 0 10px;
@@ -50,6 +50,8 @@
 }
 .decimal{
   width: 40px !important;
+  height: 32px !important;
+  text-align: center;
 }
 </style>
 </head>
@@ -58,8 +60,8 @@
     <header class="header">
       <div class="header__inner">
         <h1 class="header__title header-title">
-          <a href="index.html" style="color:#1f94cc">
-            <!-- <img src="images/logo-black.png" alt="ロゴ画像"> -->
+          <a href="index.html">
+            <img src="./common/images/favicon.svg">
             Roku tools
           </a>
         </h1>
@@ -70,7 +72,12 @@
             <li class="nav-items__item"><a href="timer.html">タイマー</a></li>
             <li class="nav-items__item"><a href="reversi.html">オセロ</a></li>
             <li class="nav-items__item"><a href="memory.html">神経衰弱</a></li>
+            <li class="nav-items__item"><a href="flash.html">フラッシュ暗算</a></li>
+            <li class="nav-items__item"><a href="watch.html">ストップウォッチ</a></li>
+            <li class="nav-items__item"><a href="prime.html">素数パズル</a></li>
+            <li class="nav-items__item"><a href="maketen.html">テンパズル</a></li>
             <li class="nav-items__item"><a href="bmi.html">bmi</a></li>
+            <li class="nav-items__item"><a href="maze.html">迷路</a></li>
             <li class="nav-items__item"><a href="tools.html">ツール</a></li>
           </ul>
         </nav>
@@ -86,30 +93,27 @@
       <tbody>
         <tr id="multi">
           <th>掛け算</th>
-          <td style="display:flex;"><input type="input" class="input number"> 
-            <div class="sign">×</div> 
+          <td style="display:flex;">
+              <input type="input" class="input number"> 
+              <div class="sign">×</div> 
               <input type="input" class="input number"> 
             </td>
             <td><div class="result"></div></td>
           </tr>
-          <!-- <tr>
-            <td >
-              <div class="option">(小数点 第 <input type="input" class="input decimal" value="2"> 位)</div>
+          <tr id="division">
+            <th rowspan="2">割り算</th>
+            <td style="display:flex;"><input type="input" class="input number">
+              <div class="sign">÷</div> 
+              <input type="input" class="input number"> 
             </td>
-        </tr> -->
-        <tr id="division">
-          <th rowspan="2">割り算</th>
-          <td style="display:flex;"><input type="input" class="input number">
-            <div class="sign">÷</div> 
-            <input type="input" class="input number"> 
-          </td>
-          <td><div class="result"></div></td>
-        </tr>
-        <tr>
-          <td >
-          <div class="option">(小数点 第 <input type="input" class="input decimal" value="2"> 位)</div>
-          </td>
-        </tr>
+            <td><div class="result"></div></td>
+          </tr>
+          <tr>
+            <td >
+            <div class="option">(小数点 第 <input type="input" id="division_decimal" class="input decimal" value="2"> 位)</div>
+            </td>
+          </tr>
+
       </tbody>
     </table>
 
@@ -154,7 +158,6 @@ $(function(){
   function init(){
     active_input = $('#'+active).find('.input').eq(target_index);
     active_result = $('#'+active).find('.result');
-    $('#'+active).css('background', '#ccc');
     $('.input').removeClass('active');
     active_input.addClass('active');
   }
@@ -184,12 +187,19 @@ function calc(active_input){
       if(!isFinite(input1/input2)){
         active_result.html('');
       } else{
-        active_result.html(input1/input2);
+        let keta=1;
+        for(i=0; i<$('#division_decimal').val(); i++){
+          keta = keta*10;
+        }
+        console.log($('#division_decimal').val(),keta);
+
+            active_result.html(Math.round(input1/input2*keta)/keta);
+
+        
       }
     break;
       
   }
-
 }
 
 

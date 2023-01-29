@@ -20,25 +20,13 @@ function openPopup(msg, width = "500", stretch = false, header = "", footer = ""
   let height_style = stretch ? "-fullHeight" : "";
   let close_dialog = overlay_close ? 'onclick="closeDialog();"' : "";
   let str =
-    '<div class="c-modal ' +
-    height_style +
-    '" style="width:' +
-    width +
-    'px;">' +
+    '<div class="c-modal ' +    height_style +    '" style="width:' +    width +    'px;">' +
     ' <div class="c-modal__close" onclick="closeDialog();"></div>' +
-    ' <div class="c-modal__header">' +
-    header +
+    ' <div class="c-modal__header">' +    header +    "</div>" +
+    ' <div class="c-modal__body scroll-area">' +    msg +    "</div>" +
+    ' <div class="c-modal__footer">' +    footer +    "</div>" +
     "</div>" +
-    ' <div class="c-modal__body scroll-area">' +
-    msg +
-    "</div>" +
-    ' <div class="c-modal__footer">' +
-    footer +
-    "</div>" +
-    "</div>" +
-    '<div class="c-modal__bg" ' +
-    close_dialog +
-    "></div>"; // 背景
+    '<div class="c-modal__bg" ' +    close_dialog +    "></div>"; // 背景
   $("body").append(str);
 
   // 背景スクロールを無効化
@@ -91,7 +79,11 @@ function openDialog(msgText, okFunc = null, width = "400", overlay_close = true,
     btn = '<div class="c-modal__footer"><button id="js_dialog_ok" class="btn -green">' + ok_str + "</button>" + "</div>";
   }
 
-  let str = '<div class="c-modal" style="width: ' + width + 'px">' + '<div class="c-modal__close" onclick="closeDialog();"></div>' + '<div class="c-modal__body u-pt20 u-pb20" style="text-align:center">' + msgText + "</div>" + btn + "</div>";
+  let str = '<div class="c-modal" style="width: ' + width + 'px">' 
+    + '<div class="c-modal__close" onclick="closeDialog();"></div>' 
+    + '<div class="c-modal__body u-pt20 u-pb20" style="text-align:center">'+ msgText + "</div>" 
+    + btn 
+    + "</div>";
   // 背景クリックでモーダル閉じるか。
   if (overlay_close == true) {
     str = str + '<div class="c-modal__bg" onclick="closeDialog();"></div>';
@@ -126,6 +118,7 @@ function openModal(msgText, okFunc = null, width = "400", ok_str = "") {
 function disableScrolling() {
   current_scrollY = window.pageYOffset || document.documentElement.scrollTop;
   document.body.style.position = "fixed";
+  document.body.style.width = "100%";
   document.body.style.top = -1 * current_scrollY + "px";
 }
 
