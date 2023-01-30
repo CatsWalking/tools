@@ -189,6 +189,7 @@ function test(r, g, b) {
            (imageData.data[i*4+2] == b)) {
             imageData.data[i*4+3] = 0;
         }
+        imageData.data[i*4+3] = 0;
         if(imageData.data[i*4] == r && i<50){
           console.log(imageData.data[i*4]);
         }
