@@ -4,95 +4,9 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="icon" href="./common/images/favicon.svg" sizes="any">
-<title>tools</title>
-<link rel="stylesheet" href="./common/css/reset.css">
-<link rel="stylesheet" href="./common/css/style.css?testd">
-<link rel="stylesheet" href="./common/css/modal.css?test">
-<link rel="stylesheet" href="./common/css/tools.css?testd">
-<style>
-#calc {
-  max-width: 100%;
-  margin: 0 auto;
-}    
-#calc th{
-  width:26%;
-}
-#calc td:nth-child(2){
-  width:37%;
-}
-#calc td:nth-child(3){
-  width:35%;
-}
-.result{
-    font-size:30px;
-    display: flex;
-}
-.ruby3{
-    font-size:18px;
-    height:30px;
-    padding-top:0;;
-    padding-bottom:20px;
-} 
-
-.number{
-  width: 80px!important;
-}
-.sign{
-  width: 50px;
-  line-height: 50px;
-  font-size:2rem;
-  margin: 0 10px;
-}
-.option{
-  display:flex;
-  line-height: 30px;
-}
-.decimal{
-  width: 40px !important;
-}
-</style>
 </head>
 <body>
-  <div class="container">
-    <header class="header">
-      <div class="header__inner">
-        <h1 class="header__title header-title">
-          <a href="index.html">★ Roku tools </a>
-        </h1>
-
-        <nav class="header__nav nav" id="js-nav" style="vertical-align: top;">
-          <ul class="nav__items nav-items">
-            <li class="nav-items__item"><a href="calc.html">計算ツール</a></li>
-            <li class="nav-items__item"><a href="timer.html">タイマー</a></li>
-            <li class="nav-items__item"><a href="reversi.html">オセロ</a></li>
-            <li class="nav-items__item"><a href="memory.html">神経衰弱</a></li>
-            <li class="nav-items__item"><a href="flash.html">フラッシュ暗算</a></li>
-            <li class="nav-items__item"><a href="watch.html">ストップウォッチ</a></li>
-            <li class="nav-items__item"><a href="prime.html">素数パズル</a></li>
-            <li class="nav-items__item"><a href="maketen.html">テンパズル</a></li>
-            <li class="nav-items__item"><a href="bmi.html">bmi</a></li>
-            <li class="nav-items__item"><a href="maze.html">迷路</a></li>
-            <li class="nav-items__item"><a href="tools.html">ツール</a></li>
-          </ul>
-        </nav>
-        <button class="header__hamburger hamburger" id="js-hamburger">
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
-      </div>
-    </header>
-    <main>
-      <div class="btn" id="test" >test</div>
-      <p>Paste your image here…</p>
-      <!-- <div width="100%">       -->
-        <!-- <img id="container"/> -->
-        <canvas width="600px" height="500px%" id="mycanvas" style="background-color: red;"></canvas>
-
-      <!-- </div> -->
-    
-    </main>       
+  <div class="container">    
 </div><!-- container -->
 <script src="./common/js/jquery-3.6.3.min.js"></script>
 <script src="./common/js/jquery-ui.js"></script>
@@ -134,10 +48,6 @@ $(function(){
   chara.onload = () => {
     ctx.drawImage(chara, 0, 0);
   }
-
-
-
-
 document.onpaste = function(pasteEvent) {
     imagePaste( pasteEvent );
     return false;
@@ -150,7 +60,6 @@ document.onpaste = function(pasteEvent) {
       blobimg = items[i].getAsFile();
     }
   }
-
   if( blobimg != null ){
     var bloburl = URL.createObjectURL( blobimg );
 
@@ -170,10 +79,6 @@ document.onpaste = function(pasteEvent) {
 }
 
 $('#test').click(function(){
-  // test(255,132,70);
-  // test(254,149,110);
-  // test(235,165,126);
-  // test(59,52,47);
   test();
 })
 
