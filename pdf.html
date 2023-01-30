@@ -170,34 +170,62 @@ document.onpaste = function(pasteEvent) {
 }
 
 $('#test').click(function(){
-  test(255,132,70);
-  test(254,149,110);
-  test(235,165,126);
+  // test(255,132,70);
+  // test(254,149,110);
+  // test(235,165,126);
   // test(59,52,47);
+  test();
 })
 
 
-function test(r, g, b) {
+function test() {
     var canvas = document.getElementsByTagName("canvas")[0];
     // const canvas = document.querySelector("#mycanvas");  //getElementById()等でも可。オブジェクトが取れれば良い。
 
     var context = canvas.getContext("2d");
     var imageData = context.getImageData(0, 0, canvas.width, canvas.height);
     console.log(r, g, b);
+
+    let r, g, b;
     for(var i = 0; i < (imageData.width*imageData.height); i++) {
-      console.log(123,imageData.data[i*4], imageData.data[i*4+1], imageData.data[i*4+2]);
-        if((imageData.data[i*4] == r) &&
-           (imageData.data[i*4+1] == g) &&
-           (imageData.data[i*4+2] == b)) {
-            // imageData.data[i*4+3] = 0;
-            console.log(456,imageData.data[i*4], imageData.data[i*4+1], imageData.data[i*4+2]);
-            imageData.data[i*4] = 255;
-            imageData.data[i*4+1] = 255;
-            imageData.data[i*4+2] = 255;
-            imageData.data[i*4+3] = 0.5;
+      r = imageData.data[i*4];
+      g = imageData.data[i*4+1];
+      b = imageData.data[i*4+2];
+      
+
+      if((r==255 && g==132 && b==70)||
+        (r==254 && g==149 && b==110)||
+        (r==253 && g==165 && b==126)){
+          imageData.data[i*4] = 255;
+          imageData.data[i*4+1] = 255;
+          imageData.data[i*4+2] = 255;
+          imageData.data[i*4+3] = 0.5;
+      }
 
 
-        }
+      // console.log(123,imageData.data[i*4], imageData.data[i*4+1], imageData.data[i*4+2]);
+      //   if((imageData.data[i*4] == r) &&
+      //      (imageData.data[i*4+1] == g) &&
+      //      (imageData.data[i*4+2] == b)) {
+      //       // imageData.data[i*4+3] = 0;
+      //       console.log(456,imageData.data[i*4], imageData.data[i*4+1], imageData.data[i*4+2]);
+      //       imageData.data[i*4] = 255;
+      //       imageData.data[i*4+1] = 255;
+      //       imageData.data[i*4+2] = 255;
+      //       imageData.data[i*4+3] = 0.5;
+
+
+      //   }
+        // if((imageData.data[i*4] >=230 && imageData.data[i*4]<=255) &&
+        //    (imageData.data[i*4+1] >=253 && imageData.data[i*4+1] == g) &&
+        //    (imageData.data[i*4+2] >=253 && imageData.data[i*4+2] == b)) {
+        //     imageData.data[i*4] = 255;
+        //     imageData.data[i*4+1] = 255;
+        //     imageData.data[i*4+2] = 255;
+        //     imageData.data[i*4+3] = 0.5;
+
+
+        // }
     }
     context.putImageData(imageData, 0, 0);
     return;
