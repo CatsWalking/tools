@@ -179,8 +179,8 @@ $('#test').click(function(){
 
 function test(r, g, b) {
   console.log(22222);
-    // var canvas = document.getElementsByTagName("canvas")[0];
-    const canvas = document.querySelector("#mycanvas");  //getElementById()等でも可。オブジェクトが取れれば良い。
+    var canvas = document.getElementsByTagName("canvas")[0];
+    // const canvas = document.querySelector("#mycanvas");  //getElementById()等でも可。オブジェクトが取れれば良い。
 
     var context = canvas.getContext("2d");
     var imageData = context.getImageData(0, 0, canvas.width, canvas.height);
