@@ -53,9 +53,6 @@
     background: #f7afaa!important;
     color:#fff;
 }
-#js_start{
-    width:170px;
-}
 .running {
     background: #ab1504 !important;
 }
@@ -113,7 +110,6 @@
       </div>
     </header>
     <main>
-        <div class="page_title">タイマー</div>
         <div id="clock">
             <span id="clock_m" class="clock_active">00</span>:<span id="clock_s">00</span>
         </div>
@@ -142,10 +138,12 @@
             <br>
             <div class="mb20">
                 <img class="icon js_sound" src="./common/images/icon/sound_on.png">
-                <div id="js_start" class="btn small -red">スタート/ストップ</div>
-                <div id="js_reset2" class="btn small">リセット</div>
+                <div id="js_start" class="btn -start">スタート/ストップ</div>
+                <div id="js_reset2" class="btn -reset">リセット</div>
             </div>
+            <div id="sound_status" class="txtS">音が鳴ります</div>
             <br>
+        
         </div>
 
         <!--explosion, sound-->
@@ -270,7 +268,11 @@ $(function(){
             // explosion
             if($('.js_sound').attr('src').indexOf('_on')>-1){
                 explosion.play();
+                window.setTimeout(function(){
+                    init();
+                }, 10000);
             }
+            // explosion!!
             $('#js_explosion').css('display', 'block');
             $('#explosion_bg').css('display', 'block');
         }
@@ -299,9 +301,11 @@ $(function(){
         $('#js_explosion').css('display', 'none');
         $('#explosion_bg').css('display', 'none');
         $('#js_start').removeClass('running');
+        $('[id^=clock]').removeClass('clock_running');
+        $('#clock_m').addClass('clock_active');
+
         explosion.pause();
         explosion.currentTime = 0;
-        console.log(333);
     }
 })
 </script>

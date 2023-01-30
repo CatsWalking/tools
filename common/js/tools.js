@@ -47,7 +47,23 @@ $('#js_reset').click(function(){
 $('.js_sound').on('click', function(){
   if($(this).attr('src').indexOf('_on')>-1){
     $(this).attr('src', './common/images/icon/sound_off.png')
+    if($('#sound_status')){
+      $('#sound_status').html('スピーカーはオフです');
+    }
   } else {
     $(this).attr('src', './common/images/icon/sound_on.png')
+    if($('#sound_status')){
+      $('#sound_status').html('音が鳴ります');
+    }
   }
+})
+/*-----------------------------
+* ヘッダー active
+*/
+var file = window.location.href.split('/').pop();
+$('.nav__items>li').each(function(i, e){
+  $(this).removeClass('active');
+  if(file==$(this).find('a').attr('href')){
+    $(this).addClass('active');
+  } 
 })

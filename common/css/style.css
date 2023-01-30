@@ -125,7 +125,12 @@ main {
   margin-bottom: 20px;
   color: #B2A251!important;
 }
-
+.nav-items__item.active{
+  background:#b0c8f0;
+}
+.nav-items__item a.active{
+  color: #c7bd8e !important;  
+}
 .nav-items__item:last-child a {
   margin-bottom: 0;
 }
@@ -331,7 +336,6 @@ table {
   background: #db9200;
   border-radius: 5px;
 }
-
 .btn.-gray {
   background: #7e8d9b;
   border: 1px solid #7e8d9b;
@@ -352,6 +356,15 @@ table {
   background: #cfd3d3;
   border: 1px solid #cfd3d3;
   cursor: default;
+}
+.btn.-start {
+  width: 170px!important;;
+  height: 55px;line-height: 50px;
+  background: #e94d4d;
+  border: 1px solid #e94d4d;
+}
+.btn.-reset {
+  height: 55px;line-height: 50px;
 }
 
 /* テーブル */
@@ -964,7 +977,7 @@ table.-tableHover tr:hover td {
   color: #e94d4d;
 }
 
-.-txtS {
+.txtS {
   font-size: 0.9rem;
 }
 .txtSS {
