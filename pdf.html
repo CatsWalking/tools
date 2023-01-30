@@ -183,12 +183,14 @@ function test(r, g, b) {
 
     var context = canvas.getContext("2d");
     var imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+    console.log(r, g, b);
     for(var i = 0; i < (imageData.width*imageData.height); i++) {
         if((imageData.data[i*4] == r) &&
            (imageData.data[i*4+1] == g) &&
            (imageData.data[i*4+2] == b)) {
             imageData.data[i*4+3] = 0;
         }
+        console.log(imageData.data[i*4]);
     }
     context.putImageData(imageData, 0, 0);
     return;
