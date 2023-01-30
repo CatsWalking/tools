@@ -170,7 +170,6 @@ document.onpaste = function(pasteEvent) {
 }
 
 $('#test').click(function(){
-  console.log(111);
   test(255,132,70);
   // test(235,165,126);
   // test(59,52,47);
@@ -178,7 +177,6 @@ $('#test').click(function(){
 
 
 function test(r, g, b) {
-  console.log(22222);
     var canvas = document.getElementsByTagName("canvas")[0];
     // const canvas = document.querySelector("#mycanvas");  //getElementById()等でも可。オブジェクトが取れれば良い。
 
@@ -191,7 +189,9 @@ function test(r, g, b) {
            (imageData.data[i*4+2] == b)) {
             imageData.data[i*4+3] = 0;
         }
-        console.log(imageData.data[i*4]);
+        if(imageData.data[i*4] == r && i<50){
+          console.log(imageData.data[i*4]);
+        }
     }
     context.putImageData(imageData, 0, 0);
     return;
