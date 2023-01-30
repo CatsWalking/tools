@@ -100,8 +100,10 @@ ul.dice img {
     </header>
     <main>
       <div class="btn hide" id="js_switch" >答えを隠す</div>
-      <p>Paste your image here…</p>
+      <p id="message">Paste your image here…</p>
+      <div>        
         <canvas width="600px" height="500px%" id="mycanvas"></canvas>
+      </div>
 
 </div><!-- container -->
 <script src="./common/js/jquery-3.6.3.min.js"></script>
@@ -138,10 +140,12 @@ $(function(){
       if (blobimg == null) {
         openNotice("クリップボードにイメージがありません");
         switch_btn.addClass('hide');
+        $('#message').addCremoveClasslass('hide');
 
       } else {
         imagePaste(blobimg);
         switch_btn.removeClass('hide');
+        $('#message').addClass('hide');
       }
       return;
     };
