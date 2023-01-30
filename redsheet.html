@@ -99,35 +99,92 @@ ul.dice img {
       </div>
     </header>
     <main>
-      <ul class="dice">
-        <li><img src="common/images/menu/calc.png" alt=""><a href="calc.html"></a><br>計算ツール</li> 
-        <li><a href="timer.html"></a><br>タイマー</li>
-        <li><a href="reversi.html"></a><br>オセロ</li>
-        <li><a href="memory.html"></a><br>神経衰弱</li>
-        <li><a href="flash.html"></a><br>フラッシュ暗算</li>
-        <li><a href="watch.html"></a><br>ストップウォッチ</li>
-        <li><a href="prime.html"></a><br>素数パズル</li>
-        <li><a href="maketen.html"></a><br>テンパズル</li>
-        <li><a href="bmi.html"></a><br>bmi</li>
-        <li><a href="maze.html"></a><br>迷路</li>
-        <li><a href="tools.html"></a><br>ツール</li>
+      <div class="btn hide" id="js_switch" >答えを隠す</div>
+      <p>Paste your image here…</p>
+        <canvas width="600px" height="500px%" id="mycanvas"></canvas>
 
-    </ul>
-
-      <div class="caution">
-        <div style="text-align: center;">😀以下をご了承していただける方のみご利用ください😀</div>
-        <hr>
-        <ul>
-          <li>素人が個人的に作っているものです。🙇‍♀️</li>
-          <li>本ツールの使用ならびに閲覧につき、その正確性、有用性、完全性、最新性、および品質を含めいかなる保証をするものではありません🙇‍♀️</li>
-          <li>予告なしに閉鎖することがあります🙇‍♀️</li>
-        </ul>
-      </div>
-    </main>
 </div><!-- container -->
 <script src="./common/js/jquery-3.6.3.min.js"></script>
 <script src="./common/js/jquery-ui.js"></script>
 <script src="./common/js/common.js"></script>
 <script src="./common/js/tools.js?tesat"></script>
+
+<script>
+'use strict';
+$(function(){
+
+  let switch_btn = $('#js_switch');
+  let flg = 1;
+  switch_btn.click(function () {
+      if (flg == 1) {
+        hideAnswer();
+        flg = 2;
+        switch_btn.html('答え表示する');
+      } else {
+        imagePaste(blobimg);
+        flg = 1;
+        switch_btn.html('答えを隠す');
+      }
+    });
+
+    var blobimg = null;
+    document.onpaste = function (pasteEvent) {
+      var items = (event.clipboardData || event.originalEvent.clipboardData).items;
+      for (var i = 0; i < items.length; i++) {
+        if (items[i].type.indexOf("image") == 0) {
+          blobimg = items[i].getAsFile();
+        }
+      }
+      if (blobimg == null) {
+        openNotice("クリップボードにイメージがありません");
+        switch_btn.addClass('hide');
+
+      } else {
+        imagePaste(blobimg);
+        switch_btn.removeClass('hide');
+      }
+      return;
+    };
+
+    function imagePaste(blobimg) {
+      if (blobimg != null) {
+        var bloburl = URL.createObjectURL(blobimg);
+        var canvas = document.getElementsByTagName("canvas")[0];
+        var ctx = canvas.getContext("2d");
+
+        var img = new Image();
+        img.src = bloburl;
+        img.onload = function () {
+          var sw = img.naturalWidth;
+          var sh = img.naturalHeight;
+          var dw = canvas.width;
+          var dh = canvas.height;
+          ctx.drawImage(img, 0, 0, sw, sh, 0, 0, dw, dh);
+        };
+      }
+    }
+
+    function hideAnswer() {
+      var canvas = document.getElementsByTagName("canvas")[0];
+      var context = canvas.getContext("2d");
+      var imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+      let r, g, b;
+      for (var i = 0; i < imageData.width * imageData.height; i++) {
+        r = imageData.data[i * 4];
+        g = imageData.data[i * 4 + 1];
+        b = imageData.data[i * 4 + 2];
+
+        if (r >= 200 && r <= 255 && g >= 90 && g <= 250 && b >= 43 && b <= 250) {
+          imageData.data[i * 4] = 255;
+          imageData.data[i * 4 + 1] = 255;
+          imageData.data[i * 4 + 2] = 255;
+          imageData.data[i * 4 + 3] = 255;
+        }
+      }
+      context.putImageData(imageData, 0, 0);
+      return;
+    }
+})
+</script>
 </body>
 </html> 

@@ -1062,3 +1062,13 @@ table.-tableHover tr:hover td {
   background:#f0f7e9;
   border:#a7bf8f 2px solid
 }
+
+ .hide{
+  display: none;
+ }
+ .show{
+  display: block;
+ }
+ .show2{
+  display: '';
+ }
