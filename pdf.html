@@ -202,10 +202,14 @@ function test() {
       //     console.log(r, g, b);
 
       // }
-
-      if((r>=235 && r<=255)||
+/*
+if((r>=235 && r<=255)||
         (g>=130 && g<=200)||
         (b>=50 && b<=225)){
+*/
+      if((r>=50 && r<=255)||
+        (g>=50 && g<=255)||
+        (b>=50 && b<=255)){
           imageData.data[i*4] = 255;
           imageData.data[i*4+1] = 255;
           imageData.data[i*4+2] = 255;
