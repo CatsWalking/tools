@@ -184,7 +184,6 @@ function test() {
 
     var context = canvas.getContext("2d");
     var imageData = context.getImageData(0, 0, canvas.width, canvas.height);
-    console.log(r, g, b);
 
     let r, g, b;
     for(var i = 0; i < (imageData.width*imageData.height); i++) {
@@ -200,6 +199,8 @@ function test() {
           imageData.data[i*4+1] = 255;
           imageData.data[i*4+2] = 255;
           imageData.data[i*4+3] = 0.5;
+          console.log(r, g, b);
+
       }
 
 
