@@ -82,10 +82,13 @@
       </div>
     </header>
     <main>
-      <div class="btn" id="test" onclck="test();">test</div>
+      <div class="btn" id="test" >test</div>
       <p>Paste your image here…</p>
-      <div width="100%">      <img id="container"/>
-      </div>
+      <!-- <div width="100%">       -->
+        <!-- <img id="container"/> -->
+        <canvas width="600px" height="500px%" id="mycanvas" style="background-color: red;"></canvas>
+
+      <!-- </div> -->
     
     </main>       
 </div><!-- container -->
@@ -98,27 +101,66 @@
 <script>
 'use strict';
 $(function(){
-  document.onpaste = function(pasteEvent) {
-    //最初のアイテムを検討します(複数のアイテムに簡単に拡張できます)
-    var item = pasteEvent.clipboardData.items[0];
-    let container = $('#container');
+//   document.onpaste = function(pasteEvent) {
+//     //最初のアイテムを検討します(複数のアイテムに簡単に拡張できます)
+//     var item = pasteEvent.clipboardData.items[0];
+//     let container = $('#container');
  
-    if (item.type.indexOf("image") === 0)    {
-        var blob = item.getAsFile();
-        var reader = new FileReader();
-        reader.onload = function(event) {
-          container.attr('src', event.target.result);
-            // document.getElementById("container").src = event.target.result;
-        };
+//     if (item.type.indexOf("image") === 0)    {
+//         var blob = item.getAsFile();
+//         var reader = new FileReader();
+//         reader.onload = function(event) {
+//           container.attr('src', event.target.result);
+//             // document.getElementById("container").src = event.target.result;
+//         };
  
-        reader.readAsDataURL(blob);
-        console.log(item);
-        container.css('width', '100%');
-        // itme.style.width=100;
+//         reader.readAsDataURL(blob);
+//         console.log(item);
+//         container.css('width', '100%');
+//         // itme.style.width=100;
+//     }
+// }
+
+document.onpaste = function(pasteEvent) {
+    imagePaste( pasteEvent );
+    return false;
+  }
+  function imagePaste( event ){
+  var blobimg = null;
+  var items = ( event.clipboardData || event.originalEvent.clipboardData ).items;
+  for( var i = 0; i < items.length; i ++ ){
+    if( items[i].type.indexOf( "image" ) == 0 ){
+      blobimg = items[i].getAsFile();
     }
+  }
+
+  if( blobimg != null ){
+    var bloburl = URL.createObjectURL( blobimg );
+
+    var canvas = document.getElementById( "mycanvas" );
+    var ctx = canvas.getContext( '2d' );
+
+    var img = new Image();
+    img.src = bloburl;
+    img.onload = function(){
+      var sw = img.naturalWidth;
+      var sh = img.naturalHeight;
+      var dw = canvas.width;
+      var dh = canvas.height;
+      ctx.drawImage( img, 0, 0, sw, sh, 0, 0, dw, dh );
+    };
+  }
 }
 
+$('#test').click(function(){
+  console.log(111);
+  test(235,165,126);
+  test(59,52,47);
+})
+
+
 function test(r, g, b) {
+  console.log(22222);
     var canvas = document.getElementsByTagName("canvas")[0];
     var context = canvas.getContext("2d");
     var imageData = context.getImageData(0, 0, canvas.width, canvas.height);
@@ -131,7 +173,7 @@ function test(r, g, b) {
     }
     context.putImageData(imageData, 0, 0);
     return;
-}
+}//#DBA079
 })
 </script>
 </body>
