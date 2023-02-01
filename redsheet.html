@@ -11,60 +11,6 @@
 <link rel="stylesheet" href="./common/css/modal.css?test">
 <link rel="stylesheet" href="./common/css/tools.css?testd">
 <style>
-
-/* メニューさいころ */
-ul.dice {
-  display: flex;
-  flex-wrap: wrap;
-  margin: 20px auto;
-  width: 100%;
-}
-ul.dice li {
-  width: 29%;
-  height: 80px;
-  margin: 5px;
-  padding-top:5px;
-  border: 1px solid #d5d8eb;
-  border-radius: 3px;
-  text-align: center;
-  vertical-align: middle;
-  font-size:0.7rem;
-  background-color: #fff;
-  cursor: pointer;
-  color: rgb(121, 135, 150);
-  position: relative;
-}
-ul.dice img {
-  width: 70px;
-  height: 60px;
-}
-.dice a{
-  position:absolute;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-}
-
-/* 注意書き */
-.caution{
-    font-size: 0.8rem; 
-    width: 90%;
-    margin: 0 auto;
-    position: absolute;
-	  bottom: 10px;
-}
-.caution li {
-  list-style-type: disc;
-  margin-left: 24px;
-  line-height: 200%;
-  color: rgb(150, 136, 121);
-}
-@media screen and (min-width: 960px) {
-  .caution{
-    width: 600px;
-  }
-}
 </style>
 </head>
 <body>
@@ -178,7 +124,13 @@ $(function(){
         g = imageData.data[i * 4 + 1];
         b = imageData.data[i * 4 + 2];
 
-        if (r >= 200 && r <= 255 && g >= 90 && g <= 250 && b >= 43 && b <= 250) {
+                var threshold = 16 ;
+                var ismono = (
+                        ( Math.abs(r-g)) < threshold  &&
+                        ( Math.abs(g-b)) < threshold  &&
+                        ( Math.abs(b-r)) < threshold  ) ;
+
+        if ( !ismono ){
           imageData.data[i * 4] = 255;
           imageData.data[i * 4 + 1] = 255;
           imageData.data[i * 4 + 2] = 255;
