@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="./common/images/favicon.svg" sizes="any">
+<title>tools</title>
+<link rel="stylesheet" href="./common/css/reset.css">
+<link rel="stylesheet" href="./common/css/style.css?testd">
+<link rel="stylesheet" href="./common/css/modal.css?test">
+<link rel="stylesheet" href="./common/css/tools.css?testd">
+<style>
+
+  
+@media screen and (min-width: 960px) {
+  main{
+    width:90%;
+
+    
+  }
+}
+  .canvas_box{
+    width: 100%;
+    height: 500px;
+    /* height: 100%; */
+    border: 1px solid #999;
+    resize: both;
+    overflow: hidden;
+  }
+  .canvas{
+    width: 100%;
+    /* height: 100%; */
+  }
+
+
+#dd_box{
+  display:flex;
+  height:100vh;
+}
+#dd_box #dd_left{
+  width: 80%;
+  background-color: rgb(249, 228, 228);
+  margin-right: 5px;
+}
+#dd_box #dd_right{
+  width: 20%;
+  background-color: rgb(229, 229, 252);
+}
+
+</style>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="header__inner">
+        <h1 class="header__title header-title">
+          <a href="index.html">★ Roku tools </a>
+        </h1>
+
+        <nav class="header__nav nav" id="js-nav" style="vertical-align: top;">
+          <ul class="nav__items nav-items">
+            <li class="nav-items__item"><a href="redsheet.html">赤シート</a></li>
+            <li class="nav-items__item"><a href="calc.html">計算ツール</a></li>
+            <li class="nav-items__item"><a href="timer.html">タイマー</a></li>
+            <li class="nav-items__item"><a href="reversi.html">オセロ</a></li>
+            <li class="nav-items__item"><a href="memory.html">神経衰弱</a></li>
+            <li class="nav-items__item"><a href="flash.html">フラッシュ暗算</a></li>
+            <li class="nav-items__item"><a href="watch.html">ストップウォッチ</a></li>
+            <li class="nav-items__item"><a href="prime.html">素数パズル</a></li>
+            <li class="nav-items__item"><a href="maketen.html">テンパズル</a></li>
+            <li class="nav-items__item"><a href="bmi.html">bmi</a></li>
+            <li class="nav-items__item"><a href="maze.html">迷路</a></li>
+            <li class="nav-items__item"><a href="tools.html">ツール</a></li>
+          </ul>
+        </nav>
+        <button class="header__hamburger hamburger" id="js-hamburger">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </header>
+    <main>
+      <h1>drag &amp; drop file and base64 sampl</h1>
+      <div class="btn hide" id="js_switch" >答えを隠す</div>
+
+     <div id="dd_box">
+        <div id="dd_left">
+
+          <p id="message">Paste your image here…</p>
+          <div class="canvas_box">        
+            <canvas class="canvas" id="mycanvas"></canvas>
+          </div>
+        </div>
+        <div id="dd_right" class="sortable"></div>
+      </div>
+
+      <!-- クリックアップロード用 -->
+      <form id="id_form_upload" action="javascript:;">
+        <input type="file" name="file" id="js-id_file" style="display:none;" accept="image/gif,image/png,image/jpeg" />
+      </form>
+
+</main>
+</div><!-- container -->
+<script src="./common/js/jquery-3.6.3.min.js"></script>
+<script src="./common/js/jquery-ui.js"></script>
+<script src="./common/js/common.js"></script>
+<script src="./common/js/tools.js?tesat"></script>
+<script src="./common/js/modal.js?tesat"></script>
+
+<script>
+'use strict';
+$(function(){
+
+// https://ja.javascript.info/blob
+
+  // 最大ファイルサイズ
+const MAX_FILE_SIZE = 1048576 * 5;
+// const MAX_FILE_SIZE = 1048576 * 2;
+
+let canvas = document.getElementsByTagName("canvas")[0];
+var blobimg = null;
+
+// リストを並べ替え可能に
+$( ".sortable" ).sortable();
+
+
+// ファイルフォーマットチェック
+var checkFileFormat = function( type, size ) {
+  if ( ! /^image\/(gif|png|jpeg)$/.test( type ) ) {
+    alert( "画像ファイルではありません。" );
+    return false;
+  }
+  if ( size > MAX_FILE_SIZE ) {
+    alert( "ファイルサイズは " + MAX_FILE_SIZE + "bytes 以下にしてください。" );
+    return false;
+  }
+  return true;
+};
+
+// .main は drag drop 不可にしておく
+// $(".main").on("dragenter dragover dragleave drop", function(){
+//   return false;
+// });
+
+//-------------------------------------
+// #js-dd_left は drag & drop 可能に
+//-------------------------------------
+$("#dd_left")
+  // ドラッグオーバー時は背景色を変更
+  .on( "dragover.js", function(){
+    $(this).css({"backgroundColor":"#FFA"});
+    return false;
+  })
+  // ドラッグアウト時も背景色を変更
+  .on( "dragleave.js", function(){
+    $(this).css({"backgroundColor":"#DDD"});
+    return false;
+  })
+  // ドロップ時の処理
+  .on( "drop.js", function(evt){
+    var that = this;
+    var file = evt.originalEvent.dataTransfer.files[0];
+    var data = {
+      name : file.name,
+      size : file.size,
+      type : file.type,
+      base64 : ""
+    };
+
+    // フォーマットチェック
+    if ( ! checkFileFormat( data.type, data.size ) ) {
+      $(that).css({"backgroundColor":"#DDD"});
+      return false;
+    }
+
+    // 読み込み処理
+    var fileReader = new FileReader();
+    fileReader.readAsDataURL( file );
+    fileReader.onload = function( event ) {
+      data.base64 = this.result.split(',')[1];	// base64取得
+      displayImage( data );
+    };
+
+    // 読み込み終わりの処理
+    fileReader.onloadend = function(){
+      $(that).css({"backgroundColor":"#DDD"});
+    };
+    return false;
+  })
+  //-------------------------------------
+  // クリック時はfileダイアログオープン
+  .on( "click.js", function(){
+    $("#js-id_file").trigger( "click" );
+});
+
+//-------------------------------------
+// クリックアップロード時は onChange イベント経由で処理
+//-------------------------------------
+$("#js-id_file").on( "change.js", function(){
+  var files = $(this).prop( "files" );
+  // 何もアップロードされなかった場合
+  if ( files.length !== 1 ) {
+    return false;
+  }
+  var file = files[0];
+  var data = {
+    name : file.name,
+    size : file.size,
+    type : file.type,
+    base64 : ""
+  };
+  // フォーマットチェック
+  if ( ! checkFileFormat( data.type, data.size ) ) {
+    return false;
+  }
+  // ファイル読込
+  var fileReader = new FileReader();
+  fileReader.readAsDataURL( file );
+  fileReader.onload = function( event ) {
+    data.base64 = this.result.split(',')[1]; // base64取得
+    displayImage( data );
+  };
+  // 読み込み終わり時の処理
+  fileReader.onloadend = function( event ){
+  };
+});
+
+
+//-------------------------------------
+// 右ステージに画像を追加していく
+//-------------------------------------
+var displayImage = function( data ) {
+  let html = "<div>"
+          +"  <img src='data:"+ data.type +";base64,"+data.base64+"' style='max-width:100%;cursor:pointer;'>"
+          +"  <div class='square_btn' style=''></div>"
+          +"</div>";
+  $('#dd_right').append(html);
+};
+// 削除
+$(document).on('click', '#dd_right .square_btn', function(){
+  $(this).parent('div').remove();
+})
+
+
+//-------------------------------------
+// 左ステージにに表示
+//-------------------------------------
+$(document).on('click', '#dd_right img', function(){
+    var ctx = canvas.getContext("2d");
+    var img = new Image();
+    img.src = $(this).attr('src');
+    var sw = img.naturalWidth;
+    var sh = img.naturalHeight;
+    var dw = $(this).width();
+    var dh = $(this).height();
+    ctx.drawImage(img, 0, 0, sw, sh, 0, 0, dw, dh);
+    // TODO blob化しておく？
+    canvas.toBlob(function (blob) {
+      blobimg = blob;
+    });
+
+   switch2(2);
+})
+
+
+
+//-------------------------------------
+// クリップボードからペースト
+//-------------------------------------
+document.onpaste = function (pasteEvent) {
+  var items = (event.clipboardData || event.originalEvent.clipboardData).items;
+  for (var i = 0; i < items.length; i++) {
+    if (items[i].type.indexOf("image") == 0) {
+      blobimg = items[i].getAsFile();
+    }
+  }
+  if (blobimg == null) {
+    openNotice("クリップボードにイメージがありません");
+    switch2(1);
+  } else {
+    // paste
+    imagePaste(canvas, blobimg);
+    switch2(2);
+  }
+  
+  return;
+};
+
+//-------------------------------------
+// blob イメージを貼り付け
+//-------------------------------------
+function imagePaste(canvas, blobimg) {
+  if (blobimg != null) {
+    var bloburl = URL.createObjectURL(blobimg);
+    var ctx = canvas.getContext("2d");
+    var img = new Image();
+    img.src = bloburl;
+    img.onload = function () {
+      var sw = img.naturalWidth;
+      var sh = img.naturalHeight;
+      var dw = canvas.width;
+      var dh = canvas.height;
+      ctx.drawImage(img, 0, 0, sw, sh, 0, 0, dw, dh);
+    };
+  }
+}
+
+
+//-------------------------------------
+// 白黒以外の色を白に変換
+//-------------------------------------
+function hideAnswer() {
+  var context = canvas.getContext("2d");
+  var imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+  let r, g, b;
+  for (var i = 0; i < imageData.width * imageData.height; i++) {
+    r = imageData.data[i * 4];
+    g = imageData.data[i * 4 + 1];
+    b = imageData.data[i * 4 + 2];
+
+            var threshold = 16 ;
+            var ismono = (
+                    ( Math.abs(r-g)) < threshold  &&
+                    ( Math.abs(g-b)) < threshold  &&
+                    ( Math.abs(b-r)) < threshold  ) ;
+
+    if ( !ismono ){
+      imageData.data[i * 4] = 255;
+      imageData.data[i * 4 + 1] = 255;
+      imageData.data[i * 4 + 2] = 255;
+      imageData.data[i * 4 + 3] = 255;
+    }
+  }
+  context.putImageData(imageData, 0, 0);
+  return;
+}
+
+//-------------------------------------
+// 答え 表示/非表示
+//-------------------------------------
+let switch_btn = $('#js_switch');
+let flg = 1;
+switch_btn.click(function () {
+  if (flg == 1) {
+    hideAnswer();
+  } else {
+    imagePaste(canvas, blobimg);
+  }
+  flg = switch2(flg)
+});
+
+function switch2(flg){
+  if(flg==1){
+    flg = 2;
+    switch_btn.html('答え表示する');
+  } else {
+    flg = 1;
+    switch_btn.html('答えを隠す');
+    switch_btn.removeClass('hide');
+  }
+  $('#message').addClass('hide');
+  return flg;
+}
+
+
+});
+</script>
+</body>
+</html> 

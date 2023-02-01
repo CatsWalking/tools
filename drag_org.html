@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="./common/images/favicon.svg" sizes="any">
+<title>tools</title>
+<link rel="stylesheet" href="./common/css/reset.css">
+<link rel="stylesheet" href="./common/css/style.css?testd">
+<link rel="stylesheet" href="./common/css/modal.css?test">
+<link rel="stylesheet" href="./common/css/tools.css?testd">
+<style>
+/* .main{
+	margin:0;
+	padding:1.0em;
+	width: auto;
+	text-align:center;
+} */
+
+.drop_zone{
+	width: auto;
+	/* height: 5em; */
+	margin: 0;
+	padding: 1em;
+	border: 3px dotted #666;
+	background: #DDD;
+	color: #444;
+}
+
+.display_none{
+	display:none;
+}
+@media screen and (min-width: 960px) {
+  main{
+    width:90%;
+
+    
+  }
+}
+#dd_box{
+  display:flex;
+  height:100vh;
+}
+#dd_box #dd_left{
+  width: 80%;
+  background-color: rgb(249, 228, 228);
+  margin-right: 5px;
+}
+#dd_box #dd_right{
+  width: 20%;
+  background-color: rgb(229, 229, 252);
+}
+
+</style>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="header__inner">
+        <h1 class="header__title header-title">
+          <a href="index.html">★ Roku tools </a>
+        </h1>
+
+        <nav class="header__nav nav" id="js-nav" style="vertical-align: top;">
+          <ul class="nav__items nav-items">
+            <li class="nav-items__item"><a href="redsheet.html">赤シート</a></li>
+            <li class="nav-items__item"><a href="calc.html">計算ツール</a></li>
+            <li class="nav-items__item"><a href="timer.html">タイマー</a></li>
+            <li class="nav-items__item"><a href="reversi.html">オセロ</a></li>
+            <li class="nav-items__item"><a href="memory.html">神経衰弱</a></li>
+            <li class="nav-items__item"><a href="flash.html">フラッシュ暗算</a></li>
+            <li class="nav-items__item"><a href="watch.html">ストップウォッチ</a></li>
+            <li class="nav-items__item"><a href="prime.html">素数パズル</a></li>
+            <li class="nav-items__item"><a href="maketen.html">テンパズル</a></li>
+            <li class="nav-items__item"><a href="bmi.html">bmi</a></li>
+            <li class="nav-items__item"><a href="maze.html">迷路</a></li>
+            <li class="nav-items__item"><a href="tools.html">ツール</a></li>
+          </ul>
+        </nav>
+        <button class="header__hamburger hamburger" id="js-hamburger">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </header>
+    <main>
+      <h1>drag &amp; drop file and base64 sampl</h1>
+     <div id="dd_box">
+        <div id="dd_left">drag file here...</div>
+        <div id="dd_right" class="sortable"></div>
+      </div>
+
+      <!-- クリックアップロード用 -->
+      <form id="id_form_upload" action="javascript:;">
+        <input type="file" name="file" id="js-id_file" class="display_none" accept="image/gif,image/png,image/jpeg" />
+      </form>
+
+</main>
+</div><!-- container -->
+<script src="./common/js/jquery-3.6.3.min.js"></script>
+<script src="./common/js/jquery-ui.js"></script>
+<script src="./common/js/common.js"></script>
+<script src="./common/js/tools.js?tesat"></script>
+
+<script>
+'use strict';
+$(function(){
+// 最大ファイルサイズ
+var MAX_FILE_SIZE = 1048576 * 5;
+// var MAX_FILE_SIZE = 1048576 * 2;
+
+
+// リストを並べ替え可能に
+$( ".sortable" ).sortable();
+
+
+// ファイルフォーマットチェック
+var checkFileFormat = function( type, size ) {
+  if ( ! /^image\/(gif|png|jpeg)$/.test( type ) ) {
+    alert( "画像ファイルではありません。" );
+    return false;
+  }
+  if ( size > MAX_FILE_SIZE ) {
+    alert( "ファイルサイズは " + MAX_FILE_SIZE + "bytes 以下にしてください。" );
+    return false;
+  }
+  return true;
+};
+
+// .main は drag drop 不可にしておく
+// $(".main").on("dragenter dragover dragleave drop", function(){
+//   return false;
+// });
+
+//-------------------------------------
+// #js-dd_left は drag & drop 可能に
+//-------------------------------------
+$("#dd_left")
+  // ドラッグオーバー時は背景色を変更
+  .on( "dragover.js", function(){
+    $(this).css({"backgroundColor":"#FFA"});
+    return false;
+  })
+  // ドラッグアウト時も背景色を変更
+  .on( "dragleave.js", function(){
+    $(this).css({"backgroundColor":"#DDD"});
+    return false;
+  })
+  // ドロップ時の処理
+  .on( "drop.js", function(evt){
+    var that = this;
+    var file = evt.originalEvent.dataTransfer.files[0];
+    var data = {
+      name : file.name,
+      size : file.size,
+      type : file.type,
+      base64 : ""
+    };
+
+    // フォーマットチェック
+    if ( ! checkFileFormat( data.type, data.size ) ) {
+      $(that).css({"backgroundColor":"#DDD"});
+      return false;
+    }
+
+    // 読み込み処理
+    var fileReader = new FileReader();
+    fileReader.readAsDataURL( file );
+    fileReader.onload = function( event ) {
+      data.base64 = this.result.split(',')[1];	// base64取得
+      displayImage( data );
+    };
+
+    // 読み込み終わりの処理
+    fileReader.onloadend = function(){
+      $(that).css({"backgroundColor":"#DDD"});
+    };
+    return false;
+  })
+  //-------------------------------------
+  // クリック時はfileダイアログオープン
+  .on( "click.js", function(){
+    $("#js-id_file").trigger( "click" );
+});
+
+//-------------------------------------
+// クリックアップロード時は onChange イベント経由で処理
+//-------------------------------------
+$("#js-id_file").on( "change.js", function(){
+  var files = $(this).prop( "files" );
+  // 何もアップロードされなかった場合
+  if ( files.length !== 1 ) {
+    return false;
+  }
+  var file = files[0];
+  var data = {
+    name : file.name,
+    size : file.size,
+    type : file.type,
+    base64 : ""
+  };
+  // フォーマットチェック
+  if ( ! checkFileFormat( data.type, data.size ) ) {
+    return false;
+  }
+  // ファイル読込
+  var fileReader = new FileReader();
+  fileReader.readAsDataURL( file );
+  fileReader.onload = function( event ) {
+    data.base64 = this.result.split(',')[1]; // base64取得
+    displayImage( data );
+  };
+  // 読み込み終わり時の処理
+  fileReader.onloadend = function( event ){
+  };
+});
+
+
+//-------------------------------------
+// 右ステージに画像を追加していく
+//-------------------------------------
+var displayImage = function( data ) {
+  let html = "<div>"
+          +"  <img src='data:"+ data.type +";base64,"+data.base64+"' style='max-width:100%;cursor:pointer;'>"
+          +"  <div class='square_btn' style=''></div>"
+          +"</div>";
+  $('#dd_right').append(html);
+};
+// 削除
+$(document).on('click', '#dd_right .square_btn', function(){
+  $(this).parent('div').remove();
+})
+
+
+//-------------------------------------
+// 左ステージにに表示
+//-------------------------------------
+$(document).on('click', '#dd_right img', function(){
+  $("#dd_left").html("<img src='"+$(this).attr('src')+"' style='max-width:100%'>");
+})
+
+
+
+});    
+   
+</script>
+</body>
+</html> 
