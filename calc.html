@@ -24,6 +24,9 @@
 .input{
   width:100px!important;
 }
+.input_s{
+  width: 60px !important;
+}
 .result{
     font-size:30px;
     display: flex;
@@ -86,13 +89,21 @@
           <td><div class="result"></div></td>
         </tr>
         <tr id="pi">
-            <th>円周の長さ<br>((□+□)×3.14)</th>
-            <td><input type="input" class="input" maxlength="4"> </td>
+            <td colspan="2">
+              <div class="txtBlue -s">円周の長さ</div>
+                (<input type="input" class="input input_s same1" maxlength="3"> + 
+                <input type="input" class="input input_s same2" maxlength="3" readonly="readonly" >) 
+                × 3.14 × <input type="input" class="input input_s" maxlength="3" value="360"> 度 = 
+            </td>
             <td><div class="result"></div></td>
         </tr>
         <tr id="pi2">
-          <th>円の面積<br>(□×□×3.14)</th>
-          <td><input type="input" class="input" maxlength="4"> </td>
+          <td colspan="2">
+            <div class="txtBlue -s">円の面積</div>
+              (<input type="input" class="input input_s same1" maxlength="3"> × 
+              <input type="input" class="input input_s same2" maxlength="3" readonly="readonly" >) 
+              × 3.14 × <input type="input" class="input input_s" maxlength="3" value="360"> 度 = 
+          </td>
           <td><div class="result"></div></td>
       </tr>
       </tbody>
@@ -123,5 +134,10 @@
 <script src="./common/js/common.js"></script>
 <script src="./common/js/tools.js?tesat"></script>
 <script src="./common/js/calc.js?tesat"></script>
+<script>
+  $('.same1').keyup(function(){
+    $(this).parent().find('.same2').val($(this).val());
+  })
+</script>
 </body>
 </html> 
