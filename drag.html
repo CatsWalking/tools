@@ -168,13 +168,11 @@ $("#dd_left")
       type : file.type,
       base64 : ""
     };
-
     // フォーマットチェック
     if ( ! checkFileFormat( data.type, data.size ) ) {
       $(that).css({"backgroundColor":"#DDD"});
       return false;
     }
-
     // 読み込み処理
     var fileReader = new FileReader();
     fileReader.readAsDataURL( file );
@@ -182,7 +180,6 @@ $("#dd_left")
       data.base64 = this.result.split(',')[1];	// base64取得
       displayImage( data );
     };
-
     // 読み込み終わりの処理
     fileReader.onloadend = function(){
       $(that).css({"backgroundColor":"#DDD"});
@@ -227,7 +224,6 @@ $("#js-id_file").on( "change.js", function(){
   };
 });
 
-
 //-------------------------------------
 // 右ステージに画像を追加していく
 //-------------------------------------
@@ -243,12 +239,14 @@ $(document).on('click', '#dd_right .square_btn', function(){
   $(this).parent('div').remove();
 })
 
-
 //-------------------------------------
 // 左ステージにに表示
 //-------------------------------------
 $(document).on('click', '#dd_right img', function(){
     var ctx = canvas.getContext("2d");
+    // clear
+    ctx.clearRect(0, 0, ctx.canvas.clientWidth, ctx.canvas.clientHeight);
+
     var img = new Image();
     img.src = $(this).attr('src');
     var sw = img.naturalWidth;
@@ -260,10 +258,8 @@ $(document).on('click', '#dd_right img', function(){
     canvas.toBlob(function (blob) {
       blobimg = blob;
     });
-
    switch2(2);
 })
-
 
 
 //-------------------------------------
@@ -284,7 +280,6 @@ document.onpaste = function (pasteEvent) {
     imagePaste(canvas, blobimg);
     switch2(2);
   }
-  
   return;
 };
 
@@ -320,11 +315,11 @@ function hideAnswer() {
     g = imageData.data[i * 4 + 1];
     b = imageData.data[i * 4 + 2];
 
-            var threshold = 16 ;
-            var ismono = (
-                    ( Math.abs(r-g)) < threshold  &&
-                    ( Math.abs(g-b)) < threshold  &&
-                    ( Math.abs(b-r)) < threshold  ) ;
+    var threshold = 16 ;
+    var ismono = (
+            ( Math.abs(r-g)) < threshold  &&
+            ( Math.abs(g-b)) < threshold  &&
+            ( Math.abs(b-r)) < threshold  ) ;
 
     if ( !ismono ){
       imageData.data[i * 4] = 255;
