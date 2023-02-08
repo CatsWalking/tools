@@ -150,6 +150,7 @@ main {
 .header__hamburger {
   width: 48px;
   height: 100%;
+  cursor: pointer;
 }
 .hamburger {
   background-color: transparent;

@@ -10,8 +10,12 @@
 <link rel="stylesheet" href="./common/css/style.css?testd">
 <link rel="stylesheet" href="./common/css/modal.css?test">
 <link rel="stylesheet" href="./common/css/tools.css?testd">
-<style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300&display=swap" rel="stylesheet">
 
+<style>
+body,div,input{font-family: 'Lato', sans-serif;}
 /* メニューさいころ */
 ul.dice {
   display: flex;
@@ -69,35 +73,7 @@ ul.dice img {
 </head>
 <body>
   <div class="container">
-    <header class="header">
-      <div class="header__inner">
-        <h1 class="header__title header-title">
-          <a href="index.html">★ Roku tools </a>
-        </h1>
-
-        <nav class="header__nav nav" id="js-nav">
-          <ul class="nav__items nav-items">
-            <li class="nav-items__item"><a href="redsheet.html">赤シート</a></li>
-            <li class="nav-items__item"><a href="calc.html">計算ツール</a></li>
-            <li class="nav-items__item"><a href="timer.html">タイマー</a></li>
-            <li class="nav-items__item"><a href="reversi.html">オセロ</a></li>
-            <li class="nav-items__item"><a href="memory.html">神経衰弱</a></li>
-            <li class="nav-items__item"><a href="flash.html">フラッシュ暗算</a></li>
-            <li class="nav-items__item"><a href="watch.html">ストップウォッチ</a></li>
-            <li class="nav-items__item"><a href="prime.html">素数パズル</a></li>
-            <li class="nav-items__item"><a href="maketen.html">テンパズル</a></li>
-            <li class="nav-items__item"><a href="bmi.html">bmi</a></li>
-            <li class="nav-items__item"><a href="maze.html">迷路</a></li>
-            <li class="nav-items__item"><a href="tools.html">ツール</a></li>
-          </ul>
-        </nav>
-        <button class="header__hamburger hamburger" id="js-hamburger">
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
-      </div>
-    </header>
+    <header class="header"></header>
     <main>
       <ul class="dice">
         <li><a href="redsheet.html"></a><br>赤シート</li>
@@ -112,9 +88,8 @@ ul.dice img {
         <li><a href="bmi.html"></a><br>bmi</li>
         <li><a href="maze.html"></a><br>迷路</li>
         <li><a href="tools.html"></a><br>ツール</li>
-
     </ul>
-
+    
       <div class="caution">
         <div style="text-align: center;">😀以下をご了承していただける方のみご利用ください😀</div>
         <hr>
@@ -129,6 +104,7 @@ ul.dice img {
 <script src="./common/js/jquery-3.6.3.min.js"></script>
 <script src="./common/js/jquery-ui.js"></script>
 <script src="./common/js/common.js"></script>
+<script src="./common/js/load.js?tesat"></script>
 <script src="./common/js/tools.js?tesat"></script>
 </body>
 </html> 
