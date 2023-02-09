@@ -1,10 +1,14 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto:100,300');
-body, input, div, span{
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@100;300&display=swap');
+html, body, input, textarea, select, .btn, th, td {
   color:#44505b;
+  font-family: 'Lato', sans-serif;
+}
+.btn{
+  color:rgb(242, 235, 235);
 }
 .container{
-  background-color: #ecf0f7;
-
+  background-color: #f2f4f7;
 }
 main{
   width:90%;

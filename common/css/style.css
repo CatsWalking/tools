@@ -51,7 +51,7 @@ main {
   left: 0;
   right: 0;
   z-index: 999;
-  background-color: #d2ddeb;
+  background-color: #dce7f2;
 }
 
 .header__inner {
@@ -320,8 +320,12 @@ table {
   box-sizing: border-box;
   cursor: pointer;
   transition: background 0.3s, border-radius 0.3s;
-  background: #0092cb;
-  border: 1px solid #0092cb;
+  background: #4aaad0;
+  border: none;
+}
+.btn:hover {
+  border-radius: 5px;
+  filter:brightness(1.2);
 }
 .btn:focus {
   outline: none !important;
@@ -336,38 +340,21 @@ table {
 }
 .btn.-yellow {
   background: #faa600;
-  border: 1px solid #faa600;
-}
-.btn.-yellow:hover {
-  background: #db9200;
-  border-radius: 5px;
 }
 .btn.-gray {
   background: #7e8d9b;
-  border: 1px solid #7e8d9b;
-}
-.btn.-gray:hover {
-  background: #55626d;
-  border-radius: 5px;
 }
 .btn.-red {
-  background: #e94d4d;
-  border: 1px solid #e94d4d;
-}
-.btn.-red:hover {
-  background: #c71919;
-  border-radius: 5px;
+  background: #e35f5f;
 }
 .btn.-disabled {
   background: #cfd3d3;
-  border: 1px solid #cfd3d3;
   cursor: default;
 }
 .btn.-start {
   width: 170px!important;;
   height: 55px;line-height: 50px;
-  background: #e94d4d;
-  border: 1px solid #e94d4d;
+  background: #e35f5f;
 }
 .btn.-reset {
   height: 55px;line-height: 50px;

@@ -16,7 +16,7 @@
   margin: 0 auto;
 }    
 #calc th{
-  width:26%;
+  width:10%;
 }
 #calc td:nth-child(2){
   width:37%;
@@ -26,7 +26,6 @@
 }
 .result{
     font-size:30px;
-    display: flex;
 }
 .ruby3{
     font-size:18px;
@@ -53,6 +52,9 @@
   height: 32px !important;
   text-align: center;
 }
+.flex{
+  display:flex;
+}
 </style>
 </head>
 <body>
@@ -63,27 +65,55 @@
       <tbody>
         <tr id="multi">
           <th>掛け算</th>
-          <td style="display:flex;">
-              <input type="input" class="input number"> 
+          <td>
+            <div class="flex">
+              <input type="input" class="input number" data-type="multi"> 
               <div class="sign">×</div> 
-              <input type="input" class="input number"> 
+              <input type="input" class="input number" data-type="multi"> 
+              <div class="sign">=</div> 
+            </div>
             </td>
-            <td><div class="result"></div></td>
+            <td><span class="result"></span></td>
           </tr>
           <tr id="division">
-            <th rowspan="2">割り算</th>
-            <td style="display:flex;"><input type="input" class="input number">
-              <div class="sign">÷</div> 
-              <input type="input" class="input number"> 
+            <th>割り算</th>
+            <td>
+              <div class="flex">
+                <input type="input" class="input number" data-type="division"> 
+                <div class="sign">÷</div> 
+                <input type="input" class="input number" data-type="division"> 
+                <div class="sign">=</div> 
+              </div>
             </td>
-            <td><div class="result"></div></td>
-          </tr>
-          <tr>
-            <td >
-            <div class="option">(小数点 第 <input type="input" id="division_decimal" class="input decimal" value="2"> 位)</div>
-            </td>
+            <td><span class="result"></span></td>
           </tr>
 
+          <!-- 150点中90点は6割 -->
+          <tr id="rate1">
+            <th>割</th>
+            <td>
+              <div class="flex">
+                <input type="input" class="input number" data-type="rate1"> 
+                <div style="width:50px"> 点中 </div>               
+                <input type="input" class="input number" data-type="rate1"> 
+                <div style="width:50px"> 点は </div>
+              </div>
+            </td>
+            <td><span class="result"></span> 割</td>
+          </tr>
+          <!-- 150点の6割は90点 -->
+          <tr id="rate2">
+            <th>割</th>
+            <td>
+              <div class="flex">
+                <input type="input" class="input number" data-type="rate2"> 
+                <div style="width:50px"> 点中 </div>
+                <input type="input" class="input number" data-type="rate2"> 
+                <div style="width:50px"> 割は </div>
+              </div>
+            </td>
+            <td><span class="result"></span> 点</td>
+          </tr>
       </tbody>
     </table>
 
@@ -100,6 +130,9 @@
       <li >9</li>
       <li >0</li>
     </ul>
+
+
+    <div class="option">小数点 第 <input type="input" id="division_decimal" class="input decimal" value="2" data-type="division"> 位まで</div>
     <div class="btnBox" style="text-align: center!important;">
       <div class="btn" id="js_clear">クリア</div>
       <div class="btn -red" id="js_all_clear">全てクリア</div>
@@ -121,6 +154,7 @@ $(function(){
   let target_index = 0;
   let active_input = $('#'+active).find('.input').eq(target_index);
   let active_result;
+  let input1,input2,input3;
 
   /*-----------------------
     init
@@ -141,12 +175,27 @@ let num
 $('.tenkey_box li').click(function(){
   let n = $(this).html();
   active_input.val(active_input.val()+n);
-  calc(active_input);
+  calc();
 })
-function calc(active_input){
-  let input1 = $('#'+active).find('.input').eq(0).val();
-  let input2 = $('#'+active).find('.input').eq(1).val();
 
+
+$('#calc').on('click, focusin', '.input', function(){
+    active = $(this).data('type');
+    target_index = $(this).index()-1;
+    if(target_index<0){
+      target_index = 0;
+    }
+    init();
+  })
+$('#calc').on('keyup', '.input', function(){
+  calc();
+})
+
+function calc(){
+  input1 = $('#'+active).find('.input').eq(0).val();
+  input2 = $('#'+active).find('.input').eq(1).val();
+  input3 = $('#'+active).find('.input').eq(2).val();
+console.log('input',input1,input2,input3);
   switch(active){
     case 'multi':   
       // 掛け算
@@ -161,26 +210,22 @@ function calc(active_input){
         for(i=0; i<$('#division_decimal').val(); i++){
           keta = keta*10;
         }
-        console.log($('#division_decimal').val(),keta);
-
-            active_result.html(Math.round(input1/input2*keta)/keta);
-
-        
+        active_result.html(Math.round(input1/input2*keta)/keta);
       }
+    break;
+    case 'rate1':  
+      // 150点中90点は6割
+      active_result.html(Math.round(input2/input1*10*2)/2);
+      break;
+    case 'rate2':  
+      // 150点の6割は90点
+      active_result.html(input1*input2/10);
     break;
       
   }
 }
 
 
-  $('#calc').on('click', '.input', function(){
-    active = $(this).parent().parent().attr('id');
-    target_index = $(this).index()-1;
-    if(target_index<0){
-      target_index = 0;
-    }
-    init();
-  })
 /*-----------------------
   all clear
 -----------------------*/
