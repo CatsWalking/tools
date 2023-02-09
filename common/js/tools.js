@@ -31,7 +31,13 @@ const header = '<div class="header__inner">'
     +'</div>'
 $("header").html(header); // TODO load関数はローカルで使えないので。
 
+const clear = '<div class="btn -red" id="js_all_clear">全てクリア</div><div class="btn" id="js_clear">クリア</div>';
+$(".clear_box").html(clear);
 
+
+
+
+/*----------------------------*/
 // スマホだったらソフトウェアキーボードを表示しない
 if(isSP()){
     $(".input").attr('readOnly', 'true');
