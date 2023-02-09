@@ -1027,6 +1027,10 @@ table.-tableHover tr:hover td {
   display: grid;
   grid-template-columns: 33% 33% 34%;
 }
+.tenkey_box.-row3 {
+  display: grid;
+  grid-template-columns: 16% 16% 16% 17% 17% 17%;
+}
 .tenkey_box li {
   height: 60px;
   line-height: 60px;
