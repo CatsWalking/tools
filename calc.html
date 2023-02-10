@@ -17,7 +17,7 @@
 }
 .sign{
   display: inline-block;
-  min-width:28px;
+  min-width:10px;
   text-align: center;
   color: #5b84a8;
   font-size: 0.8rem;
@@ -26,17 +26,16 @@
   max-width: 100%;
   margin: 0 auto;
 }    
-#calc td:nth-child(1){
-  width:70%;
-}
 .input{
   width:90px!important;
 }
 .input_s{
-  width: 58px !important;
+  width: 70px !important;
 }
 .result{
-  font-size:30px;
+  display: inline-block;
+  font-size:24px;
+  min-width: 100px;
 }
 .ruby3{
   font-size:18px;
@@ -63,82 +62,85 @@
         <tr id="prime">
             <td>
               <div class="calc_txt">素因数分解</div>
-              <input type="input" class="input" maxlength="6"></td>
+              <input type="input" class="input" maxlength="6">
+            </td>
             <td><div class="result" style="display: flex"></div></td>
         </tr>
         <tr id="squre">
-            <td>
+            <td colspan="2">
               <div class="calc_txt">平方数</div>
-              <input type="input" class="input" placeholder="11" maxlength="4"></td>
-            <td><div class="result"></div></td>
+              <input type="input" class="input" placeholder="11" maxlength="4">
+              <div class="result" style="margin-left: 50px;"></div>
+            </td>
         </tr>
         <tr id="squre_root">
-          <td>
+          <td colspan="2">
             <div class="calc_txt">平方根</div>
-            <input type="input" class="input" placeholder="144" maxlength="4"></td>
-          <td><div class="result"></div></td>
+            <input type="input" class="input" placeholder="144" maxlength="4">
+            <div class="result" style="margin-left: 50px;"></div>
+          </td>
         </tr>
         <tr id="pi">
-            <td>
+            <td colspan="2">
               <div class="calc_txt">円周の長さ</div>
                 (<input type="input" class="input input_s same1" maxlength="3">
                 <span class="sign">  + </span>
                 <input type="input" class="input input_s same1" onFocus="this.blur()" maxlength="3" readonly="readonly" >) 
                 <span class="sign"> × 3.14 × </span> 
                 <input type="input" class="input input_s" maxlength="3" value="360"> <span class="sign">度 =</span> 
+                <div class="result"></div>
             </td>
-            <td><div class="result"></div></td>
         </tr>
         <tr id="pi2">
-          <td>
+          <td colspan="2">
             <div class="calc_txt">円の面積</div>
               <input type="input" class="input input_s same2" maxlength="3"> 
               <span class="sign">  × </span>
               <input type="input" class="input input_s same2" onFocus="this.blur()" maxlength="3" readonly="readonly" > 
              <span class="sign"> × 3.14 × </span> 
              <input type="input" class="input input_s" maxlength="3" value="360"> <span class="sign">度 =</span> 
+             <div class="result"></div>
           </td>
-          <td><div class="result"></div></td>
       </tr>
       <tr id="multi">
-        <td>
+        <td colspan="2">
           <div class="calc_txt">掛け算</div>
             <input type="input" class="input number" data-type="multi"> 
             <span class="sign">×</span> 
             <input type="input" class="input number" data-type="multi"> 
             <span class="sign">=</span> 
+            <div class="result"></div>
           </td>
-          <td><span class="result"></span></td>
         </tr>
         <tr id="division">
-          <td>
+          <td colspan="2">
               <div class="calc_txt">割り算</div>
               <input type="input" class="input number" data-type="division"> 
               <span class="sign">÷</span> 
               <input type="input" class="input number" data-type="division"> 
               <span class="sign">=</span> 
+              <div class="result"></div>
           </td>
-          <td><span class="result"></span></td>
         </tr>
           <!-- 150点中90点は6割 -->
           <tr id="rate1">
-            <td>
-                <input type="input input_s" class="input number" data-type="rate1"> 
+            <td colspan="2">
+                <input type="input" class="input input_s number" data-type="rate1"> 
                 <span class="sign"> 点中 </span>               
-                <input type="input input_s" class="input number" data-type="rate1"> 
+                <input type="input" class="input input_s number" data-type="rate1"> 
                 <span class="sign"> 点は </span>
+                <span class="result"></span> <span class="sign"> 割</span>
             </td>
-            <td><span class="result"></span> <span class="sign"> 割</span></td>
           </tr>
           <!-- 150点の6割は90点 -->
           <tr id="rate2">
-            <td>
-                <input type="input input_s" class="input number" data-type="rate2"> 
+            <td colspan="2">
+                <input type="input" class="input input_s number" data-type="rate2"> 
                 <span class="sign"> 点中 </span>
-                <input type="input input_s" class="input number" data-type="rate2"> 
+                <input type="input" class="input input_s number" data-type="rate2"> 
                 <span class="sign"> 割は </span>
+                <span class="result"></span> <span class="sign"> 点</span>
             </td>
-            <td><span class="result"></span> <span class="sign"> 点</span></td>
           </tr>
       </tbody>
     </table>
