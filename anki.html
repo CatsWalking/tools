@@ -64,9 +64,6 @@
         <div class="btn -gray hide" id="js_back" >戻る</div>
         <div class="btn -blue" id="js_next" >次へ</div>
       </div>
-
-
-      <div id="questions" class="hide">___QUESTIONS___</div>
     </main>
 </div><!-- container -->
 <script src="./common/js/jquery-3.6.3.min.js"></script>
@@ -78,19 +75,23 @@
   'use strict'
   $(function(){
       let no=0;
-      let questions = $.parseJSON($('#questions').html())
+      let questions;
       let Q = $('#question');
       let A = $('#answer');
       let id = $('#id');
       let status = $('#status');
       let cnt = $('#cnt');
-
-       // 設問セット
-       set();
+      let url = 'https://mami.tools/tools/';
+        
+      url += '?action=getAllAnswer';
+      $.get(url, function(data){
+        questions = data
+        // 設問セット
+        set();
+      })
 
       // 解答 表示・非表示
       $('#answer_box, #question').click(function(){
-        console.log(111,A.hasClass('hide'));
         if(A.hasClass('hide')){
           A.removeClass('hide');
         } else {
@@ -102,16 +103,9 @@
       $('#result .btn').click(function(){
         // 解答が非表示だったら、まず開いてから
         if(A.hasClass('hide')){
-          console.log(444);
           A.removeClass('hide');
           return;
-        }
-
-        if(document.URL.match(/github/)) {
-          let url = 'https://mami.tools/tools/anki.html';
-        } else {
-          let url = getUrl();
-        }
+        }      
         url += '?action=Answer&status='+$(this).data('status')+'&id='+id.html()+'&cnt='+cnt.html();
         $.get(url, function(){
           no++;
@@ -149,7 +143,6 @@
         no++;
         set();
       })
-
   })
 </script>
 </body>
