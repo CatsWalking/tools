@@ -103,8 +103,12 @@
           A.removeClass('hide');
           return;
         }
-        // let url = 'https://mami.tools/tools/anki.html';
-        let url = getUrl();
+
+        if(document.URL.match(/github/)) {
+          let url = 'https://mami.tools/tools/anki.html';
+        } else {
+          let url = getUrl();
+        }
         url += '?action=Answer&status='+$(this).data('status')+'&id='+id.html()+'&cnt='+cnt.html();
         $.get(url, function(){
           no++;
