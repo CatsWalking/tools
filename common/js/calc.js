@@ -5,8 +5,19 @@ Roku tools
 
 let i;
 let active = 'prime';
-let active_input = $('#'+active).find('.input');
+let target_index = 0;
+let active_input = $('#'+active).find('.input').eq(target_index);
 let active_result;
+let input1, input2, input3;
+let division_decimal = $('#division_decimal');
+let keta=1;
+for(i=0; i<division_decimal.val(); i++){
+  keta = keta*10;
+}
+
+// let active_input = $('#'+active).find('.input');
+
+
 
 //-------------------
 // init
@@ -17,7 +28,6 @@ function init(){
     active_result = $('#'+active).find('.result');
 }
 init();
-// active_input.focus();
 $('#'+active).find('.input').focus();
 
 //-------------------
@@ -26,9 +36,10 @@ $('#'+active).find('.input').focus();
 $('#calc').on('focus click', '.input', function(){
     active = $(this).parent().parent().attr('id');
     active_input = $(this);
-    $(this).val('');
-    active_input = $(this);
     init();
+})
+$('#calc').on('dblclick', '.input', function(){
+    $(this).val('');
 })
 
 //-------------------
@@ -40,6 +51,14 @@ $('.tenkey_box li').click(function(){
     active_input.val(active_input.val()+n);
     calc(active_input);
 })
+//-------------------
+// 小数点指定変更されたら
+division_decimal.change(function(){
+    keta=1;
+    for(i=0; i<division_decimal.val(); i++){
+        keta = keta*10;
+    }
+})
 
 /*-----------------------
   計算
@@ -47,53 +66,73 @@ $('.tenkey_box li').click(function(){
 function calc(active_input){
     active_result.html('')
     let id = active_input.parent().parent().attr('id');
-    let res;
+    console.log('id',id);
+
+    let inputs = $('#'+id).find('.input');
+    if(inputs.eq(0).length){
+        input1 = inputs.eq(0).val();
+    }
+    if(inputs.eq(1).length){
+        input2 = inputs.eq(1).val();
+    }
+    if(inputs.eq(2).length){
+        input3 = inputs.eq(2).val();
+    }
+
     //-------------------------
     // 素因数分解、平方数、平方根
     //-------------------------
-    if(id=='prime' || id=='squre' || id=='squre_root'){
-        let val = active_input.val();
-        if(val!='' && val!='-' && val!='0'){
-            val = parseInt(zenToHan(val));
-            switch(id){
-                case 'prime':       // 素因数分解
-                    res = prime(val); 
-                    break;
-                case 'squre':       // 平方数
-                    res = val*val;
-                    break;
-                case 'squre_root':   // 平方根
-                    res = Math.round( Math.sqrt(val) * 1000 ) / 1000;
-                    break;
-      
+    let res;
+    switch(id){
+        case 'prime':
+            // 素因数分解
+            res = prime(input1); 
+            break;
+        case 'squre': 
+            // 平方数
+            res = input1*input1;
+            break;
+        case 'squre_root':
+            // 平方根
+            res = Math.round( Math.sqrt(input1) * 1000 ) / 1000;
+            break;
+        case 'pi':
+            // 円周の長さ
+            res = Math.round((input1 + input1) * 3.14 * (input3 / 360) * 100) / 100
+            break; 
+        case 'pi2': 
+            // 円の面積
+            res = Math.round((input1 * input1) * 3.14 * (input3 / 360) * 100) / 100
+            break;        
+        case 'multi':   
+            // 掛け算
+            if(Number.isInteger(input1 * input2)){
+                res = input1*input2;
+            } else {
+                res = Math.round(input1 * input2 * keta) / keta;
             }
-            active_result.html(res)
-        }
-    //-------------------------
-    // 円周の長さ、円の面積
-    //-------------------------
-    } else if(id=='pi' || id=='pi2'){
-        let myInput = active_input.parent().parent().find('.input');
-        let val1 = myInput.eq(0).val();
-        let val2 = myInput.eq(1).val();
-        let val3 = myInput.eq(2).val();
-
-        console.log(val1, val2, val3);
-        if(val1!='' && val1!='-' && val1!='0' && val3!='' && val3!='-' && val3!='0'){
-            val1 = parseInt(zenToHan(val1));
-            val3 = parseInt(zenToHan(val3));
-            switch(id){
-                case 'pi':// 円周の長さ                    
-                    res = Math.round((val1+val1) * 3.14 * (val3 / 360) * 100) / 100
-                    break; 
-                case 'pi2':// 円の面積                    
-                res = Math.round((val1*val1) * 3.14 * (val3 / 360) * 100) / 100
-                    break;         
-            }
-            active_result.html(res)
-        }
+            break;
+        case 'division':  
+            // 割り算
+            res = Math.round(input1 / input2 * keta) / keta;
+            break;
+        case 'rate1':  
+            // 150点中90点は6割
+            res = Math.round(input2 / input1 * 10 * 2) / 2
+            break;  
+        case 'rate2':  
+            // 150点の6割は90点
+            res = input1 * input2 / 10;
+            break;
+    }
+    // 結果
+    active_result.html('')
+    if(!(Number.isNaN(res) || res=='Infinity' || res==0)){
+        active_result.html(res)
     }
 }
+
+
 $('#calc .input').keyup(function(){
     calc($(this));
 })

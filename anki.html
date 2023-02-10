@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="./common/images/favicon.svg" sizes="any">
+<title>tools</title>
+<link rel="stylesheet" href="./common/css/reset.css">
+<link rel="stylesheet" href="./common/css/style.css?testd">
+<link rel="stylesheet" href="./common/css/modal.css?test">
+<link rel="stylesheet" href="./common/css/tools.css?tesddtd">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300&display=swap" rel="stylesheet">
+
+<style>
+#question,#answer{
+  margin: 50px auto;
+  width: 500px;
+  padding: 10px 20px 20px 10px;
+  border: 1px solid #333;
+  border-radius: 5px;
+  cursor: pointer;
+  line-height: 50px;
+}
+#question{
+  height: 200px;
+}
+#answer{
+  height: 50px;
+  text-align:center;
+}
+@media screen and (min-width: 960px) {
+  .caution{
+    width: 600px;
+  }
+}
+</style>
+</head>
+<body>
+  <div class="container">
+    <header class="header"></header>
+    <main>
+      <!-- 質問 -->
+      <div id="question"></div>
+      <!-- 解答 -->
+      <div style="height:80px;margin-bottom: 50px;" id="answer_box">
+        <div id="answer" class="hide"></div>
+      </div>
+      <div class="hide" id="id"></div>
+      <div id="status" class="hide"></div>
+      <span id="cnt"></span>回目
+ 
+      <div class="btnBox" id="result">
+        <div class="btn -yellow" data-status="3">NG</div>
+        <div class="btn -red" data-status="1">OK</div>
+        <div class="btn" data-status="2">REPEAT</div>
+      </div>
+      <div class="btnBox" style="margin-top: 30px;;">
+        <div class="btn -gray hide" id="js_back" >戻る</div>
+        <div class="btn -blue" id="js_next" >次へ</div>
+      </div>
+
+
+      <div id="questions" class="hide">___QUESTIONS___</div>
+    </main>
+</div><!-- container -->
+<script src="./common/js/jquery-3.6.3.min.js"></script>
+<script src="./common/js/jquery-ui.js"></script>
+<script src="./common/js/common.js"></script>
+<script src="./common/js/load.js?tesat"></script>
+<script src="./common/js/tools.js?tesat"></script>
+<script>
+  'use strict'
+  $(function(){
+      let no=0;
+      let questions = $.parseJSON($('#questions').html())
+      let Q = $('#question');
+      let A = $('#answer');
+      let id = $('#id');
+      let status = $('#status');
+      let cnt = $('#cnt');
+
+       // 設問セット
+       set();
+
+      // 解答 表示・非表示
+      $('#answer_box, #question').click(function(){
+        console.log(111,A.hasClass('hide'));
+        if(A.hasClass('hide')){
+          A.removeClass('hide');
+        } else {
+          A.addClass('hide');
+        }
+      })
+
+      // 回答
+      $('#result .btn').click(function(){
+        // 解答が非表示だったら、まず開いてから
+        if(A.hasClass('hide')){
+          console.log(444);
+          A.removeClass('hide');
+          return;
+        }
+        // let url = 'https://mami.tools/tools/anki.html';
+        let url = getUrl();
+        url += '?action=Answer&status='+$(this).data('status')+'&id='+id.html()+'&cnt='+cnt.html();
+        $.get(url, function(){
+          no++;
+          set();
+        })
+      })
+
+      // 設問セット
+      function set(){
+        Q.html(questions[no]['question'])
+        A.html(questions[no]['answer'])
+        id.html(questions[no]['id'])
+        status.html(questions[no]['status'])
+        cnt.html(questions[no]['cnt'])
+        A.addClass('hide');
+        if(no==0){
+          $('#js_back').addClass('hide')
+        } else {
+          $('#js_back').removeClass('hide')
+        }
+        if(no==questions.length-1){
+          $('#js_next').addClass('hide')
+        } else {
+          $('#js_next').removeClass('hide')
+        }
+      }
+
+      // 戻る
+      $('#js_back').click(function(){
+        no--;
+        set();
+      })
+      // 次へ
+      $('#js_next').click(function(){
+        no++;
+        set();
+      })
+
+  })
+</script>
+</body>
+</html> 

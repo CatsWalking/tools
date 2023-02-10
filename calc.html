@@ -11,15 +11,23 @@
 <link rel="stylesheet" href="./common/css/modal.css?test">
 <link rel="stylesheet" href="./common/css/tools.css?testd">
 <style>
+.calc_txt{
+  color: #5b84a8;
+  font-size: 0.85rem;
+}
+.sign{
+  display: inline-block;
+  min-width:30px;
+  text-align: center;
+  color: #5b84a8;
+  font-size: 0.8rem;
+}
 #calc {
   max-width: 100%;
   margin: 0 auto;
 }    
-#calc th{
-  width:28%;
-}
-#calc td:nth-child(2){
-  width:32%;
+#calc td:nth-child(1){
+  width:60%;
 }
 .input{
   width:100px!important;
@@ -29,7 +37,6 @@
 }
 .result{
     font-size:30px;
-    display: flex;
 }
 .ruby3{
     font-size:18px;
@@ -37,6 +44,14 @@
     padding-top:0;;
     padding-bottom:20px;
 } 
+.decimal{
+  width: 40px !important;
+  height: 32px !important;
+  text-align: center;
+}
+.flex{
+  display:flex;
+}
 </style>
 </head>
 <body>
@@ -46,43 +61,90 @@
     <table class="table2" id="calc">
       <tbody>
         <tr id="prime">
-            <th>素因数分解</th>
-            <td><input type="input" class="input" maxlength="6"></td>
-            <td><div class="result"></div></td>
+            <td>
+              <div class="calc_txt">素因数分解</div>
+              <input type="input" class="input" maxlength="6"></td>
+            <td><div class="result" style="display: flex"></div></td>
         </tr>
         <tr id="squre">
-            <th>平方数</th>
-            <td><input type="input" class="input" placeholder="11" maxlength="4"></td>
+            <td>
+              <div class="calc_txt">平方数</div>
+              <input type="input" class="input" placeholder="11" maxlength="4"></td>
             <td><div class="result"></div></td>
         </tr>
         <tr id="squre_root">
-          <th>平方根</th>
-          <td><input type="input" class="input" placeholder="144" maxlength="4"></td>
+          <td>
+            <div class="calc_txt">平方根</div>
+            <input type="input" class="input" placeholder="144" maxlength="4"></td>
           <td><div class="result"></div></td>
         </tr>
         <tr id="pi">
-            <td colspan="2">
-              <div class="txtBlue -s">円周の長さ</div>
-                (<input type="input" class="input input_s same1" maxlength="3"> + 
-                <input type="input" class="input input_s same2" maxlength="3" readonly="readonly" >) 
-                × 3.14 × <input type="input" class="input input_s" maxlength="3" value="360"> 度 = 
+            <td>
+              <div class="calc_txt">円周の長さ</div>
+                (<input type="input" class="input input_s same1" maxlength="3">
+                <span class="sign">  + </span>
+                <input type="input" class="input input_s same1" onFocus="this.blur()" maxlength="3" readonly="readonly" >) 
+                <span class="sign"> × 3.14 × </span> 
+                <input type="input" class="input input_s" maxlength="3" value="360"> <span class="sign">度 =</span> 
             </td>
             <td><div class="result"></div></td>
         </tr>
         <tr id="pi2">
-          <td colspan="2">
-            <div class="txtBlue -s">円の面積</div>
-              (<input type="input" class="input input_s same1" maxlength="3"> × 
-              <input type="input" class="input input_s same2" maxlength="3" readonly="readonly" >) 
-              × 3.14 × <input type="input" class="input input_s" maxlength="3" value="360"> 度 = 
+          <td>
+            <div class="calc_txt">円の面積</div>
+              <input type="input" class="input input_s same2" maxlength="3"> 
+              <span class="sign">  × </span>
+              <input type="input" class="input input_s same2" onFocus="this.blur()" maxlength="3" readonly="readonly" > 
+             <span class="sign"> × 3.14 × </span> 
+             <input type="input" class="input input_s" maxlength="3" value="360"> <span class="sign">度 =</span> 
           </td>
           <td><div class="result"></div></td>
       </tr>
+      <tr id="multi">
+        <td>
+          <div class="calc_txt">掛け算</div>
+            <input type="input" class="input number" data-type="multi"> 
+            <span class="sign">×</span> 
+            <input type="input" class="input number" data-type="multi"> 
+            <span class="sign">=</span> 
+          </td>
+          <td><span class="result"></span></td>
+        </tr>
+        <tr id="division">
+          <td>
+              <div class="calc_txt">割り算</div>
+              <input type="input" class="input number" data-type="division"> 
+              <span class="sign">÷</span> 
+              <input type="input" class="input number" data-type="division"> 
+              <span class="sign">=</span> 
+          </td>
+          <td><span class="result"></span></td>
+        </tr>
+          <!-- 150点中90点は6割 -->
+          <tr id="rate1">
+            <td>
+                <input type="input" class="input number" data-type="rate1"> 
+                <span class="sign"> 点中 </span>               
+                <input type="input" class="input number" data-type="rate1"> 
+                <span class="sign"> 点は </span>
+            </td>
+            <td><span class="result"></span> <span class="sign"> 割</span></td>
+          </tr>
+          <!-- 150点の6割は90点 -->
+          <tr id="rate2">
+            <td>
+                <input type="input" class="input number" data-type="rate2"> 
+                <span class="sign"> 点中 </span>
+                <input type="input" class="input number" data-type="rate2"> 
+                <span class="sign"> 割は </span>
+            </td>
+            <td><span class="result"></span> <span class="sign"> 点</span></td>
+          </tr>
       </tbody>
     </table>
 
     <!-- kenkey -->
-    <ul class="tenkey_box">
+    <ul class="tenkey_box -row3">
       <li >1</li>
       <li >2</li>
       <li >3</li>
@@ -93,7 +155,10 @@
       <li >8</li>
       <li >9</li>
       <li >0</li>
+      <li >.</li>
     </ul>
+
+    <div class="calc_txt">小数点 第 <input type="input" id="division_decimal" class="input decimal" value="2"> 位まで</div>
     <div class="btnBox clear_box" style="text-align: center!important;"></div>
 
 
@@ -102,11 +167,14 @@
 <script src="./common/js/jquery-3.6.3.min.js"></script>
 <script src="./common/js/jquery-ui.js"></script>
 <script src="./common/js/common.js"></script>
-<script src="./common/js/tools.js?tesat"></script>
-<script src="./common/js/calc.js?tesat"></script>
+<script src="./common/js/tools.js?tesadt"></script>
+<script src="./common/js/calc.js?tesdat"></script>
 <script>
   $('.same1').keyup(function(){
-    $(this).parent().find('.same2').val($(this).val());
+    $('.same1').val($(this).val());
+  })
+  $('.same2').keyup(function(){
+    $('.same2').val($(this).val());
   })
 </script>
 </body>
