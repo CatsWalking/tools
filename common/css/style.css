@@ -330,6 +330,7 @@ table {
 
 .btnBox .btn {
   min-width: 120px;
+  user-select: none;
 }
 
 .btnBox .btn+.btn {
