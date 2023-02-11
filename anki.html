@@ -69,6 +69,14 @@
         <div class="btn -gray inactive" id="js_back" >戻る</div>
         <div class="btn -blue" id="js_next" >次へ</div>
       </div>
+
+      <div class="mb20" id="tab_start_type">
+          <div class="btn -status">途中から</div>
+          <div class="btn -tab">初めから</div>
+          <div class="btn -tab">後ろから</div>
+          <div class="btn -tab">ランダム</div>
+      </div>
+
       <div id="add_form">
           <input type="text" id="new_subject" value="4">
           <textarea id="new_question"></textarea>
@@ -93,7 +101,10 @@
       let status = $('#status');
       let cnt = $('#cnt');
       let url = 'https://mami.tools/tools/';
-        
+
+      //--------------------------
+      // 設問を取得する
+      //--------------------------
       $.get(url+'?action=getAllAnswer', function(data){
         questions = data
         // 設問セット
@@ -115,7 +126,7 @@
         if(A.hasClass('hide')){
           A.removeClass('hide');
           return;
-        }      
+        }
         $.get(url+'?action=answer&status='+$(this).data('status')+'&id='+id.html(), function(){
           no++;
           set();
