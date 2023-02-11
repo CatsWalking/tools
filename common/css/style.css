@@ -395,6 +395,10 @@ table {
   background: #e35f5f;
 }
 
+.btn.-green {
+  background: #79cd7d;
+}
+
 .btn.-disabled {
   background: #cfd3d3;
   cursor: default;
@@ -460,7 +464,8 @@ table.-tableHover tr:hover td {
 
 .table1 th {
   color: #fff;
-  background: #1f94cc;
+  background: #4aaad0;
+  /* background: #1f94cc; */
   width: 150px;
 }
 
@@ -475,7 +480,8 @@ table.-tableHover tr:hover td {
 
 /* table2 */
 .table2 th {
-  color: #5b84a8;
+  color: #4aaad0;
+  /* color: #5b84a8; */
   text-align: left;
   line-height: 1.3;
   vertical-align: middle;
@@ -507,7 +513,8 @@ table.-tableHover tr:hover td {
 }
 
 .table3 th:not(.table2 th):not(.c-search__table th) {
-  color: #517798;
+  color: #4aaad0;
+  /* color: #517798; */
   background: #f6fbfe;
   width: 150px;
 }
@@ -1222,6 +1229,12 @@ table.-tableHover tr:hover td {
 
 .show2 {
   display: '';
+}
+
+.inactive {
+  cursor: auto;
+  background-color: rgb(217, 219, 219) !important;
+  color: rgb(191, 188, 188) !important;
 }
 
 .square_btn {

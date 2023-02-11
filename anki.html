@@ -7,9 +7,9 @@
 <link rel="icon" href="./common/images/favicon.svg" sizes="any">
 <title>tools</title>
 <link rel="stylesheet" href="./common/css/reset.css">
-<link rel="stylesheet" href="./common/css/style.css?testd">
+<link rel="stylesheet" href="./common/css/style.css?fdssds">
 <link rel="stylesheet" href="./common/css/modal.css?test">
-<link rel="stylesheet" href="./common/css/tools.css?tesddtd">
+<link rel="stylesheet" href="./common/css/tools.css?tesd333dtd">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300&display=swap" rel="stylesheet">
@@ -19,18 +19,22 @@
   margin: 30px auto;
   width: 90%;
   padding: 10px 20px 20px 10px;
-  border: 1px solid #333;
+  background-color: rgb(239, 240, 241);
+  /* border: 1px solid rgb(232, 233, 236); */
   border-radius: 5px;
   cursor: pointer;
   line-height: 50px;
 }
 #question{
   height: 220px;
+  color: rgb(98, 97, 103);
 }
 #answer{
   height: 50px;
   text-align:center;
+  color: rgb(126, 115, 120);
 }
+
 .btn{
   min-width: 90px!important;
 }
@@ -54,15 +58,22 @@
       <div class="hide" id="id"></div>
       <div id="status" class="hide"></div>
       <span id="cnt"></span>回目
+      <div><span id="no"></span> / <span id="total"></span></div>
  
       <div class="btnBox" id="result">
         <div class="btn -yellow" data-status="3">NG</div>
-        <div class="btn -red" data-status="1">OK</div>
-        <div class="btn" data-status="2">REPEAT</div>
+        <div class="btn -blue" data-status="1">OK</div>
+        <div class="btn -green" data-status="2">REPEAT</div>
       </div>
-      <div class="btnBox" style="margin-top: 30px;;">
-        <div class="btn -gray hide" id="js_back" >戻る</div>
+      <div class="btnBox" style="margin-top: 10px;;">
+        <div class="btn -gray inactive" id="js_back" >戻る</div>
         <div class="btn -blue" id="js_next" >次へ</div>
+      </div>
+      <div id="add_form">
+          <input type="text" id="new_subject" value="4">
+          <textarea id="new_question"></textarea>
+          <textarea id="new_answer"></textarea>
+          <div class="btn" id="js_save">保存</div>
       </div>
     </main>
 </div><!-- container -->
@@ -83,8 +94,7 @@
       let cnt = $('#cnt');
       let url = 'https://mami.tools/tools/';
         
-      url += '?action=getAllAnswer';
-      $.get(url, function(data){
+      $.get(url+'?action=getAllAnswer', function(data){
         questions = data
         // 設問セット
         set();
@@ -106,8 +116,7 @@
           A.removeClass('hide');
           return;
         }      
-        url += '?action=Answer&status='+$(this).data('status')+'&id='+id.html()+'&cnt='+cnt.html();
-        $.get(url, function(){
+        $.get(url+'?action=answer&status='+$(this).data('status')+'&id='+id.html(), function(){
           no++;
           set();
         })
@@ -119,30 +128,67 @@
         A.html(questions[no]['answer'])
         id.html(questions[no]['id'])
         status.html(questions[no]['status'])
-        cnt.html(questions[no]['cnt'])
+        cnt.html(parseInt(questions[no]['cnt']??0)+1)
         A.addClass('hide');
         if(no==0){
-          $('#js_back').addClass('hide')
+          $('#js_back').addClass('inactive')
         } else {
-          $('#js_back').removeClass('hide')
+          $('#js_back').removeClass('inactive')
         }
         if(no==questions.length-1){
-          $('#js_next').addClass('hide')
+          $('#js_next').addClass('inactive')
         } else {
-          $('#js_next').removeClass('hide')
+          $('#js_next').removeClass('inactive')
         }
+        $('#no').html(no+1);
+        $('#total').html(questions.length);
       }
 
       // 戻る
       $('#js_back').click(function(){
+        if($(this).hasClass('inactive')){
+          return;
+        }
         no--;
         set();
       })
       // 次へ
       $('#js_next').click(function(){
+        if($(this).hasClass('inactive')){
+          return;
+        }
         no++;
         set();
       })
+      // 保存
+      $('#js_save').click(function(){
+        console.log(url+"?action=saveAnki");
+        $.get(url+"?action=saveAnki", {subject : $('#new_subject').val(), answer : $('#new_answer').val(), question : $('#new_question').val() } )
+ 
+.done(function( data ) {
+ 
+    console.log( data );
+ 
+})
+        // console.log(url+"?action=saveAnki",
+        // $.post(url+"?action=saveAnki",
+        // {age: "32", name: "太郎", tel: "080-1234-5678"})}
+
+      //   $.ajax({
+      //   url: url+"?action=saveAnki",
+      //   type:'post',
+      //   dataType: 'json',
+      //   data : {subject : $('#new_subject').val(), answer : $('#new_answer').val(), question : $('#new_question').val() },
+      // }).then(
+      //   function (data) {
+      //     // success
+      //     console.log('ok',data);
+      //   },
+      //   function () {
+      //     console.log('errror');
+      //     // error
+      //   });
+      });
   })
 </script>
 </body>
