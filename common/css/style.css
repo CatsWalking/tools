@@ -522,47 +522,45 @@ table.-tableHover tr:hover td {
 
 /* status */
 .status {
-  font-size: 1.25rem;
+  font-size: 0.9rem;
   text-align: center;
-  line-height: 1.3;
+  line-height: 1.5;
   display: inline-block;
   padding: 2px 7px 3px;
   min-width: 50px;
-  border-radius: 20px;
+  border-radius: 14px;
+  color: #5e8899 !important;
+  background: rgba(0, 172, 239, 0.3);
+
 }
 
 .status.-red {
-  color: #e63636;
+  color: #d75f5f !important;
   background: rgba(233, 77, 77, 0.2);
 }
 
-.status.-blue {
-  color: #0080b2;
-  background: rgba(0, 172, 239, 0.2);
-}
-
 .status.-green {
-  color: #007f50;
+  color: #007f50 !important;
   background: rgba(0, 203, 129, 0.3);
 }
 
 .status.-yellow {
-  color: #b87a00;
+  color: #b87a00 !important;
   background: rgba(250, 166, 0, 0.3);
 }
 
 .status.-purple {
-  color: #a554da;
+  color: #a554da !important;
   background: rgba(169, 92, 220, 0.2);
 }
 
 .status.-gray {
-  color: #596773;
+  color: #596773 !important;
   background: rgba(126, 141, 155, 0.35);
 }
 
 .status.-disabled {
-  color: #a4acac;
+  color: #a4acac !important;
   background: #f4f5f5;
   outline: 1px solid #bfc4c4;
   outline-offset: -1px;

@@ -20,23 +20,24 @@
   width: 90%;
   padding: 10px 20px 20px 10px;
   background-color: rgb(239, 240, 241);
-  /* border: 1px solid rgb(232, 233, 236); */
   border-radius: 5px;
   cursor: pointer;
   line-height: 50px;
 }
 #question{
-  height: 220px;
-  color: rgb(98, 97, 103);
+  height: 240px;
+  color: rgb(85, 85, 88);
 }
 #answer{
   height: 50px;
   text-align:center;
-  color: rgb(126, 115, 120);
+  color: rgb(82, 70, 75);
 }
-
 .btn{
   min-width: 90px!important;
+}
+#info, #info div,span{
+  font-size: 0.9rem;
 }
 @media screen and (min-width: 960px) {
   .caution{
@@ -55,10 +56,13 @@
       <div style="height:80px;margin-bottom: 50px;" id="answer_box">
         <div id="answer" class="hide"></div>
       </div>
+      <!-- 情報 -->
       <div class="hide" id="id"></div>
-      <div id="status" class="hide"></div>
-      <span id="cnt"></span>回目
-      <div><span id="no"></span> / <span id="total"></span></div>
+      <div id="info">
+        <div><span id="no"></span> / <span id="total"></span></div>
+        <span id="cnt"></span>回目 
+        <span id="status"></span>
+      </div>
  
       <div class="btnBox" id="result">
         <div class="btn -yellow" data-status="3">NG</div>
@@ -70,11 +74,11 @@
         <div class="btn -blue" id="js_next" >次へ</div>
       </div>
 
-      <div class="mb20" id="tab_start_type">
-          <div class="btn -status">途中から</div>
-          <div class="btn -tab">初めから</div>
-          <div class="btn -tab">後ろから</div>
-          <div class="btn -tab">ランダム</div>
+      <div class="mb20" id="tab_order_type">
+          <div class="btn status -green" data-order_type="1">途中から</div>
+          <div class="btn status" data-order_type="2">初めから</div>
+          <div class="btn status" data-order_type="3">後ろから</div>
+          <div class="btn status" data-order_type="4">ランダム</div>
       </div>
 
       <div id="add_form">
@@ -98,28 +102,46 @@
       let Q = $('#question');
       let A = $('#answer');
       let id = $('#id');
-      let status = $('#status');
-      let cnt = $('#cnt');
       let url = 'https://mami.tools/tools/';
+      let order_type = 1;
+      let status_arr = {0:'未解答', 1:'OK',2:'REPEAT',3:'NG'}
 
       //--------------------------
       // 設問を取得する
       //--------------------------
-      $.get(url+'?action=getAllAnswer', function(data){
-        questions = data
-        // 設問セット
-        set();
-      })
+      getAllQuestions(order_type);
 
-      // 解答 表示・非表示
-      $('#answer_box, #question').click(function(){
-        if(A.hasClass('hide')){
-          A.removeClass('hide');
+      function getAllQuestions(order_type=1){
+        $.get(url+'?action=getAllQuestions&order_type='+order_type, function(data){
+          questions = data
+          // 設問セット
+          set();
+        })
+      }
+      //--------------------------
+      // 設問セット
+      function set(){
+        Q.html(questions[no]['question']+questions[no]['id'])
+        A.html(questions[no]['answer'])
+        id.html(questions[no]['id'])
+        $('#status').html(status_arr[questions[no]['status']])
+        $('#cnt').html(parseInt(questions[no]['cnt']??0)+1)
+        A.addClass('hide');
+        $('#no').html(no+1);
+        $('#total').html(questions.length);
+        // btn
+        if(no==0){
+          $('#js_back').addClass('inactive')
         } else {
-          A.addClass('hide');
+          $('#js_back').removeClass('inactive')
         }
-      })
-
+        if(no==questions.length-1){
+          $('#js_next').addClass('inactive')
+        } else {
+          $('#js_next').removeClass('inactive')
+        }
+      }
+      //--------------------------
       // 回答
       $('#result .btn').click(function(){
         // 解答が非表示だったら、まず開いてから
@@ -132,28 +154,39 @@
           set();
         })
       })
-
-      // 設問セット
-      function set(){
-        Q.html(questions[no]['question'])
-        A.html(questions[no]['answer'])
-        id.html(questions[no]['id'])
-        status.html(questions[no]['status'])
-        cnt.html(parseInt(questions[no]['cnt']??0)+1)
-        A.addClass('hide');
-        if(no==0){
-          $('#js_back').addClass('inactive')
+      //--------------------------
+      // 並び変更
+       $('#tab_order_type div').click(function(){
+        // 設問再取得
+        getAllQuestions($(this).data('order_type'));
+        $(this).parent().find('div').removeClass('-green');
+        $(this).addClass('-green');
+      })
+      //--------------------------
+      // 保存  
+      $('#js_save').click(function(){
+        let data = {subject: $('#new_subject').val(), answer: $('#new_answer').val(), question: $('#new_question').val() }
+          $.ajax({
+            url: url+"?action=saveAnki",
+            type: 'post',
+            data: data,
+            success: function( result ){
+              console.log(result);
+            },
+            error: function( err, text, message ){
+              console.log(err, text, message);
+            }
+          });
+      })
+      
+      // 解答 表示・非表示
+      $('#answer_box, #question').click(function(){
+        if(A.hasClass('hide')){
+          A.removeClass('hide');
         } else {
-          $('#js_back').removeClass('inactive')
+          A.addClass('hide');
         }
-        if(no==questions.length-1){
-          $('#js_next').addClass('inactive')
-        } else {
-          $('#js_next').removeClass('inactive')
-        }
-        $('#no').html(no+1);
-        $('#total').html(questions.length);
-      }
+      })
 
       // 戻る
       $('#js_back').click(function(){
@@ -171,35 +204,6 @@
         no++;
         set();
       })
-      // 保存
-      $('#js_save').click(function(){
-        console.log(url+"?action=saveAnki");
-        $.get(url+"?action=saveAnki", {subject : $('#new_subject').val(), answer : $('#new_answer').val(), question : $('#new_question').val() } )
- 
-.done(function( data ) {
- 
-    console.log( data );
- 
-})
-        // console.log(url+"?action=saveAnki",
-        // $.post(url+"?action=saveAnki",
-        // {age: "32", name: "太郎", tel: "080-1234-5678"})}
-
-      //   $.ajax({
-      //   url: url+"?action=saveAnki",
-      //   type:'post',
-      //   dataType: 'json',
-      //   data : {subject : $('#new_subject').val(), answer : $('#new_answer').val(), question : $('#new_question').val() },
-      // }).then(
-      //   function (data) {
-      //     // success
-      //     console.log('ok',data);
-      //   },
-      //   function () {
-      //     console.log('errror');
-      //     // error
-      //   });
-      });
   })
 </script>
 </body>
