@@ -19,7 +19,6 @@
   margin: 30px auto;
   width: 90%;
   padding: 10px 20px 20px 10px;
-  background-color: rgb(239, 240, 241);
   border-radius: 5px;
   cursor: pointer;
   line-height: 50px;
@@ -27,11 +26,12 @@
 #question{
   height: 240px;
   color: rgb(85, 85, 88);
+  background-color: rgb(239, 240, 241);
 }
 #answer{
   height: 30px;
   text-align:center;
-  color: rgb(82, 70, 75);
+  color: rgb(169, 102, 103);
 }
 .btn{
   min-width: 90px!important;
@@ -50,10 +50,14 @@
   <div class="container">
     <header class="header"></header>
     <main>
+      <div class="btnBox" id="tab_subject">
+        <div class="status -green" data-subject="4">社会</div>
+        <div class="status" data-subject="3">理科</div>
+    </div>
       <!-- 質問 -->
       <div id="question"></div>
       <!-- 解答 -->
-      <div style="height:80px;margin-bottom: 30px;" id="answer_box">
+      <div style="height:60px;margin-bottom: 20px;" id="answer_box">
         <div id="answer" class="hide"></div>
       </div>
       <!-- 情報 -->
@@ -106,16 +110,18 @@
       let A = $('#answer');
       let id = $('#id');
       let url = 'https://mami.tools/tools/';
+      let subject = 4;
       let order_type = 1;
       let status_arr = {0:'未', 1:'OK',2:'REPEAT',3:'NG'}
 
       //--------------------------
       // 設問を取得する
       //--------------------------
-      getAllQuestions(order_type);
+      getAllQuestions();
 
-      function getAllQuestions(order_type=1){
-        $.get(url+'?action=getAllQuestions&order_type='+order_type, function(data){
+      function getAllQuestions(){
+        console.log(url+'?action=getAllQuestions&subject='+subject+'&order_type='+order_type);
+        $.get(url+'?action=getAllQuestions&subject='+subject+'&order_type='+order_type, function(data){
           questions = data
           // 設問セット
           set();
@@ -158,10 +164,20 @@
         })
       })
       //--------------------------
+      // 科目変更
+      $('#tab_subject div').click(function(){
+        subject = $(this).data('subject');
+        // 設問再取得
+        getAllQuestions();
+        $(this).parent().find('div').removeClass('-green');
+        $(this).addClass('-green');
+      })
+      //--------------------------
       // 並び変更
        $('#tab_order_type div').click(function(){
+        order_type = $(this).data('order_type');
         // 設問再取得
-        getAllQuestions($(this).data('order_type'));
+        getAllQuestions();
         $(this).parent().find('div').removeClass('-green');
         $(this).addClass('-green');
       })
