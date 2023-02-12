@@ -46,9 +46,10 @@ main {
 }
 
 .footer {
-  background-color: #f6f6f6;
   width: 100%;
-  text-align: center;
+  position: absolute;
+  bottom: 0;
+  padding-bottom: 20px;
 }
 
 .footer div {
@@ -521,12 +522,12 @@ table.-tableHover tr:hover td {
 
 /* status */
 .status {
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   text-align: center;
   line-height: 1.5;
   display: inline-block;
   padding: 3px 1px 3px 1px;
-  min-width: 65px;
+  min-width: 70px;
   border-radius: 14px;
   color: #5e8899;
   background: rgba(0, 172, 239, 0.3);

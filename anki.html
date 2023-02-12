@@ -29,7 +29,7 @@
   color: rgb(85, 85, 88);
 }
 #answer{
-  height: 50px;
+  height: 30px;
   text-align:center;
   color: rgb(82, 70, 75);
 }
@@ -53,17 +53,19 @@
       <!-- 質問 -->
       <div id="question"></div>
       <!-- 解答 -->
-      <div style="height:80px;margin-bottom: 50px;" id="answer_box">
+      <div style="height:80px;margin-bottom: 30px;" id="answer_box">
         <div id="answer" class="hide"></div>
       </div>
       <!-- 情報 -->
       <div class="hide" id="id"></div>
-      <div id="info">
+
+      <!-- footer -->
+      <div class="footer">
+        <div id="info">
         <div><span id="no"></span> / <span id="total"></span></div>
         <span id="cnt"></span>回目 
         <span id="status"></span>
       </div>
- 
       <div class="btnBox" id="result">
         <div class="btn -yellow" data-status="3">NG</div>
         <div class="btn -blue" data-status="1">OK</div>
@@ -73,22 +75,23 @@
         <div class="btn -gray inactive" id="js_back" >戻る</div>
         <div class="btn -blue" id="js_next" >次へ</div>
       </div>
-
-      <div class="mt30" id="tab_order_type">
+      <div class="btnBox" id="tab_order_type" style="margin-top: 30px;">
           <div class="status -green" data-order_type="1">途中から</div>
           <div class="status" data-order_type="2">初めから</div>
           <div class="status" data-order_type="3">後ろから</div>
           <div class="status" data-order_type="4">ランダム</div>
       </div>
-
-      <div id="add_form">
-          <input type="text" id="new_subject" value="4">
-          <textarea id="new_question"></textarea>
-          <textarea id="new_answer"></textarea>
-          <div class="btn" id="js_save">保存</div>
-      </div>
+    </div>
     </main>
-</div><!-- container -->
+</div>
+
+<div id="add_form" class="hide">
+  <input type="text" id="new_subject" value="4">
+  <textarea id="new_question"></textarea>
+  <textarea id="new_answer"></textarea>
+  <div class="btn" id="js_save">保存</div>
+</div>
+<!-- container -->
 <script src="./common/js/jquery-3.6.3.min.js"></script>
 <script src="./common/js/jquery-ui.js"></script>
 <script src="./common/js/common.js"></script>
@@ -104,7 +107,7 @@
       let id = $('#id');
       let url = 'https://mami.tools/tools/';
       let order_type = 1;
-      let status_arr = {0:'未解答', 1:'OK',2:'REPEAT',3:'NG'}
+      let status_arr = {0:'未', 1:'OK',2:'REPEAT',3:'NG'}
 
       //--------------------------
       // 設問を取得する
@@ -121,7 +124,7 @@
       //--------------------------
       // 設問セット
       function set(){
-        Q.html(questions[no]['question']+questions[no]['id'])
+        Q.html(questions[no]['question'])
         A.html(questions[no]['answer'])
         id.html(questions[no]['id'])
         $('#status').html(status_arr[questions[no]['status']])
