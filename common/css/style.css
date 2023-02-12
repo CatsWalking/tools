@@ -525,40 +525,40 @@ table.-tableHover tr:hover td {
   text-align: center;
   line-height: 1.5;
   display: inline-block;
-  padding: 2px 7px 2px;
-  min-width: 50px;
-  border-radius: 14px !important;
-  color: #5e8899 !important;
+  padding: 3px 1px 3px 1px;
+  min-width: 65px;
+  border-radius: 14px;
+  color: #5e8899;
   background: rgba(0, 172, 239, 0.3);
 }
 
 .status.-red {
-  color: #d75f5f !important;
+  color: #d75f5f;
   background: rgba(233, 77, 77, 0.2);
 }
 
 .status.-green {
-  color: #187754 !important;
+  color: #187754;
   background: rgba(0, 203, 129, 0.3);
 }
 
 .status.-yellow {
-  color: #b87a00 !important;
+  color: #b87a00;
   background: rgba(250, 166, 0, 0.3);
 }
 
 .status.-purple {
-  color: #a554da !important;
+  color: #a554da;
   background: rgba(169, 92, 220, 0.2);
 }
 
 .status.-gray {
-  color: #596773 !important;
+  color: #596773;
   background: rgba(126, 141, 155, 0.35);
 }
 
 .status.-disabled {
-  color: #a4acac !important;
+  color: #a4acac;
   background: #f4f5f5;
   outline: 1px solid #bfc4c4;
   outline-offset: -1px;
