@@ -53,7 +53,7 @@
       <div class="btnBox" id="tab_subject">
         <div class="status -green" data-subject="4">社会</div>
         <div class="status" data-subject="3">理科</div>
-    </div>
+      </div>
       <!-- 質問 -->
       <div id="question"></div>
       <!-- 解答 -->
@@ -66,28 +66,29 @@
       <!-- footer -->
       <div class="footer">
         <div id="info">
-        <div><span id="no"></span> / <span id="total"></span></div>
-        <span id="cnt"></span>回目 
-        <span id="status"></span>
+          <div><span id="no"></span> / <span id="total"></span></div>
+          <span id="cnt"></span>回目 
+          <span id="status"></span>
+        </div>
+        <div class="btnBox" id="result">
+          <div class="btn -yellow" data-status="3">NG</div>
+          <div class="btn -blue" data-status="1">OK</div>
+          <div class="btn -green" data-status="2">REPEAT</div>
+        </div>
+        <div class="btnBox" style="margin-top: 20px;">
+          <div class="btn -gray inactive" id="js_back" >戻る</div>
+          <div class="btn -blue" id="js_next" >次へ</div>
+        </div>
+        <div class="btnBox" id="tab_order_type" style="margin-top: 30px;">
+            <div class="status -green" data-order_type="1">途中から</div>
+            <div class="status" data-order_type="2">初めから</div>
+            <div class="status" data-order_type="3">後ろから</div>
+            <div class="status" data-order_type="4">ランダム</div>
+        </div>
       </div>
-      <div class="btnBox" id="result">
-        <div class="btn -yellow" data-status="3">NG</div>
-        <div class="btn -blue" data-status="1">OK</div>
-        <div class="btn -green" data-status="2">REPEAT</div>
-      </div>
-      <div class="btnBox mt10">
-        <div class="btn -gray inactive" id="js_back" >戻る</div>
-        <div class="btn -blue" id="js_next" >次へ</div>
-      </div>
-      <div class="btnBox" id="tab_order_type" style="margin-top: 30px;">
-          <div class="status -green" data-order_type="1">途中から</div>
-          <div class="status" data-order_type="2">初めから</div>
-          <div class="status" data-order_type="3">後ろから</div>
-          <div class="status" data-order_type="4">ランダム</div>
-      </div>
-    </div>
     </main>
 </div>
+
 
 <div id="add_form" class="hide">
   <input type="text" id="new_subject" value="4">
