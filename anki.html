@@ -54,15 +54,17 @@
         <div class="status -green" data-subject="4">社会</div>
         <div class="status" data-subject="3">理科</div>
       </div>
-      <!-- 質問 -->
-      <div id="question"></div>
-      <!-- 解答 -->
-      <div style="height:60px;margin-bottom: 20px;" id="answer_box">
-        <div id="answer" class="hide"></div>
+      <div id="click_area" style="height:100%">
+        <!-- 質問 -->
+        <div id="question"></div>
+        <!-- 解答 -->
+        <div style="height:60px;margin-bottom: 20px;" id="answer_box">
+          <div id="answer" class="hide"></div>
+        </div>
+        <!-- 情報 -->
+        <div class="hide" id="id"></div>
       </div>
-      <!-- 情報 -->
-      <div class="hide" id="id"></div>
-
+     
       <!-- footer -->
       <div class="footer">
         <div id="info">
@@ -121,7 +123,6 @@
       getAllQuestions();
 
       function getAllQuestions(){
-        console.log(url+'?action=getAllQuestions&subject='+subject+'&order_type='+order_type);
         $.get(url+'?action=getAllQuestions&subject='+subject+'&order_type='+order_type, function(data){
           questions = data
           // 設問セット
@@ -198,11 +199,14 @@
             }
           });
       })
-      
+      //--------------------------
       // 解答 表示・非表示
-      $('#answer_box, #question').click(function(){
+      $('#click_area').click(function(){
+        if($(this).hasClass('btn')){
+          return;
+        } 
         if(A.hasClass('hide')){
-          A.removeClass('hide');
+        A.removeClass('hide');
         } else {
           A.addClass('hide');
         }
