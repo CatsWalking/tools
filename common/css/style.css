@@ -323,7 +323,10 @@ table {
 .flex_box {
   display: flex;
 }
-
+.box{
+  display: flex;
+  margin-top: 20px;
+}
 .btnBox {
   display: flex;
   /* flex-flow: row wrap; */

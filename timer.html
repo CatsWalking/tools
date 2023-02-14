@@ -7,9 +7,9 @@
 <link rel="icon" href="./common/images/favicon.svg" sizes="any">
 <title>タイマー</title>
 <link rel="stylesheet" href="./common/css/reset.css">
-<link rel="stylesheet" href="./common/css/style.css?1">
-<link rel="stylesheet" href="./common/css/modal.css?test">
-<link rel="stylesheet" href="./common/css/tools.css?tdt33d">
+<link rel="stylesheet" href="./common/css/style.css?e1">
+<link rel="stylesheet" href="./common/css/modal.css?s">
+<link rel="stylesheet" href="./common/css/tools.css?s">
 <style>
 /*時秒*/
 #clock {
@@ -29,15 +29,6 @@
 }
 .clock_running{
     color: #ab1504;
-}
-#assit_box div {
-    background: #7d9fd3;
-    width:80px;
-    height:40px;
-    line-height: 40px;
-    font-size:1rem;
-    background: #489ead;
-    border:none;
 }
 .time_type {
     line-height: 40px!important;
@@ -107,19 +98,12 @@
             <li class="time_type btn" data-type="min">秒</li>
         </ul>
         <div class="footer">
-            <br>
-            <div class="mb20" id="assit_box">
-                <div class="btn -s" data-type="10s" style="background:#95aed4">１０秒</div>
-                <div class="btn -s" data-type="1m" style="background:#6689bf">１分</div>
-                <div class="btn -s" data-type="10m" style="background:#3b6bb3">１０分</div>
-            </div>
-            <br>
-            <div class="mb20">
+            <div class="btnBox mb20">
                 <img class="icon js_sound" src="./common/images/icon/sound_on.png">
                 <div id="js_reset2" class="btn -reset">リセット</div>
                 <div id="js_start" class="btn -start">スタート/ストップ</div>
             </div>
-            <div id="sound_status" class="txtS">音が鳴ります</div>
+            <div id="sound_status" class="btnBox txtS">音が鳴ります</div>
             <br>
         
         </div>
@@ -165,22 +149,6 @@ $(function(){
         $('#clock span').removeClass('clock_active');
         $('#clock span').eq(i).addClass('clock_active');
     });
-    // 10秒、１分、10分
-    $('#assit_box div').click(function () {
-        switch ($(this).data('type')) {
-        case '10s':
-            $('#clock_m').html('00');
-            $('#clock_s').html('10');
-            break;
-        case '1m':
-            $('#clock_m').html('01');
-            $('#clock_s').html('00');
-            break;
-        case '10m':
-            $('#clock_m').html('10');
-            $('#clock_s').html('00');
-            break;
-        }
     })
 
     //-------------------------------------------------------
