@@ -50,6 +50,7 @@ main {
   position: absolute;
   bottom: 0;
   padding-bottom: 20px;
+  left: 0;
 }
 
 .footer div {
@@ -1172,7 +1173,7 @@ table.-tableHover tr:hover td {
   border-radius: 3px;
   padding: 5px;
   margin: 26px auto;
-  width: 100%;
+  width: 95%;
   background: #d5eaf9;
 }
 

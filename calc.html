@@ -51,117 +51,130 @@
 .flex{
   display:flex;
 }
+.contents{
+  background-color: rgb(202, 153, 153);
+  overflow: scroll;
+  height: calc(100vh - 310px);
+}
+/* main{
+  padding-bottom: 310px;
+} */
 </style>
 </head>
 <body>
   <div class="container">
     <header class="header"></header>
     <main>
-    <table class="table2" id="calc">
-      <tbody>
-        <tr id="prime">
-            <td>
-              <div class="calc_txt">素因数分解</div>
-              <input type="input" class="input" maxlength="6">
-            </td>
-            <td><div class="result" style="display: flex"></div></td>
-        </tr>
-        <tr id="squre">
+      <div class="contents">
+      <table class="table2" id="calc">
+        <tbody>
+          <tr id="prime">
+              <td>
+                <div class="calc_txt">素因数分解</div>
+                <input type="input" class="input" maxlength="6">
+              </td>
+              <td><div class="result" style="display: flex"></div></td>
+          </tr>
+          <tr id="squre">
+              <td colspan="2">
+                <div class="calc_txt">平方数</div>
+                <input type="input" class="input" placeholder="11" maxlength="4">
+                <div class="result" style="margin-left: 50px;"></div>
+              </td>
+          </tr>
+          <tr id="squre_root">
             <td colspan="2">
-              <div class="calc_txt">平方数</div>
-              <input type="input" class="input" placeholder="11" maxlength="4">
+              <div class="calc_txt">平方根</div>
+              <input type="input" class="input" placeholder="144" maxlength="4">
               <div class="result" style="margin-left: 50px;"></div>
             </td>
-        </tr>
-        <tr id="squre_root">
-          <td colspan="2">
-            <div class="calc_txt">平方根</div>
-            <input type="input" class="input" placeholder="144" maxlength="4">
-            <div class="result" style="margin-left: 50px;"></div>
-          </td>
-        </tr>
-        <tr id="pi">
+          </tr>
+          <tr id="pi">
+              <td colspan="2">
+                <div class="calc_txt">円周の長さ</div>
+                  (<input type="input" class="input input_s same1" maxlength="3">
+                  <span class="sign">  + </span>
+                  <input type="input" class="input input_s same1" onFocus="this.blur()" maxlength="3" readonly="readonly" >) 
+                  <span class="sign"> × 3.14 × </span> 
+                  <input type="input" class="input input_s" maxlength="3" value="360"> <span class="sign">度 =</span> 
+                  <div class="result"></div>
+              </td>
+          </tr>
+          <tr id="pi2">
             <td colspan="2">
-              <div class="calc_txt">円周の長さ</div>
-                (<input type="input" class="input input_s same1" maxlength="3">
-                <span class="sign">  + </span>
-                <input type="input" class="input input_s same1" onFocus="this.blur()" maxlength="3" readonly="readonly" >) 
-                <span class="sign"> × 3.14 × </span> 
-                <input type="input" class="input input_s" maxlength="3" value="360"> <span class="sign">度 =</span> 
-                <div class="result"></div>
+              <div class="calc_txt">円の面積</div>
+                <input type="input" class="input input_s same2" maxlength="3"> 
+                <span class="sign">  × </span>
+                <input type="input" class="input input_s same2" onFocus="this.blur()" maxlength="3" readonly="readonly" > 
+              <span class="sign"> × 3.14 × </span> 
+              <input type="input" class="input input_s" maxlength="3" value="360"> <span class="sign">度 =</span> 
+              <div class="result"></div>
             </td>
         </tr>
-        <tr id="pi2">
+        <tr id="multi">
           <td colspan="2">
-            <div class="calc_txt">円の面積</div>
-              <input type="input" class="input input_s same2" maxlength="3"> 
-              <span class="sign">  × </span>
-              <input type="input" class="input input_s same2" onFocus="this.blur()" maxlength="3" readonly="readonly" > 
-             <span class="sign"> × 3.14 × </span> 
-             <input type="input" class="input input_s" maxlength="3" value="360"> <span class="sign">度 =</span> 
-             <div class="result"></div>
-          </td>
-      </tr>
-      <tr id="multi">
-        <td colspan="2">
-          <div class="calc_txt">掛け算</div>
-            <input type="input" class="input number" data-type="multi"> 
-            <span class="sign">×</span> 
-            <input type="input" class="input number" data-type="multi"> 
-            <span class="sign">=</span> 
-            <div class="result"></div>
-          </td>
-        </tr>
-        <tr id="division">
-          <td colspan="2">
-              <div class="calc_txt">割り算</div>
-              <input type="input" class="input number" data-type="division"> 
-              <span class="sign">÷</span> 
-              <input type="input" class="input number" data-type="division"> 
+            <div class="calc_txt">掛け算</div>
+              <input type="input" class="input number" data-type="multi"> 
+              <span class="sign">×</span> 
+              <input type="input" class="input number" data-type="multi"> 
               <span class="sign">=</span> 
               <div class="result"></div>
-          </td>
-        </tr>
-          <!-- 150点中90点は6割 -->
-          <tr id="rate1">
-            <td colspan="2">
-                <input type="input" class="input input_s number" data-type="rate1"> 
-                <span class="sign"> 点中 </span>               
-                <input type="input" class="input input_s number" data-type="rate1"> 
-                <span class="sign"> 点は </span>
-                <span class="result"></span> <span class="sign"> 割</span>
             </td>
           </tr>
-          <!-- 150点の6割は90点 -->
-          <tr id="rate2">
+          <tr id="division">
             <td colspan="2">
-                <input type="input" class="input input_s number" data-type="rate2"> 
-                <span class="sign"> 点中 </span>
-                <input type="input" class="input input_s number" data-type="rate2"> 
-                <span class="sign"> 割は </span>
-                <span class="result"></span> <span class="sign"> 点</span>
+                <div class="calc_txt">割り算</div>
+                <input type="input" class="input number" data-type="division"> 
+                <span class="sign">÷</span> 
+                <input type="input" class="input number" data-type="division"> 
+                <span class="sign">=</span> 
+                <div class="result"></div>
             </td>
           </tr>
-      </tbody>
-    </table>
+            <!-- 150点中90点は6割 -->
+            <tr id="rate1">
+              <td colspan="2">
+                  <input type="input" class="input input_s number" data-type="rate1"> 
+                  <span class="sign"> 点中 </span>               
+                  <input type="input" class="input input_s number" data-type="rate1"> 
+                  <span class="sign"> 点は </span>
+                  <span class="result"></span> <span class="sign"> 割</span>
+              </td>
+            </tr>
+            <!-- 150点の6割は90点 -->
+            <tr id="rate2">
+              <td colspan="2">
+                  <input type="input" class="input input_s number" data-type="rate2"> 
+                  <span class="sign"> 点中 </span>
+                  <input type="input" class="input input_s number" data-type="rate2"> 
+                  <span class="sign"> 割は </span>
+                  <span class="result"></span> <span class="sign"> 点</span>
+              </td>
+            </tr>
+        </tbody>
+      </table>
+    </div>
 
-    <!-- kenkey -->
-    <ul class="tenkey_box -row3">
-      <li >1</li>
-      <li >2</li>
-      <li >3</li>
-      <li >4</li>
-      <li >5</li>
-      <li >6</li>
-      <li >7</li>
-      <li >8</li>
-      <li >9</li>
-      <li >0</li>
-      <li >.</li>
-    </ul>
+    <!-- footer -->
+    <div class="footer">
+      <!-- kenkey -->
+      <ul class="tenkey_box -row3">
+        <li >1</li>
+        <li >2</li>
+        <li >3</li>
+        <li >4</li>
+        <li >5</li>
+        <li >6</li>
+        <li >7</li>
+        <li >8</li>
+        <li >9</li>
+        <li >0</li>
+        <li >.</li>
+      </ul>
 
-    <div class="calc_txt">小数点 第 <input type="input" id="division_decimal" class="input decimal" value="2"> 位まで</div>
-    <div class="btnBox clear_box" style="text-align: center!important;"></div>
+      <div class="calc_txt">小数点 第 <input type="input" id="division_decimal" class="input decimal" value="2"> 位まで</div>
+      <div class="btnBox clear_box" style="text-align: center!important;"></div>
+    </div>
 
 
 </main>
