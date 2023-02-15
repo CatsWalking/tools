@@ -97,7 +97,7 @@
             <li class="time_type btn active" data-type="min">分</li>
             <li class="time_type btn" data-type="min">秒</li>
         </ul>
-        <div class="footer" style="height:300px;">
+        <div class="footer" style="height:120px;">
             <div class="btnBox mb20">
                 <img class="icon js_sound" src="./common/images/icon/sound_on.png">
                 <div id="js_reset2" class="btn -reset">リセット</div>
@@ -136,12 +136,11 @@ $(function(){
         $('.time_type').eq(i).addClass('active');
         $(this).parent().find('span').removeClass('clock_active');
         $(this).addClass('clock_active');
-    });
-    // クリックしたら初期化
-    $('#clock span').click(function(){
-    // $('#clock span').dblclick(function(){
+        console.log($(this));
+        // クリックしたら初期化
         $(this).html('00');
     });
+
     // 分・秒 toggle
     $('.time_type').click(function () {
         $('.time_type').removeClass('active');
@@ -149,6 +148,7 @@ $(function(){
         let i = $('.time_type').index(this);
         $('#clock span').removeClass('clock_active');
         $('#clock span').eq(i).addClass('clock_active');
+        $('#clock span').eq(i).html('00');
     });
 
     //-------------------------------------------------------
@@ -240,7 +240,6 @@ $(function(){
     // reset
     $('#js_reset2').click(function () {
         clearInterval(timer_id);
-        // $('#clock_s').removeClass('clock_active');
         init();
     });
 

@@ -48,9 +48,9 @@ $('#tab_game').html(
 // 知育タブ
 $('#tab_edu').html(
   '<div class="mb20">'
-   +'<a class="btn -tab" href="flash.html">フラッシュ暗算</a>'
-   +'<a class="btn -tab" href="prime.html">素数パズル</a>'
-   +'<a class="btn -tab" href="maketen.html">テンパズル</a>'
+   +'<a class="btn -tab txtS" href="flash.html">フラッシュ暗算</a>'
+   +'<a class="btn -tab txtS" href="prime.html">素数パズル</a>'
+   +'<a class="btn -tab txtS" href="maketen.html">テンパズル</a>'
   +'</div>'
 )
 /*-----------------------------
