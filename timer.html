@@ -28,7 +28,7 @@
     color:#f7958e;
 }
 .clock_running{
-    color: #ab1504;
+    color: #ec1b04;
 }
 .time_type {
     line-height: 40px!important;
@@ -97,15 +97,13 @@
             <li class="time_type btn active" data-type="min">分</li>
             <li class="time_type btn" data-type="min">秒</li>
         </ul>
-        <div class="footer">
+        <div class="footer" style="height:300px;">
             <div class="btnBox mb20">
                 <img class="icon js_sound" src="./common/images/icon/sound_on.png">
                 <div id="js_reset2" class="btn -reset">リセット</div>
                 <div id="js_start" class="btn -start">スタート/ストップ</div>
+                <div id="sound_status" class="btnBox txtS u-txtLeft" style="width:340px;text-align: left;">音が鳴ります</div>
             </div>
-            <div id="sound_status" class="btnBox txtS">音が鳴ります</div>
-            <br>
-        
         </div>
 
         <!--explosion, sound-->
@@ -129,8 +127,9 @@ $(function(){
     let m = 0, s = 0;
     let timer_id;
     const explosion = document.querySelector('#sound_explosion');
+
     //-------------------------------------------------------------
-    // clock
+    // clockクリック
     $('#clock span').click(function(){
         let i = $('#clock span').index(this);
         $('.time_type').removeClass('active');
@@ -138,10 +137,12 @@ $(function(){
         $(this).parent().find('span').removeClass('clock_active');
         $(this).addClass('clock_active');
     });
-    $('#clock span').dblclick(function(){
+    // クリックしたら初期化
+    $('#clock span').click(function(){
+    // $('#clock span').dblclick(function(){
         $(this).html('00');
     });
-    // min / sec
+    // 分・秒 toggle
     $('.time_type').click(function () {
         $('.time_type').removeClass('active');
         $(this).addClass('active');
@@ -149,7 +150,6 @@ $(function(){
         $('#clock span').removeClass('clock_active');
         $('#clock span').eq(i).addClass('clock_active');
     });
-    })
 
     //-------------------------------------------------------
     // tenkey
@@ -172,11 +172,21 @@ $(function(){
             num = elem.html() + $(this).html();
         }
         elem.html(zero_padding(num).slice(-2));
+        // 分２桁入れたら秒をアクティブに
+        if(elem.attr('id')=='clock_m' && num.length==3){
+            $('#clock_m').removeClass('clock_active');
+            $('#clock_s').addClass('clock_active');
+            $('.time_type').eq(0).removeClass('active');
+            $('.time_type').eq(1).addClass('active');
+        }
     });
 
     //-------------------------------------------------------
-    // start / stop
+    // スタート / ストップ
     $('#js_start').click(function () {
+        if ($('#clock_m').html() == '00' && $('#clock_s').html() == '00') {
+            return;
+        }
         $('#clock span').removeClass('clock_active');
         $('#clock span').addClass('clock_running');
 
@@ -216,7 +226,7 @@ $(function(){
                 explosion.play();
                 window.setTimeout(function(){
                     init();
-                }, 10000);
+                }, 6500);
             }
             // explosion!!
             $('#js_explosion').css('display', 'block');
@@ -229,6 +239,8 @@ $(function(){
     //-------------------------------------------------------
     // reset
     $('#js_reset2').click(function () {
+        clearInterval(timer_id);
+        // $('#clock_s').removeClass('clock_active');
         init();
     });
 
@@ -249,6 +261,10 @@ $(function(){
         $('#js_start').removeClass('running');
         $('[id^=clock]').removeClass('clock_running');
         $('#clock_m').addClass('clock_active');
+        $('#clock_s').removeClass('clock_active');
+
+        $('.time_type').eq(0).addClass('active');
+        $('.time_type').eq(1).removeClass('active');
 
         explosion.pause();
         explosion.currentTime = 0;

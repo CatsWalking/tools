@@ -1175,7 +1175,8 @@ table.-tableHover tr:hover td {
   border: 1px solid #b3c8b7;
   border-radius: 3px;
   padding: 5px;
-  margin: 26px auto;
+  margin: 16px auto;
+  /* margin: 26px auto; */
   width: 95%;
   background: #d5eaf9;
 }
