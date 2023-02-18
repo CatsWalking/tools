@@ -71,6 +71,7 @@ main {
   display: block;
   margin: 10px auto;
 }
+
 .box {
   width: 100%;
   display: block;
@@ -97,6 +98,15 @@ main {
   color: #585151;
   opacity: 0.6;
   font-family: 'Roboto';
+}
+
+/* 小さい画面 */
+@media screen and (max-width: 375px) {
+  .timer {
+    height: 40px;
+    line-height: 40px;
+    font-size: 2rem;
+  }
 }
 
 /* ぷるんぷるん */

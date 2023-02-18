@@ -7,7 +7,7 @@
 <link rel="icon" href="./common/images/favicon.svg" sizes="any">
 <title>tools</title>
 <link rel="stylesheet" href="./common/css/reset.css">
-<link rel="stylesheet" href="./common/css/style.css?33">
+<link rel="stylesheet" href="./common/css/style.css?s33">
 <link rel="stylesheet" href="./common/css/modal.css?333">
 <link rel="stylesheet" href="./common/css/tools.css?33">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -48,6 +48,21 @@
     width: 600px;
   }
 }
+/* 小さい画面 */
+@media screen and (max-width: 375px) {
+  main{
+    margin: 34px auto;
+  }
+  #question{
+    margin: 20px auto;
+    height: 140px;
+    line-height: 35px;
+  }
+  #answer{
+    margin: 10px auto;
+    line-height: 35px;
+  }
+}
 </style>
 </head>
 <body>
@@ -81,11 +96,11 @@
           <div class="btn -blue" data-status="1">OK</div>
           <div class="btn -green" data-status="2">REPEAT</div>
         </div>
-        <div class="btnBox" style="margin-top: 20px;">
+        <div class="btnBox" style="margin-top: 10px;">
           <div class="btn -gray inactive" id="js_back" >戻る</div>
           <div class="btn -blue" id="js_next" >次へ</div>
         </div>
-        <div class="btnBox" id="tab_order_type" style="margin-top: 30px;">
+        <div class="btnBox" id="tab_order_type" style="margin-top: 20px;">
             <div class="status -green" data-order_type="1">途中から</div>
             <div class="status" data-order_type="2">初めから</div>
             <div class="status" data-order_type="3">後ろから</div>
@@ -111,6 +126,10 @@
 <script>
   'use strict'
   $(function(){
+
+    var windowSize = window.innerWidth;
+
+    // alert(windowSize);
       let no=0;
       let questions;
       let Q = $('#question');

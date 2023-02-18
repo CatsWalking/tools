@@ -32,14 +32,14 @@ $(".clear_box").html(clear);
 
 // タイマータブ
 $('#tab_timer').html(
-  '<div class="mb20">'
+  '<div class="tabBox">'
    +'<a class="btn -tab" href="timer.html">タイマー</a>'
    +'<a class="btn -tab" href="watch.html">ストップウォッチ</a>'
   +'</div>'
 )
 // ゲームタブ
 $('#tab_game').html(
-  '<div class="mb20">'
+  '<div class="tabBox">'
    +'<a class="btn -tab" href="reversi.html">オセロ</a>'
    +'<a class="btn -tab" href="memory.html">神経衰弱</a>'
    +'<a class="btn -tab" href="maze.html">迷路</a>'
@@ -47,7 +47,7 @@ $('#tab_game').html(
 )
 // 知育タブ
 $('#tab_edu').html(
-  '<div class="mb20">'
+  '<div class="tabBox">'
    +'<a class="btn -tab txtS" href="flash.html">フラッシュ暗算</a>'
    +'<a class="btn -tab txtS" href="prime.html">素数パズル</a>'
    +'<a class="btn -tab txtS" href="maketen.html">テンパズル</a>'

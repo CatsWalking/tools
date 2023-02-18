@@ -49,7 +49,7 @@ main {
   width: 100%;
   position: fixed;
   bottom: 0;
-  padding-bottom: 20px;
+  padding-bottom: 10px;
   left: 0;
 }
 
@@ -323,10 +323,12 @@ table {
 .flex_box {
   display: flex;
 }
-.box{
+
+.box {
   display: flex;
   margin-top: 20px;
 }
+
 .btnBox {
   display: flex;
   /* flex-flow: row wrap; */
@@ -1209,6 +1211,15 @@ table.-tableHover tr:hover td {
   background: #eaffee;
 }
 
+/* 小さい画面 */
+@media screen and (max-width: 375px) {
+  .tenkey_box li {
+    height: 45px;
+    line-height: 45px;
+    font-size: 1.6rem;
+  }
+}
+
 /*------------------------
  input
 ------------------------*/
@@ -1275,6 +1286,9 @@ table.-tableHover tr:hover td {
   transform: translate(-50%, -50%) rotate(-45deg);
 }
 
+.tabBox {
+  margin-top: 20px;
+}
 
 .-tab {
   min-width: 110px;
@@ -1285,4 +1299,16 @@ table.-tableHover tr:hover td {
 
 .-tab.active {
   background-color: #7da8c0;
+}
+
+/* 小さい画面 */
+@media screen and (max-width: 375px) {
+  .tabBox {
+    margin-top: 10px;
+  }
+
+  .-tab {
+    min-width: 98px;
+    margin-right: 2px;
+  }
 }
