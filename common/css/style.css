@@ -1312,3 +1312,7 @@ table.-tableHover tr:hover td {
     margin-right: 2px;
   }
 }
+
+.noborder {
+  border: none !important;
+}

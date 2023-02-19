@@ -7,9 +7,9 @@
 <link rel="icon" href="./common/images/favicon.svg" sizes="any">
 <title>計算ツール</title>
 <link rel="stylesheet" href="./common/css/reset.css">
-<link rel="stylesheet" href="./common/css/style.css?tedstd">
-<link rel="stylesheet" href="./common/css/modal.css?test">
-<link rel="stylesheet" href="./common/css/tools.css?tedsdtd">
+<link rel="stylesheet" href="./common/css/style.css?teddstd">
+<link rel="stylesheet" href="./common/css/modal.css?tedst">
+<link rel="stylesheet" href="./common/css/tools.css?tdedsdtd">
 <style>
 .calc_txt{
   color: #5b84a8;
@@ -30,7 +30,7 @@
   width:90px!important;
 }
 .input_s{
-  width: 60px !important;
+  width: 54px !important;
 }
 .result{
   display: inline-block;
@@ -71,6 +71,7 @@
               </td>
               <td><div class="result" style="display: flex"></div></td>
           </tr>
+          <!-- 平方数 -->
           <tr id="squre">
               <td colspan="2">
                 <div class="calc_txt">平方数</div>
@@ -85,12 +86,13 @@
               <div class="result" style="margin-left: 50px;"></div>
             </td>
           </tr>
+          <!-- 円周の長さ -->
           <tr id="pi">
               <td colspan="2">
                 <div class="calc_txt">円周の長さ</div>
-                  (<input type="input" class="input input_s same1" maxlength="3">
+                  (<input type="input" class="same1 input input_s" maxlength="3">
                   <span class="sign">  + </span>
-                  <input type="input" class="input input_s same1" onFocus="this.blur()" maxlength="3" readonly="readonly" >) 
+                  <input type="input" class="same1 input input_s noborder" onFocus="this.blur()" maxlength="3" readonly="readonly" >) 
                   <span class="sign"> × 3.14 × </span> 
                   <input type="input" class="input input_s" maxlength="3" value="360"> <span class="sign">度 =</span> 
                   <div class="result"></div>
@@ -99,9 +101,9 @@
           <tr id="pi2">
             <td colspan="2">
               <div class="calc_txt">円の面積</div>
-                <input type="input" class="input input_s same2" maxlength="3"> 
+                <input type="input" class="same2 input input_s" axlength="3"> 
                 <span class="sign">  × </span>
-                <input type="input" class="input input_s same2" onFocus="this.blur()" maxlength="3" readonly="readonly" > 
+                <input type="input" class="same2 input input_s noborder" onFocus="this.blur()" maxlength="3" readonly="readonly" > 
               <span class="sign"> × 3.14 × </span> 
               <input type="input" class="input input_s" maxlength="3" value="360"> <span class="sign">度 =</span> 
               <div class="result"></div>
@@ -181,14 +183,221 @@
 <script src="./common/js/jquery-ui.js"></script>
 <script src="./common/js/common.js"></script>
 <script src="./common/js/tools.js?ted3dt"></script>
-<script src="./common/js/calc.js?tedds3at"></script>
+<!-- <script src="./common/js/calc.js?tedds3at"></script> -->
 <script>
-  $('.same1').keyup(function(){
-    $('.same1').val($(this).val());
+  /** 注 same クラスは１番初めに書く！！ **/
+  $('[class^=same]').keyup(function(){
+    let class_name = $(this).attr('class').split(' ')[0];
+    $('.'+class_name).val($('.'+class_name).val());
   })
-  $('.same2').keyup(function(){
-    $('.same2').val($(this).val());
-  })
+
+
+/*----------------------------
+Roku tools
+*/
+'use strict';
+
+let i;
+let active = 'prime';   // default
+// let target_index = 0;
+let active_input = $('#'+active).find('.input').eq(0);
+// let active_input = $('#'+active).find('.input').eq(target_index);
+let active_result;
+let input1, input2, input3;
+let division_decimal = $('#division_decimal');
+let keta=1;
+for(i=0; i<division_decimal.val(); i++){
+  keta = keta*10;
+}
+
+
+//-------------------
+// init
+//-------------------
+function init(){
+    $('.input').removeClass('active');
+    active_input.addClass('active');
+    active_result = $('#'+active).find('.result');
+}
+init();
+$('#'+active).find('.input').focus();
+
+//-------------------
+// focus, tap
+//-------------------
+$('#calc').on('focus click', '.input', function(){
+    active = $(this).parent().parent().attr('id');
+    active_input = $(this);
+    init();
+})
+// ダブルクリックで上書き
+$('#calc').on('dblclick', '.input', function(){
+    $(this).val('');
+})
+//-------------------
+// キーボード
+//-------------------
+$('#calc .input').keyup(function(){
+    calc($(this));
+})
+
+$('#calc .input').change(function(){
+    $(this).val(zenToHan($(this).val()));
+})
+
+//-------------------
+// テンキー
+//-------------------
+// let num
+$('.tenkey_box li').click(function(){
+    let n = $(this).html();
+    active_input.val(active_input.val()+n);
+    calc(active_input);
+
+    // TODO same の処理
+    let tmp_class = active_input.attr('class');
+    if(tmp_class!=''){
+       let c = tmp_class.split(' ')[0];
+       if(c.substr(0,4)=='same'){
+        $('.'+c).val($('.'+c).val());
+       }
+    }
+})
+//-------------------
+// 小数点指定変更されたら
+division_decimal.change(function(){
+    keta=1;
+    for(i=0; i<division_decimal.val(); i++){
+        keta = keta*10;
+    }
+})
+
+/*-----------------------
+  計算
+-----------------------*/
+function calc(active_input){
+    active_result.html('')
+    let active = active_input.parent().parent().attr('id');
+
+    let inputs = $('#'+active).find('.input');
+    if(inputs.eq(0).length){
+        input1 = parseFloat(inputs.eq(0).val());
+    }
+    if(inputs.eq(1).length){
+        input2 = inputs.eq(1).val();
+    }
+    if(inputs.eq(2).length){
+        input3 = inputs.eq(2).val();
+    }
+
+    //-------------------------
+    // 素因数分解、平方数、平方根
+    //-------------------------
+    let res;
+    switch(active){
+        case 'prime':
+            // 素因数分解
+            res = prime(input1); 
+            break;
+        case 'squre': 
+            // 平方数
+            res = input1*input1;
+            break;
+        case 'squre_root':
+            // 平方根
+            res = Math.round( Math.sqrt(input1) * 1000 ) / 1000;
+            break;
+        case 'pi':
+            // 円周の長さ
+            res = Math.round((input1 + input1) * 3.14 * (input3 / 360) * 100) / 100
+            console.log('pi', (input1 + input1), res);
+
+            break; 
+        case 'pi2': 
+            // 円の面積
+            console.log('pi2', input1);
+            res = Math.round((input1 * input1) * 3.14 * (input3 / 360) * 100) / 100
+            break;        
+        case 'multi':   
+            // 掛け算
+            if(Number.isInteger(input1 * input2)){
+                res = input1*input2;
+            } else {
+                res = Math.round(input1 * input2 * keta) / keta;
+            }
+            break;
+        case 'division':  
+            // 割り算
+            res = Math.round(input1 / input2 * keta) / keta;
+            break;
+        case 'rate1':  
+            // 150点中90点は6割
+            res = Math.round(input2 / input1 * 10 * 2) / 2
+            break;  
+        case 'rate2':  
+            // 150点の6割は90点
+            res = input1 * input2 / 10;
+            break;
+    }
+    // 結果
+    active_result.html('')
+    if(!(Number.isNaN(res) || res=='Infinity' || res==0)){
+        active_result.html(res)
+    }
+}
+
+/*-----------------------
+  素因数分解
+-----------------------*/
+function prime(val){
+    let primes1 = [];
+    let primes2 = [];
+    let primes3 = [];
+    if(Number(val)){
+        for(i=2; i<=50; i++){
+            for(let j=0; j<10; j++){
+                if(val % i ==0){
+                    primes1.push(i);
+                    val = val/i;
+                } else {
+                    break;
+                }
+            }
+        }
+        if(val>1){
+            primes1.push(val);
+        }
+        primes1.forEach(function(i, e){
+            if(primes2[i]){
+                primes2[i]++;
+            } else {
+                primes2[i] = 1;
+            }
+        })
+        primes2.forEach(function(i, e){
+            if(i==1){
+                primes3.push("<div class='prime_number'>"+e+"</div>");
+            } else {
+                primes3.push("<div class='prime_number'>"+e+"</div><div class='ruby'>"+i+"</div>");
+            }
+        })
+        return primes3.join(', ');
+    }
+    return '';
+}
+
+/*-----------------------
+  all clear
+-----------------------*/
+$('#js_clear').click(function(){
+    active_input.val('');
+    active_result.html('');
+})
+$('#js_all_clear').click(function(){
+    $('.input').val('');
+    $('.result').html('');
+})
+
 </script>
 </body>
 </html> 

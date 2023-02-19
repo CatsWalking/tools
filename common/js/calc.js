@@ -20,56 +20,55 @@ for(i=0; i<division_decimal.val(); i++){
 
 
 
-//-------------------
-// init
-//-------------------
-function init(){
-    $('.input').removeClass('active');
-    active_input.addClass('active');
-    active_result = $('#'+active).find('.result');
-}
-init();
-$('#'+active).find('.input').focus();
+// //-------------------
+// // init
+// //-------------------
+// function init(){
+//     $('.input').removeClass('active');
+//     active_input.addClass('active');
+//     active_result = $('#'+active).find('.result');
+// }
+// init();
+// $('#'+active).find('.input').focus();
 
-//-------------------
-// focus, tap
-//-------------------
-$('#calc').on('focus click', '.input', function(){
-    active = $(this).parent().parent().attr('id');
-    active_input = $(this);
-    init();
-})
-// ダブルクリックで上書き
-$('#calc').on('dblclick', '.input', function(){
-    $(this).val('');
-})
-//-------------------
-// キーボード
-//-------------------
-$('#calc .input').keyup(function(){
-    calc($(this));
-})
+// //-------------------
+// // focus, tap
+// //-------------------
+// $('#calc').on('focus click', '.input', function(){
+//     active = $(this).parent().parent().attr('id');
+//     active_input = $(this);
+//     init();
+// })
 
-$('#calc .input').change(function(){
-    $(this).val(zenToHan($(this).val()));
-})
-//-------------------
-// テンキー
-//-------------------
-let num
-$('.tenkey_box li').click(function(){
-    let n = $(this).html();
-    active_input.val(active_input.val()+n);
-    calc(active_input);
-})
-//-------------------
-// 小数点指定変更されたら
-division_decimal.change(function(){
-    keta=1;
-    for(i=0; i<division_decimal.val(); i++){
-        keta = keta*10;
-    }
-})
+// //-------------------
+// // キーボード
+// //-------------------
+// $('#calc .input').keyup(function(){
+//     calc($(this));
+// })
+
+// $('#calc .input').change(function(){
+//     $(this).val(zenToHan($(this).val()));
+//     console.log(111,active);
+// })
+
+// //-------------------
+// // テンキー
+// //-------------------
+// let num
+// $('.tenkey_box li').click(function(){
+//     let n = $(this).html();
+//     active_input.val(active_input.val()+n);
+//     calc(active_input);
+// })
+// //-------------------
+// // 小数点指定変更されたら
+// division_decimal.change(function(){
+//     keta=1;
+//     for(i=0; i<division_decimal.val(); i++){
+//         keta = keta*10;
+//     }
+// })
 
 /*-----------------------
   計算
@@ -182,7 +181,10 @@ function prime(val){
     }
     return '';
 }
-
+// ダブルクリックで上書き
+$('#calc').on('dblclick', '.input', function(){
+    $(this).val('');
+})
 /*-----------------------
   all clear
 -----------------------*/
