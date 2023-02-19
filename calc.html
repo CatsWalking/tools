@@ -32,10 +32,15 @@
 .input_s{
   width: 54px !important;
 }
+.input_ss{
+  width: 40px !important;
+  padding:0;
+}
 .result{
   display: inline-block;
   font-size:24px;
   min-width: 100px;
+  text-align: right;
 }
 .ruby3{
   font-size:18px;
@@ -92,7 +97,7 @@
                 <div class="calc_txt">円周の長さ</div>
                   (<input type="input" class="same1 input input_s" maxlength="3">
                   <span class="sign">  + </span>
-                  <input type="input" class="same1 input input_s noborder" onFocus="this.blur()" maxlength="3" readonly="readonly" >) 
+                  <input type="input" class="same1 input input_ss noborder" onFocus="this.blur()" maxlength="3" readonly="readonly" >) 
                   <span class="sign"> × 3.14 × </span> 
                   <input type="input" class="input input_s" maxlength="3" value="360"> <span class="sign">度 =</span> 
                   <div class="result"></div>
@@ -103,7 +108,7 @@
               <div class="calc_txt">円の面積</div>
                 <input type="input" class="same2 input input_s" axlength="3"> 
                 <span class="sign">  × </span>
-                <input type="input" class="same2 input input_s noborder" onFocus="this.blur()" maxlength="3" readonly="readonly" > 
+                <input type="input" class="same2 input input_ss noborder" onFocus="this.blur()" maxlength="3" readonly="readonly" > 
               <span class="sign"> × 3.14 × </span> 
               <input type="input" class="input input_s" maxlength="3" value="360"> <span class="sign">度 =</span> 
               <div class="result"></div>
@@ -199,9 +204,7 @@ Roku tools
 
 let i;
 let active = 'prime';   // default
-// let target_index = 0;
 let active_input = $('#'+active).find('.input').eq(0);
-// let active_input = $('#'+active).find('.input').eq(target_index);
 let active_result;
 let input1, input2, input3;
 let division_decimal = $('#division_decimal');
@@ -209,7 +212,6 @@ let keta=1;
 for(i=0; i<division_decimal.val(); i++){
   keta = keta*10;
 }
-
 
 //-------------------
 // init
@@ -310,12 +312,9 @@ function calc(active_input){
         case 'pi':
             // 円周の長さ
             res = Math.round((input1 + input1) * 3.14 * (input3 / 360) * 100) / 100
-            console.log('pi', (input1 + input1), res);
-
             break; 
         case 'pi2': 
             // 円の面積
-            console.log('pi2', input1);
             res = Math.round((input1 * input1) * 3.14 * (input3 / 360) * 100) / 100
             break;        
         case 'multi':   
@@ -329,10 +328,12 @@ function calc(active_input){
         case 'division':  
             // 割り算
             res = Math.round(input1 / input2 * keta) / keta;
+            console.log(111,input1, input2, keta);
             break;
         case 'rate1':  
             // 150点中90点は6割
-            res = Math.round(input2 / input1 * 10 * 2) / 2
+            res = Math.round(input2 / input1 * 10 * 10) /10
+            console.log(222,input1, input2, keta,input2 / input1 * 10 );
             break;  
         case 'rate2':  
             // 150点の6割は90点
