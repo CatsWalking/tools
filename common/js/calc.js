@@ -4,9 +4,10 @@ Roku tools
 'use strict';
 
 let i;
-let active = 'prime';
-let target_index = 0;
-let active_input = $('#'+active).find('.input').eq(target_index);
+let active = 'prime';   // default
+// let target_index = 0;
+let active_input = $('#'+active).find('.input').eq(0);
+// let active_input = $('#'+active).find('.input').eq(target_index);
 let active_result;
 let input1, input2, input3;
 let division_decimal = $('#division_decimal');
@@ -38,10 +39,20 @@ $('#calc').on('focus click', '.input', function(){
     active_input = $(this);
     init();
 })
+// ダブルクリックで上書き
 $('#calc').on('dblclick', '.input', function(){
     $(this).val('');
 })
+//-------------------
+// キーボード
+//-------------------
+$('#calc .input').keyup(function(){
+    calc($(this));
+})
 
+$('#calc .input').change(function(){
+    $(this).val(zenToHan($(this).val()));
+})
 //-------------------
 // テンキー
 //-------------------
@@ -132,11 +143,6 @@ function calc(active_input){
     }
 }
 
-
-$('#calc .input').keyup(function(){
-    calc($(this));
-})
-
 /*-----------------------
   素因数分解
 -----------------------*/
@@ -183,8 +189,8 @@ function prime(val){
 $('#js_clear').click(function(){
     active_input.val('');
     active_result.html('');
-  })
-  $('#js_all_clear').click(function(){
+})
+$('#js_all_clear').click(function(){
     $('.input').val('');
     $('.result').html('');
-  })
+})
