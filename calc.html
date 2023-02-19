@@ -7,9 +7,9 @@
 <link rel="icon" href="./common/images/favicon.svg" sizes="any">
 <title>計算ツール</title>
 <link rel="stylesheet" href="./common/css/reset.css">
-<link rel="stylesheet" href="./common/css/style.css?teddstd">
-<link rel="stylesheet" href="./common/css/modal.css?tedst">
-<link rel="stylesheet" href="./common/css/tools.css?tdedsdtd">
+<link rel="stylesheet" href="./common/css/style.css?teddddstd">
+<link rel="stylesheet" href="./common/css/modal.css?tedsddt">
+<link rel="stylesheet" href="./common/css/tools.css?tdedsdddtd">
 <style>
 .calc_txt{
   color: #5b84a8;
@@ -99,7 +99,7 @@
                   <span class="sign">  + </span>
                   <input type="input" class="same1 input input_ss noborder" onFocus="this.blur()" maxlength="3" readonly="readonly" >) 
                   <span class="sign"> × 3.14 × </span> 
-                  <input type="input" class="input input_s" maxlength="3" value="360"> <span class="sign">度 =</span> 
+                  <input type="input" class="input input_s noclear" maxlength="3" value="360"> <span class="sign">度 =</span> 
                   <div class="result"></div>
               </td>
           </tr>
@@ -110,7 +110,7 @@
                 <span class="sign">  × </span>
                 <input type="input" class="same2 input input_ss noborder" onFocus="this.blur()" maxlength="3" readonly="readonly" > 
               <span class="sign"> × 3.14 × </span> 
-              <input type="input" class="input input_s" maxlength="3" value="360"> <span class="sign">度 =</span> 
+              <input type="input" class="input input_s noclear" maxlength="3" value="360"> <span class="sign">度 =</span> 
               <div class="result"></div>
             </td>
         </tr>
@@ -176,7 +176,7 @@
       </ul>
 
       <div style="width:600px">
-        <div class="calc_txt">小数点 第 <input type="input" id="division_decimal" class="input decimal" value="2"> 位まで</div>
+        <div class="calc_txt">小数点 第 <input type="input" id="division_decimal" class="input decimal noclear" value="2"> 位まで</div>
       </div>
       <div class="btnBox clear_box" style="text-align: center!important;"></div>
     </div>
@@ -186,8 +186,8 @@
 </div><!-- container -->
 <script src="./common/js/jquery-3.6.3.min.js"></script>
 <script src="./common/js/jquery-ui.js"></script>
-<script src="./common/js/common.js"></script>
-<script src="./common/js/tools.js?ted3dt"></script>
+<script src="./common/js/common.js?test"></script>
+<script src="./common/js/tools.js?tedd3dt"></script>
 <!-- <script src="./common/js/calc.js?tedds3at"></script> -->
 <script>
   /** 注 same クラスは１番初めに書く！！ **/
@@ -233,7 +233,7 @@ $('#calc').on('focus click', '.input', function(){
     init();
 })
 // ダブルクリックで上書き
-$('#calc').on('dblclick', '.input', function(){
+$('#calc').on('click', '.input', function(){
     $(this).val('');
 })
 //-------------------
@@ -395,8 +395,8 @@ $('#js_clear').click(function(){
     active_result.html('');
 })
 $('#js_all_clear').click(function(){
-    $('.input').val('');
-    $('.result').html('');
+    $('.input').not('.noclear').val('');
+    $('.result').not('.noclear').html('');
 })
 
 </script>

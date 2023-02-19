@@ -289,13 +289,23 @@ $(function () {
   });
 });
 
-function isSP() {
-  if (navigator.userAgent.match(/iPhone|Android.+Mobile/)) {
-    return true;
+function getAgent(){
+  if (navigator.userAgent.indexOf('iPhone') > 0 || navigator.userAgent.indexOf('Android') > 0 && navigator.userAgent.indexOf('Mobile') > 0) {
+    return 1; // sp
+  } else if (navigator.userAgent.indexOf('iPad') > 0 || navigator.userAgent.indexOf('Android') > 0) {
+      return 2; // tablet  
   } else {
-    return false;
+      return 3; // pc
   }
 }
+function isSP() {
+  return getAgent()==1 ? true : false;
+}
+function isTablet() {
+  return getAgent()==2 ? true : false;
+}
+
+
 /**
  * ステータス切り替えタブ
  */
@@ -403,3 +413,6 @@ $('#js_retry').click(function(){
   })
   
 })
+function getWindowSize(){
+  return $(window).width();
+}

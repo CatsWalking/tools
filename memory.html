@@ -7,17 +7,21 @@
 <link rel="icon" href="./common/images/favicon.svg" sizes="any">
 <title>神経衰弱</title>
 <link rel="stylesheet" href="./common/css/reset.css">
-<link rel="stylesheet" href="./common/css/style.css?tess3dtd">
-<link rel="stylesheet" href="./common/css/modal.css?tess3dt">
-<link rel="stylesheet" href="./common/css/tools.css?tes3sdtd">
+<link rel="stylesheet" href="./common/css/style.css?tesds3dtd">
+<link rel="stylesheet" href="./common/css/modal.css?tessd3dt">
+<link rel="stylesheet" href="./common/css/tools.css?tes3dsdtd">
 <style>
 #stage {
     display: flex;
     flex-wrap: wrap;
     margin: 0 auto;
 }
-
 @media screen and (min-width: 960px) {
+    #stage {
+        width: 600px;
+    }
+}
+@media screen and (min-width: 800px) {
     #stage {
         width: 600px;
     }
@@ -83,13 +87,13 @@
     <header class="header"></header>
     <main>
         <!-- タブ -->
-        <div class="mb20" id="tab_game"></div>
+        <div id="tab_game"></div>
         <!-- timer -->
         <div id="timer" class="timer">0.00</div>
         <!-- stage -->
         <div id="stage"></div>
 
-        <div class="btnBox">
+        <div class="btnBox" style="margin-top: 50px;">
             <div class="btn" id="js_retry">もういっかい</div>
         </div>
     </main>
@@ -97,9 +101,9 @@
 </div><!-- container -->
 <script src="./common/js/jquery-3.6.3.min.js"></script>
 <script src="./common/js/jquery-ui.js"></script>
-<script src="./common/js/common.js"></script>
+<script src="./common/js/common.js?tedst"></script>
 <script src="./common/js/modal.js"></script>
-<script src="./common/js/tools.js?tesat"></script>
+<script src="./common/js/tools.js?tedsat"></script>
 
 <script>
 'use strict'

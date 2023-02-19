@@ -79,7 +79,7 @@ $('.-tab').click(function(){
 
 /*----------------------------*/
 // スマホだったらソフトウェアキーボードを表示しない
-if(isSP()){
+if(isSP() || isTablet()){
     $(".input").attr('readOnly', 'true');
 } else {
     $(".input").removeAttr('readOnly');

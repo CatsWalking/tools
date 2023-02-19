@@ -34,14 +34,17 @@
   font-size: 1em;
   font-weight: bold;
 }
+.score_box{
+  margin-top: 20px;
+}
 /* PC */
 @media screen and (min-width: 960px) {
   .score_box,#board,.btnBox{
     width: 420px;
   }
   #board {
-  margin: 10px auto 450px!important;
-}
+    margin: 10px auto 450px!important;
+  }
   .cell {
     width: 50px;
     height: 50px;
@@ -81,7 +84,7 @@ img {
     <header class="header"></header>
     <main>
       <!-- タブ -->
-      <div class="mb20" id="tab_game"></div>
+      <div id="tab_game"></div>
       <!-- スコア -->
       <div class="score_box">
         <div id="black_cat"><img src='./common/images/cat_black.png' class='score_cat'></div>
