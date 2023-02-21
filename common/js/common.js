@@ -53,21 +53,21 @@ function formated_time(t) {
 //------------------------------------
 // radio label class
 //------------------------------------
-$(document).on("click", ".c-radioarea input", function () {
+$(document).on("click", ".radioarea input", function () {
   $(this).parent().parent().find("label").removeClass("-checked");
   $(this).parent().addClass("-checked");
 });
 //------------------------------------
 // tabmenu label class
 //------------------------------------
-$(document).on("click", ".c-tabmenuarea input", function () {
+$(document).on("click", ".tabmenuarea input", function () {
   $(this).parent().parent().find("label").removeClass("-checked");
   $(this).parent().addClass("-checked");
 });
 //------------------------------------
 // checkbox label class
 //------------------------------------
-$(document).on("click", ".c-checkboxarea input", function () {
+$(document).on("click", ".checkboxarea input", function () {
   if ($(this).prop("checked")) {
     $(this).parent().addClass("-checked");
   } else {
@@ -304,6 +304,9 @@ function isSP() {
 function isTablet() {
   return getAgent()==2 ? true : false;
 }
+function isPC() {
+  return getAgent()==3 ? true : false;
+}
 
 
 /**
@@ -414,5 +417,6 @@ $('#js_retry').click(function(){
   
 })
 function getWindowSize(){
-  return $(window).width();
+  return window.innerWidth;
+  // return $(window).width();
 }

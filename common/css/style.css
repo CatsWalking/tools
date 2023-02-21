@@ -651,11 +651,11 @@ table.-tableHover tr:hover td {
 }
 
 /* radio */
-.radioareainput[type=radio] {
+.radioarea input[type=radio] {
   display: none;
 }
 
-.radioarealabel {
+.radioarea label {
   line-height: 1.7;
   display: inline-block;
   position: relative;
@@ -663,8 +663,8 @@ table.-tableHover tr:hover td {
   cursor: pointer;
 }
 
-.radioarealabel::before,
-.radioarealabel::after {
+.radioarea label::before,
+.radioarea label::after {
   content: "";
   display: block;
   position: absolute;
@@ -674,7 +674,7 @@ table.-tableHover tr:hover td {
   transition-property: transform, border-color;
 }
 
-.radioarealabel::before {
+.radioarea label::before {
   top: 5px;
   left: 0;
   background: #fff;
@@ -684,7 +684,7 @@ table.-tableHover tr:hover td {
   box-sizing: border-box;
 }
 
-.radioarealabel::after {
+.radioarea label::after {
   top: 10px;
   left: 5px;
   background: #00cb81;
@@ -693,13 +693,13 @@ table.-tableHover tr:hover td {
   transform: scale(0);
 }
 
-.radioarealabel.-checked::before {
+.radioarea label.-checked::before {
   border-color: #00cb81;
   -webkit-animation: ripple 0.2s linear forwards;
   animation: ripple 0.2s linear forwards;
 }
 
-.radioarealabel.-checked::after {
+.radioarea label.-checked::after {
   transform: scale(1);
 }
 

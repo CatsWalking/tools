@@ -3,6 +3,8 @@ Roku tools
 */
 'use strict';
 
+const url = 'https://mami.tools/tools/';
+
 // ヘッダーメニュー
 const header = '<div class="header__inner">'
     +'<h1 class="header__title header-title">'

@@ -8,15 +8,15 @@
 <title>tools</title>
 <link rel="stylesheet" href="./common/css/reset.css">
 <link rel="stylesheet" href="./common/css/style.css?s33">
-<link rel="stylesheet" href="./common/css/modal.css?333">
-<link rel="stylesheet" href="./common/css/tools.css?33">
+<link rel="stylesheet" href="./common/css/modal.css?33d3">
+<link rel="stylesheet" href="./common/css/tools.css?d33">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300&display=swap" rel="stylesheet">
 
 <style>
-#question,#answer{
-  margin: 30px auto;
+  /* タブレット　縦 810 横 1080 */
+#question, #answer{
   width: 90%;
   padding: 10px 20px 20px 10px;
   border-radius: 5px;
@@ -24,11 +24,13 @@
   line-height: 40px;
 }
 #question{
+  margin: 30px auto;
   height: 240px;
   color: rgb(85, 85, 88);
   background-color: rgb(239, 240, 241);
 }
 #answer{
+  margin: 5px auto;
   height: 30px;
   text-align:center;
   color: rgb(169, 102, 103);
@@ -43,10 +45,17 @@
   width: 600px;
   padding: 10px;
 }
+/* pc */
 @media screen and (min-width: 960px) {
   .caution{
     width: 600px;
   }
+}
+/* tablet */
+@media screen and (min-width: 810px) {
+  /* main{
+   background: red !important;;
+  } */
 }
 /* 小さい画面 */
 @media screen and (max-width: 375px) {
@@ -76,10 +85,13 @@
       <div id="click_area" style="height:100%">
         <!-- 質問 -->
         <div id="question"></div>
+         <!-- 画像 -->
+         <div id="file1" style="width:150px;"></div>
         <!-- 解答 -->
         <div style="height:60px;margin-bottom: 20px;" id="answer_box">
           <div id="answer" class="hide"></div>
         </div>
+        
         <!-- 情報 -->
         <div class="hide" id="id"></div>
       </div>
@@ -101,10 +113,11 @@
           <div class="btn -blue" id="js_next" >次へ</div>
         </div>
         <div class="btnBox" id="tab_order_type" style="margin-top: 20px;">
-            <div class="status -green" data-order_type="1">途中から</div>
+            <div class="status -green" data-order_type="1">続きから</div>
             <div class="status" data-order_type="2">初めから</div>
             <div class="status" data-order_type="3">後ろから</div>
             <div class="status" data-order_type="4">ランダム</div>
+            <div class="status" data-order_type="9">すべて</div>
         </div>
       </div>
     </main>
@@ -120,22 +133,18 @@
 <!-- container -->
 <script src="./common/js/jquery-3.6.3.min.js"></script>
 <script src="./common/js/jquery-ui.js"></script>
-<script src="./common/js/common.js"></script>
-<script src="./common/js/load.js?tesat"></script>
-<script src="./common/js/tools.js?tesat"></script>
+<script src="./common/js/common.js?tedst"></script>
+<script src="./common/js/load.js?tedsat"></script>
+<script src="./common/js/tools.js?tesdat"></script>
 <script>
   'use strict'
   $(function(){
-
-    var windowSize = window.innerWidth;
-
-    // alert(windowSize);
+// alert(getWindowSize());
       let no=0;
       let questions;
       let Q = $('#question');
       let A = $('#answer');
       let id = $('#id');
-      let url = 'https://mami.tools/tools/';
       let subject = 4;
       let order_type = 1;
       let status_arr = {0:'未', 1:'OK',2:'REPEAT',3:'NG'}
@@ -158,6 +167,7 @@
         Q.html(questions[no]['question'])
         A.html(questions[no]['answer'])
         id.html(questions[no]['id'])
+        $('#file1').html(questions[no]['file1'])
         $('#status').html(status_arr[questions[no]['status']])
         $('#cnt').html(parseInt(questions[no]['cnt']??0)+1)
         A.addClass('hide');
@@ -207,22 +217,6 @@
         $(this).addClass('-green');
       })
       //--------------------------
-      // 保存  
-      $('#js_save').click(function(){
-        let data = {subject: $('#new_subject').val(), answer: $('#new_answer').val(), question: $('#new_question').val() }
-          $.ajax({
-            url: url+"?action=saveAnki",
-            type: 'post',
-            data: data,
-            success: function( result ){
-              console.log(result);
-            },
-            error: function( err, text, message ){
-              console.log(err, text, message);
-            }
-          });
-      })
-      //--------------------------
       // 解答 表示・非表示
       $('#click_area').click(function(){
         if($(this).hasClass('btn')){
@@ -234,7 +228,6 @@
           A.addClass('hide');
         }
       })
-
       // 戻る
       $('#js_back').click(function(){
         if($(this).hasClass('inactive')){

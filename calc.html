@@ -22,15 +22,17 @@
   color: #5b84a8;
   font-size: 0.8rem;
 }
-#calc {
+.calc_table {
   max-width: 100%;
   margin: 0 auto;
-}    
+}   
+
 .input{
+  padding: 3px 4px;
   width:90px!important;
 }
 .input_s{
-  width: 54px !important;
+  width: 56px !important;
 }
 .input_ss{
   width: 40px !important;
@@ -60,14 +62,25 @@
   overflow: scroll;
   height: calc(100vh - 300px);
 }
+#tab_subject div{
+  min-width: 100px;
+}
 </style>
 </head>
 <body>
   <div class="container">
     <header class="header"></header>
     <main>
+      <div class="btnBox" id="tab_subject">
+        <div class="status -green" data-subject="1">因数・平方</div>
+        <div class="status" data-subject="2">円</div>
+        <div class="status" data-subject="3">かけ算・わり算</div>
+        <div class="status" data-subject="4">割</div>
+      </div>
       <div class="contents">
-      <table class="table2" id="calc">
+
+      <!-- 【因数 平方】 -->
+      <table class="table2 calc_table" id="calc_1">
         <tbody>
           <tr id="prime">
               <td>
@@ -91,6 +104,12 @@
               <div class="result" style="margin-left: 50px;"></div>
             </td>
           </tr>
+        </tbody>
+        </table>
+
+        <!-- 【円】 -->
+        <table class="table2 calc_table hide" id="calc_2">
+          <tbody>
           <!-- 円周の長さ -->
           <tr id="pi">
               <td colspan="2">
@@ -114,32 +133,62 @@
               <div class="result"></div>
             </td>
         </tr>
+      </tbody>
+    </table>
+    <!-- 【かけ算・わり算】 -->
+    <table class="table2 calc_table hide" id="calc_3">
+      <tbody>
         <tr id="multi">
           <td colspan="2">
-            <div class="calc_txt">掛け算</div>
-              <input type="input" class="input number" data-type="multi"> 
+            <div class="calc_txt">かけ算</div>
+              <input type="input" class="input number">
               <span class="sign">×</span> 
-              <input type="input" class="input number" data-type="multi"> 
+              <input type="input" class="input number">
               <span class="sign">=</span> 
               <div class="result"></div>
             </td>
           </tr>
           <tr id="division">
             <td colspan="2">
-                <div class="calc_txt">割り算</div>
-                <input type="input" class="input number" data-type="division"> 
+                <div class="calc_txt">わり算</div>
+                <input type="input" class="input number">
                 <span class="sign">÷</span> 
-                <input type="input" class="input number" data-type="division"> 
+                <input type="input" class="input number">
                 <span class="sign">=</span> 
                 <div class="result"></div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+       <!-- 【割】 -->
+      <table class="table2 calc_table hide" id="calc_4">
+        <tbody>
+          <!-- ○円の○割引は○円 -->
+          <tr id="discount1">
+            <td colspan="2">
+                <input type="input" class="input input_s number">
+                <span class="sign"> 円の </span>
+                <input type="input" class="input input_s number">
+                <span class="sign"> 割引きは </span>
+                <span class="result"></span> <span class="sign"> 円</span>
+            </td>
+          </tr>
+          <!-- ○円は○円の○割引 -->
+          <tr id="discount2">
+            <td colspan="2">
+                <input type="input" class="input input_s number">
+                <span class="sign"> 円は </span>
+                <input type="input" class="input input_s number">
+                <span class="sign"> 円の </span>
+                <span class="result"></span> <span class="sign"> 割引き</span>
             </td>
           </tr>
             <!-- 150点中90点は6割 -->
             <tr id="rate1">
               <td colspan="2">
-                  <input type="input" class="input input_s number" data-type="rate1"> 
+                  <input type="input" class="input input_s number">
                   <span class="sign"> 点中 </span>               
-                  <input type="input" class="input input_s number" data-type="rate1"> 
+                  <input type="input" class="input input_s number">
                   <span class="sign"> 点は </span>
                   <span class="result"></span> <span class="sign"> 割</span>
               </td>
@@ -147,9 +196,9 @@
             <!-- 150点の6割は90点 -->
             <tr id="rate2">
               <td colspan="2">
-                  <input type="input" class="input input_s number" data-type="rate2"> 
+                  <input type="input" class="input input_s number">
                   <span class="sign"> 点中 </span>
-                  <input type="input" class="input input_s number" data-type="rate2"> 
+                  <input type="input" class="input input_s number">
                   <span class="sign"> 割は </span>
                   <span class="result"></span> <span class="sign"> 点</span>
               </td>
@@ -190,17 +239,28 @@
 <script src="./common/js/tools.js?tedd3dt"></script>
 <!-- <script src="./common/js/calc.js?tedds3at"></script> -->
 <script>
-  /** 注 same クラスは１番初めに書く！！ **/
-  $('[class^=same]').keyup(function(){
-    let class_name = $(this).attr('class').split(' ')[0];
-    $('.'+class_name).val($('.'+class_name).val());
-  })
-
-
 /*----------------------------
 Roku tools
 */
 'use strict';
+
+/** 注 same クラスは１番初めに書く！！ **/
+$('[class^=same]').keyup(function(){
+  let class_name = $(this).attr('class').split(' ')[0];
+  $('.'+class_name).val($('.'+class_name).val());
+})
+
+// --------------------
+// タブ
+$('#tab_subject div').click(function(){
+  $('.status').removeClass('-green');
+  $(this).addClass('-green');
+  let subject = $(this).data('subject');
+
+  $('[id^=calc_').addClass('hide');
+  $('#calc_'+subject).removeClass('hide');
+})
+
 
 let i;
 let active = 'prime';   // default
@@ -227,23 +287,23 @@ $('#'+active).find('.input').focus();
 //-------------------
 // focus, tap
 //-------------------
-$('#calc').on('focus click', '.input', function(){
+$('.calc_table').on('focus click', '.input', function(){
     active = $(this).parent().parent().attr('id');
     active_input = $(this);
     init();
 })
 // ダブルクリックで上書き
-$('#calc').on('click', '.input', function(){
+$('.calc_table').on('click', '.input', function(){
     $(this).val('');
 })
 //-------------------
 // キーボード
 //-------------------
-$('#calc .input').keyup(function(){
+$('.calc_table .input').keyup(function(){
     calc($(this));
 })
 
-$('#calc .input').change(function(){
+$('.calc_table .input').change(function(){
     $(this).val(zenToHan($(this).val()));
 })
 
@@ -307,15 +367,15 @@ function calc(active_input){
             break;
         case 'squre_root':
             // 平方根
-            res = Math.round( Math.sqrt(input1) * 1000 ) / 1000;
+            res = Math.round( Math.sqrt(input1) * keta ) / keta;
             break;
         case 'pi':
             // 円周の長さ
-            res = Math.round((input1 + input1) * 3.14 * (input3 / 360) * 100) / 100
+            res = Math.round((input1 + input1) * 3.14 * (input3 / 360) * keta) / keta
             break; 
         case 'pi2': 
             // 円の面積
-            res = Math.round((input1 * input1) * 3.14 * (input3 / 360) * 100) / 100
+            res = Math.round((input1 * input1) * 3.14 * (input3 / 360) * keta) / keta
             break;        
         case 'multi':   
             // 掛け算
@@ -327,13 +387,27 @@ function calc(active_input){
             break;
         case 'division':  
             // 割り算
+            // 余 = A - 商×B
             res = Math.round(input1 / input2 * keta) / keta;
-            console.log(111,input1, input2, keta);
+            let amari = input1 % input2;
+            if(amari!='' && !isNaN(amari)){
+              res = String(res) + ' ('+parseInt(input1/input2)+'...'+amari+')';
+            }
+            break;
+        case 'discount1':
+            // ○円の○割引は○円
+            // （定価 × 割引/10)
+            res = input1 - (input1 * input2/10);
+            break;
+        case 'discount2':
+            // ○円は○円の○割引
+            // （１－（割引後の価格　÷　元の価格））　×　10
+            // =(1-(700/1000))*10
+            res = Math.round((1-(input1 / input2))*10*keta)/keta;
             break;
         case 'rate1':  
             // 150点中90点は6割
             res = Math.round(input2 / input1 * 10 * 10) /10
-            console.log(222,input1, input2, keta,input2 / input1 * 10 );
             break;  
         case 'rate2':  
             // 150点の6割は90点
@@ -342,7 +416,7 @@ function calc(active_input){
     }
     // 結果
     active_result.html('')
-    if(!(Number.isNaN(res) || res=='Infinity' || res==0)){
+    if(!(Number.isNaN(res) || res=='Infinity' || res=='-Infinity' || res==0)){
         active_result.html(res)
     }
 }
