@@ -532,8 +532,8 @@ table.-tableHover tr:hover td {
   text-align: center;
   line-height: 1.5;
   display: inline-block;
-  padding: 3px 1px 3px 1px;
-  min-width: 70px;
+  padding: 3px 5px 3px 5px;
+  min-width: 60px;
   border-radius: 14px;
   color: #5e8899;
   background: rgba(0, 172, 239, 0.3);

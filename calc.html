@@ -7,20 +7,30 @@
 <link rel="icon" href="./common/images/favicon.svg" sizes="any">
 <title>計算ツール</title>
 <link rel="stylesheet" href="./common/css/reset.css">
-<link rel="stylesheet" href="./common/css/style.css?teddddstd">
-<link rel="stylesheet" href="./common/css/modal.css?tedsddt">
+<link rel="stylesheet" href="./common/css/style.css?tedddddstd">
+<link rel="stylesheet" href="./common/css/modal.css?teddsddt">
 <link rel="stylesheet" href="./common/css/tools.css?tdedsdddtd">
 <style>
+  .contents{
+    overflow: scroll;
+    height: calc(100vh - 300px);
+    margin: 20px auto;
+}
+td, th{
+  padding: 16px 5px;
+}
 .calc_txt{
   color: #5b84a8;
-  font-size: 0.85rem;
+  font-size: 1rem;
+  margin-bottom: 12px;
 }
 .sign{
   display: inline-block;
   min-width:10px;
   text-align: center;
-  color: #5b84a8;
-  font-size: 0.8rem;
+  color: #374f64;
+  font-size: 1.1rem;
+  font-weight: 400;
 }
 .calc_table {
   max-width: 100%;
@@ -41,8 +51,12 @@
 .result{
   display: inline-block;
   font-size:24px;
-  min-width: 100px;
-  text-align: right;
+  text-align: left;
+  width: 100%;
+}
+.result_height{
+  height: 36px; 
+  margin-top:16px;
 }
 .ruby3{
   font-size:18px;
@@ -58,12 +72,12 @@
 .flex{
   display:flex;
 }
-.contents{
-  overflow: scroll;
-  height: calc(100vh - 300px);
-}
+
 #tab_subject div{
-  min-width: 100px;
+  min-width: 70px;
+}
+.prime_number{
+  margin-left: 15px;
 }
 </style>
 </head>
@@ -74,13 +88,13 @@
       <div class="btnBox" id="tab_subject">
         <div class="status -green" data-subject="1">因数・平方</div>
         <div class="status" data-subject="2">円</div>
-        <div class="status" data-subject="3">かけ算・わり算</div>
+        <div class="status" data-subject="3">かけ・わり算</div>
         <div class="status" data-subject="4">割</div>
       </div>
       <div class="contents">
 
       <!-- 【因数 平方】 -->
-      <table class="table2 calc_table" id="calc_1">
+      <table class="table2 calc_table hide" id="calc_1">
         <tbody>
           <tr id="prime">
               <td>
@@ -91,46 +105,49 @@
           </tr>
           <!-- 平方数 -->
           <tr id="squre">
-              <td colspan="2">
+            <td>
                 <div class="calc_txt">平方数</div>
                 <input type="input" class="input" placeholder="11" maxlength="4">
-                <div class="result" style="margin-left: 50px;"></div>
               </td>
+              <td><div class="result" style="margin-left: 15px;"></div></td>
           </tr>
           <tr id="squre_root">
-            <td colspan="2">
+            <td>
               <div class="calc_txt">平方根</div>
               <input type="input" class="input" placeholder="144" maxlength="4">
-              <div class="result" style="margin-left: 50px;"></div>
             </td>
+            <td><div class="result" style="margin-left: 15px;"></div></td>
           </tr>
         </tbody>
         </table>
 
+
+
+
         <!-- 【円】 -->
-        <table class="table2 calc_table hide" id="calc_2">
+        <table class="table2 calc_table " id="calc_2">
           <tbody>
           <!-- 円周の長さ -->
           <tr id="pi">
-              <td colspan="2">
+              <td>
                 <div class="calc_txt">円周の長さ</div>
                   (<input type="input" class="same1 input input_s" maxlength="3">
-                  <span class="sign">  + </span>
+                  <span class="sign"> + </span>
                   <input type="input" class="same1 input input_ss noborder" onFocus="this.blur()" maxlength="3" readonly="readonly" >) 
                   <span class="sign"> × 3.14 × </span> 
-                  <input type="input" class="input input_s noclear" maxlength="3" value="360"> <span class="sign">度 =</span> 
-                  <div class="result"></div>
+                  <input type="input" class="input input_s noclear" maxlength="3" value="360"> <span class="sign"> ℃ =</span> 
+                  <div class="result result_height"></div>
               </td>
           </tr>
           <tr id="pi2">
-            <td colspan="2">
+            <td>
               <div class="calc_txt">円の面積</div>
                 <input type="input" class="same2 input input_s" axlength="3"> 
                 <span class="sign">  × </span>
                 <input type="input" class="same2 input input_ss noborder" onFocus="this.blur()" maxlength="3" readonly="readonly" > 
               <span class="sign"> × 3.14 × </span> 
-              <input type="input" class="input input_s noclear" maxlength="3" value="360"> <span class="sign">度 =</span> 
-              <div class="result"></div>
+              <input type="input" class="input input_s noclear" maxlength="3" value="360"> <span class="sign"> ℃ =</span> 
+              <div class="result result_height"></div>
             </td>
         </tr>
       </tbody>
@@ -145,7 +162,7 @@
               <span class="sign">×</span> 
               <input type="input" class="input number">
               <span class="sign">=</span> 
-              <div class="result"></div>
+              <div class="result result_height"></div>
             </td>
           </tr>
           <tr id="division">
@@ -155,17 +172,22 @@
                 <span class="sign">÷</span> 
                 <input type="input" class="input number">
                 <span class="sign">=</span> 
-                <div class="result"></div>
+                <div class="result result_height"></div>
             </td>
           </tr>
         </tbody>
       </table>
+
+
+
+
+
        <!-- 【割】 -->
       <table class="table2 calc_table hide" id="calc_4">
         <tbody>
           <!-- ○円の○割引は○円 -->
           <tr id="discount1">
-            <td colspan="2">
+            <td>
                 <input type="input" class="input input_s number">
                 <span class="sign"> 円の </span>
                 <input type="input" class="input input_s number">
@@ -175,7 +197,7 @@
           </tr>
           <!-- ○円は○円の○割引 -->
           <tr id="discount2">
-            <td colspan="2">
+            <td>
                 <input type="input" class="input input_s number">
                 <span class="sign"> 円は </span>
                 <input type="input" class="input input_s number">
@@ -185,7 +207,7 @@
           </tr>
             <!-- 150点中90点は6割 -->
             <tr id="rate1">
-              <td colspan="2">
+              <td>
                   <input type="input" class="input input_s number">
                   <span class="sign"> 点中 </span>               
                   <input type="input" class="input input_s number">
@@ -195,7 +217,7 @@
             </tr>
             <!-- 150点の6割は90点 -->
             <tr id="rate2">
-              <td colspan="2">
+              <td>
                   <input type="input" class="input input_s number">
                   <span class="sign"> 点中 </span>
                   <input type="input" class="input input_s number">
@@ -389,9 +411,9 @@ function calc(active_input){
             // 割り算
             // 余 = A - 商×B
             res = Math.round(input1 / input2 * keta) / keta;
-            let amari = input1 % input2;
+            let amari = parseInt(input1 % input2);
             if(amari!='' && !isNaN(amari)){
-              res = String(res) + ' ('+parseInt(input1/input2)+'...'+amari+')';
+              res = String(res) + "<div style='margin-top:4px;'>"+parseInt(input1/input2)+"<span class='sign'>あまり</span>"+amari+'</div>';
             }
             break;
         case 'discount1':
