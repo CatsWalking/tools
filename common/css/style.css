@@ -407,6 +407,10 @@ table {
   background: #79cd7d;
 }
 
+.btn.-purple {
+  background: #be79cd;
+}
+
 .btn.-disabled {
   background: #cfd3d3;
   cursor: default;
@@ -734,7 +738,7 @@ table.-tableHover tr:hover td {
 }
 
 /* checkbox */
-.checkboxareainput[type=checkbox] {
+.checkboxarea input[type=checkbox] {
   display: none;
 }
 

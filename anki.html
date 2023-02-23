@@ -24,19 +24,27 @@
   line-height: 40px;
 }
 #question{
-  margin: 30px auto;
+  margin: 10px auto;
   height: 240px;
   color: rgb(85, 85, 88);
   background-color: rgb(239, 240, 241);
+  position: relative;
+	/* padding-bottom: 3rem; */
 }
 #answer{
-  margin: 5px auto;
+  margin: 0 auto;
   height: 30px;
   text-align:center;
   color: rgb(169, 102, 103);
 }
+.btnBox{
+  margin: 0 auto;
+}
 .btn{
-  min-width: 90px!important;
+  min-width: 80px!important;
+  font-weight: bold;
+  height: 2.4rem!important;
+  line-height: 2rem!important;
 }
 #info, #info div, #info span{
   font-size: 0.9rem;
@@ -45,10 +53,50 @@
   width: 600px;
   padding: 10px;
 }
+#tab_order_type .status{
+  min-width: 50px;
+  padding: 3px 3px 3px 3px!important;
+}
+/* 画像 */
+#file_area{
+  height: 70px;
+  width: 100%;
+  display: flex;
+	position: absolute;
+	bottom: 0;
+}
+#file_area img{
+  cursor: pointer;
+  z-index: 999;
+}
+
+#file_area img{
+  cursor: zoom-in;
+}
+
+#file_area img.scale {
+  position: fixed;
+  width: 80%;
+  height:auto;
+  top:0
+}
+
 /* pc */
 @media screen and (min-width: 960px) {
+  .btnBox{
+  margin: 20px auto;
+}
   .caution{
     width: 600px;
+  }
+  .btn{
+    min-width: 90px!important;
+    height: 2.8rem!important;
+    line-height: 2.8rem!important;
+  }
+  #tab_order_type.status{
+    padding: 3px 5px 3px 5px;
+    min-width: 60px;
   }
 }
 /* tablet */
@@ -71,6 +119,15 @@
     margin: 10px auto;
     line-height: 35px;
   }
+  .btn{
+    min-width: 70px!important;
+    font-size:0.8rem;
+    color:black;
+  }
+  #question, #answer{
+    width: 90%;
+    padding: 5px 10px;
+  }
 }
 </style>
 </head>
@@ -86,7 +143,6 @@
         <!-- 質問 -->
         <div id="question"></div>
          <!-- 画像 -->
-         <div id="file1" style="width:150px;"></div>
         <!-- 解答 -->
         <div style="height:60px;margin-bottom: 20px;" id="answer_box">
           <div id="answer" class="hide"></div>
@@ -105,18 +161,20 @@
         </div>
         <div class="btnBox" id="result">
           <div class="btn -yellow" data-status="3">NG</div>
-          <div class="btn -blue" data-status="1">OK</div>
-          <div class="btn -green" data-status="2">REPEAT</div>
+          <div class="btn -purple" data-status="1">OK</div>
+          <div class="btn -green" data-status="2">Repeat</div>
+          <div class="btn -red" data-status="4">重要</div>
         </div>
-        <div class="btnBox" style="margin-top: 10px;">
+        <div class="btnBox">
           <div class="btn -gray inactive" id="js_back" >戻る</div>
-          <div class="btn -blue" id="js_next" >次へ</div>
+          <div class="btn" id="js_next" >次へ</div>
         </div>
         <div class="btnBox" id="tab_order_type" style="margin-top: 20px;">
             <div class="status -green" data-order_type="1">続きから</div>
             <div class="status" data-order_type="2">初めから</div>
             <div class="status" data-order_type="3">後ろから</div>
             <div class="status" data-order_type="4">ランダム</div>
+            <div class="status" data-order_type="5">重要</div>
             <div class="status" data-order_type="9">すべて</div>
         </div>
       </div>
@@ -149,6 +207,22 @@
       let order_type = 1;
       let status_arr = {0:'未', 1:'OK',2:'REPEAT',3:'NG'}
 
+      if(isSP()){
+        $('#tab_order_type .status').eq(0).html('続き');
+        $('#tab_order_type .status').eq(1).html('始め');
+        $('#tab_order_type .status').eq(2).html('後ろ');
+        $('#tab_order_type .status').eq(3).html('ランダム');
+        $('#tab_order_type .status').eq(4).html('重要');
+        $('#tab_order_type .status').eq(5).html('全て');
+      }
+      // 画像の拡大・縮小
+      $(document).on('click', '#file_area img', function(){
+        if($(this).hasClass('scale')){
+          $(this).removeClass('scale');
+        } else {
+          $(this).addClass('scale');
+        }
+      })
       //--------------------------
       // 設問を取得する
       //--------------------------
@@ -164,10 +238,23 @@
       //--------------------------
       // 設問セット
       function set(){
-        Q.html(questions[no]['question'])
+        // 質問
+        let question = questions[no]['question'];
+        // 添付ファイル
+        let file='';
+        if(typeof questions[no]['file1']!='undefined'){
+          file += questions[no]['file1'];
+        }
+        if(typeof questions[no]['file2']!='undefined'){
+          file += questions[no]['file2'];
+        }
+        if(file!=''){
+          question = question+"<div id='file_area'>"+file+"</div>";
+        }
+        Q.html(question)
         A.html(questions[no]['answer'])
         id.html(questions[no]['id'])
-        $('#file1').html(questions[no]['file1'])
+        // $('#file1').html(questions[no]['file1'])
         $('#status').html(status_arr[questions[no]['status']])
         $('#cnt').html(parseInt(questions[no]['cnt']??0)+1)
         A.addClass('hide');
@@ -186,8 +273,8 @@
         }
       }
       //--------------------------
-      // 回答
-      $('#result .btn').click(function(){
+      // 回答(OK, Repeat, NG)
+      $('#result .btn').not().click(function(){
         // 解答が非表示だったら、まず開いてから
         if(A.hasClass('hide')){
           A.removeClass('hide');
