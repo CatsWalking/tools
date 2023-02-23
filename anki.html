@@ -67,7 +67,6 @@
 }
 #file_area img{
   cursor: pointer;
-  z-index: 999;
 }
 
 #file_area img{
@@ -76,9 +75,11 @@
 
 #file_area img.scale {
   position: fixed;
-  width: 80%;
-  height:auto;
-  top:0
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  left: 47%;
+  transform: translate(-50%,-50%);
 }
 
 /* pc */
@@ -131,6 +132,15 @@
 }
 </style>
 </head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-DP1WEV1PRZ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-DP1WEV1PRZ');
+</script>
 <body>
   <div class="container">
     <header class="header"></header>
@@ -139,12 +149,11 @@
         <div class="status -green" data-subject="4">社会</div>
         <div class="status" data-subject="3">理科</div>
       </div>
-      <div id="click_area" style="height:100%">
         <!-- 質問 -->
         <div id="question"></div>
          <!-- 画像 -->
         <!-- 解答 -->
-        <div style="height:60px;margin-bottom: 20px;" id="answer_box">
+        <div style="height: 100%;" id="answer_box">
           <div id="answer" class="hide"></div>
         </div>
         
@@ -177,10 +186,8 @@
             <div class="status" data-order_type="5">重要</div>
             <div class="status" data-order_type="9">すべて</div>
         </div>
-      </div>
     </main>
 </div>
-
 
 <div id="add_form" class="hide">
   <input type="text" id="new_subject" value="4">
@@ -223,8 +230,13 @@
           $(this).addClass('scale');
         }
       })
+      $(document).on('click', function(e) {
+        if(!$(e.target).closest('#file_area img').length) {
+          $('#file_area img').removeClass('scale');
+        }
+      });
       //--------------------------
-      // 設問を取得する
+      // 設問を取得する  '.header__hamburger', header__hamburger
       //--------------------------
       getAllQuestions();
 
@@ -305,7 +317,7 @@
       })
       //--------------------------
       // 解答 表示・非表示
-      $('#click_area').click(function(){
+      $('#answer_box').click(function(){
         if($(this).hasClass('btn')){
           return;
         } 
