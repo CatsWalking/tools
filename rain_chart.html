@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="./common/images/favicon.svg" sizes="any">
+<title>雨温図|tools</title>
+<link rel="stylesheet" href="./common/css/reset.css">
+<link rel="stylesheet" href="./common/css/style.css?testd">
+<link rel="stylesheet" href="./common/css/modal.css?test">
+<link rel="stylesheet" href="./common/css/tools.css?testd">
+<style>
+#tab_edu a{
+    padding:5px 0 ;
+}
+</style>
+</head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-DP1WEV1PRZ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-DP1WEV1PRZ');
+</script>
+<body>
+  <div class="container">
+    <header class="header"></header>
+    <main>
+      <dir id="stage"></dir>
+      
+    </main>
+</div><!-- container -->
+<script src="./common/js/jquery-3.6.3.min.js"></script>
+<script src="./common/js/jquery-ui.js"></script>
+<script src="./common/js/common.js"></script>
+<script src="./common/js/tools.js?tesat"></script>
+<script>
+  //https://paiza.hatenablog.com/entry/2021/11/04/130000
+  'use strict'
+  $(function(){
+    // const url = 'https://api.open-meteo.com/v1/forecast?latitude=35.6785&longitude=139.6823';
+
+
+    // fetch(url)
+    //   .then(data => data.json())
+    //   .then(json => console.log(json))
+
+    // function drawChart(json) {
+    //   const mydata = {
+    //     labels: json.daily.time,
+    //     datasets: [{
+    //       label: '最高気温',
+    //       data: json.daily.temperature_2m_max,
+    //       borderColor: 'rgb(192, 75, 75)',
+    //     },{
+    //       label: '最低気温',
+    //       data: json.daily.temperature_2m_min,
+    //       borderColor: 'rgb(75, 75, 192)',
+    //     }]
+    //   }
+      
+    //   new Chart(document.getElementById('stage'), {
+    //     type: 'line',
+    //     data: mydata,
+    //   });
+
+//----------------------------------------------------------
+//https://anko.education/apps/weather_api
+    let url = "https://www.jma.go.jp/bosai/forecast/data/overview_forecast/130000.json";
+ 
+fetch(url)
+   .then(function(response) {
+       return response.json();
+   })
+   .then(function(weather) {
+       console.log(weather);
+       // 画面に書き出す
+      //  document.getElementById("publishingOffice").lastElementChild.textContent = weather.publishingOffice;
+      //  document.getElementById("reportDatetime").lastElementChild.textContent = weather.reportDatetime;
+      //  document.getElementById("targetArea").lastElementChild.textContent = weather.targetArea;
+      //  document.getElementById("headlineText").lastElementChild.textContent = weather.headlineText;
+      //  document.getElementById("text").lastElementChild.innerHTML = weather.text.replace(/\n\n/g, '<br>');
+   });
+   
+  })
+</script>
+</body>
+</html> 
