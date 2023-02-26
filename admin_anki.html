@@ -14,9 +14,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300&display=swap" rel="stylesheet">
 <style>
-  th{
-    width: 100px !important;
-  }
   .btn{
     min-width: 90px!important;
   }
@@ -43,6 +40,12 @@
   textarea{
     height: 100px;
   }
+  #anki_table th:nth-child(0){
+    width: 20px;
+  }
+  .js_sort{
+    cursor: pointer;
+  }
 }
 </style>
 </head>
@@ -58,65 +61,30 @@
   <div class="container">
     <header class="header"></header>
     <main>
-      <!-- <div class="btnBox" id="tab_subject">
-        <div class="status -green" data-subject="4">社会</div>
+      <div class="btnBox" id="tab_subject">
+        <div class="status" data-subject="1">算数</div>
+        <div class="status" data-subject="2">国語</div>
         <div class="status" data-subject="3">理科</div>
-      </div> -->
-      <form id="frm" method="post" accept=".png,.jpg,.jpeg,.gif" enctype="multipart/form-data">
-        
-        <table class="table3">
-          <tr>
-            <th>科目</th>
-            <td class="radioarea">
-                <label><input type="radio" value="1" name="subject">算数</label>
-                <label><input type="radio" value="2" name="subject">国語</label>
-                <label><input type="radio" value="3" name="subject">理科</label>
-                <label><input type="radio" value="4" name="subject">社会</label>
-            </td>
+        <div class="status -green" data-subject="4">社会</div>
+      </div>
+      <div class="btnBox" id="tab_subject_sub">
+        <div class="status -green" data-subject_sub="1">地理日本</div>
+        <div class="status" data-subject_sub="2">地理世界</div>
+        <div class="status" data-subject_sub="3">歴史</div>
+        <div class="status" data-subject_sub="4">現代</div>
+        <div class="status" data-subject_sub="5">公民・政治</div>
+      </div>
+      <table class="table2" id="anki_table">
+          <thead><tr>
+            <th width="60">ID <span class="js_sort asc">▲</span><span class="js_sort desc">▼</span></th>
+            <th width="80">カテゴリ</th>
+            <th>質問</th>
+            <th width="50"></th>
+            <th width="30"></th>
           </tr>
-          <tr>
-            <th>科目細分１</th>
-            <td class="radioarea subject_sub">
-                <label><input type="radio" value="1" name="subject_sub">文章</label>
-                <label><input type="radio" value="1" name="subject_sub">図形</label>
-            </td>
-          </tr>
-          <tr>
-            <th>科目細分２</th>
-            <td class="radioarea subject_sub_sub">
-            </td>
-          </tr>
-          <tr>
-            <th>単位</th>
-            <td>
-              <input type="text" name="unit" value="52A-02">
-              <!-- <input type="text" name="unit" value="540-02"> -->
-            </td>
-          </tr>
-          <tr>
-            <th>重要</th>
-            <td class="checkboxarea">
-              <label><input type="checkbox" name="status" value="5">重要</label>
-            </td>
-          </tr>
-          <tr>
-            <th>質問</th><td>
-              <textarea name="question" class="w100per"></textarea>
-            </td>
-          </tr>
-          <tr>
-            <th>解答</th><td>
-              <textarea name="answer" class="w100per"></textarea>
-            </td>
-          </tr>
-          <tr>画像１<th></th><td><input type="file" class="js-droparea" id="file1ddd" name="file1"></td></tr>
-          <tr>画像２<th></th><td><input type="file" class="js-droparea" id="file2ddd" name="file2"></td></tr>
-        </table>
-        <div class="btnBox"  style="margin-top: 20px;">
-          <div class="btn" id="js_save">保存</div>
-        </div>
-
-    </form>
+          </thead>
+          <tbody></tbody>
+      </table>
     </main>
 </div>
 
@@ -130,52 +98,64 @@
 <script>
   'use strict'
   $(function(){
-      //--------------------------
-      // 保存  
-      $('#js_save').click(function(){
-        let fd = new FormData($('form').get(0));
 
-        $.ajax({
-          url: url+"?action=saveAnki",
-          type: 'post',
-          data: fd,
-          processData: false,  // jQuery がデータを処理しないよう指定
-          contentType: false,  // これがないと渡ったデータがおかしくなりphpで処理できない
-          dataType: 'tjsonext'
-        })
-          .done(function (result) {
-            if (result == 'ng') {
-              openDialog('画像のアップロードに失敗しました');
-              return;
-            }
-         })
+    let questions;
+    let subject = 4;
+    let subject_sub = 1;
+    let order_type = 2;
+    let status_arr = {0:'未', 1:'OK',2:'REPEAT',3:'NG'}
 
-         .fail(function (data) {
-            // alert('通信に失敗しました');
-         })
-      })
-      
-      //--------------------------
-      // 科目変更  
-      $('[name=subject]').click(function(){
-          $('.subject_sub').html('');
-          $('.subject_sub_sub').html('');
-          $.get(url+"?action=getSubjectSub&subject="+$(this).val(), function(data){
-            $('.subject_sub').html(data);
-          })
-      })
-      //--------------------------
-      // 科目細分１変更
-      $(document).on('click', '[name=subject_sub]', function(){
-        $('.subject_sub_sub').html('');
-        // TODO 今のところ理科のみ
-        if($('[name=subject]:checked').val()==3){
-          $.get(url+"?action=getSubjectSubSub&subject_sub="+$(this).val(), function(data){
-            $('.subject_sub_sub').html(data);
-          })
+
+    getAllQuestions();
+
+    function getAllQuestions(){
+      let url2 = url+'?action=getAllQuestions&subject='+subject+'&order_type='+order_type+'&subject_sub='+subject_sub;
+      console.log(url2);
+      $.get(url2, function(data){
+        questions = data
+        
+        // 設問セット
+        let line = '';
+        $('#anki_table tbody').html('');
+        for(let no=0; no<questions.length; no++){
+          line = "<tr>"
+            +"<td>"+questions[no]['id']+"</td>"
+            +"<td>"+questions[no]['subject_sub']+"</td>"
+            +"<td>"+questions[no]['question'].substr(0,30)+"</td>"
+            +"<td>"+questions[no]['cnt']+"/"+questions[no]['status']+"</td>"
+            +"<td class='txtCenter'><a href='admin_anki_detail.html?id="+questions[no]['id']+"'>"
+              +"<span class='icon -edit'></span></a></td>"
+            +"</tr>";
+          $('#anki_table tbody').append(line);
         }
       })
-        
+    }
+    //--------------------------
+    // 並び替え  
+    $(document).on('click', '.js_sort', function(){
+      if($(this).hasClass('asc')){
+        order_type = 2;
+      } else {
+        order_type = 3;
+      }
+      getAllQuestions();
+    })
+
+    //--------------------------
+    // 科目変更  
+    $('#tab_subject div').click(function(){
+      $(this).parent().find('div').removeClass('-green');
+      $(this).addClass('-green');
+      subject = $(this).data('subject');
+      getAllQuestions();
+    })
+    $('#tab_subject_sub div').click(function(){
+      $(this).parent().find('div').removeClass('-green');
+      $(this).addClass('-green');
+      subject_sub = $(this).data('subject_sub');
+      getAllQuestions();
+    })
+
   })
 </script>
 </body>

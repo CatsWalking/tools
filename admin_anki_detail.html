@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="./common/images/favicon.svg" sizes="any">
+<title>tools</title>
+<link rel="stylesheet" href="./common/css/reset.css">
+<link rel="stylesheet" href="./common/css/style.css?sdddd33">
+<link rel="stylesheet" href="./common/css/modal.css?333">
+<link rel="stylesheet" href="./common/css/tools.css?33">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300&display=swap" rel="stylesheet">
+<style>
+  th{
+    width: 100px !important;
+  }
+  .btn{
+    min-width: 90px!important;
+  }
+  textarea{
+    height: 200px;
+  }
+  #info, #info div, #info span{
+    font-size: 0.9rem;
+  }
+  .footer{
+    height: 200px;
+  }
+/* pc */
+@media screen and (min-width: 960px) {
+  textarea{
+    height: 300px;
+  }
+}
+/* 小さい画面 */
+@media screen and (max-width: 375px) {
+  main{
+    margin: 34px auto;
+  }
+  textarea{
+    height: 100px;
+  }
+}
+</style>
+</head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-DP1WEV1PRZ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-DP1WEV1PRZ');
+</script>
+<body>
+  <div class="container">
+    <header class="header"></header>
+    <main>
+      <!-- <div class="btnBox" id="tab_subject">
+        <div class="status -green" data-subject="4">社会</div>
+        <div class="status" data-subject="3">理科</div>
+      </div> -->
+      <form id="frm" method="post" accept=".png,.jpg,.jpeg,.gif" enctype="multipart/form-data">
+        <input type="text" name="id">
+        <table class="table3">
+          <tr>
+            <th>科目</th>
+            <td class="radioarea">
+                <label><input type="radio" value="1" name="subject">算数</label>
+                <label><input type="radio" value="2" name="subject">国語</label>
+                <label><input type="radio" value="3" name="subject">理科</label>
+                <label><input type="radio" value="4" name="subject">社会</label>
+            </td>
+          </tr>
+          <tr>
+            <th>科目細分１</th>
+            <td class="radioarea subject_sub">
+                <label><input type="radio" value="1" name="subject_sub">文章</label>
+                <label><input type="radio" value="1" name="subject_sub">図形</label>
+            </td>
+          </tr>
+          <tr>
+            <th>科目細分２</th>
+            <td class="radioarea subject_sub_sub">
+            </td>
+          </tr>
+          <tr>
+            <th>単位</th>
+            <td>
+              <input type="text" name="unit" value="52A-02">
+              <!-- <input type="text" name="unit" value="540-02"> -->
+            </td>
+          </tr>
+          <tr>
+            <th>重要</th>
+            <td class="checkboxarea">
+              <label><input type="checkbox" name="status" value="5">重要</label>
+            </td>
+          </tr>
+          <tr>
+            <th>質問</th><td>
+              <textarea name="question" class="w100per"></textarea>
+            </td>
+          </tr>
+          <tr>
+            <th>解答</th><td>
+              <textarea name="answer" class="w100per"></textarea>
+            </td>
+          </tr>
+          <tr>画像１<th></th><td><input type="file" class="js-droparea" id="file1ddd" name="file1"></td></tr>
+          <tr>画像２<th></th><td><input type="file" class="js-droparea" id="file2ddd" name="file2"></td></tr>
+        </table>
+        <div class="btnBox"  style="margin-top: 20px;">
+          <div class="btn" id="js_save">保存</div>
+        </div>
+
+    </form>
+    </main>
+</div>
+
+
+<!-- container -->
+<script src="./common/js/jquery-3.6.3.min.js"></script>
+<script src="./common/js/jquery-ui.js"></script>
+<script src="./common/js/common.js?test"></script>
+<script src="./common/js/load.js?tesat"></script>
+<script src="./common/js/tools.js?tesat"></script>
+<script>
+  'use strict'
+  $(function(){
+
+      let id;
+      const cols = ['id', 'question', 'answer', 'subject', 'subject_sub', 'subject_sub_sub'];
+
+      id = getParam2('id');
+      if(id!=''){
+        $.get(url+'?action=get&id='+id, function(data){
+          for(let i=0; i<cols.length; i++){
+            console.log(cols[i], data[cols[i]]);
+            $('[name='+cols[i]+']').val(data[cols[i]]);
+          }
+          $('input:radio[name="subject"][value="'+data.subject+'"]').prop('checked', true);
+
+        })
+
+
+      }
+
+
+      //--------------------------
+      // 保存  
+      $('#js_save').click(function(){
+        let fd = new FormData($('form').get(0));
+
+        $.ajax({
+          url: url+"?action=saveAnki",
+          type: 'post',
+          data: fd,
+          processData: false,  // jQuery がデータを処理しないよう指定
+          contentType: false,  // これがないと渡ったデータがおかしくなりphpで処理できない
+          dataType: 'tjsonext'
+        })
+          .done(function (result) {
+            if (result == 'ng') {
+              openDialog('画像のアップロードに失敗しました');
+              return;
+            }
+            location.href=location.href;
+         })
+
+         .fail(function (data) {
+            // alert('通信に失敗しました');
+         })
+      })
+      
+      //--------------------------
+      // 科目変更  
+      $('[name=subject]').click(function(){
+          $('.subject_sub').html('');
+          $('.subject_sub_sub').html('');
+          $.get(url+"?action=getSubjectSub&subject="+$(this).val(), function(data){
+            $('.subject_sub').html(data);
+          })
+      })
+      //--------------------------
+      // 科目細分１変更
+      $(document).on('click', '[name=subject_sub]', function(){
+        $('.subject_sub_sub').html('');
+        // TODO 今のところ理科のみ
+        if($('[name=subject]:checked').val()==3){
+          $.get(url+"?action=getSubjectSubSub&subject_sub="+$(this).val(), function(data){
+            $('.subject_sub_sub').html(data);
+          })
+        }
+      })
+        
+  })
+</script>
+</body>
+</html> 
