@@ -43,8 +43,6 @@
 .btn{
   min-width: 80px!important;
   font-weight: bold;
-  height: 2.4rem!important;
-  line-height: 2rem!important;
 }
 #info, #info div, #info span{
   font-size: 0.9rem;
@@ -52,6 +50,9 @@
 #info{
   width: 600px;
   padding: 10px;
+}
+#tab_order_type{
+  margin-top:10px;
 }
 #tab_order_type .status{
   min-width: 50px;
@@ -92,8 +93,11 @@
   }
   .btn{
     min-width: 90px!important;
-    height: 2.8rem!important;
-    line-height: 2.8rem!important;
+    /* height: 2.8rem!important;
+    line-height: 2.8rem!important; */
+  }
+  #tab_order_type{
+    margin-top:20px;
   }
   #tab_order_type.status{
     padding: 3px 5px 3px 5px;
@@ -173,11 +177,11 @@
           <div class="btn -green" data-status="2">Repeat</div>
           <div class="btn -red" data-status="4">重要</div>
         </div>
-        <div class="btnBox">
+        <div class="btnBox" style="margin-top: 10px;">
           <div class="btn -gray inactive" id="js_back" >戻る</div>
           <div class="btn" id="js_next" >次へ</div>
         </div>
-        <div class="btnBox" id="tab_order_type" style="margin-top: 20px;">
+        <div class="btnBox" id="tab_order_type">
             <div class="status -green" data-order_type="1">続きから</div>
             <div class="status" data-order_type="2">初めから</div>
             <div class="status" data-order_type="3">後ろから</div>

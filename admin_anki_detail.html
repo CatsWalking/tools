@@ -67,24 +67,15 @@
         <table class="table3">
           <tr>
             <th>科目</th>
-            <td class="radioarea">
-                <label><input type="radio" value="1" name="subject">算数</label>
-                <label><input type="radio" value="2" name="subject">国語</label>
-                <label><input type="radio" value="3" name="subject">理科</label>
-                <label><input type="radio" value="4" name="subject">社会</label>
-            </td>
+            <td id="subject_td"></td>
           </tr>
           <tr>
             <th>科目細分１</th>
-            <td class="radioarea subject_sub">
-                <label><input type="radio" value="1" name="subject_sub">文章</label>
-                <label><input type="radio" value="1" name="subject_sub">図形</label>
-            </td>
+            <td id="subject_sub_td"></td>
           </tr>
           <tr>
             <th>科目細分２</th>
-            <td class="radioarea subject_sub_sub">
-            </td>
+            <td id="subject_sub_sub_td"></td>
           </tr>
           <tr>
             <th>単位</th>
@@ -137,11 +128,12 @@
       id = getParam2('id');
       if(id!=''){
         $.get(url+'?action=get&id='+id, function(data){
-          for(let i=0; i<cols.length; i++){
-            console.log(cols[i], data[cols[i]]);
-            $('[name='+cols[i]+']').val(data[cols[i]]);
-          }
-          $('input:radio[name="subject"][value="'+data.subject+'"]').prop('checked', true);
+          $('[name=id]').val(data.id);
+          $('[name=question]').val(data.question);
+          $('[name=answer]').val(data.answer);
+          $('#subject_td').html(data.subject);
+          $('#subject_sub_td').html(data.subject_sub);
+          $('#subject_sub_sub_td').html(data.subject_sub_sub);
 
         })
 
@@ -152,26 +144,28 @@
       //--------------------------
       // 保存  
       $('#js_save').click(function(){
-        let fd = new FormData($('form').get(0));
+        if($('[name=question]').val()=='' || $('[name=answer]').val()=='' || $('[name=question]').val()==''){
 
+        }
+
+
+
+        let fd = new FormData($('form').get(0));
         $.ajax({
           url: url+"?action=saveAnki",
           type: 'post',
           data: fd,
           processData: false,  // jQuery がデータを処理しないよう指定
           contentType: false,  // これがないと渡ったデータがおかしくなりphpで処理できない
-          dataType: 'tjsonext'
-        })
-          .done(function (result) {
+          dataType: 'json'
+        }).done(function (result) {
             if (result == 'ng') {
               openDialog('画像のアップロードに失敗しました');
               return;
             }
-            location.href=location.href;
-         })
-
-         .fail(function (data) {
-            // alert('通信に失敗しました');
+            location.href="admin_anki.html";
+         }).fail(function (xhr, textStatus, errorThrown) {
+            alert('通信に失敗しました');
          })
       })
       

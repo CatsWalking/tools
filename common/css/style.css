@@ -335,11 +335,6 @@ table {
   margin-top: 20px;
 }
 
-.btnBox .btn {
-  min-width: 120px;
-  user-select: none;
-}
-
 .btnBox .btn+.btn {
   margin-left: 10px;
 }
@@ -370,6 +365,8 @@ table {
   transition: background 0.3s, border-radius 0.3s;
   background: #4aaad0;
   border: none;
+  user-select: none;
+  padding: 8px 10px;
 }
 
 .btn:hover {
@@ -388,7 +385,7 @@ table {
 
 .btn.-s {
   font-size: 0.8rem;
-  padding: 3px 5px;
+  padding: 8px 12px;
 }
 
 .btn.-yellow {
@@ -418,14 +415,11 @@ table {
 
 .btn.-start {
   width: 170px !important;
-  height: 55px;
-  line-height: 50px;
   background: #e35f5f;
 }
 
 .btn.-reset {
-  height: 55px;
-  line-height: 50px;
+  background: #4d3d3d;
 }
 
 /* テーブル */

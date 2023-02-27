@@ -14,31 +14,11 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300&display=swap" rel="stylesheet">
 <style>
-  .btn{
-    min-width: 90px!important;
-  }
-  textarea{
-    height: 200px;
-  }
-  #info, #info div, #info span{
-    font-size: 0.9rem;
-  }
-  .footer{
-    height: 200px;
-  }
-/* pc */
-@media screen and (min-width: 960px) {
-  textarea{
-    height: 300px;
-  }
-}
+
 /* 小さい画面 */
 @media screen and (max-width: 375px) {
   main{
     margin: 34px auto;
-  }
-  textarea{
-    height: 100px;
   }
   #anki_table th:nth-child(0){
     width: 20px;
@@ -74,6 +54,7 @@
         <div class="status" data-subject_sub="4">現代</div>
         <div class="status" data-subject_sub="5">公民・政治</div>
       </div>
+      <div class="btnBox"><a class="btn -blue -s" href="admin_anki_detail.html">新規登録</a></div>
       <table class="table2" id="anki_table">
           <thead><tr>
             <th width="60">ID <span class="js_sort asc">▲</span><span class="js_sort desc">▼</span></th>
