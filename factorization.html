@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="./common/images/favicon.svg" sizes="any">
+<title>計算ツール</title>
+<link rel="stylesheet" href="./common/css/reset.css">
+<link rel="stylesheet" href="./common/css/style.css?tedddddstd">
+<link rel="stylesheet" href="./common/css/modal.css?teddsddt">
+<link rel="stylesheet" href="./common/css/tools.css?tdedsdddtd">
+<style>
+.contents{
+  overflow: scroll;
+  height: calc(100vh - 300px);
+  margin: 20px auto;
+}
+td, th{
+  padding: 8px 5px;
+}
+.calc_txt{
+  color: #5b84a8;
+  font-size: 1rem;
+  margin-bottom: 4px;
+}
+.sign{
+  display: inline-block;
+  min-width:10px;
+  text-align: center;
+  color: #374f64;
+  font-size: 1.1rem;
+  font-weight: 400;
+}
+.sign.large{
+  font-size: 1.4rem;
+}
+.calc_table {
+  max-width: 100%;
+  margin: 0 auto;
+}   
+.input{
+  padding: 3px 4px;
+  width:90px!important;
+}
+.input_s{
+  width: 56px !important;
+}
+.input_ss{
+  width: 40px !important;
+  padding:0;
+}
+.result{
+  display: inline-block;
+  font-size:24px;
+  text-align: left;
+}
+.result_height{
+  height: 24px; 
+  margin-top:8px;
+}
+.ruby3{
+  font-size:18px;
+  height:30px;
+  padding-top:0;;
+  padding-bottom:20px;
+} 
+.decimal{
+  width: 40px !important;
+  height: 32px !important;
+  text-align: center;
+}
+.flex{
+  display:flex;
+}
+
+#tab_subject div{
+  min-width: 70px;
+}
+.prime_number{
+  margin-left: 15px;
+}
+</style>
+</head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-DP1WEV1PRZ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-DP1WEV1PRZ');
+</script>
+<body>
+  <div class="container">
+    <header class="header"></header>
+    <main>
+      <div class="btnBox" id="tab_subject">
+        <div class="status -green" data-subject="1">因数・平方</div>
+        <div class="status" data-subject="2">円</div>
+        <div class="status" data-subject="3">かけ・わり算</div>
+        <div class="status" data-subject="4">割</div>
+      </div>
+      <div class="contents">
+
+        aaas
+    </div>
+
+    <!-- footer -->
+    <div class="footer">
+      <!-- kenkey -->
+      <table><tr>
+        <td rowspan="3">
+          <ul class="tenkey_box -column3">
+            <li>2</li>
+            <li>3</li>
+            <li>5</li>
+            <li>7</li>
+            <li>11</li>
+            <li>13</li>
+            <li>17</li>
+            <li>19</li>
+            <li>23</li>
+          </ul>
+        </td>
+        <td>
+          <div id="js_clear">×</div>
+        </td>
+        <td rowspan="3">
+          <div id="js_ok">OK</div>
+        </td>
+      
+      
+      
+      </tr></table>
+
+
+      <table class="table1">
+        <tr><td></td><td></td></tr>
+        <tr></tr>
+        <tr></tr>
+      </table>
+    </div>
+
+
+</main>
+</div><!-- container -->
+<script src="./common/js/jquery-3.6.3.min.js"></script>
+<script src="./common/js/jquery-ui.js"></script>
+<script src="./common/js/common.js?test"></script>
+<script src="./common/js/tools.js?test"></script>
+<!-- <script src="./common/js/calc.js?test"></script> -->
+<script>
+/*----------------------------
+Roku tools
+*/
+'use strict';
+
+
+// --------------------
+// タブ
+$('#tab_subject div').click(function(){
+  $('.status').removeClass('-green');
+  $(this).addClass('-green');
+  let subject = $(this).data('subject');
+
+  $('[id^=calc_').addClass('hide');
+  $('#calc_'+subject).removeClass('hide');
+})
+
+
+
+//-------------------
+// init
+//-------------------
+function init(){
+    $('.input').removeClass('active');
+    active_input.addClass('active');
+    active_result = $('#'+active).find('.result');
+}
+init();
+$('#'+active).find('.input').focus();
+
+//-------------------
+// focus, tap
+//-------------------
+$('.calc_table').on('focus click', '.input', function(){
+    active = $(this).parent().parent().attr('id');
+    active_input = $(this);
+    init();
+})
+// ダブルクリックで上書き
+$('.calc_table').on('click', '.input', function(){
+    $(this).val('');
+})
+//-------------------
+// キーボード
+//-------------------
+$('.calc_table .input').keyup(function(){
+    calc($(this));
+})
+
+$('.calc_table .input').change(function(){
+    $(this).val(zenToHan($(this).val()));
+})
+
+//-------------------
+// テンキー
+//-------------------
+// let num
+$('.tenkey_box li').click(function(){
+    let n = $(this).html();
+    active_input.val(active_input.val()+n);
+    calc(active_input);
+
+    // TODO same の処理
+    let tmp_class = active_input.attr('class');
+    if(tmp_class!=''){
+       let c = tmp_class.split(' ')[0];
+       if(c.substr(0,4)=='same'){
+        $('.'+c).val($('.'+c).val());
+       }
+    }
+})
+
+
+
+/*-----------------------
+  素因数分解
+-----------------------*/
+function prime(val){
+    let primes1 = [];
+    let primes2 = [];
+    let primes3 = [];
+    if(Number(val)){
+        for(i=2; i<=50; i++){
+            for(let j=0; j<10; j++){
+                if(val % i ==0){
+                    primes1.push(i);
+                    val = val/i;
+                } else {
+                    break;
+                }
+            }
+        }
+        if(val>1){
+            primes1.push(val);
+        }
+        primes1.forEach(function(i, e){
+            if(primes2[i]){
+                primes2[i]++;
+            } else {
+                primes2[i] = 1;
+            }
+        })
+        primes2.forEach(function(i, e){
+            if(i==1){
+                primes3.push("<div class='prime_number'>"+e+"</div>");
+            } else {
+                primes3.push("<div class='prime_number'>"+e+"</div><div class='ruby'>"+i+"</div>");
+            }
+        })
+        return primes3.join(', ');
+    }
+    return '';
+}
+
+/*-----------------------
+  all clear
+-----------------------*/
+$('#js_clear').click(function(){
+    active_input.val('');
+    active_result.html('');
+})
+
+</script>
+</body>
+</html> 

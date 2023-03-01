@@ -116,7 +116,7 @@
 <script src="./common/js/jquery-3.6.3.min.js"></script>
 <script src="./common/js/jquery-ui.js"></script>
 <script src="./common/js/common.js?test"></script>
-<script src="./common/js/load.js?tesat"></script>
+<script src="./common/js/modal.js?tesat"></script>
 <script src="./common/js/tools.js?tesat"></script>
 <script>
   'use strict'
@@ -139,16 +139,20 @@
 
 
       }
-
+      $(document).on('click', '[name=subject]', function(){
+        console.log(url+'?action=getSubjectSub&subject='+$(this).val());
+        $.get(url+'?action=getSubjectSub&subject='+$(this).val(), function(data){
+          $('#subject_sub_td span').html(data);
+        })
+      })
 
       //--------------------------
       // 保存  
       $('#js_save').click(function(){
-        if($('[name=question]').val()=='' || $('[name=answer]').val()=='' || $('[name=question]').val()==''){
-
+        if($('[name=question]').val()=='' || $('[name=answer]').val()=='' || $('[name=subject]:checked').val()==''){
+          openDialog('必須項目を入力してください');
+          return;
         }
-
-
 
         let fd = new FormData($('form').get(0));
         $.ajax({

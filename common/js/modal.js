@@ -20,13 +20,13 @@ function openPopup(msg, width = "500", stretch = false, header = "", footer = ""
   let height_style = stretch ? "-fullHeight" : "";
   let close_dialog = overlay_close ? 'onclick="closeDialog();"' : "";
   let str =
-    '<div class="c-modal ' +    height_style +    '" style="width:' +    width +    'px;">' +
-    ' <div class="c-modal__close" onclick="closeDialog();"></div>' +
-    ' <div class="c-modal__header">' +    header +    "</div>" +
-    ' <div class="c-modal__body scroll-area">' +    msg +    "</div>" +
-    ' <div class="c-modal__footer">' +    footer +    "</div>" +
+    '<div class="modal ' +    height_style +    '" style="width:' +    width +    'px;">' +
+    ' <div class="modal__close" onclick="closeDialog();"></div>' +
+    ' <div class="modal__header">' +    header +    "</div>" +
+    ' <div class="modal__body scroll-area">' +    msg +    "</div>" +
+    ' <div class="modal__footer">' +    footer +    "</div>" +
     "</div>" +
-    '<div class="c-modal__bg" ' +    close_dialog +    "></div>"; // 背景
+    '<div class="modal__bg" ' +    close_dialog +    "></div>"; // 背景
   $("body").append(str);
 
   // 背景スクロールを無効化
@@ -34,15 +34,15 @@ function openPopup(msg, width = "500", stretch = false, header = "", footer = ""
 
   let height = isSP() ? 300 : 420;
   if (stretch) {
-    height = $(".c-modal").height() - $(".c-modal__header").innerHeight() - $(".c-modal__footer").innerHeight();
+    height = $(".modal").height() - $(".modal__header").innerHeight() - $(".modal__footer").innerHeight();
   }
-  $(".c-modal").children(".c-modal__body.scroll-area").css({
+  $(".modal").children(".modal__body.scroll-area").css({
     height: height,
   });
   // 画面リサイズ時の可変処理
   $(window).on("resize", function () {
-    height = $(".c-modal").height() - $(".c-modal__header").innerHeight() - $(".c-modal__footer").innerHeight();
-    $(".c-modal").children(".c-modal__body.scroll-area").css({
+    height = $(".modal").height() - $(".modal__header").innerHeight() - $(".modal__footer").innerHeight();
+    $(".modal").children(".modal__body.scroll-area").css({
       height: height,
     });
   });
@@ -54,12 +54,12 @@ function openPopup(msg, width = "500", stretch = false, header = "", footer = ""
  */
 // function openDialog(msgText, okFunc = null, width = "400", overlay_close = true, ok_str = "はい") {
 //   let str =
-//     '<div class="c-modal" style="width: ' + width + 'px">' + '<div class="c-modal__close" onclick="closeDialog();"></div>' + '<div class="c-modal__body u-pt20 u-pb20" style="text-align:center">' + msgText + "</div>" + '<div class="c-modal__footer">' + '  <button id="js_dialog_ok" class="btn -green">' + ok_str + "</button>" + "</div>" + "</div>";
+//     '<div class="modal" style="width: ' + width + 'px">' + '<div class="modal__close" onclick="closeDialog();"></div>' + '<div class="modal__body u-pt20 u-pb20" style="text-align:center">' + msgText + "</div>" + '<div class="modal__footer">' + '  <button id="js_dialog_ok" class="btn -green">' + ok_str + "</button>" + "</div>" + "</div>";
 //   // 背景クリックでモーダル閉じるか。
 //   if (overlay_close == true) {
-//     str = str + '<div class="c-modal__bg" onclick="closeDialog();"></div>';
+//     str = str + '<div class="modal__bg" onclick="closeDialog();"></div>';
 //   } else {
-//     str = str + '<div class="c-modal__bg"></div>';
+//     str = str + '<div class="modal__bg"></div>';
 //   }
 //   document.body.insertAdjacentHTML("beforeend", str);
 //   // 背景スクロールを無効化
@@ -76,19 +76,19 @@ function openPopup(msg, width = "500", stretch = false, header = "", footer = ""
 function openDialog(msgText, okFunc = null, width = "400", overlay_close = true, ok_str = "") {
   let btn = "";
   if (ok_str != "") {
-    btn = '<div class="c-modal__footer"><button id="js_dialog_ok" class="btn -green">' + ok_str + "</button>" + "</div>";
+    btn = '<div class="modal__footer"><button id="js_dialog_ok" class="btn -green">' + ok_str + "</button>" + "</div>";
   }
 
-  let str = '<div class="c-modal" style="width: ' + width + 'px">' 
-    + '<div class="c-modal__close" onclick="closeDialog();"></div>' 
-    + '<div class="c-modal__body u-pt20 u-pb20" style="text-align:center">'+ msgText + "</div>" 
+  let str = '<div class="modal" style="width: ' + width + 'px">' 
+    + '<div class="modal__close" onclick="closeDialog();"></div>' 
+    + '<div class="modal__body u-pt20 u-pb20" style="text-align:center">'+ msgText + "</div>" 
     + btn 
     + "</div>";
   // 背景クリックでモーダル閉じるか。
   if (overlay_close == true) {
-    str = str + '<div class="c-modal__bg" onclick="closeDialog();"></div>';
+    str = str + '<div class="modal__bg" onclick="closeDialog();"></div>';
   } else {
-    str = str + '<div class="c-modal__bg"></div>';
+    str = str + '<div class="modal__bg"></div>';
   }
   document.body.insertAdjacentHTML("beforeend", str);
   // 背景スクロールを無効化
@@ -131,19 +131,19 @@ function disableScrolling() {
  */
 function openConfirm(msgText, yesFunc, noFunc, width = 400) {
   let str =
-    '<div class="c-modal" style="width:' +
+    '<div class="modal" style="width:' +
     width +
     'px">' +
-    '<div class="c-modal__close" onclick="closeDialog();"></div>' +
-    '<div class="c-modal__body u-pt20 u-pb20" style="text-align:center">' +
+    '<div class="modal__close" onclick="closeDialog();"></div>' +
+    '<div class="modal__body u-pt20 u-pb20" style="text-align:center">' +
     msgText +
     "</div>" +
-    '  <div class="c-modal__footer">' +
+    '  <div class="modal__footer">' +
     '    <button id="js_confirm_no" class="btn -gray">いいえ</button> ' +
     '    <button id="js_confirm_yes" class="btn -green">はい</button>' +
     "  </div>" +
     "</div>" +
-    '<div class="c-modal__bg"></div>'; // 背景クリックでモーダル閉じない
+    '<div class="modal__bg"></div>'; // 背景クリックでモーダル閉じない
   document.body.insertAdjacentHTML("beforeend", str);
   // 背景スクロールを無効化
   //    current_scrollY = window.pageYOffset || document.documentElement.scrollTop;
@@ -171,8 +171,8 @@ function openConfirm(msgText, yesFunc, noFunc, width = 400) {
 }
 // close
 function closeDialog() {
-  $(".c-modal").remove();
-  $(".c-modal__bg").remove();
+  $(".modal").remove();
+  $(".modal__bg").remove();
   // 背景スクロールを有効化してスクロール位置を復元
   document.body.style.position = "";
   document.body.style.width = "";
@@ -219,7 +219,7 @@ function openBalloon(elem, msgText, yesFunc = null) {
   elem.append(str);
 
   $(".js_balloon_bg").remove();
-  $("body").append('<div class="c-modal__bg -lighten js_balloon_bg"></div>'); // 背景クリックでモーダル閉じない
+  $("body").append('<div class="modal__bg -lighten js_balloon_bg"></div>'); // 背景クリックでモーダル閉じない
   // OK
   $(document).on("click", ".js_balloon_yes", function () {
     $(".c-balloon").remove();
