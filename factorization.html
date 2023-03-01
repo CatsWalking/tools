@@ -21,6 +21,7 @@
   height:30px;
   padding-top:0;;
   padding-bottom:20px;
+  color: #d4e0e8;
 } 
 .flex{
   display:flex;
@@ -87,10 +88,46 @@
 }
 
 
-#ok_sign{
-  
+/*==================================================
+ふわっ
+===================================*/
+p{
+  margin:50px 0;
 }
 
+.flex{
+  display:flex;
+  flex-wrap: wrap;
+}
+
+.fadeUp{
+  animation-name:fadeUpAnime;
+  animation-duration:0.3s;
+  animation-fill-mode:forwards;
+  opacity:0;
+}
+
+@keyframes fadeUpAnime{
+  from {
+    opacity: 0;
+    transform: translateY(1000px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+#ok_sign{
+  width: 100%;
+  height: 100hv;
+  font-size: 5rem;
+  color:rgb(227, 49, 49);
+  background:#fff;
+  border-radius: 10px;
+  display: none;
+  position: absolute;
+}
 
 </style>
 </head>
@@ -120,7 +157,7 @@
         <input type="range" id="range" class="range" value="300" min="50" max="5000" data-unit="px">
         <span id="range_value">300</span>
       </div> -->
-
+      <div class="outer"><div id="ok_sign">OK</div></div>
       <div class="outer"><div id="stage"></div></div>
       <div class="outer"><div id="answer"></div></div>
       <div class="outer">
@@ -158,7 +195,9 @@
     </div>
 
 
-    <div id="ok_sign">OK</div>
+
+    
+
 </main>
 </div><!-- container -->
 <script src="./common/js/jquery-3.6.3.min.js"></script>
@@ -218,6 +257,8 @@ console.log(animal_offset.left);
   max = levels[level]['max'];
   generateNumber();
   $('#answer').html('');
+  $('#ok_sign').removeClass('fadeUp');
+  $('#ok_sign').css('display', 'none');
 }
 
 // //-------------------------
@@ -292,10 +333,15 @@ $('.tenkey_box li').click(function(){
 $('#js_ok').click(function(){
   if(JSON.stringify(primes.sort()) === JSON.stringify(answer.sort())){
     // 正解！！
-    console.log('OK');
-    clearInterval(interval_id);
-    animal.removeClass('animal_purun');
-    // is_running = false;
+    $('#ok_sign').addClass('fadeUp');
+    $('#ok_sign').css('display', 'block');
+    setTimeout(() => {
+      init();
+    }, "1500");
+
+
+
+
   } else {
     // 不正解!!
     console.log('NG');
