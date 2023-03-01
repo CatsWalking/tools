@@ -44,6 +44,9 @@
     height: 100px;
   }
 }
+.footer{
+  height: 80px;
+}
 </style>
 </head>
 <!-- Google tag (gtag.js) -->
@@ -57,12 +60,13 @@
 <body>
   <div class="container">
     <header class="header"></header>
+    <form id="frm" method="post" accept=".png,.jpg,.jpeg,.gif" enctype="multipart/form-data">
     <main>
       <!-- <div class="btnBox" id="tab_subject">
         <div class="status -green" data-subject="4">社会</div>
         <div class="status" data-subject="3">理科</div>
       </div> -->
-      <form id="frm" method="post" accept=".png,.jpg,.jpeg,.gif" enctype="multipart/form-data">
+
         <input type="text" name="id">
         <table class="table3">
           <tr>
@@ -103,12 +107,18 @@
           <tr>画像１<th></th><td><input type="file" class="js-droparea" id="file1ddd" name="file1"></td></tr>
           <tr>画像２<th></th><td><input type="file" class="js-droparea" id="file2ddd" name="file2"></td></tr>
         </table>
+      </main>
+
+      <div class="footer">
         <div class="btnBox"  style="margin-top: 20px;">
           <div class="btn" id="js_save">保存</div>
         </div>
 
+      </div>
+        
+
     </form>
-    </main>
+    
 </div>
 
 
