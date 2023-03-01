@@ -1314,3 +1314,8 @@ table.-tableHover tr:hover td {
 .noborder {
   border: none !important;
 }
+
+/* ぷるん */
+.animal_purun {
+  animation: purun 1s infinite;
+}

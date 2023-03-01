@@ -151,8 +151,8 @@ function round(val, decimal_place) {
  * @param max
  * @returns {*}
  */
-function rand(min, max) {
-  return Math.floor(Math.random() * max - 1) + min + 1;
+function getRand(min, max) {
+  return Math.floor(Math.random() * (max-min)) + min;
 }
 
 /**
