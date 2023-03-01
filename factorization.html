@@ -7,26 +7,21 @@
 <link rel="icon" href="./common/images/favicon.svg" sizes="any">
 <title>計算ツール</title>
 <link rel="stylesheet" href="./common/css/reset.css">
-<link rel="stylesheet" href="./common/css/style.css?tedddddstd">
-<link rel="stylesheet" href="./common/css/modal.css?teddsddt">
-<link rel="stylesheet" href="./common/css/tools.css?tdedsdddtd">
+<link rel="stylesheet" href="./common/css/style.css?teddeeed4ddstd">
+<link rel="stylesheet" href="./common/css/modal.css?tedeedsddt">
+<link rel="stylesheet" href="./common/css/tools.css?tdeeedsdddtd">
 <style>
 /* .contents{
   overflow: scroll;
   height: calc(100vh - 300px);
   margin: 20px auto;
 } */
-.ruby3{
-  font-size:18px;
-  height:30px;
-  padding-top:0;;
-  padding-bottom:20px;
-  color: #d4e0e8;
-} 
+
 .flex{
   display:flex;
 }
 .footer{
+  padding-bottom: 5px;
   /* left:auto; */
 }
 .range {
@@ -62,32 +57,50 @@
   width: 50px;
 }
 #stage{
-  height: 200px;
-  background:#d4e0e8;
+  height: 120px;
+  line-height: 120px;
+  background:#ecf4f9;
   border-radius: 5px;
   text-align:center;
   display: table-cell;
-  vertical-align:middle;
+  /* vertical-align:middle; */
   font-size: 4rem;
   letter-spacing: 1rem;
 }
+.ruby3{
+  font-size:18px;
+  height:30px;
+  padding-top:0;;
+  padding-bottom:20px;
+  color: #ecf4f9;
+} 
+#answer{
+  font-size: 3rem;
+}
 #js_ok{
-  width: 40px;
-  height: 120px;
+  width: 50px;
+  height: 110px;
+  line-height: 110px;
   color:#fff;
   background-color: rgb(193, 76, 76);
-  padding: 10px;
   text-align: center;
-  line-height: 120px;
   cursor: pointer;
 }
 #js_clear{
-  background:1px sold #000;
   font-size: 3rem;
   cursor: pointer;
+  border:1px solid #000;
+  width:40px;
+  height:40px;
+  line-height:40px;
+  margin: 0;
+  /* padding: 3px; */
 }
 
-
+.tenkey_box li{
+  height: 50px;
+  font-size: 1.8rem; 
+}
 /*==================================================
 ふわっ
 ===================================*/
@@ -119,7 +132,7 @@ p{
   }
 }
 #ok_sign{
-  width: 100%;
+  /* width: 100%; */
   height: 100hv;
   font-size: 5rem;
   color:rgb(227, 49, 49);
@@ -128,7 +141,10 @@ p{
   display: none;
   position: absolute;
 }
-
+.status{
+  min-width: 50px;
+  font-size: 2rem;
+}
 </style>
 </head>
 <!-- Google tag (gtag.js) -->
@@ -159,6 +175,7 @@ p{
       </div> -->
       <div class="outer"><div id="ok_sign">OK</div></div>
       <div class="outer"><div id="stage"></div></div>
+      <div class="outer"><div id="prime" class="ruby3"></div></div>
       <div class="outer"><div id="answer"></div></div>
       <div class="outer">
         <img src="./common/images/animals_s/animal_komimi_tobinezumi.png" id="animal" class="animal">
@@ -169,8 +186,8 @@ p{
       <!-- kenkey -->
       <table width="100%" style="width:100%">
         <tr>
-          <td rowspan="3" style="background-color: green;width:80%">
-            <ul class="tenkey_box -column3" style="width:80%">
+          <td rowspan="3">
+            <ul class="tenkey_box -column3">
               <li>2</li>
               <li>3</li>
               <li>5</li>
@@ -182,21 +199,17 @@ p{
               <li>23</li>
             </ul>
           </td>
-          <td style="text-align:center;width:50px;background-color: rgb(237, 210, 210);">
+          <td style="text-align:center;width: 50px !important; height:50px;">
             <div id="js_clear">×</div>
           </td>
         </tr>
         <tr>
-          <td rowspan="2" style="background-color: rgb(161, 161, 225);">
+          <td rowspan="2" style="text-align:center;">
             <div id="js_ok">GO</div>
           </td>
         </tr>
       </table>
     </div>
-
-
-
-    
 
 </main>
 </div><!-- container -->
@@ -241,7 +254,7 @@ $('#tab_level div').click(function(){
 init();
 
 
-$('#stage').click(function(){
+$('#stage, #animal').click(function(){
   init();
 })
 //-------------------------
@@ -255,6 +268,7 @@ function init(){
 console.log(animal_offset.left);
   min = levels[level]['min'];
   max = levels[level]['max'];
+  answer = [];
   generateNumber();
   $('#answer').html('');
   $('#ok_sign').removeClass('fadeUp');
@@ -277,14 +291,14 @@ console.log(animal_offset.left);
 //-------------------------
 // 問を作成する
 function generateNumber(){
-  for(let i=0; i<20; i++){
+  for(let i=0; i<30; i++){
     // 乱数取得
     let rand = getRand(min, max);
     $('#stage').html(rand);
     // 素因数分解する
     primes = prime(rand);
     let flg = true;
-    $('#stage').append("<div class='ruby3'>"+primes.join(',')+"</div>");
+    $('#prime').html(primes.join(','));
 
     if(primes.length == 1){
       //-------------------------
@@ -320,10 +334,10 @@ $('.tenkey_box li').click(function(){
     if(!is_running){
       is_running = true;
       interval_id = setInterval(function(){
-        animal.css('width', (animal.width()+20)+'px')
+        animal.css('width', (animal.width()+10)+'px')
         let off = animal.offset();
-        animal.offset({top: off.top-20, left:off.left-4})
-      }, 500);
+        animal.offset({top: off.top-10, left:off.left-2})
+      }, 1000);
     }
 })
 
