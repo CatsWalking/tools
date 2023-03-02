@@ -306,12 +306,15 @@ function init(){
     if(!is_running){
       is_running = true;
       interval_id = setInterval(function(){
-        animal.css('width', (animal.width()+10)+'px')
-        let off = animal.offset();
-        animal.offset({top: off.top-10, left:off.left-3})
+        let w = animal.width();
+        if(w<400){
+          animal.css('width', (w+30)+'px')
+          let off = animal.offset();
+          animal.offset({top: off.top-10, left:off.left-3})
+        }
       }, 1000);
     }
-
+//position: relative; top: -370px; left: -181px; width: 420px;
 console.log(animal_offset.left);
   min = levels[level]['min'];
   max = levels[level]['max'];
@@ -379,7 +382,7 @@ function setHelp(){
  判定！！OK
 -----------------------*/
 $('#js_ok').click(function(){
-  if(JSON.stringify(primes.sort()) === JSON.stringify(answer.sort())){
+  if(answer.length>0 && JSON.stringify(primes.sort()) === JSON.stringify(answer.sort())){
     // 正解！！
     // 1秒後に次の問題へ
     $('#ok_sign').addClass('fadeUp');
@@ -389,7 +392,10 @@ $('#js_ok').click(function(){
     }, "1000");
   } else {
     // 不正解!!
-    console.log('NG');
+    $('#stage').addClass('gakuburu');
+    setTimeout(function () {
+      $('#stage').removeClass('gakuburu');
+    }, 500);
   }
 })
 /*-----------------------
