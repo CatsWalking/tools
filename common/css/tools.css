@@ -18,22 +18,23 @@ td {
 }
 
 .container {
-  background-color: #f2f4f7;
+  margin: 50px auto 0;
+}
+
+@media screen and (min-width: 960px) {
+  .container {
+    width: 600px;
+  }
 }
 
 main {
-  width: 90%;
-  margin: 50px auto 0;
   padding: 20px;
   position: relative;
   height: 100hv;
 }
 
-@media screen and (min-width: 960px) {
-  main {
-    width: 600px;
-  }
-
+footer {
+  margin: 0 auto;
 }
 
 .input {

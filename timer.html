@@ -92,7 +92,7 @@
 </script>
 <body>
   <div class="container">
-    <header class="header"></header>
+    <header></header>
     <main>
         <!-- タブ -->
         <div class="mb20" id="tab_timer"></div>
@@ -100,7 +100,6 @@
         <div id="clock" class="mb20">
             <span id="clock_m" class="clock_active">00</span>:<span id="clock_s">00</span>
         </div>
-
         <ul class="tenkey_box -column3">
             <li>1</li>
             <li>2</li>
@@ -115,22 +114,22 @@
             <li class="time_type btn active" data-type="min">分</li>
             <li class="time_type btn" data-type="min">秒</li>
         </ul>
-        <footer>
-            <div class="btnBox mb20">
-                <img class="icon js_sound" src="./common/images/icon/sound_on.png">
-                <div id="js_reset2" class="btn -reset">リセット</div>
-                <div id="js_start" class="btn -start">スタート/ストップ</div>
-                <div id="sound_status" class="btnBox txtS u-txtLeft" style="width:340px;text-align: left;">音が鳴ります</div>
-            </div>
-        </footer>
-
-        <!--explosion, sound-->
-        <img src="./common/images/explosion.gif" id="js_explosion">
-        <div id="explosion_bg"></div>
-        <audio id="sound_explosion" preload="auto">
-            <source src="./common/sounds/explosion.mp3" type="audio/mp3">
-        </audio>
     </main>
+    <footer>
+        <div class="btnBox mb20">
+            <img class="icon js_sound" src="./common/images/icon/sound_on.png">
+            <div id="js_reset2" class="btn -reset">リセット</div>
+            <div id="js_start" class="btn -start">スタート/ストップ</div>
+            <div id="sound_status" class="btnBox txtS u-txtLeft" style="width:340px;text-align: left;">音が鳴ります</div>
+        </div>
+    </footer>
+
+    <!--explosion, sound-->
+    <img src="./common/images/explosion.gif" id="js_explosion">
+    <div id="explosion_bg"></div>
+    <audio id="sound_explosion" preload="auto">
+        <source src="./common/sounds/explosion.mp3" type="audio/mp3">
+    </audio>
 
 </div><!-- container -->
 <script src="./common/js/jquery-3.6.3.min.js"></script>

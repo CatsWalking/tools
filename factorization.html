@@ -7,9 +7,9 @@
 <link rel="icon" href="./common/images/favicon.svg" sizes="any">
 <title>計算ツール</title>
 <link rel="stylesheet" href="./common/css/reset.css">
-<link rel="stylesheet" href="./common/css/style.css?teddeeed4ddstd">
-<link rel="stylesheet" href="./common/css/modal.css?tedeedsddt">
-<link rel="stylesheet" href="./common/css/tools.css?tdeeedsdddtd">
+<link rel="stylesheet" href="./common/css/style.css?aa">
+<link rel="stylesheet" href="./common/css/modal.css?aa">
+<link rel="stylesheet" href="./common/css/tools.css?aa">
 <style>
 /* .contents{
   overflow: scroll;
@@ -19,10 +19,6 @@
 
 .flex{
   display:flex;
-}
-footer{
-  padding-bottom: 5px;
-  /* left:auto; */
 }
 .range {
   background-color: #6eb6e4;
@@ -125,7 +121,6 @@ p{
     opacity: 0;
     transform: translateY(1000px);
   }
-
   to {
     opacity: 1;
     transform: translateY(0);
@@ -157,7 +152,7 @@ p{
 </script>
 <body>
 <div class="container">
-  <header class="header"></header>
+  <header></header>
   <main>
     <div>LEVEL</div>
     <div class="btnBox" id="tab_level">
@@ -185,6 +180,7 @@ p{
 
   <!-- footer -->
   <footer>
+    <div id="toggle_animal" class="txtSmall">トビネズミ非表示</div>
     <!-- kenkey -->
     <table width="100%" style="width:100%">
       <tr>
@@ -241,8 +237,20 @@ let animal_offset = animal.offset();
 animal.removeClass('animal_purun');
 console.log(animal_offset);
 
+
+// トビネズミtoggle
+$('#toggle_animal').click(function(){
+  if(animal.css('display')=='none'){
+    $(this).html('トビネズミ非表示');
+  } else {
+    $(this).html('トビネズミ表示');
+  }
+  animal.toggle();
+})
+
+
 //-------------------------
-// タブ:
+// タブ
 $('#tab_level div').click(function(){
   $('.status').removeClass('-green');
   $(this).addClass('-green');
@@ -251,7 +259,8 @@ $('#tab_level div').click(function(){
   init();
 })
 
-
+//-------------------------
+// スタート
 $('main').click(function(){
   $('#message').remove();
   init();
@@ -267,10 +276,22 @@ $(document).keydown(function(event) {
 // init
 function init(){
   is_running = false;
+  clearInterval(interval_id);
+
   animal.addClass('animal_purun');
   animal.offset({top:animal_offset.top, left:animal_offset.left})
   animal.css('width', '50px');
-  clearInterval(interval_id);
+  animal.addClass('animal_purun');
+    // トビネズミを20pxずつ大きくする
+    if(!is_running){
+      is_running = true;
+      interval_id = setInterval(function(){
+        animal.css('width', (animal.width()+13)+'px')
+        let off = animal.offset();
+        animal.offset({top: off.top-13, left:off.left-3})
+      }, 1000);
+    }
+
 console.log(animal_offset.left);
   min = levels[level]['min'];
   max = levels[level]['max'];
@@ -292,7 +313,6 @@ console.log(animal_offset.left);
 //   let min = parseInt(max * 0.7);
 //   let rand = getRand(min, max);
 // })
-
 
 //-------------------------
 // 問を作成する
@@ -334,16 +354,6 @@ $('.tenkey_box li').click(function(){
     let n = $(this).html();
     answer.push(parseInt(n));
     $('#answer').html(answer.join(', '));
-    animal.addClass('animal_purun');
-    // トビネズミを20pxずつ大きくする
-    if(!is_running){
-      is_running = true;
-      interval_id = setInterval(function(){
-        animal.css('width', (animal.width()+10)+'px')
-        let off = animal.offset();
-        animal.offset({top: off.top-10, left:off.left-2})
-      }, 1000);
-    }
 })
 
 /*-----------------------
@@ -370,7 +380,6 @@ $('#js_clear').click(function(){
     answer.pop();
     $('#answer').html(answer.join(', '));
 })
-
 /*-----------------------
   素因数分解
 -----------------------*/
@@ -393,7 +402,6 @@ function prime(val){
     }
     return primes;
 }
-
 </script>
 </body>
 </html> 
