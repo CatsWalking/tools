@@ -16,14 +16,6 @@
       width: 100%;
       /*background: #fffef0;*/
   }
-
-  .tool_box {
-      width: 80%;
-      height: 60px;
-      line-height: 40px;
-      margin: 0 auto;
-  }
-
   .num, .sign {
       width: 50px;
       height: 50px !important;
@@ -42,6 +34,7 @@
 
   .num, .sign {
       height: 40px;
+      display:inline-block;
   }
 
   /* 式 */
@@ -148,22 +141,23 @@
           <div class="btn small level" data-level="2">りん</div>
       </div>
       <div id="draggable-area" style="width: 300px; height:40px; margin:10px auto 20px;">
-          <div id="numbers" class="flex_box tool_box"></div>
-          <div id="formura" class="sortable"></div>
-          <div class="flex_box tool_box">
-              <div class="sign active_sign">＋</div>
-              <div class="sign">−</div>
-              <div class="sign">×</div>
-              <div class="sign">÷</div>
-          </div>
-</main>
+        <div id="numbers" class="flex_box tool_box"></div>
+        <div id="formura" class="sortable"></div>
+    </div>
+    </main>
 
-<div class="footer">
+<footer>
+    <div class="btnBox">
+        <div class="sign active_sign">＋</div>
+        <div class="sign">−</div>
+        <div class="sign">×</div>
+        <div class="sign">÷</div>
+    </div>
     <div class="btnBox">
         <div id="js_retry" class="btn minimum">リトライ</div>
         <div id="js_skip" class="btn minimum">スキップ</div>
     </div>
-</div>
+</footer>
 </div><!-- container -->
 <script src="./common/js/jquery-3.6.3.min.js"></script>
 <script src="./common/js/jquery-ui.js"></script>

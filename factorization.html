@@ -20,7 +20,7 @@
 .flex{
   display:flex;
 }
-.footer{
+footer{
   padding-bottom: 5px;
   /* left:auto; */
 }
@@ -177,13 +177,14 @@ p{
     <div class="outer"><div id="stage"></div></div>
     <div class="outer"><div id="prime" class="ruby3"></div></div>
     <div class="outer"><div id="answer"></div></div>
+    <div id="message" style="position:absolute;width:100%;text-align: center;">タッチまたはスペースキーでスタート</div>
     <div class="outer">
       <img src="./common/images/animals_s/animal_komimi_tobinezumi.png" id="animal" class="animal">
     </div>
   </main>
 
   <!-- footer -->
-  <div class="footer">
+  <footer>
     <!-- kenkey -->
     <table width="100%" style="width:100%">
       <tr>
@@ -210,7 +211,7 @@ p{
         </td>
       </tr>
     </table>
-  </div>
+  </footer>
 </div><!-- container -->
 <script src="./common/js/jquery-3.6.3.min.js"></script>
 <script src="./common/js/jquery-ui.js"></script>
@@ -251,14 +252,22 @@ $('#tab_level div').click(function(){
 })
 
 
-$('#stage, #animal').click(function(){
+$('main').click(function(){
+  $('#message').remove();
   init();
 })
+$(document).keydown(function(event) {
+	if(event.keyCode==32){
+    $('#message').remove();
+    init();
+  }
+});
+
 //-------------------------
 // init
 function init(){
   is_running = false;
-  animal.removeClass('animal_purun');
+  animal.addClass('animal_purun');
   animal.offset({top:animal_offset.top, left:animal_offset.left})
   animal.css('width', '50px');
   clearInterval(interval_id);

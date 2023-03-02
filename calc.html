@@ -80,6 +80,13 @@ td, th{
 .prime_number{
   margin-left: 15px;
 }
+/* 小さい画面 */
+@media screen and (max-width: 375px) {
+  #tab_subject div{
+    min-width: 50px;
+    
+  }
+}
 </style>
 </head>
 <!-- Google tag (gtag.js) -->
@@ -261,7 +268,7 @@ td, th{
 
 
     <!-- footer -->
-    <div class="footer">
+    <footer>
       <!-- kenkey -->
       <ul class="tenkey_box -row3">
         <li >1</li>
@@ -281,7 +288,7 @@ td, th{
         <div class="calc_txt">小数点 第 <input type="input" id="division_decimal" class="input decimal noclear" value="2"> 位まで</div>
       </div>
       <div class="btnBox clear_box" style="text-align: center!important;"></div>
-    </div>
+    </footer>
 
 
 

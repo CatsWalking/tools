@@ -90,7 +90,6 @@ main {
 /*タイマー*/
 .timer {
   height: 80px;
-  line-height: 80px;
   font-size: 3rem;
   color: #585151;
   opacity: 0.6;
@@ -101,7 +100,6 @@ main {
 @media screen and (max-width: 375px) {
   .timer {
     height: 40px;
-    line-height: 40px;
     font-size: 2rem;
   }
 }

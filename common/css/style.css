@@ -45,7 +45,7 @@ main {
   margin: auto;
 }
 
-.footer {
+footer {
   width: 100%;
   position: fixed;
   bottom: 0;
@@ -53,8 +53,16 @@ main {
   left: 0;
 }
 
-.footer div {
-  margin: auto;
+footer div {
+  margin: 0 auto;
+}
+
+/* pc */
+@media screen and (min-width: 960px) {
+  footer {
+    padding-bottom: 10px;
+    height: 300px;
+  }
 }
 
 /* ヘッダー */
@@ -537,6 +545,7 @@ table.-tableHover tr:hover td {
   color: #5e8899;
   background: rgba(0, 172, 239, 0.3);
   cursor: pointer;
+  font-weight: bold;
 }
 
 .status.-red {
@@ -1177,7 +1186,6 @@ table.-tableHover tr:hover td {
   border-radius: 3px;
   padding: 5px;
   margin: 16px auto;
-  /* margin: 26px auto; */
   width: 95%;
   background: #d5eaf9;
 }
@@ -1213,7 +1221,6 @@ table.-tableHover tr:hover td {
 @media screen and (min-width: 960px) {
   .tenkey_box li {
     height: 60px;
-    /* line-height: 45px; */
     font-size: 1.6rem;
   }
 }
@@ -1222,7 +1229,6 @@ table.-tableHover tr:hover td {
 @media screen and (max-width: 375px) {
   .tenkey_box li {
     height: 45px;
-    /* line-height: 45px; */
     font-size: 1.6rem;
   }
 }
