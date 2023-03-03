@@ -152,6 +152,8 @@ p{
 .help_box>div{
   display: inline-block;
 }
+
+
 </style>
 </head>
 <!-- Google tag (gtag.js) -->
@@ -200,7 +202,7 @@ p{
   <!-- footer -->
   <footer>
     <!-- kenkey -->
-    <table width="100%" style="width:100%">
+    <table width="100%">
       <tr>
         <td rowspan="3">
           <ul class="tenkey_box -column3">
@@ -252,7 +254,7 @@ let levels = {1:{'min':50,'max':100},
 let is_running = false;
 let interval_id;
 let animal = $('#animal');
-// let animal_offset = animal.offset();
+let animal_offset = animal.offset();
 // animal.removeClass('animal_purun');
 // console.log('animal_offset.left', animal_offset.left);
 
@@ -313,7 +315,9 @@ function start(){
         if(w<400){
           animal.css('width', (w+15)+'px')
           let off = animal.offset();
-          animal.offset({top: off.top-15, left:off.left-3})
+          // animal.offset({top: '', left:''})
+          animal.offset(animal_offset)
+          // animal.offset({top: off.top-15, left:off.left-3})
         }
       }, 1000);
     }

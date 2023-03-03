@@ -53,12 +53,32 @@ footer {
   bottom: 0;
   padding: 2px 5px 10px 5px;
   width: 98%;
+  left: 0;
 }
 
 /* pc */
 @media screen and (min-width: 960px) {
   footer {
     min-height: 300px;
+  }
+}
+
+footer>table,
+footer>div {
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* pc */
+@media screen and (min-width: 960px) {
+
+  footer>table,
+  footer>div,
+  footer>span,
+  footer>ul,
+  footer>li {
+    width: 34%;
+    /* background-color: blue; */
   }
 }
 
