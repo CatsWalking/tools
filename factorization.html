@@ -30,16 +30,10 @@
     border:2px solid #6eb6e4;
     border-radius:50%;
 }
-
-.outer{
-  display:table; 
-  width:100%;
-}
 .outer > div, .outer > img{
   text-align:center;
   display: table-cell;
   vertical-align:middle;
-  left: 50%;
 }
 /* トビネズミ */
 #animal{
@@ -193,7 +187,6 @@ p{
     </div>
     <div class="outer"><div id="answer"></div></div>
     <div class="outer"><div id="prime" class="ruby3"></div></div>
-
     <div class="outer">
       <img src="./common/images/animals_s/animal_komimi_tobinezumi.png" id="animal" class="animal">
     </div>
@@ -289,7 +282,8 @@ function init(){
   animal.removeClass('animal_purun');
   animal.css('width', '50px');
   // トビネズミを元の位置に
-  animal.css( { "width": "", "height": "" } );
+  animal.css({ "width": "", "height": "" });
+  animal.offset(animal_offset);
   min = levels[level]['min'];
   max = levels[level]['max'];
   question='';
@@ -300,6 +294,7 @@ function init(){
   $('#ok_sign').css('display', 'none');
   $('#help').html('');
 }
+let animal2 = animal;
 //-------------------------
 // スタート
 function start(){
@@ -315,9 +310,7 @@ function start(){
         if(w<400){
           animal.css('width', (w+15)+'px')
           let off = animal.offset();
-          // animal.offset({top: '', left:''})
-          animal.offset(animal_offset)
-          // animal.offset({top: off.top-15, left:off.left-3})
+          animal.offset({top: off.top-15, left:off.left-4})
         }
       }, 1000);
     }
