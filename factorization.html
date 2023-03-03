@@ -11,12 +11,6 @@
 <link rel="stylesheet" href="./common/css/modal.css?aa">
 <link rel="stylesheet" href="./common/css/tools.css?aa">
 <style>
-/* .contents{
-  overflow: scroll;
-  height: calc(100vh - 300px);
-  margin: 20px auto;
-} */
-
 .flex{
   display:flex;
 }
@@ -52,7 +46,7 @@
   margin: 50px auto;
   width: 50px;
 }
-#stage{
+#question{
   height: 120px;
   line-height: 120px;
   background:#ecf4f9;
@@ -82,7 +76,17 @@
   text-align: center;
   cursor: pointer;
 }
-#js_clear{
+.box{
+  font-size: 1rem;
+  cursor: pointer;
+  border:1px solid #000;
+  width:20px;
+  height:20px;
+  line-height:20px;
+  margin: 0;
+  text-align: center;
+}
+.box.-l{
   font-size: 3rem;
   cursor: pointer;
   border:1px solid #000;
@@ -90,9 +94,8 @@
   height:40px;
   line-height:40px;
   margin: 0;
-  /* padding: 3px; */
+  text-align: center;
 }
-
 .tenkey_box li{
   height: 50px;
   font-size: 1.8rem; 
@@ -144,7 +147,7 @@ p{
   padding:2px;
 }
 .help_box{
-  text-align:right;s
+  text-align:right;
 }
 .help_box>div{
   display: inline-block;
@@ -168,6 +171,7 @@ p{
       <div id="help"></div>
       <img src="./common/images/icon/beginner.png" class="icon -xl" id="dispplay_help">
       <img src="./common/images/animals_s/animal_komimi_tobinezumi.png" class="icon -l" id="display_animal">
+      <div class="box" onclick="init()">×</div>
     </div>
 
     <div class="btnBox" id="tab_level">
@@ -180,7 +184,7 @@ p{
     </div>
     
     <div class="outer"><div id="ok_sign">OK</div></div>
-    <div class="outer"><div id="stage"></div></div>
+    <div class="outer"><div id="question"></div></div>
     <div id="message" style="margin:0 auto;position:absolute;width:98%;text-align: center;line-height:2rem;font-size:1rem">
       タッチまたはスペースキーでスタートするよ<br>
       素因数分解して「GO」ボタンをクリック！
@@ -212,7 +216,7 @@ p{
           </ul>
         </td>
         <td style="text-align:center;width: 60px !important; height:50px;">
-          <div id="js_clear">×</div>
+          <div id="js_clear" class="box -l">×</div>
         </td>
       </tr>
       <tr>
@@ -235,7 +239,7 @@ Roku tools
 'use strict';
 //https://k3su.xyz/
 const prime_choices = [2, 3, 5, 7, 11, 13, 17, 19, 23];
-let q;
+let question = '';
 let primes = [];
 let answer = [];
 let level=3;
@@ -248,28 +252,11 @@ let levels = {1:{'min':50,'max':100},
 let is_running = false;
 let interval_id;
 let animal = $('#animal');
-let animal_offset = animal.offset();
-animal.removeClass('animal_purun');
-console.log(animal_offset);
+// let animal_offset = animal.offset();
+// animal.removeClass('animal_purun');
+// console.log('animal_offset.left', animal_offset.left);
 
-// トビネズミtoggle
-$('#display_animal').click(function(){
-  if($('#animal').css('display')=='none'){
-    $(this).attr('src', './common/images/animals_s/animal_komimi_tobinezumi.png');
-  } else {
-    $(this).attr('src', './common/images/animals_s/animal_komimi_tobinezumi_gray.png');
-  }
-  animal.toggle();
-})
-// ヘルプtoggle
-$('#dispplay_help').click(function(){
-  if($('#help').css('display')=='none'){
-    $(this).attr('src', './common/images/icon/beginner.png');
-  } else {
-    $(this).attr('src', './common/images/icon/beginner_gray.png');
-  }
-  $('#help').toggle();
-})
+
 //-------------------------
 // タブ
 $('#tab_level div').click(function(){
@@ -277,17 +264,17 @@ $('#tab_level div').click(function(){
   $(this).addClass('-green');
   level = $(this).data('level');
   // 問を作成する
-  init();
+  start();
 })
 
 //-------------------------
 // スタート
-$('#message,#stage,#answer').click(function(){
-  init();
+$('#message,#question,#answer,#animal').click(function(){
+  start();
 })
 $(document).keydown(function(event) {
 	if(event.keyCode==32){
-    init();
+    start();
   }
 });
 
@@ -297,10 +284,26 @@ function init(){
   is_running = false;
   clearInterval(interval_id);
   $('#message').remove();
-
-  animal.addClass('animal_purun');
-  animal.offset({top:animal_offset.top, left:animal_offset.left})
+  animal.removeClass('animal_purun');
   animal.css('width', '50px');
+  // トビネズミを元の位置に
+  animal.css( { "width": "", "height": "" } );
+  min = levels[level]['min'];
+  max = levels[level]['max'];
+  question='';
+  answer = [];
+  $('#question').html('');
+  $('#answer').html('');
+  $('#ok_sign').removeClass('fadeUp');
+  $('#ok_sign').css('display', 'none');
+  $('#help').html('');
+}
+//-------------------------
+// スタート
+function start(){
+  init();
+  generateNumber();
+  animal.addClass('animal_purun');
   animal.addClass('animal_purun');
     // トビネズミを20pxずつ大きくする
     if(!is_running){
@@ -308,22 +311,12 @@ function init(){
       interval_id = setInterval(function(){
         let w = animal.width();
         if(w<400){
-          animal.css('width', (w+30)+'px')
+          animal.css('width', (w+15)+'px')
           let off = animal.offset();
-          animal.offset({top: off.top-10, left:off.left-3})
+          animal.offset({top: off.top-15, left:off.left-3})
         }
       }, 1000);
     }
-//position: relative; top: -370px; left: -181px; width: 420px;
-console.log(animal_offset.left);
-  min = levels[level]['min'];
-  max = levels[level]['max'];
-  answer = [];
-  generateNumber();
-  $('#answer').html('');
-  $('#ok_sign').removeClass('fadeUp');
-  $('#ok_sign').css('display', 'none');
-  $('#help').html('');
 }
 
 //-------------------------
@@ -331,10 +324,10 @@ console.log(animal_offset.left);
 function generateNumber(){
   for(let i=0; i<30; i++){
     // 乱数取得
-    q = getRand(min, max);
-    $('#stage').html(q);
+    question = getRand(min, max);
+    $('#question').html(question);
     // 素因数分解する
-    primes = prime(q);
+    primes = prime(question);
     let flg = true;
     $('#prime').html(primes.join(','));
 
@@ -350,7 +343,6 @@ function generateNumber(){
           flg = false;
         }
       })
-      //console.log(i, rand, primes, flg);
     }
     if(flg){
       // 条件に収まる数値がきたら終了！
@@ -363,13 +355,17 @@ function generateNumber(){
 // テンキー
 //-------------------
 $('.tenkey_box li').click(function(){
+  console.log(question);
+    if(question==''){
+      return;
+    }
     let n = $(this).html();
     answer.push(parseInt(n));
     $('#answer').html(answer.join(', '));
     setHelp();
 })
 function setHelp(){
-  let help=q;
+  let help=question;
   for(let i=0; i<answer.length; i++){
     help = help/answer[i];
   }
@@ -388,13 +384,13 @@ $('#js_ok').click(function(){
     $('#ok_sign').addClass('fadeUp');
     $('#ok_sign').css('display', 'block');
     setTimeout(() => {
-      init();
+      start();
     }, "1000");
   } else {
     // 不正解!!
-    $('#stage').addClass('gakuburu');
+    $('#question').addClass('gakuburu');
     setTimeout(function () {
-      $('#stage').removeClass('gakuburu');
+      $('#question').removeClass('gakuburu');
     }, 500);
   }
 })
@@ -428,6 +424,40 @@ function prime(val){
     }
     return primes;
 }
+
+
+// トビネズミtoggle
+$('#display_animal').click(function(){
+  if($('#animal').css('display')=='none'){
+    $(this).attr('src', './common/images/animals_s/animal_komimi_tobinezumi.png');
+  } else {
+    $(this).attr('src', './common/images/animals_s/animal_komimi_tobinezumi_gray.png');
+  }
+  animal.toggle();
+})
+// ヘルプtoggle
+$('#dispplay_help').click(function(){
+  if($('#help').css('display')=='none'){
+    $(this).attr('src', './common/images/icon/beginner.png');
+  } else {
+    $(this).attr('src', './common/images/icon/beginner_gray.png');
+  }
+  $('#help').toggle();
+})
+// オブジェクトを中央に
+jQuery.prototype.offsetCenter=function() {
+  var left=this.offset().left;
+  var top=this.offset().top;
+  var width=this.width();
+  var height=this.height();
+  left=left+(width/2);
+  top=top+(height/2);
+  return {
+    top,
+    left
+  }
+}
+
 </script>
 </body>
 </html> 
