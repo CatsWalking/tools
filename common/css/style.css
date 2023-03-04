@@ -600,19 +600,29 @@ table.-tableHover tr:hover td {
   vertical-align: middle;
   display: inline-block;
   position: relative;
-  width: 25px;
-  height: 25px;
+  width: 50px;
+  height: 50px;
   cursor: pointer;
 }
 
-.icon.-l {
+.icon.-ss {
+  width: 25px;
+  height: 25px;
+}
+
+.icon.-s {
   width: 35px;
   height: 35px;
 }
 
+.icon.-l {
+  width: 70px;
+  height: 70px;
+}
+
 .icon.-xl {
-  width: 50px;
-  height: 50px;
+  width: 100px;
+  height: 100px;
 }
 
 .icon.-edit {
@@ -1157,7 +1167,7 @@ table.-tableHover tr:hover td {
 }
 
 .txtRed {
-  color: #e94d4d;
+  color: #e94d4d !important;
 }
 
 .txtS {

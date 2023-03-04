@@ -21,7 +21,7 @@
     min-width: 90px!important;
   }
   textarea{
-    height: 200px;
+    height: 100px;
   }
   #info, #info div, #info span{
     font-size: 0.9rem;
@@ -82,7 +82,7 @@
             <td id="subject_sub_sub_td"></td>
           </tr>
           <tr>
-            <th>単位</th>
+            <th>区分</th>
             <td>
               <input type="text" name="unit" value="52A-02">
               <!-- <input type="text" name="unit" value="540-02"> -->
@@ -106,6 +106,7 @@
           </tr>
           <tr>画像１<th></th><td><input type="file" class="js-droparea" id="file1ddd" name="file1"></td></tr>
           <tr>画像２<th></th><td><input type="file" class="js-droparea" id="file2ddd" name="file2"></td></tr>
+          <tr>画像３<th></th><td><input type="file" class="js-droparea" id="file3ddd" name="file3"></td></tr>
         </table>
       </main>
 
@@ -113,14 +114,9 @@
         <div class="btnBox"  style="margin-top: 20px;">
           <div class="btn" id="js_save">保存</div>
         </div>
-
       </div>
-        
-
     </form>
-    
 </div>
-
 
 <!-- container -->
 <script src="./common/js/jquery-3.6.3.min.js"></script>
@@ -131,39 +127,55 @@
 <script>
   'use strict'
   $(function(){
-
       let id;
       const cols = ['id', 'question', 'answer', 'subject', 'subject_sub', 'subject_sub_sub'];
-
       id = getParam2('id');
       if(id!=''){
-        $.get(url+'?action=get&id='+id, function(data){
+        $.get(url+'?action=getAnki&id='+id, function(data){
           $('[name=id]').val(data.id);
           $('[name=question]').val(data.question);
           $('[name=answer]').val(data.answer);
           $('#subject_td').html(data.subject);
           $('#subject_sub_td').html(data.subject_sub);
           $('#subject_sub_sub_td').html(data.subject_sub_sub);
-
         })
-
-
       }
+      //--------------------------
+      // 科目変更  
       $(document).on('click', '[name=subject]', function(){
-        console.log(url+'?action=getSubjectSub&subject='+$(this).val());
+        $('#subject_sub_td span').html('');
+        $('#subject_sub_sub_td span').html('');
         $.get(url+'?action=getSubjectSub&subject='+$(this).val(), function(data){
           $('#subject_sub_td span').html(data);
         })
       })
+      //--------------------------
+      // 科目細分１変更
+      $(document).on('click', '[name=subject_sub]', function(){
+        $('#subject_sub_sub_td span').html('');
+        // TODO 今のところ算数、理科のみ
+        let subject = $('[name=subject]:checked').val();
+        if(subject==1 || subject==3){
+          $.get(url+"?action=getSubjectSubSub&subject="+subject+"&subject_sub="+$(this).val(), function(data){
+            $('#subject_sub_sub_td span').html(data);
+          })
+        }
+      })
+
+
+
+
 
       //--------------------------
       // 保存  
       $('#js_save').click(function(){
-        if($('[name=question]').val()=='' || $('[name=answer]').val()=='' || $('[name=subject]:checked').val()==''){
-          openDialog('必須項目を入力してください');
-          return;
+        if($('[name=subject]:checked').val()!=1){
+          if($('[name=question]').val()=='' || $('[name=answer]').val()=='' || $('[name=subject]:checked').val()==''){
+            // 算数以外は必須
+            openDialog('必須項目を入力してください');
+            return;
+          }
         }
-
         let fd = new FormData($('form').get(0));
         $.ajax({
           url: url+"?action=saveAnki",
@@ -182,28 +194,7 @@
             alert('通信に失敗しました');
          })
       })
-      
-      //--------------------------
-      // 科目変更  
-      $('[name=subject]').click(function(){
-          $('.subject_sub').html('');
-          $('.subject_sub_sub').html('');
-          $.get(url+"?action=getSubjectSub&subject="+$(this).val(), function(data){
-            $('.subject_sub').html(data);
-          })
-      })
-      //--------------------------
-      // 科目細分１変更
-      $(document).on('click', '[name=subject_sub]', function(){
-        $('.subject_sub_sub').html('');
-        // TODO 今のところ理科のみ
-        if($('[name=subject]:checked').val()==3){
-          $.get(url+"?action=getSubjectSubSub&subject_sub="+$(this).val(), function(data){
-            $('.subject_sub_sub').html(data);
-          })
-        }
-      })
-        
+    
   })
 </script>
 </body>

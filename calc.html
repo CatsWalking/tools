@@ -119,6 +119,13 @@ td, th{
               </td>
               <td><div class="result" style="display: flex"></div></td>
           </tr>
+          <tr id="divisor">
+            <td>
+              <div class="calc_txt">約数(因数)</div>
+              <input type="input" class="input" maxlength="4">
+            </td>
+            <td><div class="result" style="margin-left: 15px;"></div></td>
+          </tr>
           <!-- 平方数 -->
           <tr id="squre">
             <td>
@@ -428,6 +435,17 @@ function calc(active_input){
             // 平方根
             res = Math.round( Math.sqrt(input1) * keta ) / keta;
             break;
+        case 'divisor':
+          // 約数
+          let yaku = [];
+          for (let i = 1; i <= input1; i++) {
+            if (input1 % i === 0) {
+                yaku.push(i);
+            }
+          }
+          res = yaku.join(', ');
+          break;
+
         case 'pi':
             // 円周の長さ
             res = Math.round((input1 + input1) * 3.14 * (input3 / 360) * keta) / keta

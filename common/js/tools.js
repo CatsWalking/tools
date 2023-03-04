@@ -12,6 +12,7 @@ const header = '<div class="header__inner">'
     +'</h1>'
     +'<nav class="header__nav nav" id="js-nav">'
     +'<ul class="nav__items nav-items">'
+    +'<li class="nav-items__item"><a href="index.html">トップページ</a></li>'
     +'<li class="nav-items__item"><a href="anki.html">暗記</a></li>'
     +'<li class="nav-items__item"><a href="redsheet.html">赤シート</a></li>'
     +'<li class="nav-items__item"><a href="calc.html">計算ツール</a></li>'
@@ -101,7 +102,7 @@ if(isSP() || isTablet()){
 /*-----------------------------
  * タイマー
  */
-let startTime = null;   // timer
+let startTime = null;
 let timerid;
 let isPlay = false;
 function runTimer(){
@@ -109,6 +110,13 @@ function runTimer(){
    $('#timer').html(t);
     timerid = setTimeout(runTimer, 12);
 }
+function setTimer(){
+  startTime = Date.now();
+}
+function stopTimer(){
+  clearTimeout(timerid);
+}
+
 /*-----------------------------
 * リセットボタン
 */

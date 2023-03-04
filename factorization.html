@@ -42,14 +42,36 @@
 }
 #question{
   height: 120px;
-  line-height: 120px;
   background:#ecf4f9;
   border-radius: 5px;
   text-align:center;
   display: table-cell;
-  /* vertical-align:middle; */
   font-size: 4rem;
   letter-spacing: 1rem;
+}
+/* PC */
+@media screen and (min-width: 960px) {
+  #question {
+    height: 120px;
+  }
+}
+/* 小さい画面 */
+@media screen and (max-width: 375px) {
+  #question {
+    height: 70px;
+    font-size: 3rem;
+    margin:30px auto;
+    /* background-color: red; */
+  }
+  #tab_level{
+    margin: 0 auto ;
+    /* background-color: blue; */
+    margin-bottom: 10px;
+  }
+  #tab_level div{
+    height: 30px;
+    font-size: 1.2rem;
+  }
 }
 .ruby3{
   font-size:18px;
@@ -124,9 +146,9 @@ p{
   }
 }
 #ok_sign{
-  /* width: 100%; */
-  height: 100hv;
-  font-size: 5rem;
+  width: 100%;
+  height: 300px;
+  font-size: 6rem;
   color:rgb(227, 49, 49);
   background:#fff;
   border-radius: 10px;
@@ -140,13 +162,27 @@ p{
 .btn.-s{
   padding:2px;
 }
+
 .help_box{
-  text-align:right;
+    display: flex;
+    /* padding: 2px; */
 }
 .help_box>div{
-  display: inline-block;
+    margin: 0;
+    text-align: center;
+    min-width:30px;
+    height:50px;
+    line-height: 50px;
+}
+.help_box>div:nth-of-type(1){
+    margin-right: auto;
 }
 
+
+
+#timer{
+  font-size:1rem;
+}
 
 </style>
 </head>
@@ -164,10 +200,13 @@ p{
   <main>
     <!-- ヘルプ -->
     <div class="help_box">
+      <div id="timer" class="timer">0.00</div>
       <div id="help"></div>
-      <img src="./common/images/icon/beginner.png" class="icon -xl" id="dispplay_help">
-      <img src="./common/images/animals_s/animal_komimi_tobinezumi.png" class="icon -l" id="display_animal">
-      <div class="box" onclick="init()">×</div>
+      <div><img src="./common/images/icon/beginner.png" class="icon" id="dispplay_help"></div>
+      <div><img src="./common/images/icon/kuma.png " class="icon -s" id="display_animal"></div>
+      <div><img src="./common/images/icon/close.png" class="icon -ss" id="dispplay_help"></div>
+
+      <!-- <div class="box" onclick="init()">×</div> -->
     </div>
 
     <div class="btnBox" id="tab_level">
@@ -188,7 +227,7 @@ p{
     <div class="outer"><div id="answer"></div></div>
     <div class="outer"><div id="prime" class="ruby3"></div></div>
     <div class="outer">
-      <img src="./common/images/animals_s/animal_komimi_tobinezumi.png" id="animal" class="animal">
+      <img src="./common/images/icon/kuma.png" id="animal" class="animal">
     </div>
   </main>
 
@@ -248,8 +287,11 @@ let is_running = false;
 let interval_id;
 let animal = $('#animal');
 let animal_offset = animal.offset();
-// animal.removeClass('animal_purun');
-// console.log('animal_offset.left', animal_offset.left);
+
+// // timer
+// let startTime = null;
+// let timerid;
+// let isPlay = false;
 
 
 //-------------------------
@@ -273,6 +315,10 @@ $(document).keydown(function(event) {
   }
 });
 
+
+
+
+
 //-------------------------
 // init
 function init(){
@@ -293,12 +339,16 @@ function init(){
   $('#ok_sign').removeClass('fadeUp');
   $('#ok_sign').css('display', 'none');
   $('#help').html('');
+  clearTimeout(timerid);
+  $($('#timer').html('0.00'));
 }
 let animal2 = animal;
 //-------------------------
 // スタート
 function start(){
   init();
+  setTimer();
+  runTimer();
   generateNumber();
   animal.addClass('animal_purun');
   animal.addClass('animal_purun');
@@ -360,14 +410,19 @@ $('.tenkey_box li').click(function(){
     answer.push(parseInt(n));
     $('#answer').html(answer.join(', '));
     setHelp();
+    setTimer();
 })
 function setHelp(){
   let help=question;
   for(let i=0; i<answer.length; i++){
     help = help/answer[i];
   }
+  $('#help').removeClass('txtRed');
   if(help==1){
     help = '';
+  } else if(!Number.isInteger(help)){
+    $('#help').addClass('txtRed');
+    help =help.toFixed(2);
   }
   $('#help').html(help);
 }
@@ -389,7 +444,7 @@ $('#js_ok').click(function(){
     setTimeout(function () {
       $('#question').removeClass('gakuburu');
     }, 500);
-  }
+  }z
 })
 /*-----------------------
  clear
@@ -426,9 +481,9 @@ function prime(val){
 // トビネズミtoggle
 $('#display_animal').click(function(){
   if($('#animal').css('display')=='none'){
-    $(this).attr('src', './common/images/animals_s/animal_komimi_tobinezumi.png');
+    $(this).attr('src', './common/images/icon/kuma.png');
   } else {
-    $(this).attr('src', './common/images/animals_s/animal_komimi_tobinezumi_gray.png');
+    $(this).attr('src', './common/images/icon/kuma_gray.png');
   }
   animal.toggle();
 })
