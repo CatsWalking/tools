@@ -425,7 +425,19 @@ $('#js_retry').click(function(){
   })
   
 })
+// ウィンドウサイズ
 function getWindowSize(){
   return window.innerWidth;
-  // return $(window).width();
+}
+// ガクガクぶるぶるさせる
+function Gakuburu(elem, s=500){
+  elem.addClass('gakuburu');
+    setTimeout(function () {
+      elem.removeClass('gakuburu');
+    }, s);
+}
+// 配列にふくまれるか
+function in_array(val, arr){
+  console.log(val, arr, arr.indexOf(val));
+  return arr.indexOf(val) != -1;
 }

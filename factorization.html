@@ -81,7 +81,7 @@
   height:30px;
   padding-top:0;;
   padding-bottom:20px;
-  color: #ecf4f9;
+  color: #fdfdfd;
 } 
 #answer{
   font-size: 3rem;
@@ -187,7 +187,7 @@
 }
 #howto{
   position:absolute;
-  width:96%;
+  width:98%;
   margin: 0 auto;
   height: 100%;
   background-color: #fff;
@@ -223,8 +223,6 @@
       <div><img src="./common/images/icon/kuma.png " class="icon -s"> クマさんの表示・非表示</div>
       <div><img src="./common/images/icon/close.png" class="icon -ss"> 終了</div>
     </div>
-
-
     <!-- ヘルプ -->
     <div class="help_box">
       <div id="timer" class="timer">0.00</div>
@@ -233,8 +231,7 @@
       <div><img src="./common/images/icon/kuma.png " class="icon -s" id="display_animal"></div>
       <div><img src="./common/images/icon/close.png" class="icon -ss" onclick="init()"></div>
     </div>
-    
-
+    <!-- レベル -->
     <div class="btnBox" id="tab_level">
       <div style="display: inline-block">level</div>
       <div class="status" data-level="1">1</div>
@@ -243,13 +240,9 @@
       <div class="status" data-level="4">4</div>
       <div class="status" data-level="5">5</div>
     </div>
-    
+    <!-- 設問 -->
     <div class="outer"><div id="ok_sign">OK</div></div>
     <div class="outer"><div id="question"></div></div>
-    <!-- <div id="message" style="margin:0 auto;position:absolute;width:98%;text-align: center;line-height:2rem;font-size:1rem">
-      タッチまたはスペースキーでスタートするよ<br>
-      素因数分解して「GO」ボタンをクリック！
-    </div> -->
     <div class="outer"><div id="answer"></div></div>
     <div class="outer"><div id="prime" class="ruby3"></div></div>
     <div class="outer">
@@ -314,12 +307,6 @@ let interval_id;
 let animal = $('#animal');
 let animal_offset = animal.offset();
 
-// // timer
-// let startTime = null;
-// let timerid;
-// let isPlay = false;
-
-
 //-------------------------
 // タブ
 $('#tab_level div').click(function(){
@@ -332,7 +319,7 @@ $('#tab_level div').click(function(){
 
 //-------------------------
 // スタート
-$('#message,#question,#answer,#animal,#howto,.tenkey').click(function(){
+$('#question,#answer,#animal,#howto,.tenkey').click(function(){
   start();
 })
 $(document).keydown(function(event) {
@@ -341,17 +328,12 @@ $(document).keydown(function(event) {
   }
 });
 
-
-
-
-
 //-------------------------
 // init
 function init(){
   is_running = false;
   clearInterval(interval_id);
   $('#howto').remove();
-  $('#message').remove();
   animal.removeClass('animal_purun');
   animal.css('width', '50px');
   // トビネズミを元の位置に
@@ -378,18 +360,21 @@ function start(){
   runTimer();
   generateNumber();
   animal.addClass('animal_purun');
-    // トビネズミを20pxずつ大きくする
+    // クマさんを少しずつ大きくする
     if(!is_running){
       is_running = true;
       interval_id = setInterval(function(){
         let w = animal.width();
         if(w<400){
-          animal.css('width', (w+15)+'px')
+          animal.css('width', (w+4)+'px')
           let off = animal.offset();
-          animal.offset({top: off.top-15, left:off.left-4})
+          animal.offset({top: off.top-4, left:off.left-1})
         }
-      }, 1000);
+      }, 500);
     }
+
+
+    // animal.css('display', 'none');
 }
 
 //-------------------------
@@ -412,8 +397,9 @@ function generateNumber(){
       //-------------------------
       // 選択肢に含まれない素数がないかチェック
       primes.forEach(function(pri){
-        if(prime_choices.indexOf(pri) === -1){
-          flg = false;
+        if(!in_array(pri, prime_choices)){
+        // if(prime_choices.indexOf(pri) === -1){
+          flg = false
         }
       })
     }
@@ -421,7 +407,7 @@ function generateNumber(){
       // 条件に収まる数値がきたら終了！
       break;
     }
-  } // for i
+  }
 }
 
 //-------------------
@@ -437,7 +423,14 @@ $('.tenkey_box li').click(function(){
     $('#answer').html(answer.join(', '));
     setHelp();
     setTimer();
+    // ヘルプ表示時、間違った数字をタップしたらガクブル
+    if(!in_array(parseInt(n), primes)){
+      Gakuburu($('#question'), 100);
+    }
 })
+//-------------------
+// help
+//-------------------
 function setHelp(){
   let help=question;
   for(let i=0; i<answer.length; i++){
@@ -466,10 +459,7 @@ $('#js_ok').click(function(){
     }, "1000");
   } else {
     // 不正解!!
-    $('#question').addClass('gakuburu');
-    setTimeout(function () {
-      $('#question').removeClass('gakuburu');
-    }, 500);
+    Gakuburu($('#question'));
   }
 })
 /*-----------------------
