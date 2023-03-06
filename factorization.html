@@ -372,9 +372,6 @@ function start(){
         }
       }, 500);
     }
-
-
-    // animal.css('display', 'none');
 }
 
 //-------------------------
@@ -398,7 +395,6 @@ function generateNumber(){
       // 選択肢に含まれない素数がないかチェック
       primes.forEach(function(pri){
         if(!in_array(pri, prime_choices)){
-        // if(prime_choices.indexOf(pri) === -1){
           flg = false
         }
       })
@@ -425,7 +421,7 @@ $('.tenkey_box li').click(function(){
     setTimer();
     // ヘルプ表示時、間違った数字をタップしたらガクブル
     if(!in_array(parseInt(n), primes)){
-      Gakuburu($('#question'), 100);
+      Gakuburu($('#question'), 200);
     }
 })
 //-------------------
@@ -492,8 +488,6 @@ function prime(val){
     }
     return primes;
 }
-
-
 // クマさんtoggle
 $('#display_animal').click(function(){
   if($('#animal').css('display')=='none'){
@@ -525,7 +519,6 @@ jQuery.prototype.offsetCenter=function() {
     left
   }
 }
-
 </script>
 </body>
 </html> 
