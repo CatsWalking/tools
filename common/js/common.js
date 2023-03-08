@@ -438,6 +438,48 @@ function Gakuburu(elem, s=500){
 }
 // 配列にふくまれるか
 function in_array(val, arr){
-  console.log(val, arr, arr.indexOf(val));
   return arr.indexOf(val) != -1;
+}
+
+/*-----------------------------
+ * タイマー
+ */
+let startTime = null;
+let timer_id;
+let isPlay = false;
+// run
+function runTimer(){
+    let t = ((Date.now() - startTime) / 1000).toFixed(2);
+   $('#timer').html(t);
+   timer_id = setTimeout(runTimer, 12);
+}
+// time set
+function setTimer(){
+  startTime = Date.now();
+}
+// stop
+function stopTimer(){
+  clearTimeout(timer_id);
+}
+// restart
+function restartTimer(){
+  isRunning = true;
+  timer_id = setTimeout(runTimer, 12);
+}
+// pause
+function pauseTimer(){
+    clearInterval(timer_id);
+    isRunning = false;
+}
+/*-----------------------------
+ * アイコンなどのイメージを切り替える
+ * _gray のイメージを用意しておく
+ */
+function toggleImg(elem, src){
+  let src2 = src.replace('.png', '_gray.png');
+  if(elem.attr('src')==src){
+    elem.attr('src', src2);
+  } else {
+    elem.attr('src', src);
+  }
 }

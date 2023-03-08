@@ -99,23 +99,6 @@ if(isSP() || isTablet()){
 //     }
 // });
 
-/*-----------------------------
- * タイマー
- */
-let startTime = null;
-let timerid;
-let isPlay = false;
-function runTimer(){
-    let t = ((Date.now() - startTime) / 1000).toFixed(2);
-   $('#timer').html(t);
-    timerid = setTimeout(runTimer, 12);
-}
-function setTimer(){
-  startTime = Date.now();
-}
-function stopTimer(){
-  clearTimeout(timerid);
-}
 
 /*-----------------------------
 * リセットボタン

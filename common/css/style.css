@@ -192,6 +192,7 @@ header {
 @media screen and (min-width: 960px) {
   .nav-items__item a {
     margin-bottom: 0;
+    display: inline;
   }
 }
 
