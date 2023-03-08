@@ -79,8 +79,8 @@
   height:30px;
   padding-top:0;;
   padding-bottom:20px;
-  color: #703737;
-  /* color: #fdfdfd; */
+  /* color: #703737; */
+  color: #fdfdfd;
 } 
 #answer{
   font-size: 3rem;
@@ -230,7 +230,7 @@
     <!-- ヘッダ -->
     <div class="help_box">
       <div id="timer" class="timer">0.00</div>
-      <div id="cnt"><span id="current_cnt">1</span> / <span id="all_cnt">10</span></div>
+      <div id="cnt"><span id="current_cnt">1</span> / <span id="all_cnt">5</span></div>
       <!-- <div id="score">0点</div> -->
       <div id="help"></div>
       <div><img src="./common/images/icon/beginner.png" class="icon" id="display_help"></div>
@@ -313,7 +313,7 @@ let interval_id;
 let animal = $('#animal');
 let animal_offset = animal.offset();
 let current_cnt=1;
-const ALL_CNT = 2;
+const ALL_CNT = 5;
 let wrong_cng = 0;
 let score = 0;
 
@@ -329,6 +329,9 @@ $('#tab_level div').click(function(){
   start();
   setTimer();
   runTimer();
+  wrong_cng=1;
+  current_cnt=1;
+  $('#current_cnt').html(current_cnt);
 })
 
 //-------------------------
@@ -341,6 +344,9 @@ $('#howto').click(function(){
 //-------------------------
 // 一時停止
 $('#js_pause').click(function(){
+  if($('#timer').html()=='0.00'){
+    return;
+  }
   let src =  './common/images/icon/pause.png';
   if($(this).attr('src')==src){
     // pause
@@ -404,10 +410,10 @@ function enLargeAnimal(){
       is_running = true;
       interval_id = setInterval(function(){
         let w = animal.width();
-        if(w<300){
-          animal.css('width', (w+4)+'px')
+        if(w<250){
+          animal.css('width', (w+3)+'px')
           let off = animal.offset();
-          animal.offset({top: off.top-4, left:off.left-1})
+          animal.offset({top: off.top-3, left:off.left-1})
         }
       }, 500);
     }
@@ -487,6 +493,7 @@ $('#js_ok').click(function(){
     }
     // カウントアップ
     current_cnt +=1;
+    $('#current_cnt').html(current_cnt);
   } else {
     // 不正解!!
     Gakuburu($('#question'));
