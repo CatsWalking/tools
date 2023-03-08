@@ -103,7 +103,7 @@ td, th{
     <main>
       <div class="btnBox" id="tab_subject">
         <div class="status -green" data-subject="1">因数・平方</div>
-        <div class="status" data-subject="2">円</div>
+        <div class="status" data-subject="2">図形</div>
         <div class="status" data-subject="3">かけ・わり算</div>
         <div class="status" data-subject="4">割</div>
       </div>
@@ -147,7 +147,7 @@ td, th{
 
 
 
-        <!-- 【円】 -->
+        <!-- 【図形】 -->
         <table class="table2 calc_table hide" id="calc_2">
           <tbody>
           <!-- 円周の長さ -->
@@ -155,24 +155,46 @@ td, th{
               <td>
                 <div class="calc_txt">円周の長さ</div>
                   (<input type="input" class="same1 input input_s" maxlength="3">
-                  <span class="sign"> + </span>
+                  <span class="sign large"> + </span>
                   <input type="input" class="same1 input input_ss noborder" onFocus="this.blur()" maxlength="3" readonly="readonly" >) 
-                  <span class="sign"> × 3.14 × </span> 
-                  <input type="input" class="input input_s noclear" maxlength="3" value="360"> <span class="sign"> ℃ =</span> 
+                  <span class="sign large"> × 3.14 × </span> 
+                  <input type="input" class="input input_s noclear" maxlength="3" value="360"> <span class="sign"> 度 =</span> 
                   <div class="result result_height"></div>
               </td>
           </tr>
           <tr id="pi2">
             <td>
               <div class="calc_txt">円の面積</div>
-                <input type="input" class="same2 input input_s" axlength="3"> 
-                <span class="sign">  × </span>
+                <input type="input" class="same2 input input_s" maxlength="3"> 
+                <span class="sign large">  × </span>
                 <input type="input" class="same2 input input_ss noborder" onFocus="this.blur()" maxlength="3" readonly="readonly" > 
-              <span class="sign"> × 3.14 × </span> 
-              <input type="input" class="input input_s noclear" maxlength="3" value="360"> <span class="sign"> ℃ =</span> 
+              <span class="sign large"> × 3.14 × </span> 
+              <input type="input" class="input input_s noclear" maxlength="3" value="360"> <span class="sign"> 度 =</span> 
               <div class="result result_height"></div>
             </td>
         </tr>
+        <tr id="triangle">
+          <td>
+            <div class="calc_txt">三角形の面積</div>
+              <input type="input" class="input number input_s" maxlength="4">
+              <span class="sign large">  × </span> 
+              <input type="input" class="input number input_s" maxlength="4">
+              <span class="sign large"> / 2 =</span> 
+              <div class="result result_height"></div>
+          </td>
+      </tr>
+      <tr id="trapezoid">
+        <td>
+          <div class="calc_txt">台形の面積</div>
+            (<input type="input" class="input number input_s" maxlength="4">
+            <span class="sign large"> + </span> 
+            <input type="input" class="input number input_s" maxlength="4">)
+            <span class="sign large"> * </span> 
+            <input type="input" class="input number input_s" maxlength="4">
+            <span class="sign large"> / 2 =</span> 
+            <div class="result result_height"></div>
+        </td>
+    </tr>
       </tbody>
     </table>
     <!-- 【かけ算・わり算】 -->
@@ -304,6 +326,7 @@ td, th{
 <script src="./common/js/common.js?test"></script>
 <script src="./common/js/tools.js?test"></script>
 <!-- <script src="./common/js/calc.js?test"></script> -->
+<!-- https://keisan.casio.jp/menu/system/000000000510 -->
 <script>
 /*----------------------------
 Roku tools
@@ -412,10 +435,10 @@ function calc(active_input){
         input1 = parseFloat(inputs.eq(0).val());
     }
     if(inputs.eq(1).length){
-        input2 = inputs.eq(1).val();
+        input2 = parseFloat(inputs.eq(1).val());
     }
     if(inputs.eq(2).length){
-        input3 = inputs.eq(2).val();
+        input3 = parseFloat(inputs.eq(2).val());
     }
 
     //-------------------------
@@ -453,7 +476,15 @@ function calc(active_input){
         case 'pi2': 
             // 円の面積
             res = Math.round((input1 * input1) * 3.14 * (input3 / 360) * keta) / keta
-            break;        
+            break;   
+        case 'triangle': 
+            // 三角形の面積
+            res = Math.round(input1 * input2 /2 * keta) / keta
+            break;  
+        case 'trapezoid':active
+          // 台形の面積
+            res = Math.round((input1 + input2) * input3 /2 * keta) / keta
+            break;   
         case 'multi':   
             // 掛け算
             if(Number.isInteger(input1 * input2)){
@@ -473,11 +504,11 @@ function calc(active_input){
             break;
           case 'plus':  
             // 足し算
-            res = parseInt(input1) + parseInt(input2)
+            res = (input1) + (input2)
             break;
           case 'minus':  
             // 引き算
-            res = parseInt(input1) - parseInt(input2)
+            res = (input1) - (input2)
             break;
         case 'discount1':
             // ○円の○割引は○円
