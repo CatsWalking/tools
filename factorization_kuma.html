@@ -320,6 +320,9 @@ let score = 0;
 //-------------------------
 // レベル タブ
 $('#tab_level div').click(function(){
+  if($('#js_pause').attr('src').indexOf('gray')!=-1){
+    return;
+  }
   $('.status').removeClass('-green');
   $(this).addClass('-green');
   level = $(this).data('level');
@@ -454,7 +457,7 @@ function generateNumber(){
 // テンキー
 //-------------------
 $('.tenkey_box li').click(function(){
-    if(question==''){
+    if(question=='' || !is_running){
       return;
     }
     let n = $(this).html();

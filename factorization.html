@@ -79,8 +79,8 @@
   height:30px;
   padding-top:0;;
   padding-bottom:20px;
-  color: #703737;
-  /* color: #fdfdfd; */
+  /* color: #703737; */
+  color: #fdfdfd;
 } 
 #answer{
   font-size: 3rem;
@@ -142,6 +142,14 @@
 .btn.-s{
   padding:2px;
 }
+.btnBox.btn{
+  min-width: 100px!important;
+}
+@media screen and (max-width: 960px){
+.btnBox .btn {
+    width: 100px;
+}
+}
 .help_box{
     display: flex;
 }
@@ -172,6 +180,11 @@
   font-size:1rem;
   padding-top: 60px;
 }
+@media screen and (max-width: 375px) {
+  #howto{
+    padding-top: 30px;
+  }
+}
 #cnt{
   margin-left: 20px;
   font-size:1rem;
@@ -199,10 +212,12 @@
       <p> 素因数分解する単純なゲームです。</p> 
       <p>レベルが１〜５まであるから好きなの選んでね</p> 
       <p>レベルを選んだらスタート！</p> 
-      <p>クマが邪魔してくるから早めに解答して！！</p> 
+      <p>因数分解できたら<img src="./common/images/icon/go.png" class="icon -ss">をタップ</p> 
+      <p>クマが邪魔してくるから急いで！！</p> 
       <hr>
       <div><img src="./common/images/icon/beginner.png" class="icon"> ヒントの表示・非表示</div>
       <div><img src="./common/images/icon/kuma.png " class="icon -s"> クマさんの表示・非表示</div>
+      <div><img src="./common/images/icon/pause.png" class="icon -ss"> 一時停止</div>
       <div><img src="./common/images/icon/close.png" class="icon -ss"> 終了</div>
     </div>
     <!-- OK -->
@@ -215,11 +230,12 @@
     <!-- ヘッダ -->
     <div class="help_box">
       <div id="timer" class="timer">0.00</div>
-      <div id="cnt"><span id="current_cnt">1</span> / <span id="all_cnts">10</span></div>
+      <div id="cnt"><span id="current_cnt">1</span> / <span id="all_cnt">5</span></div>
       <!-- <div id="score">0点</div> -->
       <div id="help"></div>
       <div><img src="./common/images/icon/beginner.png" class="icon" id="display_help"></div>
-      <div><img src="./common/images/icon/kuma.png " class="icon -s" id="display_animal"></div>
+      <div><img src="./common/images/icon/kuma.png" class="icon -s" id="display_animal"></div>
+      <div><img src="./common/images/icon/pause.png" class="icon -ss" id="js_pause"></div>
       <div><img src="./common/images/icon/close.png" class="icon -ss" onclick="init()"></div>
     </div>
     <!-- レベル -->
@@ -275,7 +291,6 @@
 <script src="./common/js/jquery-ui.js"></script>
 <script src="./common/js/common.js?test"></script>
 <script src="./common/js/tools.js?test"></script>
-<!-- <script src="./common/js/calc.js?test"></script> -->
 <script>
 /*----------------------------
 Roku tools
@@ -298,7 +313,8 @@ let interval_id;
 let animal = $('#animal');
 let animal_offset = animal.offset();
 let current_cnt=1;
-let all_cnt = 10;
+const ALL_CNT = 5;
+let wrong_cng = 0;
 let score = 0;
 
 //-------------------------
@@ -309,34 +325,51 @@ $('#tab_level div').click(function(){
   level = $(this).data('level');
   min = levels[level]['min'];
   max = levels[level]['max'];
-  // タイマーをリセット
-  restartTime();
   // 問を作成する
   start();
   setTimer();
   runTimer();
+  wrong_cng=1;
+  current_cnt=1;
+  $('#current_cnt').html(current_cnt);
 })
 
 //-------------------------
-// スタート
-$('#question,#answer,#animal,#howto,.tenkey').click(function(){
-  start();
+// howto click
+$('#howto').click(function(){
+  $('#all_cnt').html(ALL_CNT);
+  $('#howto').css('display', 'none');
 })
-$(document).keydown(function(event) {
-	if(event.keyCode==32){
-    start();
+
+//-------------------------
+// 一時停止
+$('#js_pause').click(function(){
+  if($('#timer').html()=='0.00'){
+    return;
   }
-});
-
+  let src =  './common/images/icon/pause.png';
+  if($(this).attr('src')==src){
+    // pause
+    pauseTimer();
+    clearInterval(interval_id);
+    animal.removeClass('animal_purun');
+    is_running = false;
+  } else {
+    // restart
+    restartTimer();
+    animal.addClass('animal_purun');
+    enLargeAnimal();
+  }
+  toggleImg($(this), src);
+})
 //-------------------------
-// init
-function init(){
+// 準備
+function prepare(){
+  // クマさんを元に
   is_running = false;
   clearInterval(interval_id);
-  $('#howto').addClass('hide');
   animal.removeClass('animal_purun');
   animal.css('width', '50px');
-  // トビネズミを元の位置に
   animal.css({ "width": "", "height": "" });
   animal.offset(animal_offset);
   question='';
@@ -346,37 +379,45 @@ function init(){
   $('#ok_sign').removeClass('fadeUp');
   $('#ok_sign').css('display', 'none');
   $('#help').html('');
-  // clearTimeout(timerid);
-  // $($('#timer').html('0.00'));
 }
-let animal2 = animal;
+//-------------------------
+// init
+function init(){
+  wrong_cng=0;
+  current_cnt=1;
+  stopTimer();
+  $($('#timer').html('0.00'));
+  prepare();
+  $('#current_cnt').html(current_cnt);
+}
 
 //-------------------------
 // スタート
 function start(){
-  init();
+  prepare();
   if(level==''){
     return;
   }
   $('#message').remove();
-  // setTimer();
-  // runTimer();
   generateNumber();
   animal.addClass('animal_purun');
     // クマさんを少しずつ大きくする
-    if(!is_running){
+    enLargeAnimal();
+}
+function enLargeAnimal(){
+ // クマさんを少しずつ大きくする
+ if(!is_running){
       is_running = true;
       interval_id = setInterval(function(){
         let w = animal.width();
-        if(w<300){
-          animal.css('width', (w+4)+'px')
+        if(w<250){
+          animal.css('width', (w+3)+'px')
           let off = animal.offset();
-          animal.offset({top: off.top-4, left:off.left-1})
+          animal.offset({top: off.top-3, left:off.left-1})
         }
       }, 500);
     }
 }
-
 //-------------------------
 // 問を作成する
 function generateNumber(){
@@ -420,15 +461,15 @@ $('.tenkey_box li').click(function(){
     answer.push(parseInt(n));
     $('#answer').html(answer.join(', '));
     setHelp();
-    // setTimer();
     // ヘルプ表示時、間違った数字をタップしたらガクブル
     if(!in_array(parseInt(n), primes)){
       Gakuburu($('#question'), 300);
+      wrong_cng++;
+      console.log('wrong_cng', wrong_cng);
     } else {
       // 正解だったらクマを少し下げる
       let off = animal.offset();
       animal.offset({top: off.top+4, left:off.left+1})
-
     }
 })
 /*-----------------------
@@ -437,27 +478,50 @@ $('.tenkey_box li').click(function(){
 $('#js_ok').click(function(){
   if(answer.length>0 && JSON.stringify(primes.sort()) === JSON.stringify(answer.sort())){
     // 正解！！
-    // 1秒後に次の問題へ
+    // 0.7秒後に次の問題へ
     $('#ok_sign').addClass('fadeUp');
     $('#ok_sign').css('display', 'block');
     setTimeout(() => {
       start();
-    }, "1000");
+    }, "700");
+    $('#current_cnt').html(current_cnt);
+    if(parseInt(current_cnt)==parseInt(ALL_CNT)){
+      // 10問完了
+      end();
+      init();
+      return;
+    }
+    // カウントアップ
     current_cnt +=1;
     $('#current_cnt').html(current_cnt);
-    
-    if(current_cnt==all_cnt){
-      // 10問完了
-
-    }
   } else {
     // 不正解!!
     Gakuburu($('#question'));
   }
 })
+/*-----------------------
+ end
+-----------------------*/
+// 終了
+$(document).on('click', '.js_quit', function(){
+  location.href=location.href;
+})
+// リトライ
+$(document).on('click', '.js_retry', function(){
+  $('#howto').css('display', 'none');
+  setTimer();
+  runTimer();
+})
 function end(){
   $('#howto').removeClass('hide');
-  $('#howto').html(time);
+  $('#howto').css('display', 'block');
+  let str = "<p>Finish!!</p>"
+    + "<p>レベル： " + level + "</p>"
+    + "<p>タイム： " + ((Date.now() - startTime) / 1000).toFixed(2) + "</p>"
+    + "<p>間違えた回数： " + wrong_cng +"回</p>"
+    +"<div class='btnBox'><div class='btn js_retry'>もう一回</div>"
+    +"<div class='btn js_quit'>終了</div></div>";
+  $('#howto').html(str);
 }
 /*-----------------------
  clear
@@ -508,20 +572,12 @@ function setHelp(){
 }
 // クマさんtoggle
 $('#display_animal').click(function(){
-  if($('#animal').css('display')=='none'){
-    $(this).attr('src', './common/images/icon/kuma.png');
-  } else {
-    $(this).attr('src', './common/images/icon/kuma_gray.png');
-  }
+  toggleImg($(this), './common/images/icon/kuma.png');
   animal.toggle();
 })
 // ヘルプtoggle
 $('#display_help').click(function(){
-  if($('#help').css('display')=='none'){
-    $(this).attr('src', './common/images/icon/beginner.png');
-  } else {
-    $(this).attr('src', './common/images/icon/beginner_gray.png');
-  }
+  toggleImg($(this), './common/images/icon/beginner.png');
   $('#help').toggle();
 })
 // オブジェクトを中央に
