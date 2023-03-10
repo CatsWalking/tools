@@ -7,9 +7,9 @@
 <link rel="icon" href="./common/images/favicon.svg" sizes="any">
 <title>Roku.tools|因数分解</title>
 <link rel="stylesheet" href="./common/css/reset.css">
-<link rel="stylesheet" href="./common/css/style.css?aa">
-<link rel="stylesheet" href="./common/css/modal.css?aa">
-<link rel="stylesheet" href="./common/css/tools.css?aa">
+<link rel="stylesheet" href="./common/css/style.css?as3a">
+<link rel="stylesheet" href="./common/css/modal.css?as3a">
+<link rel="stylesheet" href="./common/css/tools.css?as3a">
 <style>
   body {
 	user-select: none;
@@ -145,16 +145,13 @@
 .btnBox.btn{
   min-width: 100px!important;
 }
-@media screen and (max-width: 960px){
-.btnBox .btn {
-    width: 100px;
-}
-}
+
 .help_box{
     display: flex;
 }
 .help_box>div{
     margin: 0;
+    margin-left:3px;
     text-align: center;
     min-width:30px;
     height:50px;
@@ -178,11 +175,30 @@
   line-height: 3rem;
   z-index: 999;
   font-size:1rem;
-  padding-top: 60px;
+  padding-top: 10px;
+}
+#message{
+  position:absolute;
+  top:30%;
+  width: 80%;
+  text-align: center;color:rgb(224, 130, 130);background-color: rgb(250, 215, 227);
+  padding: 26px;
+}
+@media screen and (max-width: 960px){
+  .btnBox .btn {
+      width: 100px;
+  }
+  #message{
+    width: 96%;
+  }
+  #howto{
+    padding-top: 30px;
+  }
 }
 @media screen and (max-width: 375px) {
   #howto{
-    padding-top: 30px;
+    padding-top: 4px;
+    line-height:2.5rem;
   }
 }
 #cnt{
@@ -193,6 +209,7 @@
   font-size:1rem;
   color:#585151;
 }
+
 </style>
 </head>
 <!-- Google tag (gtag.js) -->
@@ -215,10 +232,11 @@
       <p>因数分解できたら<img src="./common/images/icon/go.png" class="icon -ss">をタップ</p> 
       <p>クマが邪魔してくるから急いで！！</p> 
       <hr>
-      <div><img src="./common/images/icon/beginner.png" class="icon"> ヒントの表示・非表示</div>
+      <div><img src="./common/images/icon/beginner.png" class="icon -s"> ヒントの表示・非表示</div>
       <div><img src="./common/images/icon/kuma.png " class="icon -s"> クマさんの表示・非表示</div>
-      <div><img src="./common/images/icon/pause.png" class="icon -ss"> 一時停止</div>
+      <div><img src="./common/images/icon/pause.png" class="icon -ss"> 一時停止 </div>
       <div><img src="./common/images/icon/close.png" class="icon -ss"> 終了</div>
+      <div class="btn" style="margin-top: 10px;">スタート</div>
     </div>
     <!-- OK -->
     <div class="outer">
@@ -232,9 +250,9 @@
       <div id="timer" class="timer">0.00</div>
       <div id="cnt"><span id="current_cnt">1</span> / <span id="all_cnt">5</span></div>
       <div id="help"></div>
-      <div><img src="./common/images/icon/beginner.png" class="icon" id="display_help"></div>
+      <div><img src="./common/images/icon/beginner.png" class="icon -s" id="display_help"></div>
       <div><img src="./common/images/icon/kuma.png" class="icon -s" id="display_animal"></div>
-      <div><img src="./common/images/icon/pause.png" class="icon -ss" id="js_pause"></div>
+      <div><img src="./common/images/icon/pause.png" class="icon -ss" id="js_pause" style="margin-right:4px;"></div>
       <div><img src="./common/images/icon/close.png" class="icon -ss" onclick="init()"></div>
     </div>
     <!-- レベル -->
@@ -251,7 +269,7 @@
     <div class="outer"><div id="answer"></div></div>
     <div class="outer"><div id="prime" class="ruby3"></div></div>
     <div class="outer">
-      <p id="message" style="text-align: center;">Levelを選んでスタート！</p>
+      <p id="message">Levelを選んでスタート！</p>
       <img src="./common/images/icon/kuma.png" id="animal" class="animal">
     </div>
   </main>

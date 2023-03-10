@@ -63,7 +63,7 @@
   #question {
     height: 70px;
     font-size: 3rem;
-    margin:30px auto;
+    margin:24px auto;
   }
   #tab_level{
     margin: 0 auto ;
@@ -193,6 +193,13 @@
   font-size:1rem;
   color:#585151;
 }
+#message{
+  position:absolute;
+  top:30%;
+  width: 100%;
+  text-align: center;color:rgb(224, 130, 130);background-color: rgb(250, 215, 227);
+  padding: 26px;
+}
 </style>
 </head>
 <!-- Google tag (gtag.js) -->
@@ -205,7 +212,7 @@
 </script>
 <body>
 <div class="container">
-  <header></header>
+  <!-- <header></header> -->
   <main>
     <!-- HOWTO -->
     <div id="howto">
@@ -231,7 +238,6 @@
     <div class="help_box">
       <div id="timer" class="timer">0.00</div>
       <div id="cnt"><span id="current_cnt">1</span> / <span id="all_cnt">5</span></div>
-      <!-- <div id="score">0点</div> -->
       <div id="help"></div>
       <div><img src="./common/images/icon/beginner.png" class="icon" id="display_help"></div>
       <div><img src="./common/images/icon/kuma.png" class="icon -s" id="display_animal"></div>
@@ -252,7 +258,7 @@
     <div class="outer"><div id="answer"></div></div>
     <div class="outer"><div id="prime" class="ruby3"></div></div>
     <div class="outer">
-      <p id="message" style="text-align: center;">Levelを選んでスタート！</p>
+      <p id="message">Levelを選んでスタート！</p>
       <img src="./common/images/icon/kuma.png" id="animal" class="animal">
     </div>
   </main>
@@ -301,7 +307,7 @@ const prime_choices = [2, 3, 5, 7, 11, 13, 17, 19, 23];
 let question = '';
 let primes = [];
 let answer = [];
-let level='';
+let level = '';
 let min, max;
 let levels = {1:{'min':50,'max':100}, 
           2:{'min':101,'max':500},
@@ -313,13 +319,16 @@ let interval_id;
 let animal = $('#animal');
 let animal_offset = animal.offset();
 let current_cnt=1;
+let miss = 0;
+let history = [];
 const ALL_CNT = 5;
-let wrong_cng = 0;
-let score = 0;
 
 //-------------------------
 // レベル タブ
 $('#tab_level div').click(function(){
+  if($('#js_pause').attr('src').indexOf('gray')!=-1){
+    return;
+  }
   $('.status').removeClass('-green');
   $(this).addClass('-green');
   level = $(this).data('level');
@@ -329,8 +338,8 @@ $('#tab_level div').click(function(){
   start();
   setTimer();
   runTimer();
-  wrong_cng=1;
-  current_cnt=1;
+  miss = 0;
+  current_cnt = 1;
   $('#current_cnt').html(current_cnt);
 })
 
@@ -383,7 +392,7 @@ function prepare(){
 //-------------------------
 // init
 function init(){
-  wrong_cng=0;
+  miss = 0;
   current_cnt=1;
   stopTimer();
   $($('#timer').html('0.00'));
@@ -454,7 +463,7 @@ function generateNumber(){
 // テンキー
 //-------------------
 $('.tenkey_box li').click(function(){
-    if(question==''){
+    if(question=='' || !is_running){
       return;
     }
     let n = $(this).html();
@@ -464,8 +473,8 @@ $('.tenkey_box li').click(function(){
     // ヘルプ表示時、間違った数字をタップしたらガクブル
     if(!in_array(parseInt(n), primes)){
       Gakuburu($('#question'), 300);
-      wrong_cng++;
-      console.log('wrong_cng', wrong_cng);
+      miss++;
+      console.log('miss', miss);
     } else {
       // 正解だったらクマを少し下げる
       let off = animal.offset();
@@ -497,11 +506,30 @@ $('#js_ok').click(function(){
   } else {
     // 不正解!!
     Gakuburu($('#question'));
+    miss++;
   }
 })
 /*-----------------------
  end
 -----------------------*/
+function end(){
+  $('#howto').removeClass('hide');
+  $('#howto').css('display', 'block');
+  let score_time = ((Date.now() - startTime) / 1000).toFixed(2);
+  let str = "<p>Finish!!</p>"
+    + "<p>レベル： " + level + "</p>"
+    + "<p>タイム： " + score_time + "</p>"
+    + "<p>間違えた回数： " + miss +"回</p>"
+    +"<div class='btnBox'><div class='btn js_retry'>もう一回</div>"
+    +"<div class='btn js_quit'>終了</div></div>";
+  // 履歴
+  history.push((history.length+1)+'. '+'level'+level+" <b style='font-size:1.5rem;'> " + score_time + " </b> (miss " + miss + ")");
+  if(history.length>1){
+    str = str+'<hr>'+history.join('<br>');
+  }
+  $('#howto').html(str);
+  // 履歴を保存
+}
 // 終了
 $(document).on('click', '.js_quit', function(){
   location.href=location.href;
@@ -512,17 +540,6 @@ $(document).on('click', '.js_retry', function(){
   setTimer();
   runTimer();
 })
-function end(){
-  $('#howto').removeClass('hide');
-  $('#howto').css('display', 'block');
-  let str = "<p>Finish!!</p>"
-    + "<p>レベル： " + level + "</p>"
-    + "<p>タイム： " + ((Date.now() - startTime) / 1000).toFixed(2) + "</p>"
-    + "<p>間違えた回数： " + wrong_cng +"回</p>"
-    +"<div class='btnBox'><div class='btn js_retry'>もう一回</div>"
-    +"<div class='btn js_quit'>終了</div></div>";
-  $('#howto').html(str);
-}
 /*-----------------------
  clear
 -----------------------*/
