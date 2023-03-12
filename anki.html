@@ -149,6 +149,13 @@
         <div class="status" data-subject="3">理科</div>
         <div class="status -green" data-subject="4">社会</div>
       </div>
+      <div class="btnBox" id="tab_subject_sub" style="margin-top: 5px;">
+        <div class="status -green" data-subject_sub="1">地理日本</div>
+        <div class="status" data-subject_sub="2">地理世界</div>
+        <div class="status" data-subject_sub="3">歴史</div>
+        <div class="status" data-subject_sub="4">現代</div>
+        <div class="status" data-subject_sub="5">公民・政治</div>
+      </div>
         <!-- 質問 -->
         <div id="question"></div>
          <!-- 画像 -->
@@ -211,6 +218,7 @@
       let A = $('#answer');
       let id = $('#id');
       let subject = 4;
+      let subject_sub = '';
       let order_type = 1;
       let status_arr = {0:'未', 1:'OK',2:'REPEAT',3:'NG'}
 
@@ -241,7 +249,8 @@
       getAllQuestions();
 
       function getAllQuestions(){
-        $.get(url+'?action=getAllQuestions&subject='+subject+'&order_type='+order_type, function(data){
+        let url2 = url+'?action=getAllQuestions&subject='+subject+'&order_type='+order_type+'&subject_sub='+subject_sub;
+        $.get(url2, function(data){
           questions = data
           // 設問セット
           set();
@@ -251,7 +260,15 @@
       // 設問セット
       function set(){
         // 質問
+       console.log( questions);
+       if(typeof  questions[no]=='undefined'){
+          Q.html('');
+          A.html('');
+          id.html('');
+          return;
+        }
         let question = questions[no]['question'];
+        
         // 添付ファイル
         let file='';
         if(typeof questions[no]['file1']!='undefined'){
@@ -301,14 +318,36 @@
         })
       })
       //--------------------------
-      // 科目変更
-      $('#tab_subject div').click(function(){
-        subject = $(this).data('subject');
-        // 設問再取得
-        getAllQuestions();
-        $(this).parent().find('div').removeClass('-green');
-        $(this).addClass('-green');
+    // 科目変更  
+    $('#tab_subject div').click(function(){
+      $(this).parent().find('div').removeClass('-green');
+      $(this).addClass('-green');
+      subject = $(this).data('subject');
+      getAllQuestions();
+      // 科目詳細書き換え
+      $.get(url+'?action=getSubjectSubTab&subject='+subject, function(data){
+        $('#tab_subject_sub').html(data);
       })
+    })
+    //--------------------------
+    // 科目詳細変更  
+    $(document).on('click', '#tab_subject_sub div', function(){
+      $(this).parent().find('div').removeClass('-green');
+      $(this).addClass('-green');
+      subject_sub = $(this).data('subject_sub');
+      getAllQuestions();
+    })
+
+
+      // //--------------------------
+      // // 科目変更
+      // $('#tab_subject div').click(function(){
+      //   subject = $(this).data('subject');
+      //   // 設問再取得
+      //   getAllQuestions();
+      //   $(this).parent().find('div').removeClass('-green');
+      //   $(this).addClass('-green');
+      // })
       //--------------------------
       // 並び変更
        $('#tab_order_type div').click(function(){

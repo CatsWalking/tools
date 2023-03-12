@@ -84,7 +84,7 @@
     let subject = 4;
     let subject_sub = '';
     let order_type = 2;
-    let status_arr = {0:'未', 1:'OK',2:'REPEAT',3:'NG'}
+    let status_arr = {0:'未', 1:'OK',2:'REPEAT',3:'NG',4:'重要'}
 
 
     getAllQuestions();
@@ -105,7 +105,7 @@
             +"<td>"+questions[no]['question'].substr(0,30)+"</td>"
             +"<td>"+questions[no]['cnt']+"/"+questions[no]['status']+"</td>"
             +"<td class='txtCenter'><a href='admin_anki_detail.html?id="+questions[no]['id']+"'>"
-              +"<span class='icon -edit'></span></a></td>"
+              +"<span class='icon -ss -edit'></span></a></td>"
             +"</tr>";
           $('#anki_table tbody').append(line);
         }

@@ -131,6 +131,7 @@
       const cols = ['id', 'question', 'answer', 'subject', 'subject_sub', 'subject_sub_sub'];
       id = getParam2('id');
       if(id!=''){
+        console.log(url+'?action=getAnki&id='+id);
         $.get(url+'?action=getAnki&id='+id, function(data){
           $('[name=id]').val(data.id);
           $('[name=question]').val(data.question);
