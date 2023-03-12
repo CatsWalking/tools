@@ -40,8 +40,8 @@
 }
 /* クマさん */
 #animal{
-  margin: 50px auto;
-  width: 50px;
+  margin: 25px auto;
+  width: 25px;
 }
 #question{
   height: 120px;
@@ -183,6 +183,7 @@
   width: 80%;
   text-align: center;color:rgb(224, 130, 130);background-color: rgb(250, 215, 227);
   padding: 26px;
+  font-size:2.6rem;
 }
 @media screen and (max-width: 960px){
   .btnBox .btn {
@@ -253,7 +254,7 @@
       <div><img src="./common/images/icon/beginner.png" class="icon -ss" id="display_help"></div>
       <div><img src="./common/images/icon/kuma.png" class="icon -s" id="display_animal"></div>
       <div><img src="./common/images/icon/pause.png" class="icon -ss" id="js_pause" style="margin-right:4px;"></div>
-      <div><img src="./common/images/icon/close.png" class="icon -ss" onclick="init()"></div>
+      <div><img src="./common/images/icon/close.png" class="icon -ss js_quit"></div>
     </div>
     <!-- レベル -->
     <div class="btnBox" id="tab_level">
@@ -389,7 +390,7 @@ function prepare(){
   is_running = false;
   clearInterval(interval_id);
   animal.removeClass('animal_purun');
-  animal.css('width', '50px');
+  animal.css('width', '25px');
   animal.css({ "width": "", "height": "" });
   animal.offset(animal_offset);
   question='';
