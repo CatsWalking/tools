@@ -343,7 +343,7 @@ let timer = new Timer($('#timer'));
 // レベル タブ
 //-------------------------
 $('#tab_level div').click(function(){
-  if($('#js_pause').attr('src').indexOf('off')!=-1){
+  if(question!=''){
     return;
   }
   $('.status').removeClass('-green');
@@ -371,7 +371,7 @@ $('.js_start').click(function(){
 //-------------------------
 // 一時停止
 $('#js_pause').click(function(){
-  if($('#timer').html()=='0.00'){
+  if($('#timer').html()=='0.00' || question==''){
     return;
   }
   if(timer.isRunning){
@@ -385,6 +385,17 @@ $('#js_pause').click(function(){
     animal.addClass('animal_purun');
     enLargeAnimal();
   }
+  toggleImg($('#js_pause'), ICON_DIR+'pause.png');
+})
+// クマさんtoggle
+$('#display_animal').click(function(){
+  animal.toggle();
+  toggleImg($('#display_animal'), ICON_DIR+'kuma.png');
+})
+// ヘルプtoggle
+$('#display_help').click(function(){
+  $('#help').toggle();
+  toggleImg($('#display_help'), ICON_DIR+'beginner.png');
 })
 //-------------------------
 // 準備
@@ -593,7 +604,6 @@ function prime(val){
 // help
 //-------------------
 function setHelp(){
-  console.log(timer.isRunning);
   let help=question;
   for(let i=0; i<answer.length; i++){
     help = help/answer[i];
@@ -606,19 +616,9 @@ function setHelp(){
     help =help.toFixed(2);
   }
   $('#help').html(help);
+  
 }
 
-toggleImg($('#display_animal'), ICON_DIR+'kuma.png');
-toggleImg($('#display_help'), ICON_DIR+'beginner.png');
-toggleImg($('#js_pause'), ICON_DIR+'pause.png');
-// クマさんtoggle
-$('#display_animal').click(function(){
-  animal.toggle();
-})
-// ヘルプtoggle
-$('#display_help').click(function(){
-  $('#help').toggle();
-})
 // オブジェクトを中央に
 jQuery.prototype.offsetCenter=function() {
   var left=this.offset().left;

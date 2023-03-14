@@ -484,7 +484,6 @@ class Timer {
  * _off のイメージを用意しておく
  */
 function toggleImg(elem, src, notice_print=true){
-  elem.click(function(){
     let src_off = src.replace('.png', '_off.png');
     if(elem.attr('src')==src){
       elem.attr('src', src_off);
@@ -496,7 +495,7 @@ function toggleImg(elem, src, notice_print=true){
       if(notice_print){
         elem.parent().children('div').html('オン');
       } 
-    }
-  })
+  }
+
   
 }
