@@ -231,15 +231,22 @@ body {
     <div id="howto">
       <p> 素因数分解する単純なゲームです。</p> 
       <p>レベルが１〜５まであるから好きなの選んでね</p> 
-      <p>レベルを選んだらスタート！</p> 
       <p>因数分解できたら<img src="./common/images/icon/go.png" class="icon -ss">をタップ</p> 
       <p>クマが邪魔してくるから急いで！！</p> 
+      <!-- レベル -->
+      <p>レベルを選んでスタート！</p> 
+      <div class="btn_box js_start tab_level">
+        <div class="status" data-level="1">1</div>
+        <div class="status" data-level="2">2</div>
+        <div class="status" data-level="3">3</div>
+        <div class="status" data-level="4">4</div>
+        <div class="status" data-level="5">5</div>
+      </div>
       <hr>
       <div><img src="./common/images/icon/beginner.png" class="icon -s"> ヒントの表示・非表示</div>
       <div><img src="./common/images/icon/kuma.png " class="icon -s"> クマさんの表示・非表示</div>
       <div><img src="./common/images/icon/pause.png" class="icon -ss"> 一時停止 </div>
       <div><img src="./common/images/icon/close.png" class="icon -ss"> 終了</div>
-      <div class="btn js_start" style="margin-top: 10px;">スタート</div>
     </div>
     <!-- OK -->
     <div class="outer">
@@ -259,13 +266,13 @@ body {
       <div><img src="./common/images/icon/close.png" class="icon -ss js_quit"></div>
     </div>
     <!-- レベル -->
-    <div class="btn_box" id="tab_level">
+    <div class="btn_box">
       <div style="display: inline-block">Level</div>
-      <div class="status" data-level="1">1</div>
-      <div class="status" data-level="2">2</div>
-      <div class="status" data-level="3">3</div>
-      <div class="status" data-level="4">4</div>
-      <div class="status" data-level="5">5</div>
+      <div class="status status_1">1</div>
+      <div class="status status_2">2</div>
+      <div class="status status_3">3</div>
+      <div class="status status_4">4</div>
+      <div class="status status_5">5</div>
     </div>
     <!-- 設問 -->
     <div class="outer"><div id="question"></div></div>
@@ -310,6 +317,7 @@ body {
 <script src="./common/js/jquery-3.6.3.min.js"></script>
 <script src="./common/js/jquery-ui.js"></script>
 <script src="./common/js/common.js?test"></script>
+<script src="./common/js/modal.js?test"></script>
 <script src="./common/js/tools.js?test"></script>
 <script>
 /*----------------------------
@@ -342,23 +350,12 @@ let timer = new Timer($('#timer'));
 //-------------------------
 // レベル タブ
 //-------------------------
-$('#tab_level div').click(function(){
-  if(question!=''){
-    return;
-  }
-  $('.status').removeClass('-green');
-  $(this).addClass('-green');
+$('.tab_level div').click(function(){
   level = $(this).data('level');
   min = levels[level]['min'];
   max = levels[level]['max'];
-  // タイマースタート
-  timer.runTimer();
-  // 問を作成する
-  start();
-
-  miss = 0;
-  current_cnt = 1;
-  $('#current_cnt').html(current_cnt);
+  // $('[class^=status]').removeClass('-green');
+  $('.status_'+level).addClass('-green');
 })
 
 //-------------------------
@@ -366,6 +363,13 @@ $('#tab_level div').click(function(){
 $('.js_start').click(function(){
   $('#all_cnt').html(ALL_CNT);
   $('#howto').css('display', 'none');
+  miss = 0;
+  current_cnt = 1;
+  $('#current_cnt').html(current_cnt);
+  // タイマースタート
+  timer.runTimer();
+  // 問を作成する
+  start();
 })
 
 //-------------------------
@@ -397,6 +401,19 @@ $('#display_help').click(function(){
   $('#help').toggle();
   toggleImg($('#display_help'), ICON_DIR+'beginner.png');
 })
+// 終了
+$(document).on('click', '.js_quit', function(){
+  openConfirm('quit?', function(){
+    location.href=location.href;
+  })
+})
+// リトライ
+$(document).on('click', '.js_retry', function(){
+  $('#howto').css('display', 'none');
+  start();
+  timer.runTimer();
+})
+
 //-------------------------
 // 準備
 function prepare(){
@@ -567,16 +584,6 @@ function end(){
   $('#howto').html(str);
   timer.stopTimer();
 }
-// 終了
-$(document).on('click', '.js_quit', function(){
-  location.href=location.href;
-})
-// リトライ
-$(document).on('click', '.js_retry', function(){
-  $('#howto').css('display', 'none');
-  start();
-  timer.runTimer();
-})
 
 /*-----------------------
   素因数分解
