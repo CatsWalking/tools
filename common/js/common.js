@@ -459,26 +459,22 @@ class Timer {
     this.isRunning = true;
     this.elem.html(((Date.now() - this.startTime) / 1000).toFixed(2));
     this.timer_id = setTimeout(this.runTimer.bind(this), 12)
-    console.log('runTimer', this.isRunning);
   }
   // stop
   stopTimer(){
     this.isRunning = false;
     clearTimeout(this.timer_id);
-    console.log('runTimer', this.isRunning);
     this.timer_id = '';
   }
   // restart
   restartTimer(){
     this.isRunning = true;
     this.timer_id = setTimeout(this.runTimer.bind(this), 12);
-    console.log('restartTime', this.isRunning);
   }
   // pause
   pauseTimer(){
     this.isRunning = false;
     clearTimeout(this.timer_id);
-    console.log('clearTimeout', this.isRunning);
   }
 }
 
@@ -490,7 +486,6 @@ class Timer {
 function toggleImg(elem, src, notice_print=true){
   elem.click(function(){
     let src_off = src.replace('.png', '_off.png');
-    console.log(src, src_off);
     if(elem.attr('src')==src){
       elem.attr('src', src_off);
       if(notice_print){

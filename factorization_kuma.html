@@ -254,8 +254,8 @@ body {
       <div id="cnt"><span id="current_cnt">1</span> / <span id="all_cnt">5</span></div>
       <div id="help"></div>
       <div><img src="./common/images/icon/beginner.png" class="icon -ss" id="display_help"></div>
-      <div><img src="./common/images/icon/kuma.png" class="icon -s js_toggle_icon" id="display_animal"></div>
-      <div><img src="./common/images/icon/pause.png" class="icon -ss js_toggle_icon" id="js_pause" style="margin-right:4px;"></div>
+      <div><img src="./common/images/icon/kuma.png" class="icon -s" id="display_animal"></div>
+      <div><img src="./common/images/icon/pause.png" class="icon -ss" id="js_pause" style="margin-right:4px;"></div>
       <div><img src="./common/images/icon/close.png" class="icon -ss js_quit"></div>
     </div>
     <!-- レベル -->
@@ -328,14 +328,14 @@ let levels = {1:{'min':50,'max':100},
           3:{'min':501,'max':1000},
           4:{'min':1001,'max':2000},
           5:{'min':2001,'max':3000}};
-let is_running = false;
+// let is_running = false;
 let interval_id;
 let animal = $('#animal');
 let animal_offset = animal.offset();
 let current_cnt=1;
 let miss = 0;
 let history = [];
-const ALL_CNT = 2;
+const ALL_CNT = 5;
 // timer
 let timer = new Timer($('#timer'));
 
@@ -385,7 +385,6 @@ $('#js_pause').click(function(){
     animal.addClass('animal_purun');
     enLargeAnimal();
   }
-  toggleImg($(this), './common/images/icon/pause.png');
 })
 //-------------------------
 // 準備
@@ -499,6 +498,17 @@ $('.tenkey_box li').click(function(){
     }
 })
 /*-----------------------
+ clear
+-----------------------*/
+$('#js_clear').click(function(){
+  if(question=='' || !timer.isRunning){
+      return;
+    }
+    answer.pop();
+    setHelp();
+    $('#answer').html(answer.join(', '));
+})
+/*-----------------------
  判定！！OK
 -----------------------*/
 $('#js_ok').click(function(){
@@ -556,14 +566,7 @@ $(document).on('click', '.js_retry', function(){
   start();
   timer.runTimer();
 })
-/*-----------------------
- clear
------------------------*/
-$('#js_clear').click(function(){
-    answer.pop();
-    setHelp();
-    $('#answer').html(answer.join(', '));
-})
+
 /*-----------------------
   素因数分解
 -----------------------*/
@@ -590,6 +593,7 @@ function prime(val){
 // help
 //-------------------
 function setHelp(){
+  console.log(timer.isRunning);
   let help=question;
   for(let i=0; i<answer.length; i++){
     help = help/answer[i];
@@ -605,14 +609,14 @@ function setHelp(){
 }
 
 toggleImg($('#display_animal'), ICON_DIR+'kuma.png');
+toggleImg($('#display_help'), ICON_DIR+'beginner.png');
+toggleImg($('#js_pause'), ICON_DIR+'pause.png');
 // クマさんtoggle
 $('#display_animal').click(function(){
-  // toggleImg($(this), ICON_DIR+'kuma.png');
   animal.toggle();
 })
 // ヘルプtoggle
 $('#display_help').click(function(){
-  // toggleImg($(this), ICON_DIR+'beginner.png');
   $('#help').toggle();
 })
 // オブジェクトを中央に
