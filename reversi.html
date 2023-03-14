@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="./common/css/tools.css?te3dstd">
 <style>
 /* スコア */
-.score_box,#board,.btnBox{
+.score_box,#board,.btn_box{
   text-align: center;
   width: 322px; 
 }
@@ -39,7 +39,7 @@
 }
 /* PC */
 @media screen and (min-width: 960px) {
-  .score_box,#board,.btnBox{
+  .score_box,#board,.btn_box{
     width: 420px;
   }
   #board {
@@ -95,12 +95,12 @@ img {
       <div id="tab_game"></div>
       <!-- スコア -->
       <div class="score_box">
-        <div id="black_cat"><img src='./common/images/cat_black.png' class='score_cat'></div>
+        <div id="black_cat"><img src='./common/images/icon/cat_black.png' class='score_cat'></div>
         <div id='score_black' class='score'>2</div>
-        <div id="white_cat"><img src='./common/images/cat_white.png' class='score_cat'></div>
+        <div id="white_cat"><img src='./common/images/icon/cat_white.png' class='score_cat'></div>
         <div id='score_white' class='score'>2</div>
         <div style="width: 84px;"></div>
-        <img src='./common/images/icon/icon_caution.svg' id="js_guide" class="icon">
+        <img src='./common/images/icon/caution.svg' id="js_guide" class="icon">
         <img src='./common/images/icon/sound_off.png' class="icon js_sound">
       </div>
       <!-- ボード -->
@@ -108,7 +108,7 @@ img {
   </main>
     <!-- footer -->
     <footer>
-      <div class="btnBox">
+      <div class="btn_box">
           <div class="btn" id="js_retry">もういっかい</div>
       </div>
   </footer>
@@ -131,8 +131,8 @@ img {
     let BLACK = 1;
     let WHITE = 2;
     let STONE = [];
-    STONE[BLACK] = 'url("./common/images/cat_black.png")';
-    STONE[WHITE] = 'url("./common/images/cat_white.png")';
+    STONE[BLACK] = 'url("./common/images/icon/cat_black.png")';
+    STONE[WHITE] = 'url("./common/images/icon/cat_white.png")';
     let STONE_STR = [];
     STONE_STR[BLACK] = 'くろ';
     STONE_STR[WHITE] = 'しろ';
@@ -183,7 +183,7 @@ img {
         for (let i in changeable_field) {
             for (let j in changeable_field[i]) {
                 // 猫がなく
-                if($('.js_sound').attr('src').indexOf('_on')>-1){
+                if($('.js_sound').attr('src').indexOf('_off')==-1){
                   if (player === BLACK) {
                     $("#sound_black").get(0).play();
                   } else {

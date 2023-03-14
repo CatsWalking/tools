@@ -55,7 +55,7 @@
 }
 .card_back {
     background: #d5eaf9;
-    background-image: url('./common/images/cat_black.png');
+    background-image: url('./common/images/icon/cat_black.png');
     background-repeat: no-repeat;
     background-size: 60px;
     background-position: center
@@ -105,7 +105,7 @@
 
     <!-- footer -->
     <footer>
-        <div class="btnBox">
+        <div class="btn_box">
             <div class="btn" id="js_retry">もういっかい</div>
         </div>
     </footer>
@@ -126,6 +126,8 @@ let flipCount = 0;
 let firstCard = null;
 let secondCard = null;
 let correctCount = 0;
+// タイマー
+let timer = new Timer($('#timer'));
 
 /*
 * init
@@ -151,16 +153,15 @@ function createCard(num) {
     let inner;
     inner = '<div class="card_front">' + num + '</div><div class="card_back"></div>';
     card = document.createElement('div');
-    // card = document.createElement('div');
     card.innerHTML = inner;
     card.className = 'card';
     card.addEventListener('click', function () {
         flipCard(this);
-        if (startTime !== null) {
+        if (timer.startTime !== null) {
             return;
         }
-        startTime = Date.now();
-        runTimer();
+        timer.startTime = Date.now();
+        timer.runTimer();
     });
     container = document.createElement('div');
     container.className = 'card-container';
@@ -200,7 +201,8 @@ function check() {
         correctCount++;
         if (correctCount === pairs) {
             // clear!!
-            clearTimeout(timerid);
+            timer.stopTimer();
+            // clearTimeout(timer_id);
         }
     }
     secondCard.removeEventListener('transitionend', check);

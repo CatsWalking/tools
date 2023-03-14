@@ -26,16 +26,212 @@
 </script>
 <body>
   <div class="container">
-    <header></header>
+    <!-- <header></header> -->
     <main>
       <!-- タブ -->
-      <div class="mb20" id="tab_edu"></div>
-      comming soon...
+      <!-- <div class="mb20" id="tab_edu"></div> -->
+      <div id="control_box">
+        <table style="margin: 0 auto;border:1px solid #eee;">
+            <tr id="count_area">
+                <th width="30">回数</th>
+                <td class="btn active">3</td>
+                <td class="btn">5</td>
+                <td class="btn">8</td>
+                <td class="btn">10</td>
+            </tr>
+            <tr id="level_area">
+                <th>レベル</th>
+                <td class="btn active" data-level="0">★</td>
+                <td class="btn " data-level="1">★★</td>
+                <td class="btn " data-level="2">★★★</td>
+                <td class="btn" data-level="3" style="font-size: 24px">★</td>
+            </tr>
+            <tr id="speed_area">
+                <th>スピード</th>
+                <td class="btn active" data-speed="0">車</td>
+                <td class="btn" data-speed="1">新幹線</td>
+                <td class="btn" data-speed="2">飛行機</td>
+                <td class="btn" data-speed="3">りん</td>
+            </tr>
+        </table>
+        <div id="click_area">
+          <!-- 数字エリア -->
+          <div id="number_board"></div>
+          <!-- こたえ -->
+          <div id="answer"></div>
+          <div id="question"></div>
+      </div>
+    </div>
     </main>
 </div><!-- container -->
 <script src="./common/js/jquery-3.6.3.min.js"></script>
 <script src="./common/js/jquery-ui.js"></script>
 <script src="./common/js/common.js"></script>
 <script src="./common/js/tools.js?te5sat"></script>
+<script>
+  'use strict'
+  $(function(){
+    const level_min = [10, 20, 100, 200];
+            const level_max = [50, 100, 200, 500];
+            const speed_sec = [1300, 1000, 800, 500];
+            let number_board = $('#number_board');
+            let rnd;
+            let answer = 0;
+            let count = 3, level = 0, speed = 0;
+            let counter, question = '';
+            let rnd_arr = [];
+            let flg = false;
+
+            // // --------------------------------------------
+            // // 音声認識
+            // // --------------------------------------------
+            // let word;
+            // let rec = new webkitSpeechRecognition();
+            // rec.rang = 'ja-JP';
+            // // start
+            // rec.start();
+            // // result
+            // rec.onresult = (e) => {
+            //     console.log(e);
+            //     if (e.results[0].isFinal == true) {
+            //         // 音声認識
+            //         word = e.results[0][0].transcript;
+            //         if (word == 'スタート') {
+            //             // 設問セット
+            //             console.log('start');
+            //             setRnd();
+            //         } else if (word == answer) {
+            //             // 正解！！
+            //             openNotice('<span class="correct">'+word + '<br>Correct!!!!!</span>');
+            //             sleep(3);
+            //             flg = false;
+            //             setRnd();
+            //         }
+            //     }
+            // };
+            // //---------------------------
+            // // 続けて音声認識
+            // rec.onend = () => {
+            //     console.log('restart');
+            //     rec.start();
+            // };
+
+            /**---------------------------------------------
+             * スタート
+             */
+            $('#click_area, .btn_start2').click(function (e) {
+                // answerエリアクリックは無効
+                if ($(e.target).closest('#answer').length == 0 && flg == false) {
+                    if (answer > 0 && $('#answer').html() == 'こたえ') {
+                        //$('#answer').html(answer);
+                        setAnswer();
+                    } else {
+                        setRnd();
+                    }
+                }
+            });
+
+            /**---------------------------------------------
+             * 数字セット
+             */
+            function setRnd() {
+                if (flg == true) return;
+                flg = true;
+                counter = 0;
+                answer = 0;
+                question = '';
+
+                $('#number_board, #answer, #question').html('');
+                // 指定の数分乱数を生成（かぶらないように）
+                rnd_arr = [];
+                while (Object.keys(rnd_arr).length < count) {
+                    rnd = rand(level_min[level], level_max[level]);
+                    // 存在しなかったら追加(level1&count=10は、数がかぶりすぎてスタックする)
+                    if (rnd_arr.indexOf(rnd) == -1 || (level == 0 && count > 5)) {
+                        rnd_arr.unshift(rnd);
+                    }
+                }
+
+                // 1問目は即表示
+                rnd = rnd_arr[counter];
+                answer += rnd;
+                number_board.html(rnd);
+                counter++;
+                question = rnd;
+
+                // 発言
+                // const uttr = new SpeechSynthesisUtterance(rnd);
+                // speechSynthesis.speak(uttr);
+
+                // 2問目以降
+                let timer_id = setInterval(function () {
+                    rnd = rnd_arr[counter];
+                    answer += rnd;
+                    number_board.html(rnd);
+                    //console.log(counter, rnd);
+                    counter++;
+                    question = question + ' + ' + rnd;
+                    // 発言
+                    // const uttr = new SpeechSynthesisUtterance(rnd);
+                    // speechSynthesis.speak(uttr);
+
+                    if (counter >= count) {
+                        flg = false;    // flg終了
+                        // 終了させる
+                        clearInterval(timer_id);
+                        // 8秒後に正解を表示
+                        setTimeout(function () {
+                            setAnswer();
+                        }, 8000);
+                        $('#answer').html('こたえ');
+                    }
+                }, speed_sec[speed]);
+            }
+
+            /**---------------------------------------------
+             * 正解回答表示
+             */
+            $('#answer').click(function () {
+                setAnswer();
+            });
+
+            function setAnswer() {
+                if (flg == false && $('#answer').html() == 'こたえ') {
+                    $('#answer').html(answer);
+                    if (count == 10) {
+                        $('#question').html((question + ' = ' + answer).replace(/\s/g, ''));
+                    } else {
+                        $('#question').html(question + ' = ' + answer);
+                    }
+                }
+            }
+
+            /**---------------------------------------------
+             * control box set
+             */
+            // 回数
+            $('#count_area td').click(function () {
+                count = parseInt($(this).html());
+                setActive($(this));
+            });
+            // レベル
+            $('#level_area td').click(function () {
+                level = parseInt($(this).data('level'));
+                setActive($(this));
+            });
+            // スピード
+            $('#speed_area td').click(function () {
+                speed = parseInt($(this).data('speed'));
+                setActive($(this));
+            });
+
+            // control アクティブ制御
+            function setActive(elem) {
+                elem.parent().find('td').removeClass('active');
+                elem.addClass('active');
+                clearInterval(timer_id);
+            }
+  })
+</script>
 </body>
 </html> 

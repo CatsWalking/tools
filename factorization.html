@@ -142,7 +142,7 @@
 .btn.-s{
   padding:2px;
 }
-.btnBox.btn{
+.btn_box.btn{
   min-width: 100px!important;
 }
 
@@ -185,7 +185,7 @@
   padding: 26px;
 }
 @media screen and (max-width: 960px){
-  .btnBox .btn {
+  .btn_box .btn {
       width: 100px;
   }
   #message{
@@ -256,7 +256,7 @@
       <div><img src="./common/images/icon/close.png" class="icon -ss" onclick="init()"></div>
     </div>
     <!-- レベル -->
-    <div class="btnBox" id="tab_level">
+    <div class="btn_box" id="tab_level">
       <div style="display: inline-block">Level</div>
       <div class="status" data-level="1">1</div>
       <div class="status" data-level="2">2</div>
@@ -531,7 +531,7 @@ function end(){
     + "<p>レベル： " + level + "</p>"
     + "<p>タイム： " + score_time + "</p>"
     + "<p>間違えた回数： " + miss +"回</p>"
-    +"<div class='btnBox'><div class='btn js_retry'>もう一回</div>"
+    +"<div class='btn_box'><div class='btn js_retry'>もう一回</div>"
     +"<div class='btn js_quit'>終了</div></div>";
   // 履歴
   history.push((history.length+1)+'. '+'level'+level+" <b style='font-size:1.5rem;'> " + score_time + " </b> (miss " + miss + ")");

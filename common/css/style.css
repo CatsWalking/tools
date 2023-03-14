@@ -354,26 +354,26 @@ table {
   margin-top: 20px;
 }
 
-.btnBox {
+.btn_box {
   display: flex;
   /* flex-flow: row wrap; */
   margin-top: 20px;
 }
 
-.btnBox .btn+.btn {
+.btn_box .btn+.btn {
   margin-left: 10px;
 }
 
 @media screen and (max-width: 960px) {
-  .btnBox {
+  .btn_box {
     text-align: center;
   }
 
-  .btnBox .btn {
+  .btn_box .btn {
     width: 160px;
   }
 
-  .btnBox .btn+.btn {
+  .btn_box .btn+.btn {
     margin-top: 10px;
   }
 }
@@ -597,6 +597,13 @@ table.-tableHover tr:hover td {
 }
 
 /* icon */
+.icon_box {
+  width: 80px;
+  color: rgb(220, 80, 80);
+  text-align: center;
+  font-size: 0.7rem !important;
+}
+
 .icon {
   vertical-align: middle;
   display: inline-block;

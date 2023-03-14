@@ -80,6 +80,8 @@
         line-height: 24px!important;
     }
 }
+
+
 </style>
 </head>
 <!-- Google tag (gtag.js) -->
@@ -117,10 +119,12 @@
     </main>
     <footer>
         <div class="btnBox mb20">
-            <img class="icon js_sound" src="./common/images/icon/sound_on.png">
+            <div class="icon_box" style="margin: 0 auto;">
+                <img class="icon -ss js_toggle_icon" src="./common/images/icon/sound.png">
+                <div>オン</div>
+            </div>
             <div id="js_reset2" class="btn -reset">リセット</div>
             <div id="js_start" class="btn -start">スタート/ストップ</div>
-            <div id="sound_status" class="btnBox txtS u-txtLeft" style="width:340px;text-align: left;">音が鳴ります</div>
         </div>
     </footer>
 
@@ -144,7 +148,9 @@ $(function(){
     let m = 0, s = 0;
     let timer_id;
     const explosion = document.querySelector('#sound_explosion');
-
+   
+    // アイコントグル
+toggleImg($('.js_toggle_icon'), ICON_DIR+'sound.png');
     //-------------------------------------------------------------
     // clockクリック
     $('#clock span').click(function(){
@@ -239,11 +245,11 @@ $(function(){
         if (s <= 0 && m <= 0) {
             clearInterval(timer_id);
             // explosion
-            if($('.js_sound').attr('src').indexOf('_on')>-1){
+            if($('.js_sound').attr('src').indexOf('_off')==-1){
                 explosion.play();
                 window.setTimeout(function(){
                     init();
-                }, 6500);
+                }, 7000);
             }
             // explosion!!
             $('#js_explosion').css('display', 'block');

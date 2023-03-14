@@ -66,7 +66,7 @@ footer {
   margin: 0 auto;
 }
 
-.btnBox {
+.btn_box {
   width: 100%;
   text-align: center;
   display: block;
@@ -79,7 +79,7 @@ footer {
   margin: 10px auto;
 }
 
-.btnBox .btn {
+.btn_box .btn {
   text-align: center;
 }
 

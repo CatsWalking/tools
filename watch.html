@@ -14,11 +14,11 @@
     #clock {
         width: 300px;
         text-align: center;
-        height: 100px;
-        line-height: 100px;
+        height: 200px;
+        line-height: 200px;
         font-size: 4.6rem;
         border-radius: 10px;
-        background: #b49b93;
+        background: #e6f3f7;
         opacity: 0.6;
         margin: 40px auto;
         color: #3c4344;
@@ -28,12 +28,6 @@
         color: #3c4344;
         font-size: 2.8rem;
     }
-    .animal {
-        width: 60px;
-        padding-top: 15px;
-        margin: 0 auto;
-    }
-    
 </style>
 </head>
 <!-- Google tag (gtag.js) -->
@@ -56,14 +50,20 @@
               <span id="clock_m">00</span>:<span id="clock_s">00</span>.<span id="clock_ms">00</span>
           </div>
       </div>
+
+      <textarea name="" id="test" cols="30" rows="10"></textarea>
+<div class="btn" id="start">start</div>
+<div class="btn" id="stop">stop</div>
+
     </main>
+
 
     <footer>
         <div class="btnBox mb20">
-        <!-- トビネズミ -->
-        <img src="./common/images/animals_s/animal_komimi_tobinezumi.png" id="animal" class="animal animal_purun">
-        </div>
-        <div class="btnBox mb20">
+            <div class="icon_box" style="margin: 0 auto;">
+                <img src="./common/images/icon/microphone_off.png" class="icon -ss js_toggle_icon">
+                <div>オフ</div>
+            </div>
         <div id="js_reset2" class="btn -reset">リセット</div>
         <div id="js_start" class="btn -start">スタート/ストップ</div>
         </div>
@@ -74,16 +74,42 @@
 <script src="./common/js/jquery-ui.js"></script>
 <script src="./common/js/common.js"></script>
 <script src="./common/js/modal.js"></script>
-<script src="./common/js/tools.js?tesat"></script>
+<script src="./common/js/tools.js?tedsat"></script>
+<script src="./common/js/voice.js?tesdat"></script>
 <script>
 $(function(){
 'use strict';
+
+const recognition = new SpeechRecognition();
+
+// 設定.
+recognition.interimResults = true;
+recognition.lang = 'ja-JP';
+
+// 認識開始.
+recognition.start();
+
+// let element = $('#test');
+let element = document.getElementById('test');
+let voiceInput = new VoiceInput(element);
+// voiceInput.start();
+
+
+$('#start').click(function(){
+    voiceInput.start();
+})
+$('#stop').click(function(){
+    voiceInput.stop();
+})
 
 //-------------------------------------------------------------
 let m = 0, s = 0, ms = 0;
 let timer_id;
 let isRunning=false;
+
 //-------------------------------------------------------------
+// アイコントグル
+toggleImg($('.js_toggle_icon'), ICON_DIR+'microphone.png');
 
 //-------------------------------------------------------
 // start
@@ -93,13 +119,11 @@ $('#js_start').click(function(){
         isRunning = true;
         // timer
         timer_id = setInterval(countup, 10);
-        $('#animal').addClass('animal_purun');
     } else {
         // stop
         clearInterval(timer_id);
         $('#clock_inner').css('display', '');
         isRunning = false;
-        $('#animal').removeClass('animal_purun');
     }
 });
 
@@ -125,14 +149,12 @@ function countup() {
     $('#clock_s').html(zero_padding(s, 2));
     $('#clock_ms').html(zero_padding(ms, 2));
 }
-
 // init
 function init() {
     $('#clock_inner span').html('00');
     m = 0;
     s = 0;
     ms = 0;
-    $('#animal').removeClass('animal_purun');
     isRunning=false;
     clearInterval(timer_id);
 }

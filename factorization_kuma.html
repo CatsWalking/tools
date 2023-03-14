@@ -142,7 +142,7 @@ body {
 .btn.-s{
   padding:2px;
 }
-.btnBox.btn{
+.btn_box.btn{
   min-width: 100px!important;
 }
 
@@ -187,7 +187,7 @@ body {
   font-size:1.6rem;
 }
 @media screen and (min-width: 960px) {
-  .btnBox .btn {
+  .btn_box .btn {
       width: 100px;
   }
   #message{
@@ -239,12 +239,12 @@ body {
       <div><img src="./common/images/icon/kuma.png " class="icon -s"> クマさんの表示・非表示</div>
       <div><img src="./common/images/icon/pause.png" class="icon -ss"> 一時停止 </div>
       <div><img src="./common/images/icon/close.png" class="icon -ss"> 終了</div>
-      <div class="btn" style="margin-top: 10px;">スタート</div>
+      <div class="btn js_start" style="margin-top: 10px;">スタート</div>
     </div>
     <!-- OK -->
     <div class="outer">
       <div id="ok_sign">
-        <img src="./common/images/kuma_02.png" width="200">
+        <img src="./common/images/animals/kuma_02.png" width="200">
         <p>OK</p>
       </div>
     </div>
@@ -254,12 +254,12 @@ body {
       <div id="cnt"><span id="current_cnt">1</span> / <span id="all_cnt">5</span></div>
       <div id="help"></div>
       <div><img src="./common/images/icon/beginner.png" class="icon -ss" id="display_help"></div>
-      <div><img src="./common/images/icon/kuma.png" class="icon -s" id="display_animal"></div>
-      <div><img src="./common/images/icon/pause.png" class="icon -ss" id="js_pause" style="margin-right:4px;"></div>
+      <div><img src="./common/images/icon/kuma.png" class="icon -s js_toggle_icon" id="display_animal"></div>
+      <div><img src="./common/images/icon/pause.png" class="icon -ss js_toggle_icon" id="js_pause" style="margin-right:4px;"></div>
       <div><img src="./common/images/icon/close.png" class="icon -ss js_quit"></div>
     </div>
     <!-- レベル -->
-    <div class="btnBox" id="tab_level">
+    <div class="btn_box" id="tab_level">
       <div style="display: inline-block">Level</div>
       <div class="status" data-level="1">1</div>
       <div class="status" data-level="2">2</div>
@@ -335,12 +335,15 @@ let animal_offset = animal.offset();
 let current_cnt=1;
 let miss = 0;
 let history = [];
-const ALL_CNT = 5;
+const ALL_CNT = 2;
+// timer
+let timer = new Timer($('#timer'));
 
 //-------------------------
 // レベル タブ
+//-------------------------
 $('#tab_level div').click(function(){
-  if($('#js_pause').attr('src').indexOf('gray')!=-1){
+  if($('#js_pause').attr('src').indexOf('off')!=-1){
     return;
   }
   $('.status').removeClass('-green');
@@ -348,18 +351,19 @@ $('#tab_level div').click(function(){
   level = $(this).data('level');
   min = levels[level]['min'];
   max = levels[level]['max'];
+  // タイマースタート
+  timer.runTimer();
   // 問を作成する
   start();
-  setTimer();
-  runTimer();
+
   miss = 0;
   current_cnt = 1;
   $('#current_cnt').html(current_cnt);
 })
 
 //-------------------------
-// howto click
-$('#howto').click(function(){
+// スタート click
+$('.js_start').click(function(){
   $('#all_cnt').html(ALL_CNT);
   $('#howto').css('display', 'none');
 })
@@ -370,26 +374,23 @@ $('#js_pause').click(function(){
   if($('#timer').html()=='0.00'){
     return;
   }
-  let src =  './common/images/icon/pause.png';
-  if($(this).attr('src')==src){
+  if(timer.isRunning){
     // pause
-    pauseTimer();
-    clearInterval(interval_id);
+    timer.pauseTimer();
     animal.removeClass('animal_purun');
-    is_running = false;
+    clearInterval(interval_id);
   } else {
     // restart
-    restartTimer();
+    timer.restartTimer();
     animal.addClass('animal_purun');
     enLargeAnimal();
   }
-  toggleImg($(this), src);
+  toggleImg($(this), './common/images/icon/pause.png');
 })
 //-------------------------
 // 準備
 function prepare(){
   // クマさんを元に
-  is_running = false;
   clearInterval(interval_id);
   animal.removeClass('animal_purun');
   animal.css('width', '25px');
@@ -408,7 +409,7 @@ function prepare(){
 function init(){
   miss = 0;
   current_cnt=1;
-  stopTimer();
+  timer.stopTimer();
   $($('#timer').html('0.00'));
   prepare();
   $('#current_cnt').html(current_cnt);
@@ -421,16 +422,17 @@ function start(){
   if(level==''){
     return;
   }
-  $('#message').remove();
+  // 問を生成
   generateNumber();
+  // クマさんを少しずつ大きくする
+  enLargeAnimal();
+  // ぷるんぷるん
   animal.addClass('animal_purun');
-    // クマさんを少しずつ大きくする
-    enLargeAnimal();
+  $('#message').remove();
 }
 function enLargeAnimal(){
  // クマさんを少しずつ大きくする
- if(!is_running){
-      is_running = true;
+ if(timer.isRunning){
       interval_id = setInterval(function(){
         let w = animal.width();
         if(w<250){
@@ -443,6 +445,7 @@ function enLargeAnimal(){
 }
 //-------------------------
 // 問を作成する
+//-------------------------
 function generateNumber(){
   for(let i=0; i<30; i++){
     // 乱数取得
@@ -477,7 +480,7 @@ function generateNumber(){
 // テンキー
 //-------------------
 $('.tenkey_box li').click(function(){
-    if(question=='' || !is_running){
+    if(question=='' || !timer.isRunning){
       return;
     }
     let n = $(this).html();
@@ -488,7 +491,7 @@ $('.tenkey_box li').click(function(){
     if(!in_array(parseInt(n), primes)){
       Gakuburu($('#question'), 300);
       miss++;
-      console.log('miss', miss);
+      // console.log('miss', miss);
     } else {
       // 正解だったらクマを少し下げる
       let off = animal.offset();
@@ -501,12 +504,6 @@ $('.tenkey_box li').click(function(){
 $('#js_ok').click(function(){
   if(answer.length>0 && JSON.stringify(primes.sort()) === JSON.stringify(answer.sort())){
     // 正解！！
-    // 0.7秒後に次の問題へ
-    $('#ok_sign').addClass('fadeUp');
-    $('#ok_sign').css('display', 'block');
-    setTimeout(() => {
-      start();
-    }, "700");
     $('#current_cnt').html(current_cnt);
     if(parseInt(current_cnt)==parseInt(ALL_CNT)){
       // 10問完了
@@ -514,6 +511,12 @@ $('#js_ok').click(function(){
       init();
       return;
     }
+    // OKくまさんを表示して、0.7秒後に次の問題へ
+    $('#ok_sign').addClass('fadeUp');
+    $('#ok_sign').css('display', 'block');
+    setTimeout(() => {
+      start();
+    }, "700");
     // カウントアップ
     current_cnt +=1;
     $('#current_cnt').html(current_cnt);
@@ -527,22 +530,21 @@ $('#js_ok').click(function(){
  end
 -----------------------*/
 function end(){
-  $('#howto').removeClass('hide');
   $('#howto').css('display', 'block');
-  let score_time = ((Date.now() - startTime) / 1000).toFixed(2);
+  let score_time = ((Date.now() - timer.startTime) / 1000).toFixed(2);
   let str = "<p>Finish!!</p>"
     + "<p>レベル： " + level + "</p>"
     + "<p>タイム： " + score_time + "</p>"
     + "<p>間違えた回数： " + miss +"回</p>"
-    +"<div class='btnBox'><div class='btn js_retry'>もう一回</div>"
+    +"<div class='btn_box'><div class='btn js_retry'>もう一回</div>"
     +"<div class='btn js_quit'>終了</div></div>";
-  // 履歴
+  // 履歴を保存
   history.push((history.length+1)+'. '+'level'+level+" <b style='font-size:1.5rem;'> " + score_time + " </b> (miss " + miss + ")");
   if(history.length>1){
     str = str+'<hr>'+history.join('<br>');
   }
   $('#howto').html(str);
-  // 履歴を保存
+  timer.stopTimer();
 }
 // 終了
 $(document).on('click', '.js_quit', function(){
@@ -551,8 +553,8 @@ $(document).on('click', '.js_quit', function(){
 // リトライ
 $(document).on('click', '.js_retry', function(){
   $('#howto').css('display', 'none');
-  setTimer();
-  runTimer();
+  start();
+  timer.runTimer();
 })
 /*-----------------------
  clear
@@ -601,14 +603,16 @@ function setHelp(){
   }
   $('#help').html(help);
 }
+
+toggleImg($('#display_animal'), ICON_DIR+'kuma.png');
 // クマさんtoggle
 $('#display_animal').click(function(){
-  toggleImg($(this), './common/images/icon/kuma.png');
+  // toggleImg($(this), ICON_DIR+'kuma.png');
   animal.toggle();
 })
 // ヘルプtoggle
 $('#display_help').click(function(){
-  toggleImg($(this), './common/images/icon/beginner.png');
+  // toggleImg($(this), ICON_DIR+'beginner.png');
   $('#help').toggle();
 })
 // オブジェクトを中央に

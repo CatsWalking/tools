@@ -444,42 +444,64 @@ function in_array(val, arr){
 /*-----------------------------
  * タイマー
  */
-let startTime = null;
-let timer_id;
-let isPlay = false;
-// run
-function runTimer(){
-    let t = ((Date.now() - startTime) / 1000).toFixed(2);
-   $('#timer').html(t);
-   timer_id = setTimeout(runTimer, 12);
+class Timer {
+  constructor(elem) {
+    this.elem = elem;
+    this.startTime = null;
+    this.timer_id='';
+    this.isRunning = false;
+  }
+  // run
+  runTimer(){
+    if(this.timer_id==''){
+      this.startTime = Date.now();
+    }
+    this.isRunning = true;
+    this.elem.html(((Date.now() - this.startTime) / 1000).toFixed(2));
+    this.timer_id = setTimeout(this.runTimer.bind(this), 12)
+    console.log('runTimer', this.isRunning);
+  }
+  // stop
+  stopTimer(){
+    this.isRunning = false;
+    clearTimeout(this.timer_id);
+    console.log('runTimer', this.isRunning);
+    this.timer_id = '';
+  }
+  // restart
+  restartTimer(){
+    this.isRunning = true;
+    this.timer_id = setTimeout(this.runTimer.bind(this), 12);
+    console.log('restartTime', this.isRunning);
+  }
+  // pause
+  pauseTimer(){
+    this.isRunning = false;
+    clearTimeout(this.timer_id);
+    console.log('clearTimeout', this.isRunning);
+  }
 }
-// time set
-function setTimer(){
-  startTime = Date.now();
-}
-// stop
-function stopTimer(){
-  clearTimeout(timer_id);
-}
-// restart
-function restartTimer(){
-  isRunning = true;
-  timer_id = setTimeout(runTimer, 12);
-}
-// pause
-function pauseTimer(){
-    clearInterval(timer_id);
-    isRunning = false;
-}
+
+
 /*-----------------------------
  * アイコンなどのイメージを切り替える
- * _gray のイメージを用意しておく
+ * _off のイメージを用意しておく
  */
-function toggleImg(elem, src){
-  let src2 = src.replace('.png', '_gray.png');
-  if(elem.attr('src')==src){
-    elem.attr('src', src2);
-  } else {
-    elem.attr('src', src);
-  }
+function toggleImg(elem, src, notice_print=true){
+  elem.click(function(){
+    let src_off = src.replace('.png', '_off.png');
+    console.log(src, src_off);
+    if(elem.attr('src')==src){
+      elem.attr('src', src_off);
+      if(notice_print){
+        elem.parent().children('div').html('オフ');
+      }
+    } else {
+      elem.attr('src', src);
+      if(notice_print){
+        elem.parent().children('div').html('オン');
+      } 
+    }
+  })
+  
 }

@@ -3,7 +3,8 @@ Roku tools
 */
 'use strict';
 
-const url = 'https://mami.tools/tools/';
+const URL = 'https://mami.tools/tools/';
+const ICON_DIR = './common/images/icon/';
 
 // ヘッダーメニュー
 const header = '<div class="header__inner">'
@@ -109,19 +110,4 @@ $('#js_reset').click(function(){
   })
 })
 
-/*-----------------------------
-* 音アイコン
-*/
-$('.js_sound').on('click', function(){
-  if($(this).attr('src').indexOf('_on')>-1){
-    $(this).attr('src', './common/images/icon/sound_off.png')
-    if($('#sound_status')){
-      $('#sound_status').html('スピーカーはオフです');
-    }
-  } else {
-    $(this).attr('src', './common/images/icon/sound_on.png')
-    if($('#sound_status')){
-      $('#sound_status').html('音が鳴ります');
-    }
-  }
-})
+
