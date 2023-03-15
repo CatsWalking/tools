@@ -21,8 +21,8 @@ body {
     display: inline-block; width:55px;font-size: 0.7rem;
 }
 #question{
-  height: 120px;
-  line-height:200px;
+  height: 100px;
+  line-height:100px;
   background:#ecf4f9;
   border-radius: 5px;
   text-align:center;
@@ -55,24 +55,37 @@ body {
 #answer{
   font-size: 3rem;
 }
-#start_message{
-    height: 200px;
-    background: rgb(253, 222, 251);
-    background: rgb(106, 81, 104);
-    color:rgb(238, 147, 214);
-    z-index: 100;
-
-
-    position: absolute;
-    width: 100%;
-    margin: 0 auto;
-    /* height: 100%; */
-    opacity: 1;
-    text-align: center;
-    line-height: 3rem;
-    z-index: 99;
-    font-size: 1rem;
-    padding-top: 10px;
+#message{
+  position:absolute;
+  top:30%;
+  width: 98%;
+  height: 120px;
+  line-height: 120px;
+  text-align: center;color:rgb(224, 130, 130);background-color: rgb(250, 215, 227);
+  font-size:1.6rem;
+}
+.tenkey_box li{
+  height: 50px;
+  font-size: 1.8rem; 
+}
+#ok_sign{
+  position:absolute;
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+  font-size: 3rem;
+  color:rgb(227, 49, 49);
+  background:#fff;
+  display: none;
+  z-index:9999;
+  padding-top: 50px;
+  text-align: center;
+}
+.status{
+    min-width: 40px;
+}
+#howto{
+    line-height: 2.4rem;
 }
 </style>
 </head>
@@ -88,12 +101,11 @@ body {
   <div class="container">
     <!-- <header></header> -->
     <main>
-        <div id="#start_message">タップしてスタート</div>
+        <div id="message">タップしてスタート</div>
     <!-- HOWTO -->
     <div id="howto">
-        <div style="margin-top:50px;"><img src="./common/images/animals/kuma03.png" class="icon -l"></div>
+        <div style="margin-top:20px;"><img src="./common/images/animals/kuma03.png" class="icon -l"></div>
         <p style="font-size: 3rem;">flash</p> 
-        <br>
         <!-- レベル -->
         <p>レベル、スピード、回数 を選んでスタート！</p> 
         <div class="btn_box tab_level" style="margin:0">
@@ -120,16 +132,15 @@ body {
             <div class="status" data-id="15">15</div>
             <div class="status" data-id="20">20</div>
         </div>
-        <div class="btn js_start mtb30">スタート</div>
-
-
+        <div class="btn js_start mtb20">スタート</div>
         <hr>
+        <div><img src="./common/images/icon/beginner.png" class="icon -ss"> ヒントの表示・非表示</div>
         <div><img src="./common/images/icon/pause.png" class="icon -ss"> 一時停止 </div>
         <div><img src="./common/images/icon/close.png" class="icon -ss"> 終了</div>
         <div class="txtS">※ 検定・大会問題等の問題出力方法・作問規定 とは異なります</div>
         <div>
 
-            <ul style="line-height: 1.6rem;width:200px;text-align:left;margin: 0 auto;">
+            <ul style="line-height: 1.6rem;width:150px;text-align:left;margin: 0 auto;">
                 <p>level1: 50〜100 </p>
                 <p>level2: 101〜500</p>
                 <p>level3: 501〜1000</p>
@@ -137,7 +148,13 @@ body {
                 <p>level5: 2001〜3000</li>
             </ul>
         </div>
-
+      </div>
+       <!-- OK -->
+    <div class="outer">
+        <div id="ok_sign">
+          <img src="./common/images/animals/kuma_02.png" width="200">
+          <p>OK</p>
+        </div>
       </div>
 <!-- ヘッダ -->
 <div class="header_box">
@@ -175,38 +192,39 @@ body {
     </div>
 
     <div class="outer mtb30"><div id="question"></div></div>
-    <div class="outer"><div id="answer"></div></div>
-    <div class="outer"><div id="formula"></div></div>
+    <div class="outer" style="width:98%;text-align: center;"><div id="formula"></div></div>
+    <div class="outer" style="width:98%;text-align: center;"><div id="answer"></div></div>
 
     </main>
     <!-- footer -->
   <footer>
     <!-- kenkey -->
     <table width="100%">
-      <tr>
-        <td rowspan="3">
-          <ul class="tenkey_box -column3">
-            <li>2</li>
-            <li>3</li>
-            <li>5</li>
-            <li>7</li>
-            <li>11</li>
-            <li>13</li>
-            <li>17</li>
-            <li>19</li>
-            <li>23</li>
-          </ul>
-        </td>
-        <td style="text-align:center;width: 60px !important; height:50px;">
-          <div id="js_clear" class="box -l">×</div>
-        </td>
-      </tr>
-      <tr>
-        <td rowspan="2" style="text-align:center;">
-          <div id="js_ok">GO</div>
-        </td>
-      </tr>
-    </table>
+        <tr>
+          <td rowspan="3">
+            <ul class="tenkey_box -column3">
+                <li>1</li>
+                <li>2</li>
+                <li>3</li>
+                <li>4</li>
+                <li>5</li>
+                <li>6</li>
+                <li>7</li>
+                <li>8</li>
+                <li>9</li>
+                <li>0</li>
+            </ul>
+          </td>
+          <td style="text-align:center;width: 60px !important; height:50px;">
+            <div id="js_clear" class="box -l">×</div>
+          </td>
+        </tr>
+        <tr>
+          <td rowspan="2" style="text-align:center;">
+            <div id="js_ok">GO</div>
+          </td>
+        </tr>
+      </table>
   </footer>
 </div><!-- container -->
 <script src="./common/js/jquery-3.6.3.min.js"></script>
@@ -215,29 +233,38 @@ body {
 <script src="./common/js/modal.js"></script>
 <script src="./common/js/tools.js?te5sat"></script>
 <script>
-  　// https://keisanginou.jimdofree.com/%E3%83%95%E3%83%A9%E3%83%83%E3%82%B7%E3%83%A5%E6%9A%97%E7%AE%97/
-  'use strict'
-  $(function(){
-    let question = $('#question');
-    let rnd;
-    let rnd_arr = [];
-    let flg = false;
-    const levels = {1:{'min':50,'max':100}, 
-                2:{'min':101,'max':500},
-                3:{'min':501,'max':1000},
-                4:{'min':1001,'max':2000},
-                5:{'min':2001,'max':3000}};
-    const speeds = {1:1300,2:1000,3:800,4:500,5:100}
-    let config = {level:2, speed:5, times:10};
-    let current_cnt=0;
-    let miss = 0;
-    let answer='';
-    let formula = '';
-    let counter=0;
+// https://keisanginou.jimdofree.com/%E3%83%95%E3%83%A9%E3%83%83%E3%82%B7%E3%83%A5%E6%9A%97%E7%AE%97/
+'use strict'
+$(function(){
+let question = $('#question');
+let rnd_arr = [];
+let flg = false;
+const levels = {1:{'min':50,'max':100}, 
+            2:{'min':101,'max':500},
+            3:{'min':501,'max':1000},
+            4:{'min':1001,'max':2000},
+            5:{'min':2001,'max':3000}};
+const speeds = {1:1300,2:1000,3:800,4:500,5:300}
+let config = {level:2, speed:2, times:5};
+let current_cnt = 0;
+let miss = 0;
+let answer = '';    // 解答
+let correct = 0;    // 正解
+let numbers = [];   // 指定回数分設問を入れておく
+let history = [];   // 履歴を入れておく
+// timer
+let timer = new Timer($('#timer'));
 
-    // timer
-    let timer = new Timer($('#timer'));
+let counter = 0;
+let num = 0;
 
+function init(){
+    $('#question').html('');
+    $('#answer').html('');
+    $('#formula').html('');
+    correct = 0;
+    answer = '';
+}
 
 //-------------------------
 // 設定 タブ
@@ -254,32 +281,68 @@ function clickTab(tab){
    })
 }
 //-------------------------
-// スタート click
+// howtoスタート click
 $('.js_start').click(function(){
-    // ['level', 'speed', 'times'].each(function(){
-    //     // $(this).parent().find('.status').removeClass('-green');
-    //     // $(this).addClass('-green');
-    //     $('.'+tab+'_'+config[tab]).addClass('-green');
-    // })
     $('.level_'+config['level']).addClass('-green');
     $('.speed_'+config['speed']).addClass('-green');
     $('.times_'+config['times']).addClass('-green');
 
-  $('#all_cnt').html(config.times);
-  $('#howto').css('display', 'none');
-  miss = 0;
-  current_cnt = 1;
-  $('#current_cnt').html(current_cnt);
-  // タイマースタート
-//   timer.runTimer();
-
-    if (answer > 0 && $('#answer').html() == 'こたえ') {
-        setAnswer();
-    } else {
-        setRnd();
-    }
+    $('#all_cnt').html(config.times);
+    $('#howto').css('display', 'none');
+})
+//-------------------------
+// タップしてスタート
+$('#message').click(function(){
+    // 指定回数分設問を作成
+    generateNumber();
+    $(this).css('display', 'none');
+    init();
+    miss = 0;
+    current_cnt=1;
+    $('#current_cnt').html(current_cnt);
+    // タイマースタート
+    timer.runTimer();
+    setQuestion();
 })
 
+//-------------------------
+// 設問セット
+//-------------------------
+function setQuestion(){
+    // answer = '';
+    init();
+    $('#current_cnt').html(current_cnt);
+
+    $('#ok_sign').removeClass('fadeUp');
+    $('#ok_sign').css('display', 'none');
+    if(timer.isRunning){
+        counter = 0;
+        let num;
+        let timer_id = setInterval(function () {
+        if (counter < config.times) {
+            num = numbers[current_cnt-1][counter];
+            question.html(num);
+            counter++;
+            correct += num;
+        } else {
+            clearInterval(timer_id);
+            if(isHelpActive()){
+                $('#formula').html(numbers[current_cnt-1].join(' + '));
+            }
+        }
+        }, speeds[config.speed]);
+    }
+}
+$('#formula').click(function(){
+    if(correct!='' && $('#formula').html()!='' && isHelpActive()){
+        $('#formula').html( $('#formula').html()+' = ' + correct)
+    }
+})
+// ヘルプがアクティブかどうか
+function isHelpActive(){
+    console.log($('#display_help').attr('src'));
+    return $('#display_help').attr('src').indexOf('_off')== -1;
+}
 //-------------------------
 // 一時停止
 //-------------------------
@@ -303,23 +366,68 @@ $(document).on('click', '.js_quit', function(){
 // リトライ
 $(document).on('click', '.js_retry', function(){
   $('#howto').css('display', 'none');
-  start();
-  timer.runTimer();
+})
+// ヘルプtoggle
+$('#display_help').click(function(){
+  $('#help').toggle();
+  toggleImg($(this), ICON_DIR+'beginner.png');
+})
+//-------------------
+// テンキー
+//-------------------
+$('.tenkey_box li').click(function(){
+    if(!timer.isRunning){
+      return;
+    }
+    answer = answer+String($(this).html());
+    $('#answer').html(answer);
+})
+/*-----------------------
+ clear
+-----------------------*/
+$('#js_clear').click(function(){
+    if(!timer.isRunning){
+        return;
+    }
+    answer = answer.substr(0,answer.length-1);
+    $('#answer').html(answer);
+})
+/*-----------------------
+ 判定！！OK
+-----------------------*/
+$('#js_ok').click(function(){
+    if(!timer.isRunning){
+        return;
+    }
+    if(parseInt(answer)==parseInt(correct)){
+        if(parseInt(current_cnt)==parseInt(config.times)){
+            // 指定回数完了！！
+            end();
+            return;
+        }
+        // カウントアップ
+        current_cnt += 1;
+        init();
+        // OKくまさんを表示して、0.7秒後に次の問題へ
+        $('#ok_sign').addClass('fadeUp');
+        $('#ok_sign').css('display', 'block');
+        setTimeout(() => {
+            setQuestion();
+        }, "700");
+    } else {
+        Gakuburu($('#question'), 300);
+        miss++;
+    }
 })
 
-console.log(config);
 
-    /**---------------------------------------------
-     * 数字セット
-     */
-    function setRnd() {
-        if (flg == true) return;
-        flg = true;
-        counter = 0;
-        answer = 0;
-        formula = '';
-        $('#question, #answer, #formula').html('');
-        // 指定の数分乱数を生成（かぶらないように）
+/**---------------------------------------------
+ * 指定回数分の設問を作成して配列に入れておく
+ */
+function generateNumber() {
+    let rnd;
+    // 指定の数分乱数を生成（かぶらないように）
+    for(let i=0; i<config.times; i++){
         rnd_arr = [];
         while (Object.keys(rnd_arr).length < config.times) {
             rnd = rand(levels[config.level].min, levels[config.level].max);
@@ -328,67 +436,31 @@ console.log(config);
                 rnd_arr.unshift(rnd);
             }
         }
-
-        console.log(rnd_arr);
-        console.log('range',levels[config.level].min, levels[config.level].max);
-        console.log('speed', speeds[config.speed]);
-
-        // ------------------------------
-        // 1問目は即表示
-        rnd = rnd_arr[counter];
-        answer += rnd;
-        question.html(rnd);
-        counter++;
-        formula = rnd;
-
-        // 発言
-        // const uttr = new SpeechSynthesisUtterance(rnd);
-        // speechSynthesis.speak(uttr);
-
-        // ------------------------------
-        // 2問目以降
-        let timer_id = setInterval(function () {
-            rnd = rnd_arr[counter];
-            answer += rnd;
-            question.html(rnd);
-            counter++;
-            formula = formula + ' + ' + rnd;
-            // 発言
-            // const uttr = new SpeechSynthesisUtterance(rnd);
-            // speechSynthesis.speak(uttr);
-
-            if (counter >= config.times) {
-                flg = false;    // flg終了
-                // 終了させる
-                clearInterval(timer_id);
-                // 8秒後に正解を表示
-                setTimeout(function () {
-                    setAnswer();
-                }, 800);
-                $('#answer').html('こたえ');
-            }
-        }, speeds[config.speed]);
+        numbers[i] = rnd_arr;
     }
-    /**---------------------------------------------
-     * 正解回答表示
-     */
-    $('#answer').click(function () {
-        setAnswer();
-    });
+}
 
-    function setAnswer() {
-        if (flg == false && $('#answer').html() == 'こたえ') {
-            $('#answer').html(answer);
-            if (config.times == 10) {
-                $('#formula').html((formula + ' = ' + answer).replace(/\s/g, ''));    
-            } else {
-                $('#formula').html(formula + ' = ' + answer);
-            }
-        }
-    }
-  })
-
-  
+/*-----------------------
+ end
+-----------------------*/
+function end(){
+  $('#howto').css('display', 'block');
+  let score_time = ((Date.now() - timer.startTime) / 1000).toFixed(2);
+  let str = "<p>Finish!!</p>"
+    + "<p>レベル： " + config.level + "</p>"
+    + "<p>タイム： " + score_time + "</p>"
+    + "<p>間違えた回数： " + miss +"回</p>"
+    +"<div class='btn_box'><div class='btn js_retry'>もう一回</div>"
+    +"<div class='btn js_quit'>終了</div></div>";
+  // 履歴を保存
+  history.push((history.length+1)+'. '+'level'+config.level+" <b style='font-size:1.5rem;'> " + score_time + " </b> (miss " + miss + ")");
+  if(history.length>1){
+    str = str+'<hr>'+history.join('<br>');
+  }
+  $('#howto').html(str);
+  timer.stopTimer();
+  $('#message').css('display', 'block');
+}
 
             // // --------------------------------------------
             // // 音声認識
@@ -407,13 +479,13 @@ console.log(config);
             //         if (word == 'スタート') {
             //             // 設問セット
             //             console.log('start');
-            //             setRnd();
+            //             generateNumber();
             //         } else if (word == answer) {
             //             // 正解！！
             //             openNotice('<span class="correct">'+word + '<br>Correct!!!!!</span>');
             //             sleep(3);
             //             flg = false;
-            //             setRnd();
+            //             generateNumber();
             //         }
             //     }
             // };
@@ -423,6 +495,7 @@ console.log(config);
             //     console.log('restart');
             //     rec.start();
             // };
+})
 </script>
 </body>
 </html> 

@@ -240,7 +240,7 @@
       getAllQuestions();
 
       function getAllQuestions(){
-        $.get(url+'?action=getAllQuestions&subject='+subject+'&order_type='+order_type, function(data){
+        $.get(URL+'?action=getAllQuestions&subject='+subject+'&order_type='+order_type, function(data){
           questions = data
           // 設問セット
           set();

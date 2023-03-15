@@ -90,7 +90,7 @@
     getAllQuestions();
 
     function getAllQuestions(){
-      let url2 = url+'?action=getAllQuestions&subject='+subject+'&order_type='+order_type+'&subject_sub='+subject_sub;
+      let url2 = URL+'?action=getAllQuestions&subject='+subject+'&order_type='+order_type+'&subject_sub='+subject_sub;
       console.log(url2);
       $.get(url2, function(data){
         questions = data

@@ -85,35 +85,8 @@ body {
 #answer{
   font-size: 3rem;
 }
-#js_ok{
-  width: 50px;
-  height: 110px;
-  line-height: 110px;
-  color:#fff;
-  background-color: rgb(193, 76, 76);
-  text-align: center;
-  cursor: pointer;
-}
-.box{
-  font-size: 1rem;
-  cursor: pointer;
-  border:1px solid #000;
-  width:20px;
-  height:20px;
-  line-height:20px;
-  margin: 0;
-  text-align: center;
-}
-.box.-l{
-  font-size: 3rem;
-  cursor: pointer;
-  border:1px solid #000;
-  width:40px;
-  height:40px;
-  line-height:40px;
-  margin: 0;
-  text-align: center;
-}
+
+
 .tenkey_box li{
   height: 50px;
   font-size: 1.8rem; 
@@ -145,12 +118,6 @@ body {
 .btn_box.btn{
   min-width: 100px!important;
 }
-
-
-#timer{
-  font-size:1.4rem;
-}
-
 #message{
   position:absolute;
   top:30%;
@@ -295,9 +262,12 @@ Roku tools
 'use strict';
 //https://k3su.xyz/
 const prime_choices = [2, 3, 5, 7, 11, 13, 17, 19, 23];
+const ALL_CNT = 5;
+
 let question = '';
-let primes = [];
-let answer = [];
+let primes = [];    // 素数を生成しておく
+let answer = [];    // 解答
+let history = [];   // 履歴を入れておく
 let level = '';
 let min, max;
 const levels = {1:{'min':50,'max':100}, 
@@ -311,8 +281,6 @@ let animal = $('#animal');
 let animal_offset = animal.offset();
 let current_cnt=1;
 let miss = 0;
-let history = [];
-const ALL_CNT = 5;
 // timer
 let timer = new Timer($('#timer'));
 
@@ -381,7 +349,6 @@ $('#display_help').click(function(){
   $('#help').toggle();
   toggleImg($(this), ICON_DIR+'beginner.png');
 })
-
 
 //-------------------------
 // 準備
@@ -592,7 +559,6 @@ function setHelp(){
     help =help.toFixed(2);
   }
   $('#help').html(help);
-  
 }
 
 // オブジェクトを中央に
