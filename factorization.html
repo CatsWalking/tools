@@ -146,37 +146,11 @@ body {
   min-width: 100px!important;
 }
 
-.help_box{
-    display: flex;
-}
-.help_box>div{
-    margin: 0;
-    margin-left:3px;
-    text-align: center;
-    min-width:30px;
-    height:50px;
-    line-height: 50px;
-}
-.help_box>div:nth-of-type(2){
-    margin-right: auto;
-}
+
 #timer{
   font-size:1.4rem;
 }
-#howto{
-  position:absolute;
-  width:100%;
-  margin: 0 auto;
-  height: 100%;
-  background-color: #fff;
-  opacity: 1;
-  color: #514c4c;
-  text-align:center;
-  line-height: 3rem;
-  z-index: 99;
-  font-size:1rem;
-  padding-top: 10px;
-}
+
 #message{
   position:absolute;
   top:30%;
@@ -198,12 +172,7 @@ body {
     padding-top: 30px;
   }
 }
-@media screen and (max-width: 375px) {
-  #howto{
-    padding-top: 4px;
-    line-height:2.5rem;
-  }
-}
+
 #cnt{
   margin-left: 20px;
   font-size:1rem;
@@ -225,7 +194,7 @@ body {
 </script>
 <body>
 <div class="container">
-  <header></header>
+  <!-- <header></header> -->
   <main>
     <!-- HOWTO -->
     <div id="howto">
@@ -256,7 +225,7 @@ body {
       </div>
     </div>
     <!-- ヘッダ -->
-    <div class="help_box">
+    <div class="header_box">
       <div id="timer" class="timer">0.00</div>
       <div id="cnt"><span id="current_cnt">1</span> / <span id="all_cnt">5</span></div>
       <div id="help"></div>
@@ -331,7 +300,7 @@ let primes = [];
 let answer = [];
 let level = '';
 let min, max;
-let levels = {1:{'min':50,'max':100}, 
+const levels = {1:{'min':50,'max':100}, 
           2:{'min':101,'max':500},
           3:{'min':501,'max':1000},
           4:{'min':1001,'max':2000},
@@ -354,7 +323,6 @@ $('.tab_level div').click(function(){
   level = $(this).data('level');
   min = levels[level]['min'];
   max = levels[level]['max'];
-  // $('[class^=status]').removeClass('-green');
   $('.status_'+level).addClass('-green');
 })
 
@@ -389,17 +357,7 @@ $('#js_pause').click(function(){
     animal.addClass('animal_purun');
     enLargeAnimal();
   }
-  toggleImg($('#js_pause'), ICON_DIR+'pause.png');
-})
-// クマさんtoggle
-$('#display_animal').click(function(){
-  animal.toggle();
-  toggleImg($('#display_animal'), ICON_DIR+'kuma.png');
-})
-// ヘルプtoggle
-$('#display_help').click(function(){
-  $('#help').toggle();
-  toggleImg($('#display_help'), ICON_DIR+'beginner.png');
+  toggleImg($(this), ICON_DIR+'pause.png');
 })
 // 終了
 $(document).on('click', '.js_quit', function(){
@@ -413,6 +371,17 @@ $(document).on('click', '.js_retry', function(){
   start();
   timer.runTimer();
 })
+// クマさんtoggle
+$('#display_animal').click(function(){
+  animal.toggle();
+  toggleImg($('#display_animal'), ICON_DIR+'kuma.png');
+})
+// ヘルプtoggle
+$('#display_help').click(function(){
+  $('#help').toggle();
+  toggleImg($(this), ICON_DIR+'beginner.png');
+})
+
 
 //-------------------------
 // 準備
@@ -476,7 +445,7 @@ function enLargeAnimal(){
 function generateNumber(){
   for(let i=0; i<30; i++){
     // 乱数取得
-    question = getRand(min, max);
+    question = rand(min, max);
     $('#question').html(question);
     // 素因数分解する
     primes = prime(question);

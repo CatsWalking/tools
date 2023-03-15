@@ -131,8 +131,8 @@
       const cols = ['id', 'question', 'answer', 'subject', 'subject_sub', 'subject_sub_sub'];
       id = getParam2('id');
       if(id!=''){
-        console.log(url+'?action=getAnki&id='+id);
-        $.get(url+'?action=getAnki&id='+id, function(data){
+        console.log(URL+'?action=getAnki&id='+id);
+        $.get(URL+'?action=getAnki&id='+id, function(data){
           $('[name=id]').val(data.id);
           $('[name=question]').val(data.question);
           $('[name=answer]').val(data.answer);
@@ -146,7 +146,7 @@
       $(document).on('click', '[name=subject]', function(){
         $('#subject_sub_td span').html('');
         $('#subject_sub_sub_td span').html('');
-        $.get(url+'?action=getSubjectSub&subject='+$(this).val(), function(data){
+        $.get(URL+'?action=getSubjectSub&subject='+$(this).val(), function(data){
           $('#subject_sub_td span').html(data);
         })
       })
@@ -157,7 +157,7 @@
         // TODO 今のところ算数、理科のみ
         let subject = $('[name=subject]:checked').val();
         if(subject==1 || subject==3){
-          $.get(url+"?action=getSubjectSubSub&subject="+subject+"&subject_sub="+$(this).val(), function(data){
+          $.get(URL+"?action=getSubjectSubSub&subject="+subject+"&subject_sub="+$(this).val(), function(data){
             $('#subject_sub_sub_td span').html(data);
           })
         }
@@ -179,7 +179,7 @@
         }
         let fd = new FormData($('form').get(0));
         $.ajax({
-          url: url+"?action=saveAnki",
+          url: URL+"?action=saveAnki",
           type: 'post',
           data: fd,
           processData: false,  // jQuery がデータを処理しないよう指定
