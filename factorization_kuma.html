@@ -389,7 +389,7 @@ $('#js_pause').click(function(){
     animal.addClass('animal_purun');
     enLargeAnimal();
   }
-  toggleImg($('#js_pause'), ICON_DIR+'pause.png');
+  toggleImg($(this), ICON_DIR+'pause.png');
 })
 // クマさんtoggle
 $('#display_animal').click(function(){
@@ -399,7 +399,7 @@ $('#display_animal').click(function(){
 // ヘルプtoggle
 $('#display_help').click(function(){
   $('#help').toggle();
-  toggleImg($('#display_help'), ICON_DIR+'beginner.png');
+  toggleImg($(this), ICON_DIR+'beginner.png');
 })
 // 終了
 $(document).on('click', '.js_quit', function(){

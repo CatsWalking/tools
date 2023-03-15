@@ -488,12 +488,12 @@ function toggleImg(elem, src, notice_print=true){
     if(elem.attr('src')==src){
       elem.attr('src', src_off);
       if(notice_print){
-        elem.parent().children('div').html('オフ');
+        elem.parent().children('.icon_str').html('オフ');
       }
     } else {
       elem.attr('src', src);
       if(notice_print){
-        elem.parent().children('div').html('オン');
+        elem.parent().children('.icon_str').html('オン');
       } 
   }
 

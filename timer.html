@@ -31,10 +31,11 @@
     color: #ec1b04;
 }
 .time_type {
-    line-height: 40px!important;
-    width: 90%!important;
+    padding:0;
+    width: 98%!important;
+    line-height: 50px!important;
     margin: 0 auto;
-    padding: 10px;
+    padding: 0;
     background: #cecccc!important;
     border:none;
     font-size: 1.6rem !important;
@@ -118,10 +119,10 @@
         </ul>
     </main>
     <footer>
-        <div class="btnBox mb20">
-            <div class="icon_box" style="margin: 0 auto;">
-                <img class="icon -ss js_toggle_icon" src="./common/images/icon/sound.png">
-                <div>オン</div>
+        <div class="btn_box">
+            <div class="icon_box mb20" style="margin: 0 auto 10px;">
+                <img class="icon -ss js_sound" src="./common/images/icon/sound.png">
+                <div class="icon_str">オン</div>
             </div>
             <div id="js_reset2" class="btn -reset">リセット</div>
             <div id="js_start" class="btn -start">スタート/ストップ</div>
@@ -150,7 +151,9 @@ $(function(){
     const explosion = document.querySelector('#sound_explosion');
    
     // アイコントグル
-toggleImg($('.js_toggle_icon'), ICON_DIR+'sound.png');
+    $('.js_sound').click(function(){
+        toggleImg($(this), ICON_DIR+'sound.png');
+    })
     //-------------------------------------------------------------
     // clockクリック
     $('#clock span').click(function(){
@@ -159,7 +162,6 @@ toggleImg($('.js_toggle_icon'), ICON_DIR+'sound.png');
         $('.time_type').eq(i).addClass('active');
         $(this).parent().find('span').removeClass('clock_active');
         $(this).addClass('clock_active');
-        console.log($(this));
         // クリックしたら初期化
         $(this).html('00');
     });

@@ -31,7 +31,6 @@
   float: left;
   text-align: center;
   color: white;
-  font-size: 1em;
   font-weight: bold;
 }
 .score_box{
@@ -61,8 +60,7 @@ score
   width: 50px;
   height:50px;
 }
-.myturn { /*打ち手*/
-    border-radius: 50%;
+.myturn { /* 打ち手 */
     border: 2px solid #cd8f92;
     background:pink!important;
     margin-bottom: 5px;
@@ -73,9 +71,13 @@ score
     font-size: 1.4rem;
     margin: 12px 0 0 6px;
 }
-
 img {
     cursor: auto;
+}
+.guide{
+  display: inline-block;
+  line-height: 50px;
+  font-size: 1.5em;
 }
 </style>
 </head>
@@ -101,7 +103,10 @@ img {
         <div id='score_white' class='score'>2</div>
         <div style="width: 84px;"></div>
         <img src='./common/images/icon/caution.svg' id="js_guide" class="icon">
-        <img src='./common/images/icon/sound_off.png' class="icon js_sound">
+        <div class="icon_box">
+          <img src='./common/images/icon/sound_off.png' class="icon js_sound">
+          <div class="icon_str">オフ  </div>
+        </div>
       </div>
       <!-- ボード -->
       <div id="board"></div>
@@ -150,6 +155,10 @@ img {
     next_hand[BLACK] = true;
     next_hand[WHITE] = true;
 
+    // スピーカー
+    $('.js_sound').click(function(){
+      toggleImg($(this), ICON_DIR+'sound.png');
+    })
     /*--------------------------------------------
       *
       * clickEvent
@@ -310,18 +319,22 @@ img {
       * ガイド
       */
     $('#js_guide').on('click', function () {
+      console.log($('.guide').length);
+        if($('.guide').length>0){
+          $('.guide').remove();
+          return;
+        }
+        // init
         initLine();
-
+        // check
         for (var y = 1; y <= cell_cnt; y++) {
             for (var x = 1; x <= cell_cnt; x++) {
                 // チェック
                 changeable_field = checkChangeable(y, x, player);
                 if (changeable_field !== false) {
-                    // 枠線
-                    cnt = markLine(changeable_field);//2.4em display:table-cell
+                    cnt = markLine(changeable_field); // 2.4em display:table-cell
                     // 選択可能なセル
-                    $('#p_' + y + '_' + x).css('border', '1px solid red');
-                    $('#p_' + y + '_' + x).html(cnt);
+                    $('#p_' + y + '_' + x).html("<span class='guide'>"+cnt+"</span>");
                 }
             }
         }

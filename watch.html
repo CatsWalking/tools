@@ -59,10 +59,10 @@
 
 
     <footer>
-        <div class="btnBox mb20">
-            <div class="icon_box" style="margin: 0 auto;">
-                <img src="./common/images/icon/microphone_off.png" class="icon -ss js_toggle_icon">
-                <div>オフ</div>
+        <div class="btn_box mb20">
+            <div class="icon_box" style="margin: 0 auto 10px;">
+                <img src="./common/images/icon/microphone_off.png" class="icon -ss js_microphone">
+                <div class="icon_str">オフ</div>
             </div>
         <div id="js_reset2" class="btn -reset">リセット</div>
         <div id="js_start" class="btn -start">スタート/ストップ</div>
@@ -109,7 +109,9 @@ let isRunning=false;
 
 //-------------------------------------------------------------
 // アイコントグル
-toggleImg($('.js_toggle_icon'), ICON_DIR+'microphone.png');
+$('.js_microphone').click(function(){
+    toggleImg($(this), ICON_DIR+'sound.png');
+})
 
 //-------------------------------------------------------
 // start

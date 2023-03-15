@@ -439,11 +439,18 @@ table {
 }
 
 .btn.-start {
+  padding: 0;
   width: 170px !important;
+  height: 60px;
+  line-height: 60px;
   background: #e35f5f;
 }
 
 .btn.-reset {
+  padding: 0;
+  width: 120px !important;
+  height: 60px;
+  line-height: 60px;
   background: #4d3d3d;
 }
 
@@ -599,9 +606,11 @@ table.-tableHover tr:hover td {
 /* icon */
 .icon_box {
   width: 80px;
-  color: rgb(220, 80, 80);
   text-align: center;
-  font-size: 0.7rem !important;
+}
+
+.icon_str {
+  font-size: 0.6rem;
 }
 
 .icon {
@@ -1244,13 +1253,15 @@ table.-tableHover tr:hover td {
 }
 
 .tenkey_box li {
+  padding: 0;
   height: 50px;
+  line-height: 50px;
   margin-top: 6px;
+  margin-right: 5px;
   border: 1px solid #d4ddd4;
   border-radius: 3px;
   text-align: center;
   font-size: 2rem;
-  margin-right: 5px;
   background: #fff;
   cursor: pointer;
   user-select: none;
