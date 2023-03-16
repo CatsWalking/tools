@@ -622,14 +622,21 @@ table.-tableHover tr:hover td {
   cursor: pointer;
 }
 
+
+
+.icon.-s {
+  width: 45px;
+  height: 45px;
+}
+
 .icon.-ss {
   width: 30px;
   height: 30px;
 }
 
-.icon.-s {
-  width: 45px;
-  height: 45px;
+.icon.-sss {
+  width: 20px;
+  height: 20px;
 }
 
 .icon.-l {
@@ -1193,6 +1200,10 @@ table.-tableHover tr:hover td {
 
 .txtSS {
   font-size: 0.8rem;
+}
+
+.txtSSS {
+  font-size: 0.6rem;
 }
 
 .txtL {

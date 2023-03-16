@@ -508,7 +508,7 @@ function end(){
   let score_time = ((Date.now() - timer.startTime) / 1000).toFixed(2);
   let str = "<p>Finish!!</p>"
     + "<p>レベル： " + level + "</p>"
-    + "<p>タイム： " + score_time + "</p>"
+    + "<p>タイム： <span style='font-size:2.2rem;'>" + score_time + "</span></p>"
     + "<p>間違えた回数： " + miss +"回</p>"
     +"<div class='btn_box'><div class='btn js_retry'>もう一回</div>"
     +"<div class='btn js_quit'>終了</div></div>";

@@ -87,6 +87,11 @@ body {
 #howto{
     line-height: 2.4rem;
 }
+#howto td{
+    padding:0;
+    text-align:left;
+    font-size: 0.7rem;
+}
 </style>
 </head>
 <!-- Google tag (gtag.js) -->
@@ -104,43 +109,49 @@ body {
         <div id="message">タップしてスタート</div>
     <!-- HOWTO -->
     <div id="howto">
-        <div style="margin-top:20px;"><img src="./common/images/animals/kuma03.png" class="icon -l"></div>
-        <p style="font-size: 3rem;">flash</p> 
+        <p style="font-size: 3rem;margin:20px;">flash</p> 
         <!-- レベル -->
         <p>レベル、スピード、回数 を選んでスタート！</p> 
-        <div class="btn_box tab_level" style="margin:0">
-            <div style="display: inline-block; width:55px;font-size: 0.7rem;">レベル</div>
-            <div class="status" data-id="1">1</div>
-            <div class="status -green" data-id="2">2</div>
-            <div class="status" data-id="3">3</div>
-            <div class="status" data-id="4">4</div>
-            <div class="status" data-id="5">5</div>
-        </div>
-        <div class="btn_box tab_speed" style="margin:0">
-            <div style="display: inline-block; width:55px;font-size: 0.7rem;">スピード</div>
-            <div class="status" data-id="1">1</div>
-            <div class="status -green" data-id="2">2</div>
-            <div class="status" data-id="3">3</div>
-            <div class="status" data-id="4">4</div>
-            <div class="status" data-id="5">5</div>
-        </div>
-        <div class="btn_box tab_times" style="margin:0">
-            <div style="display: inline-block; width:55px;font-size: 0.7rem;">回数</div>
-            <div class="status" data-id="3">3</div>
-            <div class="status -green" data-id="5">5</div>
-            <div class="status" data-id="10">10</div>
-            <div class="status" data-id="15">15</div>
-            <div class="status" data-id="20">20</div>
-        </div>
-        <div class="btn js_start mtb20">スタート</div>
+        <table style="width:350px;margin: 20px auto;padding:0;">
+        <tr><td width="60">レベル</td>
+            <td class="tab_level">
+                <div class="status" data-id="1">1</div>
+                <div class="status -green" data-id="2">2</div>
+                <div class="status" data-id="3">3</div>
+                <div class="status" data-id="4">4</div>
+                <div class="status" data-id="5">5</div>
+            </td>
+        </tr>
+        <tr><td width="60">スピード</td>
+            <td class="tab_speed">
+                <div class="status" data-id="1">1</div>
+                <div class="status -green" data-id="2">2</div>
+                <div class="status" data-id="3">3</div>
+                <div class="status" data-id="4">4</div>
+                <div class="status" data-id="5">5</div>
+            </td>
+        </tr>
+        <tr><td width="60">回数</td>
+            <td class="tab_times">
+                <div class="status" data-id="3">3</div>
+                <div class="status -green" data-id="5">5</div>
+                <div class="status" data-id="10">10</div>
+                <div class="status" data-id="15">15</div>
+                <div class="status" data-id="20">20</div>
+            </td>
+        </tr>
+        <tr><td width="60"><img src="./common/images/icon/beginner.png" class="icon -sss"></td>
+            <td class="js_display_help radioarea txtSSS txtLeft">
+                <label class="-checked"><input type="radio" value="1" checked>ヒント表示する</label>
+                <label><input type="radio" value="0">ヒント表示しない</label>
+            </td>
+        </tr>
+        </table>
+        <div class="btn js_start">スタート</div>
         <hr>
-        <div><img src="./common/images/icon/beginner.png" class="icon -ss"> ヒントの表示・非表示</div>
-        <div><img src="./common/images/icon/pause.png" class="icon -ss"> 一時停止 </div>
-        <div><img src="./common/images/icon/close.png" class="icon -ss"> 終了</div>
-        <div class="txtS">※ 検定・大会問題等の問題出力方法・作問規定 とは異なります</div>
+        <div class="txtS mtb20" style="line-height:1.6rem;">※ 検定・大会問題等の<br>問題出力方法・作問規定 とは異なります</div>
         <div>
-
-            <ul style="line-height: 1.6rem;width:150px;text-align:left;margin: 0 auto;">
+            <ul style="line-height: 1.6rem;width:150px;text-align:left;margin: 10px auto;">
                 <p>level1: 50〜100 </p>
                 <p>level2: 101〜500</p>
                 <p>level3: 501〜1000</p>
@@ -150,7 +161,7 @@ body {
         </div>
       </div>
        <!-- OK -->
-    <div class="outer">
+        <div class="outer">
         <div id="ok_sign">
           <img src="./common/images/animals/kuma_02.png" width="200">
           <p>OK</p>
@@ -190,11 +201,9 @@ body {
         <div class="status times_15">15</div>
         <div class="status times_20">20</div>
     </div>
-
     <div class="outer mtb30"><div id="question"></div></div>
     <div class="outer" style="width:98%;text-align: center;"><div id="formula"></div></div>
     <div class="outer" style="width:98%;text-align: center;"><div id="answer"></div></div>
-
     </main>
     <!-- footer -->
   <footer>
@@ -280,13 +289,15 @@ function clickTab(tab){
         $('.'+tab+'_'+config[tab]).addClass('-green');
    })
 }
+$('#js_display_help').click(function(){
+    
+})
 //-------------------------
 // howtoスタート click
 $('.js_start').click(function(){
     $('.level_'+config['level']).addClass('-green');
     $('.speed_'+config['speed']).addClass('-green');
     $('.times_'+config['times']).addClass('-green');
-
     $('#all_cnt').html(config.times);
     $('#howto').css('display', 'none');
 })
@@ -448,7 +459,7 @@ function end(){
   let score_time = ((Date.now() - timer.startTime) / 1000).toFixed(2);
   let str = "<p>Finish!!</p>"
     + "<p>レベル： " + config.level + "</p>"
-    + "<p>タイム： " + score_time + "</p>"
+    + "<p>タイム： <span style='font-size:2.2rem;'>" + score_time + "</span></p>"
     + "<p>間違えた回数： " + miss +"回</p>"
     +"<div class='btn_box'><div class='btn js_retry'>もう一回</div>"
     +"<div class='btn js_quit'>終了</div></div>";
