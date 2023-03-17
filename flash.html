@@ -91,7 +91,7 @@ body {
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-  gtag('config', 'G-DP1WEV1PRZ');
+  gtag('conf', 'G-DP1WEV1PRZ');
 </script>
 <body>
   <div class="container">
@@ -193,7 +193,7 @@ body {
         <div class="status times_20">20</div>
     </div>
     <div class="outer mtb30"><div id="question"></div></div>
-    <div class="outer" style="width:98%;text-align: center;"><div id="formula"></div></div>
+    <div class="outer" style="width:98%;text-align: center;"><div id="help"></div></div>
     <div class="outer" style="width:98%;text-align: center;"><div id="answer"></div></div>
     </main>
     <!-- footer -->
@@ -229,9 +229,9 @@ body {
 </div><!-- container -->
 <script src="./common/js/jquery-3.6.3.min.js"></script>
 <script src="./common/js/jquery-ui.js"></script>
-<script src="./common/js/common.js"></script>
-<script src="./common/js/modal.js"></script>
-<script src="./common/js/tools.js?te5sat"></script>
+<script src="./common/js/common.js?test"></script>
+<script src="./common/js/modal.js?test"></script>
+<script src="./common/js/tools.js?test"></script>
 <script>
 // https://keisanginou.jimdofree.com/%E3%83%95%E3%83%A9%E3%83%83%E3%82%B7%E3%83%A5%E6%9A%97%E7%AE%97/
 'use strict'
@@ -245,7 +245,7 @@ const levels = {1:{'min':50,'max':100},
             4:{'min':1001,'max':2000},
             5:{'min':2001,'max':3000}};
 const speeds = {1:1300,2:1000,3:800,4:500,5:300}
-let config = {level:2, speed:2, times:5};
+let conf = {level:2, speed:2, times:5};
 let current_cnt = 0;
 let miss = 0;
 let answer = '';    // 解答
@@ -254,6 +254,7 @@ let numbers = [];   // 指定回数分設問を入れておく
 let history = [];   // 履歴を入れておく
 // timer
 let timer = new Timer($('#timer'));
+RokuTool = new RokuTool(conf);
 
 let counter = 0;
 let num = 0;
@@ -261,7 +262,7 @@ let num = 0;
 function init(){
     $('#question').html('');
     $('#answer').html('');
-    $('#formula').html('');
+    $('#help').html('');
     correct = 0;
     answer = '';
 }
@@ -269,9 +270,9 @@ function init(){
 //-------------------------
 // 設定 タブ
 //-------------------------
-clickTab('level');
-clickTab('speed');
-clickTab('times');
+RokuTool.clickTab('level');
+RokuTool.clickTab('speed');
+RokuTool.clickTab('times');
 
 // ヒントtoggle
 $('[name=display_help]').click(function(){
@@ -285,10 +286,10 @@ $('[name=display_help]').click(function(){
 //-------------------------
 // howtoスタート click
 $('.js_start').click(function(){
-    $('.level_'+config['level']).addClass('-green');
-    $('.speed_'+config['speed']).addClass('-green');
-    $('.times_'+config['times']).addClass('-green');
-    $('#all_cnt').html(config.times);
+    $('.level_'+RokuTool.conf['level']).addClass('-green');
+    $('.speed_'+RokuTool.conf['speed']).addClass('-green');
+    $('.times_'+RokuTool.conf['times']).addClass('-green');
+    $('#all_cnt').html(RokuTool.conf.times);
     $('#howto').css('display', 'none');
 })
 //-------------------------
@@ -320,30 +321,23 @@ function setQuestion(){
         counter = 0;
         let num;
         let timer_id = setInterval(function () {
-        if (counter < config.times) {
+        if (counter < RokuTool.conf.times) {
             num = numbers[current_cnt-1][counter];
             question.html(num);
             counter++;
             correct += num;
         } else {
             clearInterval(timer_id);
-            if(isHelpActive()){
-                $('#formula').html(numbers[current_cnt-1].join(' + '));
-            }
+            $('#help').html(numbers[current_cnt-1].join(' + '));
         }
-        }, speeds[config.speed]);
+        }, speeds[RokuTool.conf.speed]);
     }
 }
-$('#formula').click(function(){
-    if(correct!='' && $('#formula').html()!='' && isHelpActive()){
-        $('#formula').html( $('#formula').html()+' = ' + correct)
+$('#help').click(function(){
+    if(correct!='' && $('#help').html()!='' && isActive($('#display_help'))){
+        $('#help').html( $('#help').html()+' = ' + correct)
     }
 })
-// ヘルプがアクティブかどうか
-function isHelpActive(){
-    console.log($('#display_help').attr('src'));
-    return $('#display_help').attr('src').indexOf('_off')== -1;
-}
 //-------------------------
 // 一時停止
 //-------------------------
@@ -401,7 +395,7 @@ $('#js_ok').click(function(){
         return;
     }
     if(parseInt(answer)==parseInt(correct)){
-        if(parseInt(current_cnt)==parseInt(config.times)){
+        if(parseInt(current_cnt)==parseInt(RokuTool.conf.times)){
             // 指定回数完了！！
             end();
             return;
@@ -428,12 +422,12 @@ $('#js_ok').click(function(){
 function generateNumber() {
     let rnd;
     // 指定の数分乱数を生成（かぶらないように）
-    for(let i=0; i<config.times; i++){
+    for(let i=0; i<RokuTool.conf.times; i++){
         rnd_arr = [];
-        while (Object.keys(rnd_arr).length < config.times) {
-            rnd = rand(levels[config.level].min, levels[config.level].max);
+        while (Object.keys(rnd_arr).length < RokuTool.conf.times) {
+            rnd = rand(levels[RokuTool.conf.level].min, levels[RokuTool.conf.level].max);
             // 存在しなかったら追加(level1&count=10は、数がかぶりすぎてスタックする)
-            if (rnd_arr.indexOf(rnd) == -1 || (config.level == 0 && config.times > 5)) {
+            if (rnd_arr.indexOf(rnd) == -1 || (RokuTool.conf.level == 0 && RokuTool.conf.times > 5)) {
                 rnd_arr.unshift(rnd);
             }
         }
@@ -448,13 +442,13 @@ function end(){
   $('#howto').css('display', 'block');
   let score_time = ((Date.now() - timer.startTime) / 1000).toFixed(2);
   let str = "<p>Finish!!</p>"
-    + "<p>レベル： " + config.level + "</p>"
+    + "<p>レベル： " + RokuTool.conf.level + "</p>"
     + "<p>タイム： <span style='font-size:2.2rem;'>" + score_time + "</span></p>"
     + "<p>間違えた回数： " + miss +"回</p>"
     +"<div class='btn_box'><div class='btn js_retry'>もう一回</div>"
     +"<div class='btn js_quit'>終了</div></div>";
   // 履歴を保存
-  history.push((history.length+1)+'. '+'level'+config.level+" <b style='font-size:1.5rem;'> " + score_time + " </b> (miss " + miss + ")");
+  history.push((history.length+1)+'. '+'level'+RokuTool.conf.level+" <b style='font-size:1.5rem;'> " + score_time + " </b> (miss " + miss + ")");
   if(history.length>1){
     str = str+'<hr>'+history.join('<br>');
   }

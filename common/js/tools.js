@@ -110,15 +110,26 @@ $('#js_reset').click(function(){
   })
 })
 
+
+
 /*-----------------------------
-* 設定タブ
-*/
-function clickTab(tab){
-  $('.tab_'+tab+' div').click(function(){
-      config[tab] = $(this).data('id');
-      $(this).parent().find('.status').removeClass('-green');
-      $(this).addClass('-green');
-      $('.'+tab+'_'+config[tab]).addClass('-green');
- })
+ * roku tools 
+ */
+class RokuTool {
+  constructor(conf) {
+    this.conf = conf;
+  }
+
+  /*-----------------------------
+  * 設定タブ
+  */
+  clickTab(tab){
+    let conf = this.conf;
+    $('.tab_'+tab+' div').click(function(){
+        conf[tab] = $(this).data('id');
+        $(this).parent().find('.status').removeClass('-green');
+        $(this).addClass('-green');
+   })
+  }
 }
 
