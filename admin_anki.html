@@ -130,7 +130,7 @@
       subject = $(this).data('subject');
       getAllQuestions();
       // 科目詳細書き換え
-      $.get(url+'?action=getSubjectSubTab&subject='+subject, function(data){
+      $.get(URL+'?action=getSubjectSubTab&subject='+subject, function(data){
         $('#tab_subject_sub').html(data);
       })
     })

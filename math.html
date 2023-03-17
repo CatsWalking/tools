@@ -294,7 +294,7 @@
           A.removeClass('hide');
           return;
         }
-        $.get(url+'?action=answer&status='+$(this).data('status')+'&id='+id.html(), function(){
+        $.get(URL+'?action=answer&status='+$(this).data('status')+'&id='+id.html(), function(){
           no++;
           set();
         })

@@ -187,3 +187,15 @@ footer {
   margin: 0;
   text-align: center;
 }
+
+#start_message {
+  position: absolute;
+  top: 30%;
+  width: 98%;
+  height: 120px;
+  line-height: 120px;
+  text-align: center;
+  color: rgb(224, 130, 130);
+  background-color: rgb(250, 215, 227);
+  font-size: 1.6rem;
+}

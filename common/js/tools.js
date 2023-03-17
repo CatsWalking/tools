@@ -110,4 +110,15 @@ $('#js_reset').click(function(){
   })
 })
 
+/*-----------------------------
+* 設定タブ
+*/
+function clickTab(tab){
+  $('.tab_'+tab+' div').click(function(){
+      config[tab] = $(this).data('id');
+      $(this).parent().find('.status').removeClass('-green');
+      $(this).addClass('-green');
+      $('.'+tab+'_'+config[tab]).addClass('-green');
+ })
+}
 

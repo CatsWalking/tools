@@ -483,7 +483,7 @@ class Timer {
  * アイコンなどのイメージを切り替える
  * _off のイメージを用意しておく
  */
-function toggleImg(elem, src, notice_print=true){
+function toggleIcon(elem, src, notice_print=true){
     let src_off = src.replace('.png', '_off.png');
     if(elem.attr('src')==src){
       elem.attr('src', src_off);
@@ -495,7 +495,9 @@ function toggleImg(elem, src, notice_print=true){
       if(notice_print){
         elem.parent().children('.icon_str').html('オン');
       } 
-  }
-
-  
+  } 
+}
+// アクティブかどうか
+function isActive(elem){
+  return elem.attr('src').indexOf('_off')== -1;
 }

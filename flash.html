@@ -55,15 +55,6 @@ body {
 #answer{
   font-size: 3rem;
 }
-#message{
-  position:absolute;
-  top:30%;
-  width: 98%;
-  height: 120px;
-  line-height: 120px;
-  text-align: center;color:rgb(224, 130, 130);background-color: rgb(250, 215, 227);
-  font-size:1.6rem;
-}
 .tenkey_box li{
   height: 50px;
   font-size: 1.8rem; 
@@ -106,7 +97,7 @@ body {
   <div class="container">
     <!-- <header></header> -->
     <main>
-        <div id="message">タップしてスタート</div>
+        <div id="start_message">タップしてスタート</div>
     <!-- HOWTO -->
     <div id="howto">
         <p style="font-size: 3rem;margin:20px;">flash</p> 
@@ -141,12 +132,13 @@ body {
             </td>
         </tr>
         <tr><td width="60"><img src="./common/images/icon/beginner.png" class="icon -sss"></td>
-            <td class="js_display_help radioarea txtSSS txtLeft">
-                <label class="-checked"><input type="radio" value="1" checked>ヒント表示する</label>
-                <label><input type="radio" value="0">ヒント表示しない</label>
+            <td class="radioarea txtSSS txtLeft">
+                <label class="-checked"><input type="radio" name="display_help" value="1" checked>ヒント表示する</label>
+                <label><input type="radio" name="display_help" value="0">ヒント表示しない</label>
             </td>
         </tr>
         </table>
+        <!-- スタート -->
         <div class="btn js_start">スタート</div>
         <hr>
         <div class="txtS mtb20" style="line-height:1.6rem;">※ 検定・大会問題等の<br>問題出力方法・作問規定 とは異なります</div>
@@ -176,7 +168,6 @@ body {
     <div><img src="./common/images/icon/pause.png" class="icon -ss" id="js_pause" style="margin-right:4px;"></div>
     <div><img src="./common/images/icon/close.png" class="icon -ss js_quit"></div>
   </div>
-
   <div class="btn_box">
         <div class="tab_label">レベル</div>
         <div class="status level_1">1</div>
@@ -281,16 +272,15 @@ function init(){
 clickTab('level');
 clickTab('speed');
 clickTab('times');
-function clickTab(tab){
-    $('.tab_'+tab+' div').click(function(){
-        config[tab] = $(this).data('id');
-        $(this).parent().find('.status').removeClass('-green');
-        $(this).addClass('-green');
-        $('.'+tab+'_'+config[tab]).addClass('-green');
-   })
-}
-$('#js_display_help').click(function(){
-    
+
+// ヒントtoggle
+$('[name=display_help]').click(function(){
+    console.log($('[name=display_help]:checked').val());
+    if($('[name=display_help]:checked').val()==1){
+        $('#display_help').attr('src', ICON_DIR+'beginner.png');
+    } else {
+        $('#display_help').attr('src', ICON_DIR+'beginner_off.png');
+    }
 })
 //-------------------------
 // howtoスタート click
@@ -303,7 +293,7 @@ $('.js_start').click(function(){
 })
 //-------------------------
 // タップしてスタート
-$('#message').click(function(){
+$('#start_message').click(function(){
     // 指定回数分設問を作成
     generateNumber();
     $(this).css('display', 'none');
@@ -366,7 +356,7 @@ $('#js_pause').click(function(){
   } else {
     timer.restartTimer();   // restart
   }
-  toggleImg($(this), ICON_DIR+'pause.png');
+  toggleIcon($(this), ICON_DIR+'pause.png');
 })
 // 終了
 $(document).on('click', '.js_quit', function(){
@@ -381,7 +371,7 @@ $(document).on('click', '.js_retry', function(){
 // ヘルプtoggle
 $('#display_help').click(function(){
   $('#help').toggle();
-  toggleImg($(this), ICON_DIR+'beginner.png');
+  toggleIcon($(this), ICON_DIR+'beginner.png');
 })
 //-------------------
 // テンキー
