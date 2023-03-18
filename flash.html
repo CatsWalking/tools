@@ -83,6 +83,19 @@ body {
     text-align:left;
     font-size: 0.7rem;
 }
+.conf div{
+    background:none;
+    border:1px solid rgba(0, 172, 239, 0.3);
+    cursor: auto;
+}
+#js_ok {
+  height: 180px;
+  line-height: 180px;
+}
+.box.-l{
+    width:48px;
+    height:48px;
+}
 </style>
 </head>
 <!-- Google tag (gtag.js) -->
@@ -132,7 +145,7 @@ body {
             </td>
         </tr>
         <tr><td width="60"><img src="./common/images/icon/beginner.png" class="icon -sss"></td>
-            <td class="radioarea txtSSS txtLeft">
+            <td class="radioarea txtS txtLeft">
                 <label class="-checked"><input type="radio" name="display_help" value="1" checked>ヒント表示する</label>
                 <label><input type="radio" name="display_help" value="0">ヒント表示しない</label>
             </td>
@@ -144,11 +157,11 @@ body {
         <div class="txtS mtb20" style="line-height:1.6rem;">※ 検定・大会問題等の<br>問題出力方法・作問規定 とは異なります</div>
         <div>
             <ul style="line-height: 1.6rem;width:150px;text-align:left;margin: 10px auto;">
-                <p>level1: 50〜100 </p>
-                <p>level2: 101〜500</p>
-                <p>level3: 501〜1000</p>
-                <p>level4: 1001〜2000</p>
-                <p>level5: 2001〜3000</li>
+                <p>level1: 50 〜 100 </p>
+                <p>level2: 101 〜 200</p>
+                <p>level3: 201 〜 300</p>
+                <p>level4: 301 〜 500</p>
+                <p>level5: 501 〜 2000</li>
             </ul>
         </div>
       </div>
@@ -163,29 +176,27 @@ body {
 <div class="header_box">
     <div id="timer" class="timer">0.00</div>
     <div id="cnt"><span id="current_cnt">1</span> / <span id="all_cnt">5</span></div>
-    <div id="help"></div>
     <div><img src="./common/images/icon/beginner.png" class="icon -ss" id="display_help"></div>
-    <div><img src="./common/images/icon/pause.png" class="icon -ss" id="js_pause" style="margin-right:4px;"></div>
     <div><img src="./common/images/icon/close.png" class="icon -ss js_quit"></div>
   </div>
-  <div class="btn_box">
-        <div class="tab_label">レベル</div>
+  <div class="btn_box conf">
+        <span class="tab_label">レベル</span>
         <div class="status level_1">1</div>
         <div class="status level_2">2</div>
         <div class="status level_3">3</div>
         <div class="status level_4">4</div>
         <div class="status level_5">5</div>
     </div>
-    <div class="btn_box">
-        <div class="tab_label">スピード</div>
+    <div class="btn_box conf">
+        <span class="tab_label">スピード</span>
         <div class="status speed_1">1</div>
         <div class="status speed_2">2</div>
         <div class="status speed_3">3</div>
         <div class="status speed_4">4</div>
         <div class="status speed_5">5</div>
     </div>
-    <div class="btn_box">
-        <div class="tab_label">回数</div>
+    <div class="btn_box conf">
+        <span class="tab_label">回数</span>
         <div class="status times_3">3</div>
         <div class="status times_5">5</div>
         <div class="status times_10">10</div>
@@ -240,10 +251,10 @@ let question = $('#question');
 let rnd_arr = [];
 let flg = false;
 const levels = {1:{'min':50,'max':100}, 
-            2:{'min':101,'max':500},
-            3:{'min':501,'max':1000},
-            4:{'min':1001,'max':2000},
-            5:{'min':2001,'max':3000}};
+            2:{'min':101,'max':200},
+            3:{'min':201,'max':300},
+            4:{'min':301,'max':500},
+            5:{'min':501,'max':2000}};
 const speeds = {1:1300,2:1000,3:800,4:500,5:300}
 let conf = {level:2, speed:2, times:5};
 let current_cnt = 0;
@@ -251,7 +262,7 @@ let miss = 0;
 let answer = '';    // 解答
 let correct = 0;    // 正解
 let numbers = [];   // 指定回数分設問を入れておく
-let history = [];   // 履歴を入れておく
+let history = [];   // 履歴を入れてお
 // timer
 let timer = new Timer($('#timer'));
 RokuTool = new RokuTool(conf);
@@ -260,13 +271,33 @@ let counter = 0;
 let num = 0;
 
 function init(){
+    // 指定回数分設問を作成
+    generateNumber();
+    start();
+    miss = 0;
+    current_cnt=1;
+    $('#current_cnt').html(current_cnt);
+    $('#howto').css('display', 'none');
+    $('#timer').html('0.00');
+}
+function start(){
     $('#question').html('');
     $('#answer').html('');
     $('#help').html('');
     correct = 0;
     answer = '';
-}
+    $('#start_message').css('display', 'none');
 
+    // // 指定回数分設問を作成
+    // generateNumber();
+    // init();
+    // miss = 0;
+    // current_cnt=1;
+    // $('#current_cnt').html(current_cnt);
+    
+    // $('#start_message').css('display', 'none');
+    // $('#howto').css('display', 'none');
+}
 //-------------------------
 // 設定 タブ
 //-------------------------
@@ -276,11 +307,12 @@ RokuTool.clickTab('times');
 
 // ヒントtoggle
 $('[name=display_help]').click(function(){
-    console.log($('[name=display_help]:checked').val());
     if($('[name=display_help]:checked').val()==1){
         $('#display_help').attr('src', ICON_DIR+'beginner.png');
+        $('#help').css('display', 'block');
     } else {
         $('#display_help').attr('src', ICON_DIR+'beginner_off.png');
+        $('#help').css('display', 'none');
     }
 })
 //-------------------------
@@ -295,39 +327,33 @@ $('.js_start').click(function(){
 //-------------------------
 // タップしてスタート
 $('#start_message').click(function(){
-    // 指定回数分設問を作成
-    generateNumber();
-    $(this).css('display', 'none');
     init();
-    miss = 0;
-    current_cnt=1;
-    $('#current_cnt').html(current_cnt);
     // タイマースタート
     timer.runTimer();
     setQuestion();
 })
 
+
+
 //-------------------------
 // 設問セット
 //-------------------------
 function setQuestion(){
-    // answer = '';
-    init();
+    start();
     $('#current_cnt').html(current_cnt);
-
     $('#ok_sign').removeClass('fadeUp');
     $('#ok_sign').css('display', 'none');
     if(timer.isRunning){
         counter = 0;
         let num;
-        let timer_id = setInterval(function () {
+        let q_time_id = setInterval(function () {
         if (counter < RokuTool.conf.times) {
             num = numbers[current_cnt-1][counter];
             question.html(num);
             counter++;
             correct += num;
         } else {
-            clearInterval(timer_id);
+            clearInterval(q_time_id);
             $('#help').html(numbers[current_cnt-1].join(' + '));
         }
         }, speeds[RokuTool.conf.speed]);
@@ -338,20 +364,6 @@ $('#help').click(function(){
         $('#help').html( $('#help').html()+' = ' + correct)
     }
 })
-//-------------------------
-// 一時停止
-//-------------------------
-$('#js_pause').click(function(){
-  if($('#timer').html()=='0.00' || question.html()==''){
-    return;
-  }
-  if(timer.isRunning){
-    timer.pauseTimer(); // pause
-  } else {
-    timer.restartTimer();   // restart
-  }
-  toggleIcon($(this), ICON_DIR+'pause.png');
-})
 // 終了
 $(document).on('click', '.js_quit', function(){
   openConfirm('quit?', function(){
@@ -360,7 +372,10 @@ $(document).on('click', '.js_quit', function(){
 })
 // リトライ
 $(document).on('click', '.js_retry', function(){
-  $('#howto').css('display', 'none');
+    $('#howto').css('display', 'none');
+    $('#start_message').css('display', 'block');
+    console.log($('#start_message').css('display'), 'retry');
+    init();
 })
 // ヘルプtoggle
 $('#display_help').click(function(){
@@ -402,7 +417,7 @@ $('#js_ok').click(function(){
         }
         // カウントアップ
         current_cnt += 1;
-        init();
+        start();
         // OKくまさんを表示して、0.7秒後に次の問題へ
         $('#ok_sign').addClass('fadeUp');
         $('#ok_sign').css('display', 'block');
@@ -414,8 +429,6 @@ $('#js_ok').click(function(){
         miss++;
     }
 })
-
-
 /**---------------------------------------------
  * 指定回数分の設問を作成して配列に入れておく
  */
@@ -434,7 +447,6 @@ function generateNumber() {
         numbers[i] = rnd_arr;
     }
 }
-
 /*-----------------------
  end
 -----------------------*/

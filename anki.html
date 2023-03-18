@@ -25,17 +25,19 @@
 }
 #question{
   margin: 10px auto;
-  height: 240px;
+  height: 160px;
   color: rgb(85, 85, 88);
   background-color: rgb(239, 240, 241);
   position: relative;
+  overflow: scroll;
 	/* padding-bottom: 3rem; */
 }
 #answer{
   margin: 0 auto;
-  height: 30px;
+  height: 100px;
   text-align:center;
   color: rgb(169, 102, 103);
+  overflow: scroll;
 }
 .btn_box{
   margin: 0 auto;
@@ -74,10 +76,12 @@
 #file_area img.scale {
   position: fixed;
   width: 100%;
-  position: absolute;
+  max-height:100%;
+  /* position: absolute; */
   top: 50%;
   left: 47%;
   transform: translate(-50%,-50%);
+  z-index:999;
 }
 
 /* pc */
@@ -97,6 +101,12 @@
   #tab_order_type.status{
     padding: 3px 5px 3px 5px;
     min-width: 60px;
+  }
+  #question{
+    height: 200px;
+  }
+  #answer{
+    height: 140px;
   }
 }
 /* tablet */
