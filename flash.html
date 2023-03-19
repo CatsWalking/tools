@@ -108,7 +108,7 @@ body {
 </script>
 <body>
   <div class="container">
-    <!-- <header></header> -->
+    <header></header>
     <main>
         <div id="start_message">タップしてスタート</div>
     <!-- HOWTO -->
@@ -117,39 +117,39 @@ body {
         <!-- レベル -->
         <p>レベル、スピード、回数 を選んでスタート！</p> 
         <table style="width:350px;margin: 20px auto;padding:0;">
-        <tr><td width="60">レベル</td>
-            <td class="tab_level">
-                <div class="status" data-id="1">1</div>
-                <div class="status -green" data-id="2">2</div>
-                <div class="status" data-id="3">3</div>
-                <div class="status" data-id="4">4</div>
-                <div class="status" data-id="5">5</div>
-            </td>
-        </tr>
-        <tr><td width="60">スピード</td>
-            <td class="tab_speed">
-                <div class="status" data-id="1">1</div>
-                <div class="status -green" data-id="2">2</div>
-                <div class="status" data-id="3">3</div>
-                <div class="status" data-id="4">4</div>
-                <div class="status" data-id="5">5</div>
-            </td>
-        </tr>
-        <tr><td width="60">回数</td>
-            <td class="tab_times">
-                <div class="status" data-id="3">3</div>
-                <div class="status -green" data-id="5">5</div>
-                <div class="status" data-id="10">10</div>
-                <div class="status" data-id="15">15</div>
-                <div class="status" data-id="20">20</div>
-            </td>
-        </tr>
-        <tr><td width="60"><img src="./common/images/icon/beginner.png" class="icon -sss"></td>
-            <td class="radioarea txtS txtLeft">
-                <label class="-checked"><input type="radio" name="display_help" value="1" checked>ヒント表示する</label>
-                <label><input type="radio" name="display_help" value="0">ヒント表示しない</label>
-            </td>
-        </tr>
+            <tr><td width="60">レベル</td>
+                <td class="tab_level">
+                    <div class="status">1</div>
+                    <div class="status -green">2</div>
+                    <div class="status">3</div>
+                    <div class="status">4</div>
+                    <div class="status">5</div>
+                </td>
+            </tr>
+            <tr><td width="60">スピード</td>
+                <td class="tab_speed">
+                    <div class="status">1</div>
+                    <div class="status -green">2</div>
+                    <div class="status">3</div>
+                    <div class="status">4</div>
+                    <div class="status">5</div>
+                </td>
+            </tr>
+            <tr><td width="60">回数</td>
+                <td class="tab_times">
+                    <div class="status">3</div>
+                    <div class="status -green">5</div>
+                    <div class="status">10</div>
+                    <div class="status">15</div>
+                    <div class="status">20</div>
+                </td>
+            </tr>
+            <tr><td width="60"><img src="./common/images/icon/beginner.png" class="icon -sss"></td>
+                <td class="radioarea txtS txtLeft">
+                    <label class="-checked"><input type="radio" name="display_help" value="1" checked>ヒント表示する</label>
+                    <label><input type="radio" name="display_help" value="0">ヒント表示しない</label>
+                </td>
+            </tr>
         </table>
         <!-- スタート -->
         <div class="btn js_start">スタート</div>
@@ -262,7 +262,7 @@ let miss = 0;
 let answer = '';    // 解答
 let correct = 0;    // 正解
 let numbers = [];   // 指定回数分設問を入れておく
-let history = [];   // 履歴を入れてお
+let history = [];   // 履歴を入れておく
 // timer
 let timer = new Timer($('#timer'));
 RokuTool = new RokuTool(conf);
@@ -273,12 +273,12 @@ let num = 0;
 function init(){
     // 指定回数分設問を作成
     generateNumber();
-    start();
     miss = 0;
     current_cnt=1;
     $('#current_cnt').html(current_cnt);
     $('#howto').css('display', 'none');
     $('#timer').html('0.00');
+    start();
 }
 function start(){
     $('#question').html('');
@@ -286,17 +286,6 @@ function start(){
     $('#help').html('');
     correct = 0;
     answer = '';
-    $('#start_message').css('display', 'none');
-
-    // // 指定回数分設問を作成
-    // generateNumber();
-    // init();
-    // miss = 0;
-    // current_cnt=1;
-    // $('#current_cnt').html(current_cnt);
-    
-    // $('#start_message').css('display', 'none');
-    // $('#howto').css('display', 'none');
 }
 //-------------------------
 // 設定 タブ
@@ -331,10 +320,8 @@ $('#start_message').click(function(){
     // タイマースタート
     timer.runTimer();
     setQuestion();
+    $(this).css('display', 'none');
 })
-
-
-
 //-------------------------
 // 設問セット
 //-------------------------
@@ -374,7 +361,6 @@ $(document).on('click', '.js_quit', function(){
 $(document).on('click', '.js_retry', function(){
     $('#howto').css('display', 'none');
     $('#start_message').css('display', 'block');
-    console.log($('#start_message').css('display'), 'retry');
     init();
 })
 // ヘルプtoggle

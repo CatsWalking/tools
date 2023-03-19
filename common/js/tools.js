@@ -9,18 +9,21 @@ const ICON_DIR = './common/images/icon/';
 // ヘッダーメニュー
 const header = '<div class="header__inner">'
     +'<h1 class="header__title header-title">'
-    +'<a href="index.html">★ Roku tools </a>'
+    +'<a>★ Roku tools </a>'
+    // +'<a href="index.html">★ Roku tools </a>'
     +'</h1>'
     +'<nav class="header__nav nav" id="js-nav">'
     +'<ul class="nav__items nav-items">'
-    +'<li class="nav-items__item"><a href="index.html">トップページ</a></li>'
-    +'<li class="nav-items__item"><a href="anki.html">暗記</a></li>'
-    +'<li class="nav-items__item"><a href="redsheet.html">赤シート</a></li>'
-    +'<li class="nav-items__item"><a href="calc.html">計算ツール</a></li>'
+    // +'<li class="nav-items__item"><a href="index.html">トップページ</a></li>'
+    // +'<li class="nav-items__item"><a href="anki.html">暗記</a></li>'
+    // +'<li class="nav-items__item"><a href="redsheet.html">赤シート</a></li>'
+    // +'<li class="nav-items__item"><a href="calc.html">計算ツール</a></li>'
+    +'<li class="nav-items__item"><a href="factorization_kuma.html">因数分解</a></li>'
+    +'<li class="nav-items__item"><a href="flash.html">flash暗算</a></li>'
     +'<li class="nav-items__item tab_timer"><a href="timer.html">タイマー</a></li>'
-    +'<li class="nav-items__item tab_game"><a href="reversi.html">ゲーム</a></li>'
-    +'<li class="nav-items__item tab_edu"><a href="flash.html">知育</a></li>'
-    +'<li class="nav-items__item"><a href="bmi.html">bmi</a></li>'
+    // +'<li class="nav-items__item tab_game"><a href="reversi.html">ゲーム</a></li>'
+    // +'<li class="nav-items__item tab_edu"><a href="flash.html">知育</a></li>'
+    // +'<li class="nav-items__item"><a href="bmi.html">bmi</a></li>'
     +'</ul>'
     +'</nav>'
     +'<button class="header__hamburger hamburger" id="js-hamburger">'
@@ -122,9 +125,9 @@ class RokuTool {
   * 設定タブ
   */
   clickTab(tab){
-    let conf = this.conf;
+    let conf = this.conf
     $('.tab_'+tab+' div').click(function(){
-        conf[tab] = $(this).data('id');
+        conf[tab] = $(this).html();
         $(this).parent().find('.status').removeClass('-green');
         $(this).addClass('-green');
    })

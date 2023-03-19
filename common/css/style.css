@@ -59,7 +59,7 @@ footer {
 /* pc */
 @media screen and (min-width: 960px) {
   footer {
-    min-height: 300px;
+    min-height: 200px;
   }
 }
 
@@ -622,8 +622,6 @@ table.-tableHover tr:hover td {
   cursor: pointer;
 }
 
-
-
 .icon.-s {
   width: 45px;
   height: 45px;
@@ -650,7 +648,9 @@ table.-tableHover tr:hover td {
 }
 
 .icon.-edit {
-  background: url("../images/icon/icon_edit.svg") no-repeat;
+  background: url("../images/icon/edit.png") no-repeat;
+  width: 30px;
+  height: 30px;
 }
 
 .icon.-sound_on {

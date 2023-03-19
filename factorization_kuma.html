@@ -165,7 +165,7 @@ body {
 </script>
 <body>
 <div class="container">
-  <!-- <header></header> -->
+  <header></header>
   <main>
     <div id="start_message">タップしてスタート</div>
     <!-- HOWTO -->
@@ -178,20 +178,20 @@ body {
       <table style="width:350px;margin: 20px auto;padding:0;">
         <tr><td width="60">レベル</td>
             <td class="tab_level">
-                <div class="status" data-id="1">1</div>
-                <div class="status -green" data-id="2">2</div>
-                <div class="status" data-id="3">3</div>
-                <div class="status" data-id="4">4</div>
-                <div class="status" data-id="5">5</div>
+                <div class="status">1</div>
+                <div class="status -green">2</div>
+                <div class="status">3</div>
+                <div class="status">4</div>
+                <div class="status">5</div>
             </td>
         </tr>
         <tr><td width="60">回数</td>
             <td class="tab_times">
-                <div class="status" data-id="3">3</div>
-                <div class="status -green" data-id="5">5</div>
-                <div class="status" data-id="10">10</div>
-                <div class="status" data-id="15">15</div>
-                <div class="status" data-id="20">20</div>
+                <div class="status">3</div>
+                <div class="status -green">5</div>
+                <div class="status">10</div>
+                <div class="status">15</div>
+                <div class="status">20</div>
             </td>
         </tr>
         <tr><td width="60"><img src="./common/images/icon/beginner.png" class="icon -sss"></td>
@@ -326,7 +326,6 @@ RokuTool.clickTab('times');
 
 // ヒントtoggle
 $('[name=display_help]').click(function(){
-    console.log($('[name=display_help]:checked').val());
     if($('[name=display_help]:checked').val()==1){
         $('#display_help').attr('src', ICON_DIR+'beginner.png');
     } else {
@@ -334,9 +333,8 @@ $('[name=display_help]').click(function(){
         $('#help').toggle();
     }
 })
-// クマtoggle
+// // クマtoggle
 $('[name=display_animal]').click(function(){
-    console.log($('[name=display_animal]:checked').val());
     if($('[name=display_animal]:checked').val()==1){
         $('#display_animal').attr('src', ICON_DIR+'kuma.png');
     } else {
@@ -407,15 +405,15 @@ $(document).on('click', '.js_quit', function(){
 // リトライ
 $(document).on('click', '.js_retry', function(){
   $('#howto').css('display', 'none');
-  start();
-  timer.runTimer();
+    $('#start_message').css('display', 'block');
+    init();
 })
 // クマさんtoggle
-$('#display_animal').click(function(){
-  animal.offset(animal_offset);
-  animal.toggle();
-  toggleIcon($('#display_animal'), ICON_DIR+'kuma.png');
-})
+// $('#display_animal').click(function(){
+//   animal.offset(animal_offset);
+//   animal.toggle();
+//   toggleIcon($('#display_animal'), ICON_DIR+'kuma.png');
+// })
 // ヘルプtoggle
 $('#display_help').click(function(){
   $('#help').toggle();
@@ -454,14 +452,12 @@ function init(){
 // スタート
 function start(){
   prepare();
-
   // 問を生成
   generateNumber();
   // クマさんを少しずつ大きくする
   enLargeAnimal();
   // ぷるんぷるん
   animal.addClass('animal_purun');
-  $('#message').remove();
 }
 function enLargeAnimal(){
  // クマさんを少しずつ大きくする

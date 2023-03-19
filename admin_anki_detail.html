@@ -67,7 +67,7 @@
         <div class="status" data-subject="3">理科</div>
       </div> -->
 
-        <input type="text" name="id">
+        <input type="hidden" name="id">
         <table class="table3">
           <tr>
             <th>科目</th>
@@ -110,7 +110,7 @@
         </table>
       </main>
 
-      <div class="footer">
+      <div class="footer" style="z-index: 999;">
         <div class="btn_box"  style="margin-top: 20px;">
           <div class="btn" id="js_save">保存</div>
         </div>
@@ -163,15 +163,11 @@
         }
       })
 
-
-
-
-
       //--------------------------
       // 保存  
       $('#js_save').click(function(){
         if($('[name=subject]:checked').val()!=1){
-          if($('[name=question]').val()=='' || $('[name=answer]').val()=='' || $('[name=subject]:checked').val()==''){
+          if($('[name=question]').val()=='' || $('[name=subject]:checked').val()==''){
             // 算数以外は必須
             openDialog('必須項目を入力してください');
             return;

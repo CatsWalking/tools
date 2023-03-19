@@ -24,7 +24,7 @@
     width: 20px;
   }
   .js_sort{
-    cursor: pointer;
+    cursor:pointer;
   }
 }
 </style>
@@ -105,7 +105,7 @@
             +"<td>"+questions[no]['question'].substr(0,30)+"</td>"
             +"<td>"+questions[no]['cnt']+"/"+questions[no]['status']+"</td>"
             +"<td class='txtCenter'><a href='admin_anki_detail.html?id="+questions[no]['id']+"'>"
-              +"<span class='icon -ss -edit'></span></a></td>"
+              +"<img src='./common/images/icon/edit.png' class='icon -ss'></a></td>"
             +"</tr>";
           $('#anki_table tbody').append(line);
         }
