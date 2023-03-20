@@ -154,7 +154,7 @@ $('.js_microphone').click(function(){
 
       let id;
       const cols = ['id', 'question', 'answer', 'subject', 'subject_sub', 'subject_sub_sub'];
-      id = getParam2('id');
+      id = getParam('id');
       if(id!=''){
         console.log(URL+'?action=getAnki&id='+id);
         $.get(URL+'?action=getAnki&id='+id, function(data){

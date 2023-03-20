@@ -20,7 +20,7 @@ function getUrlParam() {
   return url;
 }
 // パラメータを連想配列に
-function getParam()
+function getParams()
 {
 	var url_search = location.search.substr(1).split('&');
 	var para = [];
@@ -31,7 +31,7 @@ function getParam()
 	}
 	return (para);
 }
-function getParam2(name, url) {
+function getParam(name, url) {
   if (!url) url = window.location.href;
   name = name.replace(/[\[\]]/g, "\\$&");
   var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),

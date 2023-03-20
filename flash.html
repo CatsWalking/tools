@@ -212,7 +212,7 @@ body {
         <div class="status times_15">15</div>
         <div class="status times_20">20</div>
     </div>
-    <div class="outer mtb30"><div id="question"></div></div>
+    <div class="outer mtb20"><div id="question"></div></div>
     <div class="outer" style="width:98%;text-align: center;"><div id="help"></div></div>
     <div class="outer" style="width:98%;text-align: center;"><div id="answer"></div></div>
     </main>
@@ -249,9 +249,9 @@ body {
 </div><!-- container -->
 <script src="./common/js/jquery-3.6.3.min.js"></script>
 <script src="./common/js/jquery-ui.js"></script>
-<script src="./common/js/common.js?test"></script>
-<script src="./common/js/modal.js?test"></script>
-<script src="./common/js/tools.js?test"></script>
+<script src="./common/js/common.js?tesssast"></script>
+<script src="./common/js/modal.js?tesst"></script>
+<script src="./common/js/tools.js?tesst"></script>
 <script>
 // https://keisanginou.jimdofree.com/%E3%83%95%E3%83%A9%E3%83%83%E3%82%B7%E3%83%A5%E6%9A%97%E7%AE%97/
 'use strict'
@@ -278,6 +278,22 @@ RokuTool = new RokuTool(conf);
 
 let counter = 0;
 let num = 0;
+
+// パラメータ付きURLだったら
+let params = getParams();
+$.each(['level', 'speed', 'times'], function(i, cf){
+  console.log(i, cf, this);
+  if(params['level']){
+    conf[cf] = params[cf]
+    $('.tab_'+cf+' div').removeClass('-green');
+    $('.tab_'+cf+' div').each(function(){
+      if($(this).html()==params[cf]){
+        $(this).addClass('-green');
+      }
+    })
+  }
+})
+
 
 function init(){
     // 指定回数分設問を作成
@@ -350,7 +366,11 @@ function setQuestion(){
             correct += num;
         } else {
             clearInterval(q_time_id);
-            $('#help').html(numbers[current_cnt-1].join(' + '));
+            // 2秒後に指揮を表示
+            window.setTimeout(function(){
+              $('#help').html(numbers[current_cnt-1].join(' + '));
+            }, 2000)
+            
         }
         }, speeds[RokuTool.conf.speed]);
     }
@@ -363,7 +383,8 @@ $('#help').click(function(){
 // 終了
 $(document).on('click', '.js_quit', function(){
   openConfirm('quit?', function(){
-    location.href=location.href;
+    let params = "level="+conf.level+"&speed="+conf.speed+"&times="+conf.times+"&display_help="+isActive($('#display_help'));
+    location.href = location.href+"?"+params;
   })
 })
 // リトライ
