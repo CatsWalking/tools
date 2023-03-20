@@ -10,7 +10,7 @@ class VoiceInput {
 	_len = 0;					// 文字列の長さ
 	_timer_id;					// 文字列の記帳を監視する（しばらく放置されていたらstopする）
 	_silent_cnt = 0;
-	_auto_off_cnt = 10
+	_auto_off_cnt = 15
 
 	constructor(element) {
 		this._targetElement = element;
@@ -28,11 +28,17 @@ class VoiceInput {
 		recognition.onresult = (event) => {
 			if (event.results[0].isFinal) {
 				// 確定した ---> 現在の値も更新
-				this._currentValue = this._currentValue + "\n" + event.results[0][0].transcript
+				if(this._currentValue!='' && this._addNewLine){
+					this._currentValue += "\n";	// 改行
+				}
+				this._currentValue = this._currentValue +  event.results[0][0].transcript;
 				this._targetElement.value = this._currentValue;
 			} else if(this._showIntermediate) {
 				// 入力途中のプロセスも表示
-				this._targetElement.value = this._currentValue + "\n" +event.results[0][0].transcript;
+				// if(this._currentValue!='' && this._addNewLine){
+				// 	this._currentValue = this._currentValue + "\n";	// 改行
+				// }
+				// this._currentValue = this._currentValue +  event.results[0][0].transcript;
 			}
 		};
 		recognition.onnomatch = () => {
@@ -54,6 +60,7 @@ class VoiceInput {
 	 * @param {*} oneTime true - 一度の認識で終了する
 	 */
 	start(oneTime) {
+		console.log('start');
 		if (this._recognition) {
 			this._oneTime = oneTime;
 			this._recognition.start();

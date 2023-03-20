@@ -61,12 +61,7 @@
   <div class="container">
     <header></header>
     <form id="frm" method="post" accept=".png,.jpg,.jpeg,.gif" enctype="multipart/form-data">
-    <main>
-      <!-- <div class="btn_box" id="tab_subject">
-        <div class="status -green" data-subject="4">社会</div>
-        <div class="status" data-subject="3">理科</div>
-      </div> -->
-
+    <main style="z-index:1;">
         <input type="hidden" name="id">
         <table class="table3">
           <tr>
@@ -92,21 +87,22 @@
             <th>重要</th>
             <td class="checkboxarea">
               <label><input type="checkbox" name="status" value="5">重要</label>
+             <img src="./common/images/icon/microphone_off.png" class="icon -ss js_microphone">
             </td>
           </tr>
           <tr>
             <th>質問</th><td>
-              <textarea name="question" class="w100per"></textarea>
+              <textarea name="question" id="question" class="w100per"></textarea>
             </td>
           </tr>
           <tr>
             <th>解答</th><td>
-              <textarea name="answer" class="w100per"></textarea>
+              <textarea name="answer" id="answer" class="w100per"></textarea>
             </td>
           </tr>
-          <tr>画像１<th></th><td><input type="file" class="js-droparea" id="file1ddd" name="file1"></td></tr>
-          <tr>画像２<th></th><td><input type="file" class="js-droparea" id="file2ddd" name="file2"></td></tr>
-          <tr>画像３<th></th><td><input type="file" class="js-droparea" id="file3ddd" name="file3"></td></tr>
+          <tr><th>画像１</th><td><input type="file" class="js-droparea" id="file1ddd" name="file1"></td></tr>
+          <tr><th>画像２</th><td><input type="file" class="js-droparea" id="file2ddd" name="file2"></td></tr>
+          <tr><th>画像３</th><td><input type="file" class="js-droparea" id="file3ddd" name="file3"></td></tr>
         </table>
       </main>
 
@@ -124,9 +120,38 @@
 <script src="./common/js/common.js?test"></script>
 <script src="./common/js/modal.js?tesat"></script>
 <script src="./common/js/tools.js?tesat"></script>
+<script src="./common/js/voice.js?tesasadat"></script>
 <script>
   'use strict'
   $(function(){
+    let voice;
+    let elem = document.getElementById('question');
+    $('#question').focus();
+
+    $('#question').on('focus, click', function(){
+      console.log('question');
+      elem = document.getElementById('question');
+    })
+    $('#answer').on('focus, click', function(){
+      console.log('answer');
+      elem = document.getElementById('answer');
+    })
+
+//-------------------------------------------------------------
+// アイコントグル
+$('.js_microphone').click(function(){
+    // toggle
+    toggleIcon($(this), ICON_DIR+'microphone.png');
+    if(isActive($('.js_microphone'))){
+        voice = new VoiceInput(elem);
+        voice.addNewLine=true;
+        voice.start();
+    } else {
+        voice.stop();
+    }
+})
+
+
       let id;
       const cols = ['id', 'question', 'answer', 'subject', 'subject_sub', 'subject_sub_sub'];
       id = getParam2('id');
