@@ -50,20 +50,11 @@
               <span id="clock_m">00</span>:<span id="clock_s">00</span>.<span id="clock_ms">00</span>
           </div>
       </div>
-
-      <!-- <textarea name="" id="test" cols="30" rows="10"></textarea>
-<div class="btn" id="start">start</div>
-<div class="btn" id="stop">stop</div> -->
-
     </main>
 
 
     <footer>
         <div class="btn_box mb20">
-            <!-- <div class="icon_box" style="margin: 0 auto 10px;">
-                <img src="./common/images/icon/microphone_off.png" class="icon -ss js_microphone">
-                <div class="icon_str">オフ</div>
-            </div> -->
         <div id="js_reset2" class="btn -reset">リセット</div>
         <div id="js_start" class="btn -start">スタート/ストップ</div>
         </div>
@@ -75,40 +66,14 @@
 <script src="./common/js/common.js"></script>
 <script src="./common/js/modal.js"></script>
 <script src="./common/js/tools.js?tedsat"></script>
-<!-- <script src="./common/js/voice.js?tesdat"></script> -->
 <script>
 $(function(){
 'use strict';
-
-// const recognition = new SpeechRecognition();
-// // 設定.
-// recognition.interimResults = true;
-// recognition.lang = 'ja-JP';
-// // 認識開始.
-// recognition.start();
-
-// // let element = $('#test');
-// let element = document.getElementById('test');
-// let voiceInput = new VoiceInput(element);
-
-
-$('#start').click(function(){
-    voiceInput.start();
-})
-$('#stop').click(function(){
-    voiceInput.stop();
-})
 
 //-------------------------------------------------------------
 let m = 0, s = 0, ms = 0;
 let timer_id;
 let isRunning=false;
-
-//-------------------------------------------------------------
-// アイコントグル
-$('.js_microphone').click(function(){
-    toggleIcon($(this), ICON_DIR+'sound.png');
-})
 
 //-------------------------------------------------------
 // start

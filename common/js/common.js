@@ -501,3 +501,21 @@ function toggleIcon(elem, src, notice_print=true){
 function isActive(elem){
   return elem.attr('src').indexOf('_off')== -1;
 }
+/*-----------------------------
+ * クリップボードへコピー
+ */
+function copyToClipboard (tagValue) {
+  try{
+    return navigator.clipboard.writeText(tagValue).then(function () {
+      openNotice('copied!');
+    })
+  } catch(err){
+    try{
+      document.execCommand('copy')
+      openNotice('copied!!');
+    } catch(err){
+      alert('error!');
+    }
+  }
+}
+
