@@ -21,7 +21,7 @@ td {
   margin: 40px auto 0;
 }
 
-@media screen and (min-width: 960px) {
+@media screen and (min-width: 1000px) {
   .container {
     width: 600px;
   }
@@ -44,7 +44,7 @@ footer {
   width: 130px !important;
 }
 
-@media screen and (min-width: 960px) {
+@media screen and (min-width: 1000px) {
   #calc {
     max-width: 560px;
   }

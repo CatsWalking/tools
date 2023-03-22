@@ -10,7 +10,7 @@ class VoiceInput {
 	_len = 0;					// 文字列の長さ
 	_timer_id;					// 文字列の記帳を監視する（しばらく放置されていたらstopする）
 	_silent_cnt = 0;
-	_auto_off_cnt = 15
+	_auto_off_cnt = 15;
 
 	constructor(element) {
 		this._targetElement = element;

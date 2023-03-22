@@ -69,10 +69,6 @@ body {
     margin: 0 auto ;
     margin-bottom: 10px;
   }
-  /* #tab_level div{
-    height: 30px;
-    font-size: 1.2rem;
-  } */
 }
 .ruby3{
   font-size:18px;
@@ -139,7 +135,7 @@ body {
 #howto td{
     padding:0;
     text-align:left;
-    font-size: 0.7rem;
+    font-size: 0.8rem;
 }
 .tab_label{
     display: inline-block; width:55px;font-size: 0.7rem;
@@ -216,7 +212,7 @@ body {
     <!-- OK -->
     <div class="outer">
       <div id="ok_sign">
-        <img src="./common/images/animals/kuma_02.png" width="200">
+        <img src="./common/images/animals/kuma02.png" width="200">
         <p>OK</p>
       </div>
     </div>
@@ -291,6 +287,9 @@ body {
 <script src="./common/js/modal.js?test"></script>
 <script src="./common/js/tools.js?test"></script>
 <script>
+  $(function(){
+
+
 /*----------------------------
 Roku tools
 */
@@ -310,7 +309,6 @@ const levels = {1:{'min':50,'max':100},
 let conf = {level:2, times:5};
 let interval_id;
 let animal = $('#animal');
-let animal_offset = animal.offset();
 let current_cnt=1;
 let miss = 0;
 // timer
@@ -320,38 +318,12 @@ RokuTool = new RokuTool(conf);
 //-------------------------
 // 設定 タブ
 //-------------------------
+setConf(conf);
+
 RokuTool.clickTab('level');
 RokuTool.clickTab('speed');
 RokuTool.clickTab('times');
 
-// ヒントtoggle
-$('[name=display_help]').click(function(){
-    if($('[name=display_help]:checked').val()==1){
-        $('#display_help').attr('src', ICON_DIR+'beginner.png');
-    } else {
-        $('#display_help').attr('src', ICON_DIR+'beginner_off.png');
-        $('#help').toggle();
-    }
-})
-// // クマtoggle
-$('[name=display_animal]').click(function(){
-    if($('[name=display_animal]:checked').val()==1){
-        $('#display_animal').attr('src', ICON_DIR+'kuma.png');
-    } else {
-        $('#display_animal').attr('src', ICON_DIR+'kuma_off.png');
-    }
-})
-//-------------------------
-// レベル タブ
-//-------------------------
-// ヒントtoggle
-$('[name=display_help]').click(function(){
-    if($('[name=display_help]:checked').val()==1){
-        $('#display_help').attr('src', ICON_DIR+'beginner.png');
-    } else {
-        $('#display_help').attr('src', ICON_DIR+'beginner_off.png');
-    }
-})
 //-------------------------
 // スタート click
 $('.js_start').click(function(){
@@ -399,7 +371,7 @@ $('#js_pause').click(function(){
 // 終了
 $(document).on('click', '.js_quit', function(){
   openConfirm('quit?', function(){
-    location.href=location.href;
+    location.href = getUrl()+"?"+getConfParam(conf);
   })
 })
 // リトライ
@@ -408,17 +380,7 @@ $(document).on('click', '.js_retry', function(){
     $('#start_message').css('display', 'block');
     init();
 })
-// クマさんtoggle
-// $('#display_animal').click(function(){
-//   animal.offset(animal_offset);
-//   animal.toggle();
-//   toggleIcon($('#display_animal'), ICON_DIR+'kuma.png');
-// })
-// ヘルプtoggle
-$('#display_help').click(function(){
-  $('#help').toggle();
-  toggleIcon($(this), ICON_DIR+'beginner.png');
-})
+
 
 //-------------------------
 // 準備
@@ -428,7 +390,6 @@ function prepare(){
   animal.removeClass('animal_purun');
   animal.css('width', '25px');
   animal.css({ "width": "", "height": "" });
-  animal.offset(animal_offset);
   question='';
   answer = [];
   $('#question').html('');
@@ -466,8 +427,7 @@ function enLargeAnimal(){
         let w = animal.width();
         if(w<250){
           animal.css('width', (w+3)+'px')
-          let off = animal.offset();
-          animal.offset({top: off.top-3, left:off.left-1})
+          animal.offsetCenter();
         }
       }, 500);
     }
@@ -519,11 +479,6 @@ $('.tenkey_box li').click(function(){
     if(!in_array(parseInt(n), primes)){
       Gakuburu($('#question'), 300);
       miss++;
-      // console.log('miss', miss);
-    } else {
-      // 正解だったらクマを少し下げる
-      let off = animal.offset();
-      animal.offset({top: off.top+4, left:off.left+1})
     }
 })
 /*-----------------------
@@ -638,6 +593,39 @@ jQuery.prototype.offsetCenter=function() {
     left
   }
 }
+
+
+
+// クマさんtoggle
+$('#display_animal').click(function(){
+  animal.toggle();
+  toggleIcon($('#display_animal'), ICON_DIR+'kuma.png');
+})
+// ヘルプtoggle
+$('#display_help').click(function(){
+  $('#help').toggle();
+  toggleIcon($(this), ICON_DIR+'beginner.png');
+})
+// ヒントtoggle
+  $('[name=display_help]').click(function(){
+    if($('[name=display_help]:checked').val()==1){
+        $('#display_help').attr('src', ICON_DIR+'beginner.png');
+        $('#help').css('display', 'block');
+    } else {
+        $('#display_help').attr('src', ICON_DIR+'beginner_off.png');
+        $('#help').css('display', 'none');
+    }
+})
+// // クマtoggle
+$('[name=display_animal]').click(function(){
+    if($('[name=display_animal]:checked').val()==1){
+        $('#display_animal').attr('src', ICON_DIR+'kuma.png');
+    } else {
+        $('#display_animal').attr('src', ICON_DIR+'kuma_off.png');
+    }
+})
+
+})
 </script>
 </body>
 </html> 

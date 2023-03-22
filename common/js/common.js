@@ -22,6 +22,9 @@ function getUrlParam() {
 // パラメータを連想配列に
 function getParams()
 {
+  if(location.search.indexOf('?')==-1){
+    return [];
+  }
 	var url_search = location.search.substr(1).split('&');
 	var para = [];
 	var key = null;
@@ -499,7 +502,7 @@ function toggleIcon(elem, src, notice_print=true){
 }
 // アクティブかどうか
 function isActive(elem){
-  return elem.attr('src').indexOf('_off')== -1;
+  return elem.attr('src').indexOf('_off')== -1?1:0;
 }
 /*-----------------------------
  * クリップボードへコピー

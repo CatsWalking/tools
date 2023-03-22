@@ -18,7 +18,7 @@ body {
     padding:5px 0 ;
 }
 .tab_label{
-    display: inline-block; width:55px;font-size: 0.7rem;
+    display: inline-block; width:55px;font-size: 0.8rem;
 }
 .tenkey_box{
     background:#ecf9f0;
@@ -56,7 +56,8 @@ body {
   }
 }
 #answer{
-  font-size: 3rem;
+  color:rgb(20, 179, 55);
+  font-size: 4rem;
 }
 .tenkey_box li{
   height: 50px;
@@ -84,7 +85,7 @@ body {
 #howto td{
     padding:0;
     text-align:left;
-    font-size: 0.7rem;
+    font-size: 0.8rem;
 }
 .conf div{
     background:none;
@@ -160,24 +161,24 @@ body {
         <div class="txtS mtb20" style="line-height:1.6rem;">※ 検定・大会問題等の<br>問題出力方法・作問規定 とは異なります</div>
         <div>
             <ul style="line-height: 1.6rem;width:150px;text-align:left;margin: 10px auto;">
-                <li>level1: 50 〜 100 </li>
-                <li>level2: 101 〜 200</li>
-                <li>level3: 201 〜 300</li>
-                <li>level4: 301 〜 500</li>
-                <li>level5: 501 〜 2000</li>
+                <li>level 1: 5 〜 20</li>
+                <li>level 2: 21 〜 50</li>
+                <li>level 3: 51 〜 100</li>
+                <li>level 4: 101 〜 200</li>
+                <li>level 5: 201 〜 1000</li>
             </ul>
             <ul style="line-height: 1.6rem;width:150px;text-align:left;margin: 10px auto;">
-                <li>speed1: 1300sec </li>
-                <li>speed2: 1000sec </li>
-                <li>speed3: 800sec </li>
-                <li>speed4: 500sec </li>
-                <li>speed5: 300sec </li>
+                <li>speed 1: 1500sec </li>
+                <li>speed 2: 1300sec </li>
+                <li>speed 3: 1000sec </li>
+                <li>speed 4: 800sec </li>
+                <li>speed 5: 500sec </li>
         </div>
       </div>
        <!-- OK -->
         <div class="outer">
         <div id="ok_sign">
-          <img src="./common/images/animals/kuma_02.png" width="200">
+          <img src="./common/images/animals/kuma04.png" width="200">
           <p>OK</p>
         </div>
       </div>
@@ -212,7 +213,7 @@ body {
         <div class="status times_15">15</div>
         <div class="status times_20">20</div>
     </div>
-    <div class="outer mtb20"><div id="question"></div></div>
+    <div class="outer mt20"><div id="question"></div></div>
     <div class="outer" style="width:98%;text-align: center;"><div id="help"></div></div>
     <div class="outer" style="width:98%;text-align: center;"><div id="answer"></div></div>
     </main>
@@ -259,11 +260,11 @@ $(function(){
 let question = $('#question');
 let rnd_arr = [];
 let flg = false;
-const levels = {1:{'min':50,'max':100}, 
-            2:{'min':101,'max':200},
-            3:{'min':201,'max':300},
-            4:{'min':301,'max':500},
-            5:{'min':501,'max':2000}};
+const levels = {1:{'min':5,'max':20}, 
+            2:{'min':21,'max':50},
+            3:{'min':51,'max':100},
+            4:{'min':101,'max':200},
+            5:{'min':201,'max':1000}};
 const speeds = {1:1300,2:1000,3:800,4:500,5:300}
 let conf = {level:2, speed:2, times:5};
 let current_cnt = 0;
@@ -278,22 +279,6 @@ RokuTool = new RokuTool(conf);
 
 let counter = 0;
 let num = 0;
-
-// パラメータ付きURLだったら
-let params = getParams();
-$.each(['level', 'speed', 'times'], function(i, cf){
-  console.log(i, cf, this);
-  if(params['level']){
-    conf[cf] = params[cf]
-    $('.tab_'+cf+' div').removeClass('-green');
-    $('.tab_'+cf+' div').each(function(){
-      if($(this).html()==params[cf]){
-        $(this).addClass('-green');
-      }
-    })
-  }
-})
-
 
 function init(){
     // 指定回数分設問を作成
@@ -315,20 +300,13 @@ function start(){
 //-------------------------
 // 設定 タブ
 //-------------------------
+setConf(conf);
+
 RokuTool.clickTab('level');
 RokuTool.clickTab('speed');
 RokuTool.clickTab('times');
 
-// ヒントtoggle
-$('[name=display_help]').click(function(){
-    if($('[name=display_help]:checked').val()==1){
-        $('#display_help').attr('src', ICON_DIR+'beginner.png');
-        $('#help').css('display', 'block');
-    } else {
-        $('#display_help').attr('src', ICON_DIR+'beginner_off.png');
-        $('#help').css('display', 'none');
-    }
-})
+
 //-------------------------
 // howtoスタート click
 $('.js_start').click(function(){
@@ -376,17 +354,17 @@ function setQuestion(){
     }
 }
 $('#help').click(function(){
-    if(correct!='' && $('#help').html()!='' && isActive($('#display_help'))){
+    if(correct!='' && $('#help').html()!='' && isActive($('#display_help')) && $(this).html().indexOf('=')==-1){
         $('#help').html( $('#help').html()+' = ' + correct)
     }
 })
 // 終了
 $(document).on('click', '.js_quit', function(){
   openConfirm('quit?', function(){
-    let params = "level="+conf.level+"&speed="+conf.speed+"&times="+conf.times+"&display_help="+isActive($('#display_help'));
-    location.href = location.href+"?"+params;
+    location.href = getUrl()+"?"+getConfParam(conf);
   })
 })
+
 // リトライ
 $(document).on('click', '.js_retry', function(){
     $('#howto').css('display', 'none');
@@ -463,6 +441,7 @@ function generateNumber() {
         numbers[i] = rnd_arr;
     }
 }
+
 /*-----------------------
  end
 -----------------------*/
@@ -474,7 +453,8 @@ function end(){
     + "<p>タイム： <span style='font-size:2.2rem;'>" + score_time + "</span></p>"
     + "<p>間違えた回数： " + miss +"回</p>"
     +"<div class='btn_box'><div class='btn js_retry'>もう一回</div>"
-    +"<div class='btn js_quit'>終了</div></div>";
+    +"<div class='btn js_quit'>終了</div></div>"
+    +"<div class='txtSS mt20'>レベルやスピードを変更するときは「終了」</div>";
   // 履歴を保存
   history.push((history.length+1)+'. '+'level'+RokuTool.conf.level+" <b style='font-size:1.5rem;'> " + score_time + " </b> (miss " + miss + ")");
   if(history.length>1){
@@ -485,39 +465,16 @@ function end(){
   $('#message').css('display', 'block');
 }
 
-            // // --------------------------------------------
-            // // 音声認識
-            // // --------------------------------------------
-            // let word;
-            // let rec = new webkitSpeechRecognition();
-            // rec.rang = 'ja-JP';
-            // // start
-            // rec.start();
-            // // result
-            // rec.onresult = (e) => {
-            //     console.log(e);
-            //     if (e.results[0].isFinal == true) {
-            //         // 音声認識
-            //         word = e.results[0][0].transcript;
-            //         if (word == 'スタート') {
-            //             // 設問セット
-            //             console.log('start');
-            //             generateNumber();
-            //         } else if (word == answer) {
-            //             // 正解！！
-            //             openNotice('<span class="correct">'+word + '<br>Correct!!!!!</span>');
-            //             sleep(3);
-            //             flg = false;
-            //             generateNumber();
-            //         }
-            //     }
-            // };
-            // //---------------------------
-            // // 続けて音声認識
-            // rec.onend = () => {
-            //     console.log('restart');
-            //     rec.start();
-            // };
+// ヒントtoggle
+$('[name=display_help]').click(function(){
+    if($('[name=display_help]:checked').val()==1){
+        $('#display_help').attr('src', ICON_DIR+'beginner.png');
+        $('#help').css('display', 'block');
+    } else {
+        $('#display_help').attr('src', ICON_DIR+'beginner_off.png');
+        $('#help').css('display', 'none');
+    }
+})
 })
 </script>
 </body>

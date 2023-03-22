@@ -102,7 +102,8 @@
           line = "<tr>"
             +"<td>"+questions[no]['id']+"</td>"
             +"<td>"+questions[no]['subject_sub']+"</td>"
-            +"<td>"+questions[no]['question'].substr(0,30)+"</td>"
+            +"<td>"+questions[no]['question'].substr(0,30)
+            +  "<div class='pc_only txtS txtBlue'>"+questions[no]['answer'].substr(0,30)+"</div></td>"
             +"<td>"+questions[no]['cnt']+"/"+questions[no]['status']+"</td>"
             +"<td class='txtCenter'><a href='admin_anki_detail.html?id="+questions[no]['id']+"'>"
               +"<img src='./common/images/icon/edit.png' class='icon -ss'></a></td>"
@@ -142,8 +143,17 @@
       subject_sub = $(this).data('subject_sub');
       getAllQuestions();
     })
-
-
+    if($(window).width()<1000){
+        $('.pc_only').css('display', 'none');
+        console.log(111,  $('.pc_only').css('display'));
+    }
+    $(window).resize(function(){
+      if($(window).width()<1000){
+        $('.pc_only').css('display', 'none');
+      } else {
+        $('.pc_only').css('display', '');
+      }
+    });
 
   })
 </script>

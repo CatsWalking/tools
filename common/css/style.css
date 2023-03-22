@@ -57,7 +57,7 @@ footer {
 }
 
 /* pc */
-@media screen and (min-width: 960px) {
+@media screen and (min-width: 1000px) {
   footer {
     min-height: 200px;
   }
@@ -70,7 +70,7 @@ footer>div {
 }
 
 /* pc */
-@media screen and (min-width: 960px) {
+@media screen and (min-width: 1000px) {
 
   footer>table,
   footer>div,
@@ -137,7 +137,7 @@ header {
   padding: 0; */
 }
 
-@media screen and (min-width: 960px) {
+@media screen and (min-width: 1000px) {
   .nav-items {
     margin-top: 0;
   }
@@ -189,7 +189,7 @@ header {
 }
 
 /* pc */
-@media screen and (min-width: 960px) {
+@media screen and (min-width: 1000px) {
   .nav-items__item a {
     margin-bottom: 0;
     display: inline;
@@ -209,7 +209,7 @@ header {
   z-index: 9999;
 }
 
-@media screen and (min-width: 960px) {
+@media screen and (min-width: 1000px) {
   .hamburger {
     display: none;
   }
@@ -338,7 +338,7 @@ table {
   table-layout: fixed;
 }
 
-@media screen and (max-width: 960px) {
+@media screen and (max-width: 1000px) {
   table {
     table-layout: auto;
   }
@@ -364,7 +364,7 @@ table {
   margin-left: 10px;
 }
 
-@media screen and (max-width: 960px) {
+@media screen and (max-width: 1000px) {
   .btn_box {
     text-align: center;
   }
@@ -1283,7 +1283,7 @@ table.-tableHover tr:hover td {
 }
 
 /* PC */
-@media screen and (min-width: 960px) {
+@media screen and (min-width: 1000px) {
   .tenkey_box li {
     height: 60px;
     font-size: 1.6rem;
@@ -1293,7 +1293,7 @@ table.-tableHover tr:hover td {
 /* 小さい画面 */
 @media screen and (max-width: 375px) {
   .tenkey_box li {
-    height: 45px;
+    height: 43px;
     font-size: 1.6rem;
   }
 }

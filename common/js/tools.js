@@ -134,3 +134,52 @@ class RokuTool {
   }
 }
 
+
+/*-----------------------------
+// パラメータ付きURLだったらセット
+*/
+function getConfParam(conf){
+  let p=[];
+  $.each(conf, function(k,v){
+    p.push(k+"="+v)
+  })
+  let param = p.join('&');
+  if($('#display_help').length>0){
+    param += '&display_help='+isActive($('#display_help'))
+  }
+  if($('#display_animal').length>0){
+    param += '&display_animal='+isActive($('#display_animal'))
+  }cons
+  return param;
+}
+function setConf(conf){
+  let params = getParams();
+  if(Object.keys(params).length>0){
+    $.each(conf, function(k, v){
+      conf[k] = params[k];
+      $('.tab_'+k+' div').removeClass('-green');
+      $('.tab_'+k+' div').each(function(){
+        if($(this).html()==params[k]){
+          $(this).addClass('-green');
+        }
+      })
+    })
+    toggleRadio(params['display_help'], $('[name=display_help]'));
+    toggleRadio(params['display_animal'], $('[name=display_animal]'));
+  }
+}
+function toggleRadio(para, elem){
+  if(typeof para!='undefined' && para.length>0){
+    if(para=='1'){
+      elem.eq(0).prop('checked', true);
+      elem.eq(0).parent().addClass('-checked');
+      elem.eq(1).prop('checked', false);
+      elem.eq(1).parent().removeClass('-checked');
+    } else {
+      elem.eq(0).prop('checked', false);
+      elem.eq(0).parent().removeClass('-checked');
+      elem.eq(1).prop('checked', true);
+      elem.eq(1).parent().addClass('-checked');
+    }
+  }
+}

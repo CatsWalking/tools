@@ -83,9 +83,10 @@ $('.js_copy').click(function(){
 
 // クリア
 $('.js_clear').click(function(){
-  elem.value = '';
+    openConfirm('クリアしていい？', function(){
+        elem.value = '';
+    })
 })
-
 })
 </script>
 </body>
