@@ -149,7 +149,7 @@ function getConfParam(conf){
   }
   if($('#display_animal').length>0){
     param += '&display_animal='+isActive($('#display_animal'))
-  }cons
+  }
   return param;
 }
 function setConf(conf){

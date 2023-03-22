@@ -563,12 +563,13 @@ table.-tableHover tr:hover td {
   line-height: 1.5;
   display: inline-block;
   padding: 3px 5px 3px 5px;
-  min-width: 60px;
+  min-width: 50px;
   border-radius: 14px;
   color: #5e8899;
   background: rgba(0, 172, 239, 0.3);
   cursor: pointer;
   font-weight: bold;
+  margin-right: 1px;
 }
 
 .status.-red {
