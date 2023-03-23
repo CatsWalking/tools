@@ -32,7 +32,7 @@ function getParams()
 		key = url_search[i].split("=");
 		para[key[0]] = key[1];
 	}
-	return (para);
+	return para;
 }
 function getParam(name, url) {
   if (!url) url = window.location.href;

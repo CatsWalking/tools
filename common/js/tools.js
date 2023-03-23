@@ -19,6 +19,7 @@ const header = '<div class="header__inner">'
     // +'<li class="nav-items__item"><a href="redsheet.html">赤シート</a></li>'
     // +'<li class="nav-items__item"><a href="calc.html">計算ツール</a></li>'
     +'<li class="nav-items__item"><a href="factorization_kuma.html">因数分解</a></li>'
+   // +'<li class="nav-items__item"><a href="divisor.html">約数</a></li>'
     +'<li class="nav-items__item"><a href="flash.html">flash暗算</a></li>'
     +'<li class="nav-items__item tab_timer"><a href="timer.html">タイマー</a></li>'
     +'<li class="nav-items__item tab_game"><a href="reversi.html">ゲーム</a></li>'
@@ -113,34 +114,174 @@ $('#js_reset').click(function(){
   })
 })
 
-/*-----------------------------
+/*-----------------------------------------------------------------
+ * 
+ * 
  * roku tools 
+ * 
+ * 
  */
 class RokuTool {
-  constructor(conf) {
-    this.conf = conf;
-  }
+constructor(conf, initCallback, createQuestion) {
+  this.current_cnt = 0;
+  this.all_cnt = 0;
+  this.miss = 0;
+  this.correct = 0;
+  this.answer = '';
+  this.history = [];   // 履歴を入れておく
+  this.questions = [];   // 指定回数分設問を入れておく
+  this.timer;
+  this.conf = conf;
 
-  /*-----------------------------
-  * 設定タブ
-  */
-  clickTab(tab){
-    let conf = this.conf
-    $('.tab_'+tab+' div').click(function(){
-        conf[tab] = $(this).html();
-        $(this).parent().find('.status').removeClass('-green');
-        $(this).addClass('-green');
-   })
-  }
+  this.initCallback = initCallback;
+  this.createQuestion = createQuestion;
+
+  // 設定タブ　クリックイベントリスナ
+  $.each(this.conf, (k, v)=>{
+    this.clickTab(k);
+  })
+    
+  // 設定タプにタラメータの値を反映
+  this.setConf();
+  $('.js_start').click(()=>{
+    this.startGame();     // howtoスタートボタンのクリックイベントリスナ
+  })
+  $('#start_message').click((e)=>{
+    this.start(e);
+  })
+  $(document).on('click', '.js_quit', ()=>{
+    this.quit();          // 終了ボタン
+  })
+  $(document).on('click', '.js_retry', ()=>{
+    this.retry();         // リトライボタン
+  })
+  $('#display_help').click((e)=>{
+    this.displayHelp (e);  // ヘルプアイコン
+  })
+  $('[name=display_help]').click(()=>{
+    this.toggleHelp();    // ヘルプラジオ
+  })
+  // this.start();         // タップしてスタート
+  $('#js_clear').click(()=>{
+    this.clear();
+  })
+  $('.tenkey_box li').click((e)=>{
+    this.tenkey();
+  })
+  $(document).keydown((e) =>{
+    this.keyboard(e);
+  })
+  $('#js_ok').click((e)=>{
+    this.go(e);            // goボタン
+  })
 }
 
+init = () =>{
+  this.miss = 0;
+  this.current_cnt=1;
+  $('#current_cnt').html(this.current_cnt);
+  $('#howto').css('display', 'none');
+  $('#timer').html('0.00');
+  this.prepare();
+  if(typeof this.initCallback=='function'){
+    // コールバック
+    this.initCallback(this);
+  }
+}
+prepare = ()=>{
+  $('#question').html('');
+  $('#answer').html('');
+  $('#help').html('');
+  this.correct = 0; // 正解
+  this.answer = '';
+}
 
+//-------------------------
+// タップしてスタート
+start = (e) =>{
+    this.init();
+    // タイマースタート
+    this.timer.runTimer();
+    // 設問作成
+    setTimeout(() => {
+      if(typeof this.createQuestion=='function'){
+        // コールバック
+        this.createQuestion(this);
+      }
+    }, "700");
+  $(e.currentTarget).css('display', 'none');
+}
+
+/*-----------------------
+ end
+-----------------------*/
+end = ()=>{
+  $('#howto').css('display', 'block');
+  let score_time = ((Date.now() - this.timer.startTime) / 1000).toFixed(2);
+  let str = "<p>Finish!!</p>"
+    + "<p>レベル： " + this.conf.level + "</p>"
+    + "<p>タイム： <span style='font-size:2.2rem;'>" + score_time + "</span></p>"
+    + "<p>間違えた回数： " + this.miss +"回</p>"
+    +"<div class='btn_box'><div class='btn js_retry'>もう一回</div>"
+    +"<div class='btn js_quit'>終了</div></div>"
+    +"<div class='txtSS mt20'>レベルやスピードを変更するときは「終了」</div>";
+  // 履歴を保存
+  this.history.push((this.history.length+1)+'. '+'level' + this.conf.level + " <b style='font-size:1.5rem;'> " + score_time + " </b> (miss " + this.miss + ")");
+  if(this.history.length>1){
+    str = str + '<hr>' + this.history.join('<br>');
+  }
+  $('#howto').html(str);
+  this.timer.stopTimer();
+  $('#message').css('display', 'block');
+}
+
+/*----------------------- 
+ 判定！！OK
+-----------------------*/
+go = ()=>{
+  if(!this.timer.isRunning){
+    return;
+  }
+  if(parseInt(this.answer) == parseInt(this.correct)){
+      if(parseInt(this.current_cnt) == parseInt(this.conf.times)){
+          // 指定回数完了！！ 
+          this.end();
+          return;
+      }
+      // カウントアップ
+      this.current_cnt += 1;
+      // OKくまさんを表示して、0.7秒後に次の問題へ
+      this.showOkAnimal();
+  } else {
+      Gakuburu($('#question'), 300);
+      this.miss++;
+  }
+}
+// OKくまさんを表示して、0.7秒後に次の問題へ
+showOkAnimal = ()=>{
+  $('#ok_sign').addClass('fadeUp');
+  $('#ok_sign').css('display', 'block');
+  setTimeout(() => {
+      this.prepare();
+      this.createQuestion(this);
+  }, "700");
+}
 /*-----------------------------
-// パラメータ付きURLだったらセット
+* 設定タブ
 */
-function getConfParam(conf){
+clickTab(tab){
+  $('.tab_'+tab+' div').click((e)=>{
+    this.conf[tab] = $(e.currentTarget).html();
+    $(e.currentTarget).parent().find('.status').removeClass('-green');
+    $(e.currentTarget).addClass('-green');
+  })
+}
+/*-----------------------------
+* urlパラメータを取得
+*/
+getConfParam(){
   let p=[];
-  $.each(conf, function(k,v){
+  $.each(this.conf, (k,v)=>{
     p.push(k+"="+v)
   })
   let param = p.join('&');
@@ -152,23 +293,40 @@ function getConfParam(conf){
   }
   return param;
 }
-function setConf(conf){
+/*-----------------------------
+* 設定タプにタラメータの値を反映
+*/
+setConf(){
   let params = getParams();
   if(Object.keys(params).length>0){
-    $.each(conf, function(k, v){
-      conf[k] = params[k];
+    Object.keys(params).forEach((k) =>{
+      // set conf
+      this.conf[k] = params[k];
       $('.tab_'+k+' div').removeClass('-green');
-      $('.tab_'+k+' div').each(function(){
-        if($(this).html()==params[k]){
-          $(this).addClass('-green');
+      let obj
+      for(let i=0; i<$('.tab_'+k+' div').length; i++){
+        obj = $($('.tab_'+k+' div')[i])
+        if(obj.html()==params[k]){
+          obj.addClass('-green')
+        }
+      }
+    });
+
+    $.each(params, function(k, v){
+      this.conf[k] = params[k];
+      $('.tab_'+k+' div').removeClass('-green');
+      $('.tab_'+k+' div').each((e)=>{
+        if($(e.currentTarget).html()==params[k]){
+          $(e.currentTarget).addClass('-green');
         }
       })
     })
-    toggleRadio(params['display_help'], $('[name=display_help]'));
-    toggleRadio(params['display_animal'], $('[name=display_animal]'));
+    this.toggleRadio(params['display_help'], $('[name=display_help]'));
+    this.toggleRadio(params['display_animal'], $('[name=display_animal]'));
   }
 }
-function toggleRadio(para, elem){
+// 設定のラジオボタンをセット
+toggleRadio(para, elem){
   if(typeof para!='undefined' && para.length>0){
     if(para=='1'){
       elem.eq(0).prop('checked', true);
@@ -183,3 +341,86 @@ function toggleRadio(para, elem){
     }
   }
 }
+
+//-------------------------
+// howtoスタート
+startGame = ()=>{
+  $('.level_'+this.conf['level']).addClass('-green');
+  $('.speed_'+this.conf['speed']).addClass('-green');
+  $('.times_'+this.conf['times']).addClass('-green');
+  $('#all_cnt').html(this.conf.times);
+  $('#howto').css('display', 'none');
+}
+// 終了
+quit = ()=>{
+  openConfirm('quit?', ()=>{
+    location.href = getUrl() + "?" + this.getConfParam();
+  })
+}
+// リトライ
+retry = ()=>{
+  $('#howto').css('display', 'none');
+  $('#start_message').css('display', 'block');
+  // initialize
+  this.init();
+}
+//-------------------
+// テンキー
+//-------------------
+tenkey = (e)=>{
+  if(!this.timer.isRunning){
+    return;
+  }
+  this.answer = this.answer + String($(e.currentTarget).html());
+  $('#answer').html(this.answer);
+}
+//-------------------
+// キーボード
+//-------------------
+keyboard = (e)=>{
+  const key = e.keyCode-48;
+  if(this.timer.isRunning){
+    if(key==-35){
+      // エンターキー
+      this.go(e);
+    } else if(key==-40){
+      // clear
+      this.clear()
+    } else if(key>=0 && key<=9){
+      // tenkey
+      this.answer = this.answer + key;
+      $('#answer').html(this.answer);
+    }
+  }
+}
+
+/*-----------------------
+clear
+-----------------------*/
+clear = ()=>{
+  if(!this.timer.isRunning){
+      return;
+  }
+  this.answer = this.answer.substring(0, this.answer.length-1);
+  $('#answer').html(this.answer);
+}
+// ヘルプtoggle
+displayHelp = (e)=>{
+  $('#help').toggle();
+  toggleIcon($(e.currentTarget), ICON_DIR+'beginner.png');
+}
+
+toggleHelp = ()=>{
+  // ヒントtoggle
+  if($('[name=display_help]:checked').val()==1){
+      $('#display_help').attr('src', ICON_DIR+'beginner.png');
+      $('#help').css('display', 'block');
+  } else {
+      $('#display_help').attr('src', ICON_DIR+'beginner_off.png');
+      $('#help').css('display', 'none');
+  }
+}
+
+}
+
+

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" href="./common/images/favicon.svg" sizes="any">
-<title>Roku.tools|因数分解</title>
+<title>Roku.tools|約数</title>
 <link rel="stylesheet" href="./common/css/reset.css">
 <link rel="stylesheet" href="./common/css/style.css?as3a">
 <link rel="stylesheet" href="./common/css/modal.css?as3a">
@@ -34,10 +34,10 @@
 }
 
 #question{
-  background:#DCE7F2;
+  background:#f2dce1;
 }
 #answer{
-  color:rgb(57, 102, 179);
+  color:rgb(207, 87, 169);
 }
 .tenkey_box li{
   height: 50px;
@@ -106,8 +106,8 @@
     <div id="start_message">タップしてスタート</div>
     <!-- HOWTO -->
     <div id="howto">
-      <p style="font-size: 1.6rem;margin:20px;">素因数分解ゲーム</p> 
-      <p>因数分解できたら<img src="./common/images/icon/go.png" class="icon -ss">をタップ</p> 
+      <p style="font-size: 1.6rem;margin:20px;">約数ゲーム</p> 
+      <p>約数できたら<img src="./common/images/icon/go.png" class="icon -ss">をタップ</p> 
       <p>クマが邪魔してくるから急いで！！</p> 
       <!-- レベル -->
       <p>レベルと回数を選んでスタート！</p> 
@@ -198,16 +198,18 @@
       <tr>
         <td rowspan="3">
           <ul class="tenkey_box -column3">
+            <li>1</li>
             <li>2</li>
             <li>3</li>
+            <li>4</li>
             <li>5</li>
+            <li>6</li>
             <li>7</li>
-            <li>11</li>
-            <li>13</li>
-            <li>17</li>
-            <li>19</li>
-            <li>23</li>
-          </ul>
+            <li>8</li>
+            <li>9</li>
+            <li>0</li>
+            <li> , </li>
+        </ul>
         </td>
         <td style="text-align:center;width: 60px !important; height:50px;">
           <div id="js_clear" class="box -l">×</div>
@@ -235,7 +237,6 @@ Roku tools
 */
 'use strict';
 //https://k3su.xyz/
-const prime_choices = [2, 3, 5, 7, 11, 13, 17, 19, 23];
 let question = '';
 let primes = [];    // 素数を生成しておく
 let answer = [];    // 解答
