@@ -166,7 +166,7 @@ constructor(conf, initCallback, createQuestion) {
     this.clear();
   })
   $('.tenkey_box li').click((e)=>{
-    this.tenkey();
+    this.tenkey(e);
   })
   $(document).keydown((e) =>{
     this.keyboard(e);

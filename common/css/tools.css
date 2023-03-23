@@ -212,7 +212,8 @@ footer {
   border-radius: 5px;
   text-align: center;
   display: table-cell;
-  font-size: 4rem;
+  /* font-size: 4rem; */
+  width: 98%;
   letter-spacing: 1rem;
 }
 
@@ -243,7 +244,7 @@ footer {
 }
 
 #answer {
-  font-size: 3rem;
+  /* font-size: 3rem; */
 }
 
 #ok_sign {
