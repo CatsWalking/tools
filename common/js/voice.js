@@ -1,20 +1,27 @@
+// https://developer.mozilla.org/ja/docs/Web/API/SpeechRecognition/start
+// https://moewe-net.com/nodejs/web-speech-api-recognition
 SpeechRecognition = webkitSpeechRecognition;
 
 class VoiceInput {
 	_targetElement;
 	_currentValue;
 	_recognition;
-	_oneTime; 					// 一度の認識で終了するかどうか.
+	_oneTime = false; 			// 一度の認識で終了するかどうか.
 	_addNewLine = true;			// 改行を挟むかどうか
 	_showIntermediate = true;	// 途中のプロセスも表示する
 	_len = 0;					// 文字列の長さ
 	_timer_id;					// 文字列の記帳を監視する（しばらく放置されていたらstopする）
-	_silent_cnt = 0;
-	_auto_off_cnt = 15;
+	_silent_cnt = 0;			// n秒音声を拾わなかったらオフにする
+	_auto_off_sec = 15;			// 拾わなかったらオフにするn秒
+	_icon = ICON_DIR + 'microphone.png';
 
-	constructor(element) {
+	constructor(element, addNewLine) {
+		// ターゲット
 		this._targetElement = element;
 		this._currentValue = element.value;
+		// 改行
+		this._addNewLine = addNewLine;
+		// SpeechRecognition
 		const recognition = new SpeechRecognition();
 		recognition.lang = "ja-JP";
 		recognition.interimResults = true;// 認識途中にも受け取る
@@ -31,14 +38,11 @@ class VoiceInput {
 				if(this._currentValue!='' && this._addNewLine){
 					this._currentValue += "\n";	// 改行
 				}
-				this._currentValue = this._currentValue +  event.results[0][0].transcript;
+				this._currentValue = this._currentValue + event.results[0][0].transcript;
 				this._targetElement.value = this._currentValue;
 			} else if(this._showIntermediate) {
 				// 入力途中のプロセスも表示
-				// if(this._currentValue!='' && this._addNewLine){
-				// 	this._currentValue = this._currentValue + "\n";	// 改行
-				// }
-				// this._currentValue = this._currentValue +  event.results[0][0].transcript;
+				this._targetElement.value = this._currentValue + event.results[0][0].transcript;
 			}
 		};
 		recognition.onnomatch = () => {
@@ -54,28 +58,30 @@ class VoiceInput {
 		};
 		this._recognition = recognition;
 	}
-
+	/**
+	 * ターゲットを変更
+	 */
+	setTarget(element){
+		this._targetElement = element;
+		this._currentValue = element.value;
+		console.log('set target', this._targetElement.id);
+	}
 	/**
 	 * 認識開始.
-	 * @param {*} oneTime true - 一度の認識で終了する
 	 */
-	start(oneTime) {
-		console.log('start');
+	start() {
 		if (this._recognition) {
-			this._oneTime = oneTime;
 			this._recognition.start();
+			this.toggleIcon(true);
 
 			// 30秒音声を拾わなかったらオフにする
 			this._timer_id = setInterval(()=>{
 				if(this._len==this._targetElement.value.length){
 					if(this._silent_cnt>this._auto_off_cnt){
-						console.log('off');
 						// オフにする
-						this.stop();
 						clearInterval(this._timer_id);
-						if(typeof $('.js_microphone')!='undefined'){
-							toggleIcon($('.js_microphone'), ICON_DIR+'microphone.png');
-						}
+						this.stop();
+						this.toggleIcon(false);
 					}
 					this._silent_cnt++;
 				}
@@ -87,6 +93,16 @@ class VoiceInput {
 		if (this._recognition) {
 			this._recognition.stop();
 			this._recognition = undefined;
+			this.toggleIcon(false);
+		}
+	}
+	toggleIcon(isActive){
+		if(typeof $('.js_microphone')!='undefined'){
+			if(isActive){
+				$('.js_microphone').attr('src', this._icon);
+			} else {
+				$('.js_microphone').attr('src', this._icon.replace('.png', '_off.png'));
+			}
 		}
 	}
 }

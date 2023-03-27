@@ -122,102 +122,97 @@
 <script src="./common/js/tools.js?tesat"></script>
 <script src="./common/js/voice.js?tesasadat"></script>
 <script>
-  'use strict'
-  $(function(){
-    let voice;
+'use strict'
+$(function(){
     let elem = document.getElementById('question');
     $('#question').focus();
+    let voice;
 
-    $('#question').on('focus, click', function(){
-      console.log('question');
-      elem = document.getElementById('question');
-    })
-    $('#answer').on('focus, click', function(){
-      console.log('answer');
-      elem = document.getElementById('answer');
-    })
-
-//-------------------------------------------------------------
-// アイコントグル
-$('.js_microphone').click(function(){
-    // toggle
-    toggleIcon($(this), ICON_DIR+'microphone.png');
-    if(isActive($('.js_microphone'))){
-        voice = new VoiceInput(elem);
-        voice.addNewLine=true;
-        voice.start();
-    } else {
-        voice.stop();
-    }
-})
-
-
-      let id;
-      const cols = ['id', 'question', 'answer', 'subject', 'subject_sub', 'subject_sub_sub'];
-      id = getParam('id');
-      if(id!=''){
-        console.log(URL+'?action=getAnki&id='+id);
-        $.get(URL+'?action=getAnki&id='+id, function(data){
-          $('[name=id]').val(data.id);
-          $('[name=question]').val(data.question);
-          $('[name=answer]').val(data.answer);
-          $('#subject_td').html(data.subject);
-          $('#subject_sub_td').html(data.subject_sub);
-          $('#subject_sub_sub_td').html(data.subject_sub_sub);
-        })
+    // テキストエリアクリックしたらターゲットを変更
+    $('#question, #answer').on('focus, click', function(){
+      elem = document.getElementById(this.id);
+      if(typeof voice!='undefined'){
+        voice.setTarget(elem);
       }
-      //--------------------------
-      // 科目変更  
-      $(document).on('click', '[name=subject]', function(){
-        $('#subject_sub_td span').html('');
-        $('#subject_sub_sub_td span').html('');
-        $.get(URL+'?action=getSubjectSub&subject='+$(this).val(), function(data){
-          $('#subject_sub_td span').html(data);
-        })
-      })
-      //--------------------------
-      // 科目細分１変更
-      $(document).on('click', '[name=subject_sub]', function(){
-        $('#subject_sub_sub_td span').html('');
-        // TODO 今のところ算数、理科のみ
-        let subject = $('[name=subject]:checked').val();
-        if(subject==1 || subject==3){
-          $.get(URL+"?action=getSubjectSubSub&subject="+subject+"&subject_sub="+$(this).val(), function(data){
-            $('#subject_sub_sub_td span').html(data);
-          })
-        }
-      })
+    })
 
-      //--------------------------
-      // 保存  
-      $('#js_save').click(function(){
-        if($('[name=subject]:checked').val()!=1){
-          if($('[name=question]').val()=='' || $('[name=subject]:checked').val()==''){
-            // 算数以外は必須
-            openDialog('必須項目を入力してください');
-            return;
-          }
-        }
-        let fd = new FormData($('form').get(0));
-        $.ajax({
-          url: URL+"?action=saveAnki",
-          type: 'post',
-          data: fd,
-          processData: false,  // jQuery がデータを処理しないよう指定
-          contentType: false,  // これがないと渡ったデータがおかしくなりphpで処理できない
-          dataType: 'json'
-        }).done(function (result) {
-            if (result == 'ng') {
-              openDialog('画像のアップロードに失敗しました');
-              return;
-            }
-            location.href="admin_anki.html";
-         }).fail(function (xhr, textStatus, errorThrown) {
-            alert('通信に失敗しました');
-         })
-      })
-    
+  //-------------------------------------------------------------
+  // アイコントグル
+  $('.js_microphone').click(function(){
+      // toggle
+      toggleIcon($(this), ICON_DIR+'microphone.png');
+      if(isActive($('.js_microphone'))){
+        voice = new VoiceInput(elem, true); 
+        voice.start();
+      } else {
+        voice.stop();
+      }
   })
+
+  let id;
+  const cols = ['id', 'question', 'answer', 'subject', 'subject_sub', 'subject_sub_sub'];
+  id = getParam('id');
+  if(id!=''){
+    $.get(URL+'?action=getAnki&id='+id, function(data){
+      $('[name=id]').val(data.id);
+      $('[name=question]').val(data.question);
+      $('[name=answer]').val(data.answer);
+      $('#subject_td').html(data.subject);
+      $('#subject_sub_td').html(data.subject_sub);
+      $('#subject_sub_sub_td').html(data.subject_sub_sub);
+    })
+  }
+  //--------------------------
+  // 科目変更  
+  $(document).on('click', '[name=subject]', function(){
+    $('#subject_sub_td span').html('');
+    $('#subject_sub_sub_td span').html('');
+    $.get(URL+'?action=getSubjectSub&subject='+$(this).val(), function(data){
+      $('#subject_sub_td span').html(data);
+    })
+  })
+  //--------------------------
+  // 科目細分１変更
+  $(document).on('click', '[name=subject_sub]', function(){
+    $('#subject_sub_sub_td span').html('');
+    // TODO 今のところ算数、理科のみ
+    let subject = $('[name=subject]:checked').val();
+    if(subject==1 || subject==3){
+      $.get(URL+"?action=getSubjectSubSub&subject="+subject+"&subject_sub="+$(this).val(), function(data){
+        $('#subject_sub_sub_td span').html(data);
+      })
+    }
+  })
+
+  //--------------------------
+  // 保存  
+  $('#js_save').click(function(){
+    if($('[name=subject]:checked').val()!=1){
+      if($('[name=question]').val()=='' || $('[name=subject]:checked').val()==''){
+        // 算数以外は必須
+        openDialog('必須項目を入力してください');
+        return;
+      }
+    }
+    let fd = new FormData($('form').get(0));
+    $.ajax({
+      url: URL+"?action=saveAnki",
+      type: 'post',
+      data: fd,
+      processData: false,  // jQuery がデータを処理しないよう指定
+      contentType: false,  // これがないと渡ったデータがおかしくなりphpで処理できない
+      dataType: 'json'
+    }).done(function (result) {
+        if (result == 'ng') {
+          openDialog('画像のアップロードに失敗しました');
+          return;
+        }
+        location.href="admin_anki.html";
+      }).fail(function (xhr, textStatus, errorThrown) {
+        alert('通信に失敗しました');
+      })
+  })
+})
 </script>
 </body>
 </html> 

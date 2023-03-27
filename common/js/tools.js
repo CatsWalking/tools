@@ -9,7 +9,7 @@ const ICON_DIR = './common/images/icon/';
 // ヘッダーメニュー
 const header = '<div class="header__inner">'
     +'<h1 class="header__title header-title">'
-    +'<a>★ Roku tools </a>'
+    +'<a class="totop">★ Roku tools </a>'
     // +'<a href="index.html">★ Roku tools </a>'
     +'</h1>'
     +'<nav class="header__nav nav" id="js-nav">'
@@ -61,6 +61,9 @@ $('#tab_edu').html(
    +'<a class="btn -tab txtS" href="maketen.html">テンパズル</a>'
   +'</div>'
 )
+$('.totop').dblclick(function(){
+  location.href='201211070505.html'
+})
 /*-----------------------------
 * ヘッダー active
 */
@@ -122,19 +125,20 @@ $('#js_reset').click(function(){
  * 
  */
 class RokuTool {
-constructor(conf, initCallback, createQuestion) {
-  this.current_cnt = 0;
-  this.all_cnt = 0;
-  this.miss = 0;
-  this.correct = 0;
-  this.answer = '';
-  this.history = [];   // 履歴を入れておく
-  this.questions = [];   // 指定回数分設問を入れておく
-  this.timer;
+  current= 0;         // 何問目か
+  all_cnt = 0;        // 設問数
+  miss = 0;           // ミス回数
+  correct = 0;        // 正解
+  answer='';          // 解答
+  answer_arr = [];    // 解答（配列で取得するもの）
+  history = [];       // 履歴を入れておく
+  questions = [];     // 指定回数分設問を入れておく
+  timer;              // タイマーインスタンス
+  useKeyboard = true; // キーボード利用
+  animal = $('#animal');
+constructor(conf) {
   this.conf = conf;
 
-  this.initCallback = initCallback;
-  this.createQuestion = createQuestion;
 
   // 設定タブ　クリックイベントリスナ
   $.each(this.conf, (k, v)=>{
@@ -143,8 +147,10 @@ constructor(conf, initCallback, createQuestion) {
     
   // 設定タプにタラメータの値を反映
   this.setConf();
+
+  // howtoスタートボタンのクリックイベントリスナ
   $('.js_start').click(()=>{
-    this.startGame();     // howtoスタートボタンのクリックイベントリスナ
+    this.startGame();     
   })
   $('#start_message').click((e)=>{
     this.start(e);
@@ -158,8 +164,14 @@ constructor(conf, initCallback, createQuestion) {
   $('#display_help').click((e)=>{
     this.displayHelp (e);  // ヘルプアイコン
   })
+  $('[name=display_animal]').click((e)=>{
+    this.displayAnimal (e);  // ヘルプアイコン
+  })
   $('[name=display_help]').click(()=>{
     this.toggleHelp();    // ヘルプラジオ
+  })
+  $('#js_pause').click((e)=>{
+    this.pause(e)
   })
   // this.start();         // タップしてスタート
   $('#js_clear').click(()=>{
@@ -168,32 +180,48 @@ constructor(conf, initCallback, createQuestion) {
   $('.tenkey_box li').click((e)=>{
     this.tenkey(e);
   })
-  $(document).keydown((e) =>{
-    this.keyboard(e);
-  })
+  if(this.useKeyboard ){
+    $(document).keydown((e) =>{
+      this.keyboard(e);
+    })
+  }
   $('#js_ok').click((e)=>{
     this.go(e);            // goボタン
   })
 }
 
+// スケルトン
+generateQuestions = ()=>{}
+judge = ()=>{}
+tenkey = ()=>{}
+
+// 初期状態にする
 init = () =>{
   this.miss = 0;
-  this.current_cnt=1;
-  $('#current_cnt').html(this.current_cnt);
+  this.current = 0;
   $('#howto').css('display', 'none');
-  $('#timer').html('0.00');
+  // $('#timer').html('0.00');
   this.prepare();
-  if(typeof this.initCallback=='function'){
-    // コールバック
-    this.initCallback(this);
-  }
+  // 設問を生成しておく
+  this.generateQuestions();
 }
+
 prepare = ()=>{
   $('#question').html('');
   $('#answer').html('');
   $('#help').html('');
   this.correct = 0; // 正解
   this.answer = '';
+  this.answer_arr = [];
+  $('#timer').html('0.00');
+  $('#current_cnt').html(this.current+1)
+
+
+//   // クマさんを元に
+//   clearInterval(interval_id);
+//   animal.removeClass('animal_purun');
+//   animal.css('width', '25px');
+//   animal.css({ "width": "", "height": "" });
 }
 
 //-------------------------
@@ -204,13 +232,14 @@ start = (e) =>{
     this.timer.runTimer();
     // 設問作成
     setTimeout(() => {
-      if(typeof this.createQuestion=='function'){
-        // コールバック
-        this.createQuestion(this);
-      }
+        this.setQuestion();
     }, "700");
   $(e.currentTarget).css('display', 'none');
+  // クマさんを少しずつ大きくする
+  // this.enLargeAnimal();
+  // this.animal.addClass('animal_purun');
 }
+
 
 /*-----------------------
  end
@@ -242,14 +271,14 @@ go = ()=>{
   if(!this.timer.isRunning){
     return;
   }
-  if(parseInt(this.answer) == parseInt(this.correct)){
-      if(parseInt(this.current_cnt) == parseInt(this.conf.times)){
+  if(this.judge()){
+      if(parseInt(this.current)+1 == parseInt(this.conf.times)){
           // 指定回数完了！！ 
           this.end();
           return;
       }
       // カウントアップ
-      this.current_cnt += 1;
+      this.current += 1;
       // OKくまさんを表示して、0.7秒後に次の問題へ
       this.showOkAnimal();
   } else {
@@ -263,7 +292,8 @@ showOkAnimal = ()=>{
   $('#ok_sign').css('display', 'block');
   setTimeout(() => {
       this.prepare();
-      this.createQuestion(this);
+      this.setQuestion();
+      $('#ok_sign').css('display', 'none');
   }, "700");
 }
 /*-----------------------------
@@ -350,6 +380,36 @@ startGame = ()=>{
   $('.times_'+this.conf['times']).addClass('-green');
   $('#all_cnt').html(this.conf.times);
   $('#howto').css('display', 'none');
+  // too
+  if(typeof $('#display_animal')!='undefined' && $('#display_animal')){
+    this.animal.toggle();
+  }
+}
+  //-------------------------
+// 一時停止
+
+pause = (e)=>{
+  if($('#timer').html()=='0.00' || question==''){
+    return;
+  }
+  if(this.timer.isRunning){
+    // pause
+    this.timer.pauseTimer();
+    // animal
+    // clearInterval(interval_id);
+    // if(typeof this.animal!='undefined'){
+    //   this.animal.removeClass('animal_purun');
+    // }
+  } else {
+    // restart
+    this.timer.restartTimer();
+    // animal
+    // if(typeof $('#animal')!='undefined'){
+    //   this.animal.addClass('animal_purun');
+    //   this.enLargeAnimal();
+    // }
+  }
+  toggleIcon($(e.currentTarget), ICON_DIR+'pause.png');
 }
 // 終了
 quit = ()=>{
@@ -364,16 +424,7 @@ retry = ()=>{
   // initialize
   this.init();
 }
-//-------------------
-// テンキー
-//-------------------
-tenkey = (e)=>{
-  if(!this.timer.isRunning){
-    return;
-  }
-  this.answer = this.answer + String($(e.currentTarget).html());
-  $('#answer').html(this.answer);
-}
+
 //-------------------
 // キーボード
 //-------------------
@@ -409,9 +460,31 @@ displayHelp = (e)=>{
   $('#help').toggle();
   toggleIcon($(e.currentTarget), ICON_DIR+'beginner.png');
 }
+displayAnimal = (e)=>{
+  $('#animal').toggle();
+  toggleIcon($(e.currentTarget), ICON_DIR+'kuma.png');
+}
+// // ヒントtoggle
+// $('[name=display_help]').click(function(){
+//   if($('[name=display_help]:checked').val()==1){
+//       $('#display_help').attr('src', ICON_DIR+'beginner.png');
+//       $('#help').css('display', 'block');
+//   } else {
+//       $('#display_help').attr('src', ICON_DIR+'beginner_off.png');
+//       $('#help').css('display', 'none');
+//   }
+// })
 
+// // クマtoggle
+
+  // if($('[name=display_animal]:checked').val()==1){
+  //     $('#display_animal').attr('src', ICON_DIR+'kuma.png');
+  // } else {
+  //     $('#display_animal').attr('src', ICON_DIR+'kuma_off.png');
+  // }
+
+// ヒントtoggle
 toggleHelp = ()=>{
-  // ヒントtoggle
   if($('[name=display_help]:checked').val()==1){
       $('#display_help').attr('src', ICON_DIR+'beginner.png');
       $('#help').css('display', 'block');
@@ -420,7 +493,31 @@ toggleHelp = ()=>{
       $('#help').css('display', 'none');
   }
 }
+// くまさんtoggle
+toggleAnimal = ()=>{
+  if($('[name=display_animal]:checked').val()==1){
+    $('#display_animal').attr('src', ICON_DIR+'kuma.png');
+    $('#animal').css('display', 'block');
+} else {
+    $('#display_animal').attr('src', ICON_DIR+'kuma_off.png');
+    $('#animal').css('display', 'none');
+}
 
+enLargeAnimal=()=>{
+  // クマさんを少しずつ大きくする
+  if(this.timer.isRunning){
+       interval_id = setInterval(function(){
+         let w = this.animal.width();
+         if(w<250){
+           this.animal.css('width', (w+3)+'px')
+           this.animal.offsetCenter();
+         }
+       }, 500);
+     }
+ }
 }
 
 
+
+
+}

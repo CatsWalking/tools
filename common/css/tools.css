@@ -205,24 +205,7 @@ footer {
   font-size: 1.6rem;
 }
 
-#question {
-  height: 100px;
-  line-height: 100px;
-  background: #ecf9f0;
-  border-radius: 5px;
-  text-align: center;
-  display: table-cell;
-  /* font-size: 4rem; */
-  width: 98%;
-  letter-spacing: 1rem;
-}
 
-/* PC */
-@media screen and (min-width: 960px) {
-  #question {
-    height: 120px;
-  }
-}
 
 /* 小さい画面 */
 @media screen and (max-width: 375px) {
@@ -243,9 +226,7 @@ footer {
   }
 }
 
-#answer {
-  /* font-size: 3rem; */
-}
+
 
 #ok_sign {
   position: absolute;

@@ -56,11 +56,8 @@
       </div>
       <div class="btn_box"><a class="btn -blue -s" href="admin_anki_detail.html">新規登録</a></div>
       <table class="table2" id="anki_table">
-          <thead><tr>
-            <th width="60">ID <span class="js_sort asc">▲</span><span class="js_sort desc">▼</span></th>
-            <th width="80">カテゴリ</th>
-            <th>質問</th>
-            <th width="50"></th>
+          <thead><tr class="pointer">
+            <th><span class="js_sort asc">▲</span><span class="js_sort desc">▼</span></th>
             <th width="30"></th>
           </tr>
           </thead>
@@ -68,7 +65,6 @@
       </table>
     </main>
 </div>
-
 
 <!-- container -->
 <script src="./common/js/jquery-3.6.3.min.js"></script>
@@ -86,27 +82,21 @@
     let order_type = 2;
     let status_arr = {0:'未', 1:'OK',2:'REPEAT',3:'NG',4:'重要'}
 
-
     getAllQuestions();
 
     function getAllQuestions(){
-      let url2 = URL+'?action=getAllQuestions&subject='+subject+'&order_type='+order_type+'&subject_sub='+subject_sub;
-      console.log(url2);
-      $.get(url2, function(data){
-        questions = data
-        
+      let url2 = URL+'?action=getAllQuestions&subject='+subject+'&order_type='+order_type+'&subject_sub='+subject_sub+'&inc_br=0';
+      $.get(url2, function(questions){
         // 設問セット
         let line = '';
         $('#anki_table tbody').html('');
         for(let no=0; no<questions.length; no++){
-          line = "<tr>"
-            +"<td>"+questions[no]['id']+"</td>"
-            +"<td>"+questions[no]['subject_sub']+"</td>"
-            +"<td>"+questions[no]['question'].substr(0,30)
-            +  "<div class='pc_only txtS txtBlue'>"+questions[no]['answer'].substr(0,30)+"</div></td>"
+          line = "<tr class='pointer' onclick=\"location.href='admin_anki_detail.html?id="+questions[no]['id']+"'\">"
+            +"<td><div><span class='txtSS txtBlue'>"+questions[no]['id']+"：</span>"
+            +" <span class='txtS txtRed'>"+questions[no]['subject_sub']+"</span></div>"
+            +" <div>"+questions[no]['question'].substr(0,30)+"</div>"
+            +" <div class='pc_only txtSS txtBlue'>"+questions[no]['answer'].substr(0,30)+"</div></td>"
             +"<td>"+questions[no]['cnt']+"/"+questions[no]['status']+"</td>"
-            +"<td class='txtCenter'><a href='admin_anki_detail.html?id="+questions[no]['id']+"'>"
-              +"<img src='./common/images/icon/edit.png' class='icon -ss'></a></td>"
             +"</tr>";
           $('#anki_table tbody').append(line);
         }
@@ -116,9 +106,9 @@
     // 並び替え  
     $(document).on('click', '.js_sort', function(){
       if($(this).hasClass('asc')){
-        order_type = 2;
+        order_type = 1;
       } else {
-        order_type = 3;
+        order_type = 2;
       }
       getAllQuestions();
     })
@@ -144,8 +134,7 @@
       getAllQuestions();
     })
     if($(window).width()<1000){
-        $('.pc_only').css('display', 'none');
-        console.log(111,  $('.pc_only').css('display'));
+        $('.pc_only').addClass('hide');
     }
     $(window).resize(function(){
       if($(window).width()<1000){
@@ -158,4 +147,4 @@
   })
 </script>
 </body>
-</html> ふぉr
+</html>

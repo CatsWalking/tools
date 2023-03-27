@@ -22,12 +22,32 @@
     background:#ecf9f0;
 }
 #question{
-    font-size:4rem;
+  background:#DCE7F2;
+  font-size:4rem;
+}
+#question {
+  height: 100px;
+  line-height: 100px;
+  background: #ecf9f0;
+  text-align: center;
+  display: table-cell;
+  width: 98%;
+  letter-spacing: 1rem;
+}
+
+/* PC */
+@media screen and (min-width: 960px) {
+  #question {
+    height: 120px;
+  }
 }
 #answer{
   color:rgb(20, 179, 55);
   font-size: 3rem;
 }
+
+
+
 .tenkey_box li{
   height: 50px;
   font-size: 1.8rem; 
@@ -219,79 +239,101 @@ let conf = {level:2, speed:2, times:5};
 
 
 //-------------------------
-// 指定回数分の設問を作成して配列に入れておく
+// RokuToolを継承
 //-------------------------
- var generateNumber = (tools) =>{
-    let rnd_arr = [];
-    let rnd;
-    // 指定の数分乱数を生成（かぶらないように）
-    for(let i=0; i<conf.times; i++){
-        rnd_arr = [];
-        while (Object.keys(rnd_arr).length < conf.times) {
-            rnd = rand(levels[conf.level].min, levels[conf.level].max);
-            // 存在しなかったら追加(level1&count=10は、数がかぶりすぎてスタックする)
-            if (rnd_arr.indexOf(rnd) == -1 || (conf.level == 0 && conf.times > 5)) {
-                rnd_arr.unshift(rnd);
+class myRokuTool extends RokuTool{
+
+    constructor() {
+        super(conf)
+
+        // ヘルプタップしたら、答えをこっそり表示
+        $('#help').click((e)=>{
+            this.showAnswer(e);
+        })
+
+    }
+
+    //-------------------------
+    // 指定回数分の設問を作成して配列に入れておく
+    //-------------------------
+    generateQuestions = () =>{
+        let rnd_arr = [];
+        let rnd;
+        // 指定の数分、乱数を生成（かぶらないように）
+        for(let i=0; i<conf.times; i++){
+            rnd_arr = [];
+            while (Object.keys(rnd_arr).length < conf.times) {
+                rnd = rand(levels[conf.level].min, levels[conf.level].max);
+                // 存在しなかったら追加(level1&count=10は、数がかぶりすぎてスタックする)
+                if (rnd_arr.indexOf(rnd) == -1 || (conf.level == 0 && conf.times > 5)) {
+                    rnd_arr.unshift(rnd);
+                }
             }
+            this.questions[i] = rnd_arr;
         }
-        tools.questions[i] = rnd_arr;
     }
-}
-//-------------------------
-// 設問セット
-//-------------------------
-var createQuestion = (tools)=>{
-    tools.correct = 0;
-    $('#current_cnt').html(tools.current_cnt);
-    $('#ok_sign').removeClass('fadeUp');
-    $('#ok_sign').css('display', 'none');
-    if(tools.timer.isRunning){
-        let num;
-        // １回目は即表示
-        num = tools.questions[tools.current_cnt-1][0];
-        $('#question').html(num);
-        tools.correct += parseInt(num)
-        let counter = 1;
-        // ２回目以降指定のspeedごとに
-        let q_time_id = setInterval(function () {
-        if (counter < tools.conf.times) {
-            num = tools.questions[tools.current_cnt-1][counter];
+
+    //-------------------------
+    // 設問セット
+    //-------------------------
+    setQuestion = ()=>{
+        this.correct = 0;
+        $('#current_cnt').html(this.current+1);
+        $('#ok_sign').removeClass('fadeUp');
+        $('#ok_sign').css('display', 'none');
+        if(this.timer.isRunning){
+            let num;
+            // １回目は即表示
+            num = this.questions[this.current][0];
             $('#question').html(num);
-            counter++;
-            tools.correct += parseInt(num)
-        } else {
-            clearInterval(q_time_id);
-            // 2秒後に式(help)を表示
-            window.setTimeout(()=>{
-              $('#help').html(tools.questions[tools.current_cnt-1].join(' + '));
-            }, 2000)
+            this.correct += parseInt(num)
+            let counter = 1;
+            // ２回目以降指定のspeedごとに
+            let q_time_id = setInterval(()=> {
+            if (counter < this.conf.times) {
+                num = this.questions[this.current][counter];
+                $('#question').html(num);
+                counter++;
+                this.correct += parseInt(num)
+            } else {
+                clearInterval(q_time_id);
+                // 2秒後に式(help)を表示
+                window.setTimeout(()=>{
+                    $('#help').html(this.questions[this.current].join(' + '));
+                }, 2000)
+            }
+            }, speeds[this.conf.speed]);
         }
-    console.log(tools.correct);
-        }, speeds[tools.conf.speed]);
+    }
+
+    // 判定
+    judge = ()=>{
+        return (parseInt(this.answer) == parseInt(this.correct));
+    }
+
+    //-------------------------
+    // tenkey
+    tenkey = (e)=>{
+        this.answer = this.answer + String($(e.currentTarget).html());
+        $('#answer').html(this.answer);
+    }
+
+
+    // ヘルプタップしたら、答えをこっそり表示
+// $('#help').click((e)=>{
+    showAnswer = (e)=>{
+        if(this.correct!='' && $('#help').html()!='' && isActive($('#display_help')) && $(e.currentTarget).html().indexOf('=')==-1){
+            $('#help').html( $('#help').html()+' = ' + parseInt(this.correct))
+        }
     }
 }
-
-
-
-
 //-------------------------
 // RokuTool インスタンス
 //-------------------------
-RokuTool = new RokuTool(conf, generateNumber, createQuestion);
+myRokuTool = new myRokuTool(conf);
 // timer
-RokuTool.timer =  new Timer($('#timer'));
-
-
-// ヘルプタップしたら、答えをこっそり表示
-$('#help').click((e)=>{
-if(RokuTool.correct!='' && $('#help').html()!='' && isActive($('#display_help')) && $(e.currentTarget).html().indexOf('=')==-1){
-    $('#help').html( $('#help').html()+' = ' + parseInt(RokuTool.correct))
-}
-})
-
-
-
-
+myRokuTool.timer = new Timer($('#timer'));
+myRokuTool.useKeyboard = false;
 
 
 })
