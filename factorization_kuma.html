@@ -130,7 +130,6 @@
     <div id="howto">
       <p style="font-size: 1.6rem;margin:20px;">素因数分解ゲーム</p> 
       <p>因数分解できたら<img src="./common/images/icon/go.png" class="icon -ss">をタップ</p> 
-      <p>クマが邪魔してくるから急いで！！</p> 
       <!-- レベル -->
       <p>レベルと回数を選んでスタート！</p> 
       <table style="width:350px;margin: 20px auto;padding:0;">
@@ -158,12 +157,6 @@
                 <label><input type="radio" name="display_help" value="0">ヒント表示しない</label>
             </td>
         </tr>
-        <!-- <tr><td width="60"><img src="./common/images/icon/kuma.png" class="icon -sss"></td>
-          <td class="radioarea txtSSS txtLeft">
-              <label class="-checked"><input type="radio" name="display_animal" value="1" checked>クマ表示する</label>
-              <label><input type="radio" name="display_animal" value="0">クマ表示しない</label>
-          </td>
-      </tr> -->
        </table>
        <!-- スタート -->
        <div class="btn js_start">スタート</div>
@@ -184,7 +177,6 @@
       <div id="cnt"><span id="current_cnt">1</span> / <span id="all_cnt">5</span></div>
       <div id="help"></div>
       <div><img src="./common/images/icon/beginner.png" class="icon -ss" id="display_help"></div>
-      <!-- <div><img src="./common/images/icon/kuma.png" class="icon -s" id="display_animal"></div> -->
       <div><img src="./common/images/icon/pause.png" class="icon -ss" id="js_pause" style="margin-right:4px;"></div>
       <div><img src="./common/images/icon/close.png" class="icon -ss js_quit"></div>
     </div>
@@ -210,7 +202,6 @@
     <div class="outer"><div id="question"></div></div>
     <div class="outer"><div id="answer"></div></div>
     <div class="outer"><div id="prime" class="ruby3"></div></div>
-    <div class="outer"><img src="./common/images/icon/kuma.png" id="animal" class="animal"></div>
   </main>
 
   <!-- footer -->
@@ -249,9 +240,7 @@
 <script src="./common/js/modal.js?test"></script>
 <script src="./common/js/tools.js?test"></script>
 <script>
-  $(function(){
-
-
+$(function(){
 /*----------------------------
 Roku tools
 */
@@ -265,7 +254,6 @@ const levels = {1:{'min':50,'max':100},
           4:{'min':1001,'max':2000},
           5:{'min':2001,'max':3000}};
 let conf = {level:2, times:5};
-
 
 //-------------------------
 // RokuToolを継承
@@ -402,9 +390,8 @@ prime = (val) => {
   }
   return tmp_primes;
 }
+
 }
-
-
 
 //-------------------------
 // RokuTool インスタンス
@@ -431,35 +418,6 @@ jQuery.prototype.offsetCenter=function() {
 }
 
 
-
-// // クマさんtoggle
-// $('#display_animal').click(function(){
-//   animal.toggle();
-//   toggleIcon($('#display_animal'), ICON_DIR+'kuma.png');
-// })
-// // ヘルプtoggle
-// $('#display_help').click(function(){
-//   $('#help').toggle();
-//   toggleIcon($(this), ICON_DIR+'beginner.png');
-// })
-// // ヒントtoggle
-//   $('[name=display_help]').click(function(){
-//     if($('[name=display_help]:checked').val()==1){
-//         $('#display_help').attr('src', ICON_DIR+'beginner.png');
-//         $('#help').css('display', 'block');
-//     } else {
-//         $('#display_help').attr('src', ICON_DIR+'beginner_off.png');
-//         $('#help').css('display', 'none');
-//     }
-// })
-// // // クマtoggle
-// $('[name=display_animal]').click(function(){
-//     if($('[name=display_animal]:checked').val()==1){
-//         $('#display_animal').attr('src', ICON_DIR+'kuma.png');
-//     } else {
-//         $('#display_animal').attr('src', ICON_DIR+'kuma_off.png');
-//     }
-// })
 
 })
 </script>

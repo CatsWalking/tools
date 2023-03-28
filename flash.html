@@ -298,7 +298,7 @@ class myRokuTool extends RokuTool{
             } else {
                 clearInterval(q_time_id);
                 // 2秒後に式(help)を表示
-                window.setTimeout(()=>{
+                this.help_timer_id = window.setTimeout(()=>{
                     $('#help').html(this.questions[this.current].join(' + '));
                 }, 2000)
             }
@@ -320,7 +320,6 @@ class myRokuTool extends RokuTool{
 
 
     // ヘルプタップしたら、答えをこっそり表示
-// $('#help').click((e)=>{
     showAnswer = (e)=>{
         if(this.correct!='' && $('#help').html()!='' && isActive($('#display_help')) && $(e.currentTarget).html().indexOf('=')==-1){
             $('#help').html( $('#help').html()+' = ' + parseInt(this.correct))

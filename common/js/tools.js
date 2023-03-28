@@ -135,7 +135,7 @@ class RokuTool {
   questions = [];     // 指定回数分設問を入れておく
   timer;              // タイマーインスタンス
   useKeyboard = true; // キーボード利用
-  animal = $('#animal');
+  help_timer_id;      // 数秒後にヘルプを出力するためのタイマー（flashで使用）
 constructor(conf) {
   this.conf = conf;
 
@@ -163,9 +163,6 @@ constructor(conf) {
   })
   $('#display_help').click((e)=>{
     this.displayHelp (e);  // ヘルプアイコン
-  })
-  $('[name=display_animal]').click((e)=>{
-    this.displayAnimal (e);  // ヘルプアイコン
   })
   $('[name=display_help]').click(()=>{
     this.toggleHelp();    // ヘルプラジオ
@@ -215,13 +212,6 @@ prepare = ()=>{
   this.answer_arr = [];
   $('#timer').html('0.00');
   $('#current_cnt').html(this.current+1)
-
-
-//   // クマさんを元に
-//   clearInterval(interval_id);
-//   animal.removeClass('animal_purun');
-//   animal.css('width', '25px');
-//   animal.css({ "width": "", "height": "" });
 }
 
 //-------------------------
@@ -235,9 +225,7 @@ start = (e) =>{
         this.setQuestion();
     }, "700");
   $(e.currentTarget).css('display', 'none');
-  // クマさんを少しずつ大きくする
-  // this.enLargeAnimal();
-  // this.animal.addClass('animal_purun');
+  clearInterval(this.help_timer_id);  // flashの2秒後にヘルプ出すタイマ
 }
 
 
@@ -318,9 +306,6 @@ getConfParam(){
   if($('#display_help').length>0){
     param += '&display_help='+isActive($('#display_help'))
   }
-  if($('#display_animal').length>0){
-    param += '&display_animal='+isActive($('#display_animal'))
-  }
   return param;
 }
 /*-----------------------------
@@ -352,7 +337,6 @@ setConf(){
       })
     })
     this.toggleRadio(params['display_help'], $('[name=display_help]'));
-    this.toggleRadio(params['display_animal'], $('[name=display_animal]'));
   }
 }
 // 設定のラジオボタンをセット
@@ -380,14 +364,9 @@ startGame = ()=>{
   $('.times_'+this.conf['times']).addClass('-green');
   $('#all_cnt').html(this.conf.times);
   $('#howto').css('display', 'none');
-  // too
-  if(typeof $('#display_animal')!='undefined' && $('#display_animal')){
-    this.animal.toggle();
-  }
 }
-  //-------------------------
+//-------------------------
 // 一時停止
-
 pause = (e)=>{
   if($('#timer').html()=='0.00' || question==''){
     return;
@@ -395,19 +374,9 @@ pause = (e)=>{
   if(this.timer.isRunning){
     // pause
     this.timer.pauseTimer();
-    // animal
-    // clearInterval(interval_id);
-    // if(typeof this.animal!='undefined'){
-    //   this.animal.removeClass('animal_purun');
-    // }
   } else {
     // restart
     this.timer.restartTimer();
-    // animal
-    // if(typeof $('#animal')!='undefined'){
-    //   this.animal.addClass('animal_purun');
-    //   this.enLargeAnimal();
-    // }
   }
   toggleIcon($(e.currentTarget), ICON_DIR+'pause.png');
 }
@@ -460,29 +429,6 @@ displayHelp = (e)=>{
   $('#help').toggle();
   toggleIcon($(e.currentTarget), ICON_DIR+'beginner.png');
 }
-displayAnimal = (e)=>{
-  $('#animal').toggle();
-  toggleIcon($(e.currentTarget), ICON_DIR+'kuma.png');
-}
-// // ヒントtoggle
-// $('[name=display_help]').click(function(){
-//   if($('[name=display_help]:checked').val()==1){
-//       $('#display_help').attr('src', ICON_DIR+'beginner.png');
-//       $('#help').css('display', 'block');
-//   } else {
-//       $('#display_help').attr('src', ICON_DIR+'beginner_off.png');
-//       $('#help').css('display', 'none');
-//   }
-// })
-
-// // クマtoggle
-
-  // if($('[name=display_animal]:checked').val()==1){
-  //     $('#display_animal').attr('src', ICON_DIR+'kuma.png');
-  // } else {
-  //     $('#display_animal').attr('src', ICON_DIR+'kuma_off.png');
-  // }
-
 // ヒントtoggle
 toggleHelp = ()=>{
   if($('[name=display_help]:checked').val()==1){
@@ -493,16 +439,6 @@ toggleHelp = ()=>{
       $('#help').css('display', 'none');
   }
 }
-// くまさんtoggle
-toggleAnimal = ()=>{
-  if($('[name=display_animal]:checked').val()==1){
-    $('#display_animal').attr('src', ICON_DIR+'kuma.png');
-    $('#animal').css('display', 'block');
-} else {
-    $('#display_animal').attr('src', ICON_DIR+'kuma_off.png');
-    $('#animal').css('display', 'none');
-}
-
 enLargeAnimal=()=>{
   // クマさんを少しずつ大きくする
   if(this.timer.isRunning){
@@ -519,5 +455,3 @@ enLargeAnimal=()=>{
 
 
 
-
-}
