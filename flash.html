@@ -250,7 +250,6 @@ class myRokuTool extends RokuTool{
         $('#help').click((e)=>{
             this.showAnswer(e);
         })
-
     }
 
     //-------------------------
@@ -297,6 +296,7 @@ class myRokuTool extends RokuTool{
                 this.correct += parseInt(num)
             } else {
                 clearInterval(q_time_id);
+                clearInterval(this.help_timer_id);
                 // 2秒後に式(help)を表示
                 this.help_timer_id = window.setTimeout(()=>{
                     $('#help').html(this.questions[this.current].join(' + '));
