@@ -24,7 +24,7 @@ const header = '<div class="header__inner">'
     +'<li class="nav-items__item tab_timer"><a href="timer.html">タイマー</a></li>'
     +'<li class="nav-items__item tab_game"><a href="reversi.html">ゲーム</a></li>'
     // +'<li class="nav-items__item tab_edu"><a href="flash.html">知育</a></li>'
-    // +'<li class="nav-items__item"><a href="bmi.html">bmi</a></li>'
+    +'<li class="nav-items__item"><a href="bmi.html">bmi</a></li>'
     +'</ul>'
     +'</nav>'
     +'<button class="header__hamburger hamburger" id="js-hamburger">'
@@ -136,6 +136,7 @@ class RokuTool {
   timer;              // タイマーインスタンス
   useKeyboard = true; // キーボード利用
   help_timer_id;      // 数秒後にヘルプを出力するためのタイマー（flashで使用）
+
 constructor(conf) {
   this.conf = conf;
 
@@ -167,9 +168,8 @@ constructor(conf) {
     this.toggleHelp();    // ヘルプラジオ
   })
   $('#js_pause').click((e)=>{
-    this.pause(e)
+    this.pause(e)         // 一時保存
   })
-  // this.start();         // タップしてスタート
   $('#js_clear').click(()=>{
     this.clear();
   })
@@ -194,9 +194,7 @@ tenkey = ()=>{}
 // 初期状態にする
 init = () =>{
   this.miss = 0;
-  this.current = 0;
   $('#howto').css('display', 'none');
-  // $('#timer').html('0.00');
   this.prepare();
   // 設問を生成しておく
   this.generateQuestions();
@@ -227,7 +225,6 @@ start = (e) =>{
     }, "700");
   $(e.currentTarget).css('display', 'none');
 }
-
 
 /*-----------------------
  end
@@ -270,8 +267,9 @@ go = ()=>{
       // OKくまさんを表示して、0.7秒後に次の問題へ
       this.showOkAnimal();
   } else {
-      Gakuburu($('#question'), 300);
-      this.miss++;
+    // 間違えていたら、ガクブル
+    Gakuburu($('#question'), 300);
+    this.miss++;
   }
 }
 // OKくまさんを表示して、0.7秒後に次の問題へ
