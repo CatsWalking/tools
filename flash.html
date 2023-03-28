@@ -7,9 +7,9 @@
 <link rel="icon" href="./common/images/favicon.svg" sizes="any">
 <title>Roku.tools|フラッシュ暗算</title>
 <link rel="stylesheet" href="./common/css/reset.css">
-<link rel="stylesheet" href="./common/css/style.css?te5std">
-<link rel="stylesheet" href="./common/css/modal.css?te5st">
-<link rel="stylesheet" href="./common/css/tools.css?t5estd">
+<link rel="stylesheet" href="./common/css/style.css?test">
+<link rel="stylesheet" href="./common/css/modal.css?test">
+<link rel="stylesheet" href="./common/css/tools.css?test">
 <style>
 
 #tab_edu a{
@@ -45,9 +45,6 @@
   color:rgb(20, 179, 55);
   font-size: 3rem;
 }
-
-
-
 .tenkey_box li{
   height: 50px;
   font-size: 1.8rem; 
@@ -61,7 +58,7 @@
 #howto td{
     padding:0;
     text-align:left;
-    font-size: 0.8rem;
+    font-size: 0.9rem;
 }
 .conf div{
     background:none;
@@ -102,7 +99,7 @@
                     <div class="status">5</div>
                 </td>
             </tr>
-            <tr><td width="60">スピード</td>
+            <tr><td>スピード</td>
                 <td class="tab_speed">
                     <div class="status">1</div>
                     <div class="status -green">2</div>
@@ -111,7 +108,7 @@
                     <div class="status">5</div>
                 </td>
             </tr>
-            <tr><td width="60">回数</td>
+            <tr><td>回数</td>
                 <td class="tab_times">
                     <div class="status">3</div>
                     <div class="status -green">5</div>
@@ -121,7 +118,7 @@
                 </td>
             </tr>
             <tr><td width="60"><img src="./common/images/icon/beginner.png" class="icon -sss"></td>
-                <td class="radioarea txtS txtLeft">
+                <td class="radioarea txtLeft">
                     <label class="-checked"><input type="radio" name="display_help" value="1" checked>ヒント表示する</label>
                     <label><input type="radio" name="display_help" value="0">ヒント表示しない</label>
                 </td>
@@ -145,6 +142,7 @@
                 <li>speed 3: 1300sec </li>
                 <li>speed 4: 1000sec </li>
                 <li>speed 5: 500sec </li>
+            </ul>
         </div>
       </div>
        <!-- OK -->
@@ -297,6 +295,7 @@ class myRokuTool extends RokuTool{
             } else {
                 clearInterval(q_time_id);
                 clearInterval(this.help_timer_id);
+                this.help_timer_id = '';
                 // 2秒後に式(help)を表示
                 this.help_timer_id = window.setTimeout(()=>{
                     $('#help').html(this.questions[this.current].join(' + '));
@@ -317,7 +316,6 @@ class myRokuTool extends RokuTool{
         this.answer = this.answer + String($(e.currentTarget).html());
         $('#answer').html(this.answer);
     }
-
 
     // ヘルプタップしたら、答えをこっそり表示
     showAnswer = (e)=>{

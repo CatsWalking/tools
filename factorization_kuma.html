@@ -7,9 +7,9 @@
 <link rel="icon" href="./common/images/favicon.svg" sizes="any">
 <title>Roku.tools|因数分解</title>
 <link rel="stylesheet" href="./common/css/reset.css">
-<link rel="stylesheet" href="./common/css/style.css?as3a">
-<link rel="stylesheet" href="./common/css/modal.css?as3a">
-<link rel="stylesheet" href="./common/css/tools.css?as3a">
+<link rel="stylesheet" href="./common/css/style.css?aa">
+<link rel="stylesheet" href="./common/css/modal.css?aa">
+<link rel="stylesheet" href="./common/css/tools.css?aa">
 <style>
 .range {
   background-color: #6eb6e4;
@@ -93,7 +93,7 @@
 #howto td{
     padding:0;
     text-align:left;
-    font-size: 0.8rem;
+    font-size: 0.9rem;
 }
 .tab_label{
     display: inline-block; width:55px;font-size: 0.7rem;
@@ -132,8 +132,8 @@
       <p>因数分解できたら<img src="./common/images/icon/go.png" class="icon -ss">をタップ</p> 
       <!-- レベル -->
       <p>レベルと回数を選んでスタート！</p> 
-      <table style="width:350px;margin: 20px auto;padding:0;">
-        <tr><td width="60">レベル</td>
+      <table style="width:360px;margin: 20px auto;padding:0;">
+        <tr><td width="50">レベル</td>
             <td class="tab_level">
                 <div class="status">1</div>
                 <div class="status -green">2</div>
@@ -142,7 +142,7 @@
                 <div class="status">5</div>
             </td>
         </tr>
-        <tr><td width="60">回数</td>
+        <tr><td>回数</td>
             <td class="tab_times">
                 <div class="status">3</div>
                 <div class="status -green">5</div>
@@ -151,8 +151,8 @@
                 <div class="status">20</div>
             </td>
         </tr>
-        <tr><td width="60"><img src="./common/images/icon/beginner.png" class="icon -sss"></td>
-            <td class="radioarea txtSSS txtLeft">
+        <tr><td><img src="./common/images/icon/beginner.png" class="icon -sss"></td>
+            <td class="radioarea txtLeft">
                 <label class="-checked"><input type="radio" name="display_help" value="1" checked>ヒント表示する</label>
                 <label><input type="radio" name="display_help" value="0">ヒント表示しない</label>
             </td>
@@ -160,9 +160,16 @@
        </table>
        <!-- スタート -->
        <div class="btn js_start">スタート</div>
-      <hr>
+      <hr class="mt20">
       <div><img src="./common/images/icon/pause.png" class="icon -ss"> 一時停止 </div>
       <div><img src="./common/images/icon/close.png" class="icon -ss"> 終了</div>
+      <ul style="line-height: 1.6rem;width:150px;text-align:left;margin: 20px auto;">
+        <li>level 1: 5 〜 100</li>
+        <li>level 2: 101 〜 500</li>
+        <li>level 3: 501 〜 1000</li>
+        <li>level 4: 1001 〜 2000</li>
+        <li>level 5: 2001 〜 3000</li>
+      </ul>
     </div>
     <!-- OK -->
     <div class="outer">

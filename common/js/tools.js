@@ -139,7 +139,6 @@ class RokuTool {
 constructor(conf) {
   this.conf = conf;
 
-
   // 設定タブ　クリックイベントリスナ
   $.each(this.conf, (k, v)=>{
     this.clickTab(k);
@@ -212,6 +211,8 @@ prepare = ()=>{
   this.answer_arr = [];
   $('#timer').html('0.00');
   $('#current_cnt').html(this.current+1)
+  clearInterval(this.help_timer_id);  // flashの2秒後にヘルプ出すタイマ
+  this.help_timer_id = '';
 }
 
 //-------------------------
@@ -225,7 +226,6 @@ start = (e) =>{
         this.setQuestion();
     }, "700");
   $(e.currentTarget).css('display', 'none');
-  clearInterval(this.help_timer_id);  // flashの2秒後にヘルプ出すタイマ
 }
 
 
