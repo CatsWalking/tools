@@ -194,6 +194,7 @@ tenkey = ()=>{}
 // 初期状態にする
 init = () =>{
   this.miss = 0;
+  this.current = 0;
   $('#howto').css('display', 'none');
   this.prepare();
   // 設問を生成しておく
