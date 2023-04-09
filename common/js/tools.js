@@ -136,6 +136,8 @@ class RokuTool {
   timer;              // タイマーインスタンス
   useKeyboard = true; // キーボード利用
   help_timer_id;      // 数秒後にヘルプを出力するためのタイマー（flashで使用）
+  is_running = false;
+  is_display_help = false;
 
 constructor(conf) {
   this.conf = conf;
@@ -150,12 +152,14 @@ constructor(conf) {
 
   // howtoスタートボタンのクリックイベントリスナ
   $('.js_start').click(()=>{
-    this.startGame();     
+    this.startGame();
   })
   $('#start_message').click((e)=>{
+    // this.is_running=false;
     this.start(e);
   })
   $(document).on('click', '.js_quit', ()=>{
+    this.is_running=false;
     this.quit();          // 終了ボタン
   })
   $(document).on('click', '.js_retry', ()=>{
@@ -191,6 +195,7 @@ generateQuestions = ()=>{}
 judge = ()=>{}
 tenkey = ()=>{}
 
+
 // 初期状態にする
 init = () =>{
   this.miss = 0;
@@ -200,7 +205,7 @@ init = () =>{
   // 設問を生成しておく
   this.generateQuestions();
 }
-
+// 準備
 prepare = ()=>{
   $('#question').html('');
   $('#answer').html('');
@@ -225,8 +230,20 @@ start = (e) =>{
         this.setQuestion();
     }, "700");
   $(e.currentTarget).css('display', 'none');
+  this.is_running = true;
 }
 
+//-------------------------
+// howtoのスタートボタン
+startGame = ()=>{
+  $('.level_'+this.conf['level']).addClass('-green');
+  $('.speed_'+this.conf['speed']).addClass('-green');
+  $('.times_'+this.conf['times']).addClass('-green');
+  $('#all_cnt').html(this.conf.times);
+  $('#howto').css('display', 'none');
+
+  this.toggleHelp();
+}
 /*-----------------------
  end
 -----------------------*/
@@ -327,6 +344,7 @@ setConf(){
     });
 
     $.each(params, function(k, v){
+      console.log(k, v);
       this.conf[k] = params[k];
       $('.tab_'+k+' div').removeClass('-green');
       $('.tab_'+k+' div').each((e)=>{
@@ -356,15 +374,6 @@ toggleRadio(para, elem){
 }
 
 //-------------------------
-// howtoスタート
-startGame = ()=>{
-  $('.level_'+this.conf['level']).addClass('-green');
-  $('.speed_'+this.conf['speed']).addClass('-green');
-  $('.times_'+this.conf['times']).addClass('-green');
-  $('#all_cnt').html(this.conf.times);
-  $('#howto').css('display', 'none');
-}
-//-------------------------
 // 一時停止
 pause = (e)=>{
   if($('#timer').html()=='0.00' || question==''){
@@ -373,9 +382,13 @@ pause = (e)=>{
   if(this.timer.isRunning){
     // pause
     this.timer.pauseTimer();
+    this.is_running = false;
+
   } else {
     // restart
     this.timer.restartTimer();
+    this.is_running = true;
+
   }
   toggleIcon($(e.currentTarget), ICON_DIR+'pause.png');
 }
@@ -397,18 +410,20 @@ retry = ()=>{
 // キーボード
 //-------------------
 keyboard = (e)=>{
-  const key = e.keyCode-48;
-  if(this.timer.isRunning){
-    if(key==-35){
-      // エンターキー
-      this.go(e);
-    } else if(key==-40){
-      // clear
-      this.clear()
-    } else if(key>=0 && key<=9){
-      // tenkey
-      this.answer = this.answer + key;
-      $('#answer').html(this.answer);
+  if(this.is_running){
+    const key = e.keyCode-48;
+    if(this.timer.isRunning){
+      if(key==-35){
+        // エンターキー
+        this.go(e);
+      } else if(key==-40){
+        // clear
+        this.clear()
+      } else if(key>=0 && key<=9){
+        // tenkey
+        this.answer = this.answer + key;
+        $('#answer').html(this.answer);
+      }
     }
   }
 }
@@ -430,6 +445,7 @@ displayHelp = (e)=>{
 }
 // ヒントtoggle
 toggleHelp = ()=>{
+  console.log('toggleHelp',$('[name=display_help]:checked').val());
   if($('[name=display_help]:checked').val()==1){
       $('#display_help').attr('src', ICON_DIR+'beginner.png');
       $('#help').css('display', 'block');

@@ -5,11 +5,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" href="./common/images/favicon.svg" sizes="any">
-<title>Roku.tools|約数</title>
+<title>約数|Roku.tools</title>
 <link rel="stylesheet" href="./common/css/reset.css">
-<link rel="stylesheet" href="./common/css/style.css?as3a">
-<link rel="stylesheet" href="./common/css/modal.css?as3a">
-<link rel="stylesheet" href="./common/css/tools.css?as3a">
+<link rel="stylesheet" href="./common/css/style.css?aa">
+<link rel="stylesheet" href="./common/css/modal.css?aa">
+<link rel="stylesheet" href="./common/css/tools.css?aa">
 <style>
 .range {
   background-color: #6eb6e4;
@@ -32,13 +32,23 @@
   display: table-cell;
   vertical-align:middle;
 }
-
 #question{
-  background:#f2dce1;
+  background:#f2dcec;
+  font-size:4rem;
+  height: 100px;
+}
+
+/* PC */
+@media screen and (min-width: 960px) {
+  #question {
+    height: 120px;
+  }
 }
 #answer{
-  color:rgb(207, 87, 169);
+  color:rgb(193, 76, 166);
+  font-size: 3rem;
 }
+
 .tenkey_box li{
   height: 50px;
   font-size: 1.8rem; 
@@ -75,7 +85,7 @@
 #howto td{
     padding:0;
     text-align:left;
-    font-size: 0.8rem;
+    font-size: 0.9rem;
 }
 .tab_label{
     display: inline-block; width:55px;font-size: 0.7rem;
@@ -88,6 +98,10 @@
 .box.-l{
     width:50px;
     height:50px;
+}
+#js_ok {
+  height: 100px;
+  line-height: 100px;
 }
 </style>
 </head>
@@ -106,13 +120,11 @@
     <div id="start_message">タップしてスタート</div>
     <!-- HOWTO -->
     <div id="howto">
-      <p style="font-size: 1.6rem;margin:20px;">約数ゲーム</p> 
-      <p>約数できたら<img src="./common/images/icon/go.png" class="icon -ss">をタップ</p> 
-      <p>クマが邪魔してくるから急いで！！</p> 
+      <p style="font-size: 1.6rem;margin:20px;">約数 ゲーム</p> 
       <!-- レベル -->
       <p>レベルと回数を選んでスタート！</p> 
-      <table style="width:350px;margin: 20px auto;padding:0;">
-        <tr><td width="60">レベル</td>
+      <table style="width:360px;margin: 20px auto;padding:0;">
+        <tr><td width="50">レベル</td>
             <td class="tab_level">
                 <div class="status">1</div>
                 <div class="status -green">2</div>
@@ -121,7 +133,7 @@
                 <div class="status">5</div>
             </td>
         </tr>
-        <tr><td width="60">回数</td>
+        <tr><td>回数</td>
             <td class="tab_times">
                 <div class="status">3</div>
                 <div class="status -green">5</div>
@@ -130,24 +142,25 @@
                 <div class="status">20</div>
             </td>
         </tr>
-        <tr><td width="60"><img src="./common/images/icon/beginner.png" class="icon -sss"></td>
-            <td class="radioarea txtSSS txtLeft">
-                <label class="-checked"><input type="radio" name="display_help" value="1" checked>ヒント表示する</label>
-                <label><input type="radio" name="display_help" value="0">ヒント表示しない</label>
+        <tr><td><img src="./common/images/icon/beginner.png" class="icon -sss"></td>
+            <td class="radioarea txtLeft">
+                <label><input type="radio" name="display_help" value="0" checked>ヒント表示する</label>
+                <label class="-checked"><input type="radio" name="display_help" value="1">ヒント表示しない</label>
             </td>
         </tr>
-        <tr><td width="60"><img src="./common/images/icon/kuma.png" class="icon -sss"></td>
-          <td class="radioarea txtSSS txtLeft">
-              <label class="-checked"><input type="radio" name="display_animal" value="1" checked>クマ表示する</label>
-              <label><input type="radio" name="display_animal" value="0">クマ表示しない</label>
-          </td>
-      </tr>
        </table>
        <!-- スタート -->
        <div class="btn js_start">スタート</div>
-      <hr>
+      <hr class="mt20">
       <div><img src="./common/images/icon/pause.png" class="icon -ss"> 一時停止 </div>
       <div><img src="./common/images/icon/close.png" class="icon -ss"> 終了</div>
+      <ul style="line-height: 1.6rem;width:150px;text-align:left;margin: 20px auto;">
+        <li>level 1: 5 〜 100</li>
+        <li>level 2: 101 〜 500</li>
+        <li>level 3: 501 〜 1000</li>
+        <li>level 4: 1001 〜 2000</li>
+        <li>level 5: 2001 〜 3000</li>
+      </ul>
     </div>
     <!-- OK -->
     <div class="outer">
@@ -158,11 +171,10 @@
     </div>
     <!-- ヘッダ -->
     <div class="header_box">
-      <div id="timer" class="timer">0.00</div>
+      <div id="timer" class="timer hide">0.00</div>
       <div id="cnt"><span id="current_cnt">1</span> / <span id="all_cnt">5</span></div>
-      <div id="help"></div>
-      <div><img src="./common/images/icon/beginner.png" class="icon -ss" id="display_help"></div>
-      <div><img src="./common/images/icon/kuma.png" class="icon -s" id="display_animal"></div>
+      <div id="help" style="display:none;"></div>
+      <div><img src="./common/images/icon/beginner_off.png" class="icon -ss" id="display_help"></div>
       <div><img src="./common/images/icon/pause.png" class="icon -ss" id="js_pause" style="margin-right:4px;"></div>
       <div><img src="./common/images/icon/close.png" class="icon -ss js_quit"></div>
     </div>
@@ -188,7 +200,6 @@
     <div class="outer"><div id="question"></div></div>
     <div class="outer"><div id="answer"></div></div>
     <div class="outer"><div id="prime" class="ruby3"></div></div>
-    <div class="outer"><img src="./common/images/icon/kuma.png" id="animal" class="animal"></div>
   </main>
 
   <!-- footer -->
@@ -198,18 +209,16 @@
       <tr>
         <td rowspan="3">
           <ul class="tenkey_box -column3">
-            <li>1</li>
             <li>2</li>
             <li>3</li>
-            <li>4</li>
             <li>5</li>
-            <li>6</li>
             <li>7</li>
-            <li>8</li>
-            <li>9</li>
-            <li>0</li>
-            <li> , </li>
-        </ul>
+            <li>11</li>
+            <li>13</li>
+            <li>17</li>
+            <li>19</li>
+            <li>23</li>
+          </ul>
         </td>
         <td style="text-align:center;width: 60px !important; height:50px;">
           <div id="js_clear" class="box -l">×</div>
@@ -229,297 +238,169 @@
 <script src="./common/js/modal.js?test"></script>
 <script src="./common/js/tools.js?test"></script>
 <script>
-  $(function(){
-
-
+$(function(){
 /*----------------------------
 Roku tools
 */
 'use strict';
 //https://k3su.xyz/
-let question = '';
-let primes = [];    // 素数を生成しておく
-let answer = [];    // 解答
-let history = [];   // 履歴を入れておく
+const prime_choices = [2, 3, 5, 7, 11, 13, 17, 19, 23];
 // let min, max;
-const levels = {1:{'min':50,'max':100}, 
-          2:{'min':101,'max':500},
-          3:{'min':501,'max':1000},
-          4:{'min':1001,'max':2000},
-          5:{'min':2001,'max':3000}};
+const levels = {1:{'min':20,'max':50}, 
+          2:{'min':51,'max':100},
+          3:{'min':101,'max':200},
+          4:{'min':201,'max':500},
+          5:{'min':501,'max':1000}};
 let conf = {level:2, times:5};
-let interval_id;
-let animal = $('#animal');
-let current_cnt=1;
-let miss = 0;
-// timer
-let timer = new Timer($('#timer'));
-RokuTool = new RokuTool(conf);
 
 //-------------------------
-// 設定 タブ
+// RokuToolを継承
 //-------------------------
-setConf(conf);
+class myRokuTool extends RokuTool{
+  primes = [];    // 素数を生成しておく
 
-RokuTool.clickTab('level');
-RokuTool.clickTab('speed');
-RokuTool.clickTab('times');
-
-//-------------------------
-// スタート click
-$('.js_start').click(function(){
-  $('.level_'+RokuTool.conf['level']).addClass('-green');
-  $('.times_'+RokuTool.conf['times']).addClass('-green');
-  $('#all_cnt').html(RokuTool.conf.times);
-  $('#howto').css('display', 'none');
-  if(!isActive($('#display_animal'))){
-    animal.toggle();
+  constructor() {
+    super(conf)
   }
-})
-//-------------------------
-// タップしてスタート
-$('#start_message').click(function(){
-  $('#all_cnt').html(RokuTool.conf.times);
-  $('#howto').css('display', 'none');
-  miss = 0;
-  current_cnt = 1;
-  $('#current_cnt').html(current_cnt);
-  $(this).css('display', 'none');
-  // タイマースタート
-  timer.runTimer();
-  // 問を作成する
-  start();
-})
-//-------------------------
-// 一時停止
-$('#js_pause').click(function(){
-  if($('#timer').html()=='0.00' || question==''){
-    return;
-  }
-  if(timer.isRunning){
-    // pause
-    timer.pauseTimer();
-    animal.removeClass('animal_purun');
-    clearInterval(interval_id);
-  } else {
-    // restart
-    timer.restartTimer();
-    animal.addClass('animal_purun');
-    enLargeAnimal();
-  }
-  toggleIcon($(this), ICON_DIR+'pause.png');
-})
-// 終了
-$(document).on('click', '.js_quit', function(){
-  openConfirm('quit?', function(){
-    location.href = getUrl()+"?"+getConfParam(conf);
-  })
-})
-// リトライ
-$(document).on('click', '.js_retry', function(){
-  $('#howto').css('display', 'none');
-    $('#start_message').css('display', 'block');
-    init();
-})
-
 
 //-------------------------
-// 準備
-function prepare(){
-  // クマさんを元に
-  clearInterval(interval_id);
-  animal.removeClass('animal_purun');
-  animal.css('width', '25px');
-  animal.css({ "width": "", "height": "" });
-  question='';
-  answer = [];
-  $('#question').html('');
-  $('#answer').html('');
-  $('#ok_sign').removeClass('fadeUp');
-  $('#ok_sign').css('display', 'none');
-  $('#help').html('');
-}
-//-------------------------
-// init
-function init(){
-  miss = 0;
-  current_cnt=1;
-  timer.stopTimer();
-  $($('#timer').html('0.00'));
-  prepare();
-  $('#current_cnt').html(current_cnt);
+// 設問をセット
+//------------------------- 
+setQuestion = ()=>{
+  $('#question').html( this.questions[this.current]);
+  $('#prime').html(this.primes[this.current].join(','));
 }
 
 //-------------------------
-// スタート
-function start(){
-  prepare();
-  // 問を生成
-  generateNumber();
-  // クマさんを少しずつ大きくする
-  enLargeAnimal();
-  // ぷるんぷるん
-  animal.addClass('animal_purun');
-}
-function enLargeAnimal(){
- // クマさんを少しずつ大きくする
- if(timer.isRunning){
-      interval_id = setInterval(function(){
-        let w = animal.width();
-        if(w<250){
-          animal.css('width', (w+3)+'px')
-          animal.offsetCenter();
-        }
-      }, 500);
+// 指定回数分の設問を作成して配列に入れておく
+//-------------------------
+generateQuestions = ()=>{
+  // 指定の数分、乱数を生成（かぶらないように）
+  for(let times_i=0; times_i<conf.times; times_i++){
+    let tmp_primes;
+    let r;
+    // 素数だったり、被ってたしてい再生成するため最大30回ループ
+    for(let i=0; i<30; i++){  
+      // 乱数取得
+      r = rand(levels[this.conf.level]['min'], levels[this.conf.level]['max']);
+      
+      // 素因数分解する
+      tmp_primes = this.prime(r);
+      let flg = true;
+
+      if(tmp_primes.length == 1){
+        //-------------------------
+        // rand自体が素数なのでやり直し
+        flg = false;
+      } else {
+        //-------------------------
+        // 選択肢に含まれない素数がないかチェック
+        tmp_primes.forEach(function(pri){
+          if(!in_array(pri, prime_choices)){
+            flg = false
+          }
+        })
+      }
+      if(flg){
+        // 条件に収まる数値がきたら終了！
+        break;
+      }
     }
-}
-//-------------------------
-// 問を作成する
-//-------------------------
-function generateNumber(){
-  for(let i=0; i<30; i++){
-    // 乱数取得
-    question = rand(levels[RokuTool.conf.level]['min'], levels[RokuTool.conf.level]['max']);
-    $('#question').html(question);
-    // 素因数分解する
-    primes = prime(question);
-    let flg = true;
-    $('#prime').html(primes.join(','));
-
-    if(primes.length == 1){
-      //-------------------------
-      // rand自体が素数なのでやり直し
-      flg = false;
-    } else {
-      //-------------------------
-      // 選択肢に含まれない素数がないかチェック
-      primes.forEach(function(pri){
-        if(!in_array(pri, prime_choices)){
-          flg = false
-        }
-      })
-    }
-    if(flg){
-      // 条件に収まる数値がきたら終了！
-      break;
-    }
+    this.primes[times_i] = tmp_primes;
+    this.questions[times_i] = r;
+    console.log( this.questions);
   }
 }
-//-------------------
-// テンキー
-//-------------------
-$('.tenkey_box li').click(function(){
-    if(question=='' || !timer.isRunning){
-      return;
+
+//-------------------------
+// 指定回数分の設問を作成して配列に入れておく
+//-------------------------
+tenkey = (e)=>{
+    let n = $(e.currentTarget).html();
+    this.answer_arr.push(parseInt(n));
+    $('#answer').html(this.answer_arr.join(', '));
+    // ヘルプセット
+    let help = this.questions[this.current];
+    for(let i=0; i<this.answer_arr.length; i++){
+      help = help / this.answer_arr[i];
     }
-    let n = $(this).html();
-    answer.push(parseInt(n));
-    $('#answer').html(answer.join(', '));
-    setHelp();
+    $('#help').removeClass('txtRed');
+    if(help==1){
+      help = '';
+    } else if(!Number.isInteger(help)){
+      $('#help').addClass('txtRed');
+      help =help.toFixed(2);
+    }
+    $('#help').html(help);
+
     // ヘルプ表示時、間違った数字をタップしたらガクブル
-    if(!in_array(parseInt(n), primes)){
+    if(!in_array(parseInt(n), this.primes[this.current])){
       Gakuburu($('#question'), 300);
-      miss++;
+      this.miss++;
     }
-})
-/*-----------------------
- clear
------------------------*/
-$('#js_clear').click(function(){
-  if(question=='' || !timer.isRunning){
-      return;
-    }
-    answer.pop();
-    setHelp();
-    $('#answer').html(answer.join(', '));
-})
-/*-----------------------
- 判定！！OK
------------------------*/
-$('#js_ok').click(function(){
-  if(answer.length>0 && JSON.stringify(primes.sort()) === JSON.stringify(answer.sort())){
-    // 正解！！
-    $('#current_cnt').html(current_cnt);
-    if(parseInt(current_cnt)==parseInt(RokuTool.conf.times)){
-      // 10問完了
-      end();
-      init();
-      return;
-    }
-    // OKくまさんを表示して、0.7秒後に次の問題へ
-    $('#ok_sign').addClass('fadeUp');
-    $('#ok_sign').css('display', 'block');
-    setTimeout(() => {
-      start();
-    }, "600");
-    // カウントアップ
-    current_cnt +=1;
-    $('#current_cnt').html(current_cnt);
-  } else {
-    // 不正解!!
-    Gakuburu($('#question'));
-    miss++;
-  }
-})
-/*-----------------------
- end
------------------------*/
-function end(){
-  $('#howto').css('display', 'block');
-  let score_time = ((Date.now() - timer.startTime) / 1000).toFixed(2);
-  let str = "<p>Finish!!</p>"
-    + "<p>レベル： " + RokuTool.conf.level + "</p>"
-    + "<p>タイム： <span style='font-size:2.2rem;'>" + score_time + "</span></p>"
-    + "<p>間違えた回数： " + miss +"回</p>"
-    +"<div class='btn_box'><div class='btn js_retry'>もう一回</div>"
-    +"<div class='btn js_quit'>終了</div></div>";
-  // 履歴を保存
-  history.push((history.length+1)+'. '+'level'+RokuTool.conf.level+" <b style='font-size:1.5rem;'> " + score_time + " </b> (miss " + miss + ")");
-  if(history.length>1){
-    str = str+'<hr>'+history.join('<br>');
-  }
-  $('#howto').html(str);
-  timer.stopTimer();
 }
-/*-----------------------
-  素因数分解
------------------------*/
-function prime(val){
-    let primes = [];
-    if(Number(val)){
-        for(let i=2; i<=50; i++){
-            for(let j=0; j<10; j++){
-                if(val % i ==0){
-                  primes.push(i);
-                    val = val/i;
-                } else {
-                    break;
-                }
-            }
-        }
-        if(val>1){
-          primes.push(parseInt(val));
-        }
-    }
-    return primes;
+// 判定
+judge = ()=>{
+  return (this.answer_arr.length>0 && 
+    JSON.stringify(this.primes[this.current].sort()) === JSON.stringify(this.answer_arr.sort()));
+}
+// クリア
+clear = ()=>{
+  this.answer_arr.pop();
+  this.setHelp();
+  $('#answer').html(this.answer_arr.join(', '));
 }
 //-------------------
 // set help
 //-------------------
-function setHelp(){
-  let help=question;
-  for(let i=0; i<answer.length; i++){
-    help = help/answer[i];
+setHelp = ()=>{
+  let help = this.questions[this.current];
+  for(let i=0; i<this.answer_arr.length; i++){
+    help = help / this.answer_arr[i];
   }
   $('#help').removeClass('txtRed');
   if(help==1){
     help = '';
-  } else if(!Number.isInteger(help)){
+  } else if(!Number.isInteger(help) && help!=''){
     $('#help').addClass('txtRed');
-    help =help.toFixed(2);
+    help = help.toFixed(2);
   }
   $('#help').html(help);
 }
+/*-----------------------
+  素因数分解
+-----------------------*/
+prime = (val) => {
+  let tmp_primes = [];
+  if(Number(val)){
+      for(let i=2; i<=50; i++){
+          for(let j=0; j<10; j++){
+              if(val % i ==0){
+                tmp_primes.push(i);
+                  val = val/i;
+              } else {
+                  break;
+              }
+          }
+      }
+      if(val>1){
+        tmp_primes.push(parseInt(val));
+      }
+  }
+  return tmp_primes;
+}
+
+}
+
+//-------------------------
+// RokuTool インスタンス
+//-------------------------
+myRokuTool = new myRokuTool(conf);
+// timer
+myRokuTool.timer = new Timer($('#timer'));
+myRokuTool.useKeyboard = false;
+
+
 
 // オブジェクトを中央に
 jQuery.prototype.offsetCenter=function() {
@@ -536,35 +417,6 @@ jQuery.prototype.offsetCenter=function() {
 }
 
 
-
-// クマさんtoggle
-$('#display_animal').click(function(){
-  animal.toggle();
-  toggleIcon($('#display_animal'), ICON_DIR+'kuma.png');
-})
-// ヘルプtoggle
-$('#display_help').click(function(){
-  $('#help').toggle();
-  toggleIcon($(this), ICON_DIR+'beginner.png');
-})
-// ヒントtoggle
-  $('[name=display_help]').click(function(){
-    if($('[name=display_help]:checked').val()==1){
-        $('#display_help').attr('src', ICON_DIR+'beginner.png');
-        $('#help').css('display', 'block');
-    } else {
-        $('#display_help').attr('src', ICON_DIR+'beginner_off.png');
-        $('#help').css('display', 'none');
-    }
-})
-// // クマtoggle
-$('[name=display_animal]').click(function(){
-    if($('[name=display_animal]:checked').val()==1){
-        $('#display_animal').attr('src', ICON_DIR+'kuma.png');
-    } else {
-        $('#display_animal').attr('src', ICON_DIR+'kuma_off.png');
-    }
-})
 
 })
 </script>
