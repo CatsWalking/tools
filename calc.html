@@ -11,6 +11,7 @@
 <link rel="stylesheet" href="./common/css/modal.css?test">
 <link rel="stylesheet" href="./common/css/tools.css?test">
 <style>
+
 .contents{
   overflow: scroll;
   height: calc(100vh - 300px);
@@ -18,6 +19,7 @@
 }
 td, th{
   padding: 8px 5px;
+  user-select: text;
 }
 .calc_txt{
   color: #5b84a8;
@@ -501,11 +503,11 @@ function calc(active_input){
             break;
           case 'plus':  
             // 足し算
-            res = (input1) + (input2)
+            res = Math.round((input1) + (input2)*10*keta)/keta;
             break;
           case 'minus':  
             // 引き算
-            res = (input1) - (input2)
+            res = Math.round((input1) - (input2)*10*keta)/keta;
             break;
         case 'discount1':
             // ○円の○割引は○円
