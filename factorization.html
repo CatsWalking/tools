@@ -32,20 +32,16 @@
   display: table-cell;
   vertical-align:middle;
 }
-#question{
-  background:#DCE7F2;
-  font-size:4rem;
-}
 #question {
   height: 100px;
   line-height: 100px;
-  background: #ecf9f0;
+  background: #DCE7F2;
   text-align: center;
   display: table-cell;
   width: 98%;
   letter-spacing: 1rem;
+  font-size:4rem;
 }
-
 /* PC */
 @media screen and (min-width: 960px) {
   #question {
@@ -129,7 +125,6 @@
     <!-- HOWTO -->
     <div id="howto">
       <p style="font-size: 1.6rem;margin:20px;">素因数分解ゲーム</p> 
-      <p>因数分解できたら<img src="./common/images/icon/go.png" class="icon -ss">をタップ</p> 
       <!-- レベル -->
       <p>レベルと回数を選んでスタート！</p> 
       <table style="width:360px;margin: 20px auto;padding:0;">
@@ -152,10 +147,10 @@
             </td>
         </tr>
         <tr><td><img src="./common/images/icon/beginner.png" class="icon -sss"></td>
-            <td class="radioarea txtLeft">
-                <label class="-checked"><input type="radio" name="display_help" value="1" checked>ヒント表示する</label>
-                <label><input type="radio" name="display_help" value="0">ヒント表示しない</label>
-            </td>
+          <td class="radioarea txtLeft">
+            <label><input type="radio" name="display_help" value="1" >ヒント表示する</label>
+            <label class="-checked"><input type="radio" name="display_help" value="0" checked>ヒント表示しない</label>
+          </td>
         </tr>
        </table>
        <!-- スタート -->
@@ -183,7 +178,7 @@
       <div id="timer" class="timer">0.00</div>
       <div id="cnt"><span id="current_cnt">1</span> / <span id="all_cnt">5</span></div>
       <div id="help"></div>
-      <div><img src="./common/images/icon/beginner.png" class="icon -ss" id="display_help"></div>
+      <div><img src="./common/images/icon/beginner_off.png" class="icon -ss" id="display_help"></div>
       <div><img src="./common/images/icon/pause.png" class="icon -ss" id="js_pause" style="margin-right:4px;"></div>
       <div><img src="./common/images/icon/close.png" class="icon -ss js_quit"></div>
     </div>
@@ -324,6 +319,7 @@ generateQuestions = ()=>{
 // 指定回数分の設問を作成して配列に入れておく
 //-------------------------
 tenkey = (e)=>{
+  if(this.is_running){
     let n = $(e.currentTarget).html();
     this.answer_arr.push(parseInt(n));
     $('#answer').html(this.answer_arr.join(', '));
@@ -346,6 +342,7 @@ tenkey = (e)=>{
       Gakuburu($('#question'), 300);
       this.miss++;
     }
+  }
 }
 // 判定
 judge = ()=>{
