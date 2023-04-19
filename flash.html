@@ -137,14 +137,14 @@
         <div>
             <ul style="line-height: 1.6rem;width:150px;text-align:left;margin: 10px auto;">
                 <li>level 1: 5 〜 20</li>
-                <li>level 2: 10 〜 50</li>
+                <li>level 2: 10 〜 30</li>
                 <li>level 3: 10 〜 100</li>
                 <li>level 4: 101 〜 200</li>
                 <li>level 5: 201 〜 1000</li>
             </ul>
             <ul style="line-height: 1.6rem;width:150px;text-align:left;margin: 10px auto;">
-                <li>speed 1: 1800sec </li>
-                <li>speed 2: 1500sec </li>
+                <li>speed 1: 2000sec </li>
+                <li>speed 2: 1800sec </li>
                 <li>speed 3: 1300sec </li>
                 <li>speed 4: 1000sec </li>
                 <li>speed 5: 500sec </li>
@@ -234,14 +234,12 @@
 'use strict'
 $(function(){
 const levels = {1:{'min':5,'max':20}, 
-            2:{'min':10,'max':50},
+            2:{'min':10,'max':30},
             3:{'min':10,'max':100},
             4:{'min':101,'max':200},
             5:{'min':201,'max':1000}};
-const speeds = {1:1800,2:1500,3:1000,4:800,5:500}
+const speeds = {1:2000,2:1800,3:1300,4:1000,5:500}
 let conf = {level:2, speed:2, times:5};
-
-
 //-------------------------
 // RokuToolを継承
 //-------------------------
