@@ -256,7 +256,7 @@ end = ()=>{
     + "<p>間違えた回数： " + this.miss +"回</p>"
     +"<div class='btn_box'><div class='btn js_retry'>もう一回</div>"
     +"<div class='btn js_quit'>終了</div></div>"
-    +"<div class='txtSS mt20'>レベルやスピードを変更するときは「終了」</div>";
+    +"<div class='txtSS mt20'>レベルやスピードを変更するときは「終了」を選択</div>";
   // 履歴を保存
   this.history.push((this.history.length+1)+'. '+'level' + this.conf.level + " <b style='font-size:1.5rem;'> " + score_time + " </b> (miss " + this.miss + ")");
   if(this.history.length>1){

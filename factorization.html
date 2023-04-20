@@ -160,7 +160,7 @@
       <div><img src="./common/images/icon/close.png" class="icon -ss"> 終了</div>
       <ul style="line-height: 1.6rem;width:150px;text-align:left;margin: 20px auto;">
         <li>level 1: 5 〜 100</li>
-        <li>level 2: 50 〜 150</li>
+        <li>level 2: 50 〜 100</li>
         <li>level 3: 100 〜 200</li>
         <li>level 4: 200 〜 500</li>
         <li>level 5: 500 〜 1000</li>
@@ -251,11 +251,11 @@ Roku tools
 const prime_choices = [2, 3, 5, 7, 11, 13, 17, 19, 23];
 // let min, max;
 const levels = {1:{'min':50,'max':100}, 
-          2:{'min':50,'max':150},
-          3:{'min':100,'max':200},
-          4:{'min':200,'max':500},
-          5:{'min':500,'max':1000}};
-let conf = {level:2, times:5};
+                2:{'min':50,'max':10},
+                3:{'min':100,'max':200},
+                4:{'min':200,'max':500},
+                5:{'min':500,'max':1000}};
+let conf = {level:2, times:3};  // 初期値
 
 //-------------------------
 // RokuToolを継承
