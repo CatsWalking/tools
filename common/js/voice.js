@@ -1,5 +1,10 @@
 // https://developer.mozilla.org/ja/docs/Web/API/SpeechRecognition/start
 // https://moewe-net.com/nodejs/web-speech-api-recognition
+// https://monomonotech.jp/kurage/iot/webspeechapi_voice_recognition.html
+// recognition.interimResults = true で　変換途中も認識
+// recognition.continuous = true　で連続で音声認識できる。
+// onsoundstart, onsoundend, onerrorを用いることにより音声認識の状態が分かる。
+
 SpeechRecognition = webkitSpeechRecognition;
 
 class VoiceInput {
@@ -105,4 +110,19 @@ class VoiceInput {
 			}
 		}
 	}
+	// マイクの使用がきょかされているかどうか
+	isAudioAvailable(ok_func, ng_func){
+		navigator.mediaDevices.getUserMedia({ audio: true })
+		.then(function(stream) {
+		  if(typeof ok_func!='undefined'){
+			ok_func();
+		  }
+		})
+		.catch(function(err) {
+			if(typeof ng_func!='undefined'){
+				ng_func();
+			  }
+		});
+	}
 }
+

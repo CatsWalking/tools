@@ -27,7 +27,9 @@
     <header></header>
     <main>
         <h1 class="mtb20">voice</h1>
-        <dir>音声をテキスト化するツールです。<br>音声認識を許可してご利用ください。</dir>
+        <div id="msg">音声をテキスト化するツールです。<br>「音声認識」の設定を許可してご利用ください。
+            <div class="txtRed txtS" id="state"></div>
+        </div>
 
         <div class="outer txtCenter w100per" style="margin:30px auto;">
             <textarea id="input_voice" style="width:98%; height:300px;" placeholder="マイクアイコンをオンして、何か話してみて"></textarea>
@@ -75,6 +77,11 @@ $('.js_microphone').click(function(){
     } else {
         voice.stop();
     }
+    // マイクが有効かどうか
+    voice.isAudioAvailable(
+        function(){$('#msg #state').html('');}, 
+        function(){ $('#msg #state').html('マイクが許可されていません。');}
+    )
 })
 
 // クリップボードへコピー
@@ -89,6 +96,18 @@ $('.js_clear').click(function(){
     })
 })
 })
+
+
+// function startVideo() {
+//     navigator.mediaDevices.getUserMedia({video: true, audio: false})
+//     .then(function (stream) { // success
+//       localStream = stream;
+//       localVideo.src = window.URL.createObjectURL(localStream);
+//     }).catch(function (error) { // error
+//       console.error('mediaDevice.getUserMedia() error:', error);
+//       return;
+//     });
+//   }
 </script>
 </body>
 </html> 
